@@ -6,6 +6,8 @@ export default {
 
   investment_partnership_inquiries: 'Investment/Partnership Inquiries',
 
+  exhibition_enter: 'ENTER',
+
   register: 'Register',
   modify: 'Modify',
   delete: 'Delete',
@@ -958,8 +960,8 @@ export default {
   // menu_pop_token_list_description: 'Popular token project list is displayed.',
   menu_alarm_list: 'Alarm List',
   menu_alarm_list_description: 'Alarm list is displayed.',
-  menu_project_list: 'Projects',
-  menu_project_list_description: 'Project list is displayed.',
+  menu_project_list: 'Exhibition',
+  menu_project_list_description: 'Instarverse exhibitions',
   menu_project_register: 'Register Project',
   menu_project_register_description: 'Register Project.',
   menu_project_modify: 'Modify Project',
@@ -1254,15 +1256,16 @@ export default {
   Klaystar is the only platform that can finish all of this in just one day.`,
 
   // company information
-  company_name: 'Klaystar Inc.',
+  company_name: 'Star Inc.',
   company_representive: 'CEO',
-  company_representive_value: 'Youngdae Ahn',
+  company_representive_value: 'YD Ahn',
   company_address: 'Address',
-  company_address_value: '1707, 196, Mapo-daero, Mapo-gu, Seoul',
+  company_address_value: 'Seoul Fintech Lab II 11F #1119, 78, Mapo-daero, Mapo-gu, Seoul, 04168, South Korea',
   company_business_number: 'Business Number',
   company_verification: 'Verification',
   company_mail_order_sales_registration_number: 'Mail-order-sales registration number',
   company_mail_order_sales_registration_number_value: '2022-SeoulMapo-1213',
+  company_cs: 'CS',
   company_email: 'E-mail',
   company_show_terms: 'Terms',
   company_show_privacy: 'Privacy Policy',

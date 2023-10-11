@@ -47,7 +47,7 @@
           <!-- 4. klaystar -->
           <!-- <q-item clickable class="text-center" v-close-popup @click="connectWallet('klaystar')">
             <q-item-section avatar>
-              <img src="logo/logo_fundsafe.png" width="32" />
+              <img src="logo/logo_instarverse.png" width="32" />
             </q-item-section>
             <q-item-section>
               <q-item-label class="text-body">{{ $t('wallet_klaystar') }}</q-item-label>

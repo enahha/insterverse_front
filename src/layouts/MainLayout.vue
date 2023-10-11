@@ -19,34 +19,30 @@
           <div class="text-bold">
             <table border="0" width="100%" style="margin: 0px 0px 0px 0px;" cellpadding="0" cellspacing="0">
               <tr>
-                <td align="center" width="28" rowspan="2">
-                  <a style="cursor: pointer;" @click="goHome">
-                    <img src="logo/logo_fundsafe.png" style="width: 24px; margin-top: 7px;" />
-                  </a>
+                <td align="center" width="28">
+                  <!-- <a style="cursor: pointer;" @click="goHome">
+                    <img src="logo/logo_instarverse.png" style="width: 24px; margin-top: 7px;" />
+                  </a> -->
                 </td>
-                <td align="left" rowspan="2" width="72">
+                <td align="left" width="72">
                   <div class="row">
                     <div class="q-pl-xs" style="margin-top: 0px;">
                       <a style="cursor: pointer;" @click="goHome">
-                        <span class="text-black">FundSafe</span>
+                        <span class="text-black">Instarverse</span>
                       </a>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <div class="q-pl-xs">
+                  <!-- <div class="q-pl-xs">
                     <a style="cursor: pointer;" @click="goHome">
-                      <!--<span class="text-body2 text-orange text-weight-thin">Beta</span>-->
-                      <span class="text-body2 text-primary">Beta</span>
+                      <span class="text-body2 text-orange text-weight-thin">Beta</span>
+                      <span class="text-body2 text-primary">★</span>
                     </a>
-                  </div>
+                  </div> -->
                 </td>
                 <!-- 관리자 수정용 -->
                 <!-- <td v-if="isAdmin" align="left"><q-btn to="/token/newList" flat size="lg" class="text-white" label="New Tokens" style="width: 120px;" no-caps /></td> -->
-              </tr>
-              <tr>
-                <td style="height: 10px;">
-                </td>
               </tr>
             </table>
           </div>
@@ -78,7 +74,7 @@
             <img v-if="getWalletType === 'kaikas'" src="logo/logo_kaikas.png" width="20" />
             <img v-else-if="getWalletType === 'metamask'" src="logo/logo_metamask.png" width="25" />
             <img v-else-if="getWalletType === 'klip'" src="logo/klip.png" width="30" />
-            <img v-else src="logo/logo_fundsafe.png" width="20" />
+            <img v-else src="logo/logo_instarverse.png" width="20" />
             <span v-if="getWalletAddressLast" class="text-black text-weight-bold text-lowercase q-pl-xs">{{ getWalletAddressLast }}</span>
             <span v-else class="text-black text-weight-bold text-lowercase q-pl-xs">No Wallet</span>
           </q-btn>
@@ -96,6 +92,7 @@
 
         &nbsp;&nbsp;
 
+        <!--
         <q-btn
           flat
           dense
@@ -106,6 +103,7 @@
         >
           <q-badge color="red" floating>3</q-badge>
         </q-btn>
+        -->
 
         <q-btn
           flat
@@ -164,7 +162,7 @@
                             !-- 1. klaystar --
                             <q-item clickable class="text-center" v-close-popup @click="connectWallet('klaystar')">
                               <q-item-section avatar>
-                                <img src="logo/logo_fundsafe.png" width="32" />
+                                <img src="logo/logo_instarverse.png" width="32" />
                               </q-item-section>
                               <q-item-section>
                                 <q-item-label>{{ $t('wallet_nftpy') }}</q-item-label>
@@ -296,7 +294,7 @@
         <q-toolbar-title>
           <a style="cursor: pointer;" @click="toggleLeftDrawer">
             <q-avatar>
-              <img src="logo/logo_fundsafe.png" style="width: 24px; height: 24px; margin-top: 4px;" />
+              <img src="logo/logo_instarverse.png" style="width: 24px; height: 24px; margin-top: 4px;" />
             </q-avatar>
 
             <q-icon name="close" />
@@ -390,7 +388,7 @@
           <q-item clickable to="/project/projectList">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
-              <q-icon name="rocket_launch" style="width: 20px; height: 20px;" />
+              <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ $t('menu_project_list') }}</q-item-label>
@@ -398,6 +396,7 @@
           </q-item>
 
           <!-- VOTE LIST -->
+          <!--
           <q-item clickable to="/vote/voteList">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
@@ -407,8 +406,10 @@
               <q-item-label>{{ $t('menu_vote_list') }}</q-item-label>
             </q-item-section>
           </q-item>
+          -->
 
           <!-- NOTICE -->
+          <!--
           <q-item clickable to="/notice">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
@@ -418,6 +419,7 @@
               <q-item-label>{{ $t('menu_notice_list') }}</q-item-label>
             </q-item-section>
           </q-item>
+          -->
 
           <!-- MY PROJECT LIST -->
           <q-item v-if="getUid" clickable to="/project/myProjectList">
@@ -688,7 +690,7 @@
     <q-card>
       <q-toolbar>
         <q-avatar>
-          <img src="logo/logo_fundsafe.png" style="width: 24px; height: 24px;" />
+          <img src="logo/logo_instarverse.png" style="width: 24px; height: 24px;" />
         </q-avatar>
 
         <q-toolbar-title>

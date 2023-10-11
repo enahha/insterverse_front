@@ -27,7 +27,7 @@
         <td colspan="3">
           <div class="col-12 text-center">
             <div class="">
-              <img src="logo/logo_fundsafe.png" style="width: 90px;" />
+              <img src="logo/logo_instarverse.png" style="width: 90px;" />
             </div>
           </div>
         </td>

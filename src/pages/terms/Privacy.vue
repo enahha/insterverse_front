@@ -152,8 +152,8 @@
         <br />
         <br />15. 부 칙(시행일) 
         <br />
-        <br />현 개인정보처리방침은 2022년 2월 9일에 제정되었으며, 정부 및 회사의 정책 또는 보안기술의 변경에 따라 내용의 추가, 삭제 및 수정이 있을 경우에는 개정 최소 7일 전부터 ‘공지사항’란을 통해 고지하며, 본 정책은 시행 일자에 시행됩니다.
-        <br />이 개인정보처리방침은 2022년 2월 14일 부터 적용됩니다.
+        <br />현 개인정보처리방침은 2023년 2월 9일에 제정되었으며, 정부 및 회사의 정책 또는 보안기술의 변경에 따라 내용의 추가, 삭제 및 수정이 있을 경우에는 개정 최소 7일 전부터 ‘공지사항’란을 통해 고지하며, 본 정책은 시행 일자에 시행됩니다.
+        <br />이 개인정보처리방침은 2023년 2월 14일 부터 적용됩니다.
       </div>
       <div v-else>
         <br />Consent to collect and use personal information (required)
@@ -293,8 +293,8 @@
         <br />
         <br />15. Addendum (Enforcement Date)
         <br />
-        <br />The current personal information processing policy was enacted on February 9, 2022, and if there is addition, deletion, or modification of the contents due to changes in government and company policies or security technologies, it will be notified through the "Notice" section at least seven days before the revision.
-        <br />This personal information processing policy will take effect on February 14, 2022.
+        <br />The current personal information processing policy was enacted on February 9, 2023, and if there is addition, deletion, or modification of the contents due to changes in government and company policies or security technologies, it will be notified through the "Notice" section at least seven days before the revision.
+        <br />This personal information processing policy will take effect on February 14, 2023.
       </div>
     </font>
 

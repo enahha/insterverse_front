@@ -279,7 +279,7 @@ export default defineComponent({
         //   // value: '0x0000000000000000000000000000000000000000',
         //   token_name: 'KlayStar',
         //   token_symbol: 'KSTAR',
-        //   token_logo_image: 'https://klaystar.com/logo/logo_fundsafe.png',
+        //   token_logo_image: 'https://klaystar.com/logo/logo_instarverse.png',
         //   // name: 'KLAY',
         // },
         // {

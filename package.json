@@ -1,9 +1,9 @@
 {
-  "name": "fundsafe",
+  "name": "instarverse",
   "version": "0.0.1",
-  "description": "Anti-Rug Pull Solution",
-  "productName": "FundSafe",
-  "author": "Klaystar Inc. <contact@klaystar.com>",
+  "description": "Metaverse for Exhibition",
+  "productName": "Instarverse",
+  "author": "Star Inc. <contact@starinc.io>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="page-default project-list-wrap">
+  <q-page class="page-1200 project-list-wrap">
     <div class="row q-pt-md q-pl-md justify-center page-tit">
       <div class="col-12 doc-heading doc-h2">
         {{ $t('menu_project_list') }}

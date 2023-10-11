@@ -168,36 +168,36 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: `FundSafe`,
-        short_name: `FundSafe`,
-        description: `Anti-Rug Pull Solution`,
+        name: `Instarverse`,
+        short_name: `Instarverse`,
+        description: `Metaverse for Exhibition`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#027be3',
         icons: [
           {
-            src: 'logo/logo_fundsafe_profile.png',
+            src: 'logo/logo_instarverse_profile.png',
             sizes: '128x128',
             type: 'image/png'
           },
           {
-            src: 'logo/logo_fundsafe_profile.png',
+            src: 'logo/logo_instarverse_profile.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'logo/logo_fundsafe_profile.png',
+            src: 'logo/logo_instarverse_profile.png',
             sizes: '256x256',
             type: 'image/png'
           },
           {
-            src: 'logo/logo_fundsafe_profile.png',
+            src: 'logo/logo_instarverse_profile.png',
             sizes: '384x384',
             type: 'image/png'
           },
           {
-            src: 'logo/logo_fundsafe_profile.png',
+            src: 'logo/logo_instarverse_profile.png',
             sizes: '512x512',
             type: 'image/png'
           }

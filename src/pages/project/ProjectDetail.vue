@@ -71,39 +71,47 @@
   <!-- <div :class="`page-side-bar project-type ${getRightDrawerOpen ? 'on' : ''}`"></div> -->
   <div v-if="smallSize">
     <div class="page-side-bar project-type">
-        <div class="row">
-          <q-avatar size="md">
-            <img v-if="projectVo.logo_image" :src="projectVo.logo_image">
-            <q-icon v-else name="rocket_launch" size="md" />
-          </q-avatar>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
-          </div>
-        </div>
-        <div class="row q-pb-md">
-          <div v-if="locale === 'ko-KR'" class="col-12 t-text">
-            {{ projectVo.title_ko }}
-          </div>
-          <div v-else class="col-12 t-text">
-            {{ projectVo.title }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_summary') }}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div v-if="locale === 'ko-KR'" class="col-12 t-text">
-            {{ projectVo.summary_ko }}
-          </div>
-          <div v-else class="col-12 t-text">
-            {{ projectVo.summary }}
-          </div>
+      <div class="row">
+        <q-avatar size="md">
+          <img v-if="projectVo.logo_image" :src="projectVo.logo_image">
+          <q-icon v-else name="rocket_launch" size="md" />
+        </q-avatar>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
         </div>
       </div>
+      <div class="row q-pb-md">
+        <div v-if="locale === 'ko-KR'" class="col-12 t-text">
+          {{ projectVo.title_ko }}
+        </div>
+        <div v-else class="col-12 t-text">
+          {{ projectVo.title }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_summary') }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div v-if="locale === 'ko-KR'" class="col-12 t-text">
+          {{ projectVo.summary_ko }}
+        </div>
+        <div v-else class="col-12 t-text">
+          {{ projectVo.summary }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <br />
+          <q-btn class="btn" color="primary" text-color="black" size="lg" style="width: 100%;" no-caps @click="vote('Y')">
+            <b>{{ $t('exhibition_enter') }}</b>
+          </q-btn>
+        </div>
+      </div>
+    </div>
   </div>
   <div v-else>
     <q-page-sticky position="top-right" :offset="[0, 0]">
@@ -138,6 +146,14 @@
           </div>
           <div v-else class="col-12 t-text">
             {{ projectVo.summary }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <br />
+            <q-btn class="btn" color="primary" text-color="black" size="lg" style="width: 100%;" no-caps @click="vote('Y')">
+              <b>{{ $t('exhibition_enter') }}</b>
+            </q-btn>
           </div>
         </div>
       </div>

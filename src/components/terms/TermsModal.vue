@@ -8,10 +8,10 @@
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh;" class="scroll bg-grey-1">
+      <q-card-section style="max-height: 50vh;" class="scroll bg-darkgrey-777">
         <font size="1">
           <div v-if="locale === 'ko-KR'">
-            <br />제1조(목적) 이 약관은 주식회사 클레이스타(전자상거래 사업자)가 운영하는 클레이스타(이하 “사이트”라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
+            <br />제1조(목적) 이 약관은 주식회사 스타(전자상거래 사업자)가 운영하는 인스타버스(이하 “사이트”라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
             <br /> 
             <br />  ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
             <br /> 
@@ -255,7 +255,7 @@
             <br />  ② 사전판매 모집을 시작하기 전에 홈페이지에 발행인이 게재하는 토큰의 백서, 도큐먼트, 로드맵 등 판단을 위해 필요한 정보가 게재됩니다.
           </div>
           <div v-else>
-            <br />Article 1 (Purpose) These terms and conditions aim to stipulate the rights, obligations, and responsibilities of cyber malls and users in the use of Internet-related services Klaystar(hereinafter referred to as "Site") operated by Oneon Inc. (E-commerce operator).
+            <br />Article 1 (Purpose) These terms and conditions aim to stipulate the rights, obligations, and responsibilities of cyber malls and users in the use of Internet-related services Instarverse(hereinafter referred to as "Site") operated by Star Inc. (E-commerce operator).
             <br />
             <br />「 "These terms and conditions apply mutatis mutandis to e-commerce using PC communication, wireless, etc. as long as they are not contrary to their nature.」
             <br />

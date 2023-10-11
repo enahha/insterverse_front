@@ -8,7 +8,7 @@
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh;" class="scroll bg-grey-1">
+      <q-card-section style="max-height: 50vh;" class="scroll bg-darkgrey-777">
         <font size="1">
           <div v-if="locale === 'ko-KR'">
             <br />개인정보 수집 및 이용 동의(필수)
@@ -34,7 +34,7 @@
             <br />
             <br />1. 총칙
             <br />
-            <br />주식회사 클레이스타(이하 회사)의 klaystar.com(이하 사이트)은 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
+            <br />주식회사 스타(이하 회사)의 Instarverse.com(이하 사이트)은 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
             <br />
             <br />본 회사 사이트는 회원의 개인정보보호를 소중하게 생각하고, 회원의 개인정보를 보호하기 위하여 항상 최선을 다해 노력하고 있습니다. 
             <br />1) 회사는 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」을 비롯한 모든 개인정보보호 관련 법률규정을 준수하고 있으며, 관련 법령에 의거한 개인정보처리방침을 정하여 이용자 권익 보호에 최선을 다하고 있습니다.
@@ -138,7 +138,7 @@
             <br />3) 회사는 정보통신망 이용촉진 및 정보보호 등에 관한 법률에서 규정한 관리책임자를 다음과 같이 지정합니다.
             <br />개인정보 최고 관리책임자 성명 : 안영대
             <br />전화번호 : 01093941941
-            <br />이메일 : contact@klaystar.com
+            <br />이메일 : contact@starinc.io
             <br />
             <br />또는 개인정보침해에 대한 신고나 상담이 필요하신 경우에는 아래 기관에 문의하시기 바랍니다.
             <br />개인분쟁조정위원회 (www.1336.or.kr / 1336)
@@ -148,8 +148,8 @@
             <br />
             <br />15. 부 칙(시행일) 
             <br />
-            <br />현 개인정보처리방침은 2022년 2월 9일에 제정되었으며, 정부 및 회사의 정책 또는 보안기술의 변경에 따라 내용의 추가, 삭제 및 수정이 있을 경우에는 개정 최소 7일 전부터 ‘공지사항’란을 통해 고지하며, 본 정책은 시행 일자에 시행됩니다.
-            <br />이 개인정보처리방침은 2022년 2월 14일 부터 적용됩니다.
+            <br />현 개인정보처리방침은 2023년 10월 12일에 제정되었으며, 정부 및 회사의 정책 또는 보안기술의 변경에 따라 내용의 추가, 삭제 및 수정이 있을 경우에는 개정 최소 7일 전부터 ‘공지사항’란을 통해 고지하며, 본 정책은 시행 일자에 시행됩니다.
+            <br />이 개인정보처리방침은 2023년 10월 12일 부터 적용됩니다.
           </div>
           <div v-else>
             <br />Consent to collect and use personal information (required)
@@ -175,7 +175,7 @@
             <br />
             <br />1. General rules.
             <br />
-            <br />Klaystar Inc.'s klaystar.com (hereinafter referred to as the site) establishes and discloses personal information processing policies as follows in order to protect the personal information of the data subject and to quickly and smoothly handle related grievances in accordance with Article 30 of the Personal Information Protection Act.
+            <br />Star Inc.'s Instarverse.com (hereinafter referred to as the site) establishes and discloses personal information processing policies as follows in order to protect the personal information of the data subject and to quickly and smoothly handle related grievances in accordance with Article 30 of the Personal Information Protection Act.
             <br />
             <br />This company site values the protection of members' personal information and always tries its best to protect members' personal information.
             <br />1) The company complies with all personal information protection-related laws, including the Information and Communication Network Utilization and Information Protection Act, and is doing its best to protect the rights and interests of users by establishing personal information processing policies under related laws.
@@ -279,7 +279,7 @@
             <br />3) The company designates the management manager stipulated in the Act on Promotion of Information and Communication Network Utilization and Information Protection as follows.
             <br />Name of Chief Executive Officer of Personal Information: Ahn Youngdae
             <br />Phone number: 01093941941
-            <br />Email: contact@klaystar.com
+            <br />Email: contact@starinc.io
             <br />
             <br />Or, if you need a report or consultation on personal information infringement, please contact the institution below.
             <br />Personal Dispute Mediation Committee (www.1336.or.kr / 1336)
@@ -289,8 +289,8 @@
             <br />
             <br />15. Addendum (Enforcement Date)
             <br />
-            <br />The current personal information processing policy was enacted on February 9, 2022, and if there is addition, deletion, or modification of the contents due to changes in government and company policies or security technologies, it will be notified through the "Notice" section at least seven days before the revision.
-            <br />This personal information processing policy will take effect on February 14, 2022.
+            <br />The current personal information processing policy was enacted on October 12, 2023, and if there is addition, deletion, or modification of the contents due to changes in government and company policies or security technologies, it will be notified through the "Notice" section at least seven days before the revision.
+            <br />This personal information processing policy will take effect on October 12, 2023.
           </div>
         </font>
       </q-card-section>

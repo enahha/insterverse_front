@@ -1,32 +1,85 @@
 <template>
   <!-- <q-page class="justify justify-center" style="background-image: url(images/star1.jpg)"> -->
   <q-page class="justify justify-center">
-    <div class="page-default" style="word-break: keep-all;">
+    <div class="page-1200" style="word-break: keep-all;">
 
-      <!-- <div class="text-center">
-        <q-img src="images/fundsafe_bm.png" style="max-width: 1024px;" />
-      </div> -->
+      <div class="text-center doc-h2 q-pt-md">
+        <br />Metaverse for Exhibition
+      </div>
+      <br />
+
+      <div class="text-center">
+        <img src="images/main_exhibition.png" style="width: 100%; max-width: 1280px; border-radius: 50%;" />
+      </div>
+
+      <div class="text-center" v-if="locale === 'en-US'">
+        <br />"Every artist was first an amateur."
+        <br />- Ralph Waldo Emerson -
+      </div>
+      <div class="text-center" v-else-if="locale === 'ko-KR'">
+        <br />"모든 위대한 예술가들도 처음에는 아마추어였다."
+        <br />- 랄프 월도 에머슨 -
+      </div>
+
+      <br />
+      <br />
+
+      <div class="row q-pt-md q-pl-md justify-center page-tit">
+        <div class="col-12 doc-heading doc-h2">
+          {{ $t('menu_project_list') }}
+        </div>
+      </div>
+      <div class="row q-pl-md row justify-center page-sub-tit">
+        <div class="col-12">
+          {{ $t('menu_project_list_description') }}
+        </div>
+      </div>
+
+      <!-- 프로젝트 리스트 -->
+      <q-pull-to-refresh @refresh="refresher" class="project-list">
+        <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll">
+
+          <div v-for="item in projectList" :key="item.seq">
+            <q-item clickable @click="goDetail(item.seq)">
+              <q-item-section avatar>
+                <q-avatar>
+                  <img v-if="item.logo_image" :src="item.logo_image">
+                  <q-icon v-else name="rocket_launch" size="md" />
+                </q-avatar>
+              </q-item-section>
+
+              <q-item-section>
+                <div class="row list-item">
+                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
+                  <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
+                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
+                  <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+          </div>
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+        </q-infinite-scroll>
+      </q-pull-to-refresh>
+
+      <div v-if="noDataFlag" class="row justify-center">
+        <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+      </div>
+
+      <!-- 하단 공간 확보 -->
+      <div class="row justify-center q-pa-xl">
+      </div>
+
+
 
       <!-- 플랫폼 설명 -->
+      <!-- 
       <div class="text-center text-body q-pl-md q-pr-md" style="word-break: keep-all;">
-        <div class="text-h3 text-bold">
-          FundSafe
-          <br />
-        </div>
-        <div class="text-h5 text-bold q-pt-md">
-          <div v-if="locale === 'en-US'">
-            Blockchain Escrow Service
-          </div>
-          <div v-else-if="locale === 'ko-KR'">
-            블록체인 에스크로 서비스
-          </div>
-          <br />
-        </div>
-        <!-- <q-separator /> -->
         <br />
-        <!-- <q-img src="images/platform.png" style="max-width: 600px;" /> -->
-        <!-- <q-img v-if="locale === 'en-US'" src="images/fundsafe_bm_en.png" style="max-width: 1024px; border-radius: 1%;" />
-        <q-img v-else-if="locale === 'ko-KR'" src="images/fundsafe_bm_ko.png" style="max-width: 1024px; border-radius: 1%;" /> -->
 
         <iframe
           v-if="smallSize"
@@ -50,106 +103,11 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
         ></iframe>
-<!--
-        <iframe
-          v-if="smallSize"
-          width="100%"
-          height="320"
-          src="https://www.youtube.com/embed/jUA9tzPjM2E?cc_load_policy=1"
-          title="FundSafe DEMO - Anti-Rug Pull Solution"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
 
-        <iframe
-          v-else
-          width="100%"
-          style="max-width: 1280px;"
-          height="704"
-          src="https://www.youtube.com/embed/jUA9tzPjM2E?cc_load_policy=1"
-          title="FundSafe DEMO - Anti-Rug Pull Solution"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
--->
-        <br />
-        <br />
-        <!-- <q-separator /> -->
+      </div> -->
 
-        <div v-if="locale === 'en-US'">
-          <br />
-          <br />FundSafe is a solution for transparent management of project funds.
-          <br />
-          <br />Often the project team embezzles funds or uses them somewhere unrelated to the project.
-          <br />We present a new paradigm to solve these problems.
-          <br />
-          <br />
-          <br />[ Workflow ]
-          <br />
-          <br />1. Register the project in FundSafe for ICO / INO.
-          <br />
-          <br />2. ICO / INO funds are deposited in FundSafe.
-          <br />
-          <br />3. The project team registers a fund use plan.
-          <br />
-          <br />4. The DAO take a vote.
-          <br />
-          <br />5.1 Requests for withdrawal of funds that have not been approved cannot be withdrawn.
-          <br />
-          <br />5.2 Request for withdrawal of funds approved can be withdrawn by the amount requested amount.
-          <br />
-          <br />
-          <br /><img src="logo/logo_fundsafe_mark_bg_white.png" style="max-width: 150px; cursor: pointer;" @click="goProjectDetail" />
-          <br />
-          <br />◦ Projects that use FundSafe display a FundSafe certification mark.
-          <br />◦ Users can check on the FundSafe website to see if the project actually uses FundSafe.
-          <br />
-          <br />※ Projects that have already been funded can also be managed by keeping funds in FundSafe.
-          <br />Only when holders strongly demand that the project team use FundSafe can eradicate the rug pull.
-          <br />
-          <br />
-          <br />
-        </div>
 
-        <div v-else-if="locale === 'ko-KR'">
-          <br />
-          <br />펀드세이프는 프로젝트 자금의 투명한 관리를 위한 솔루션입니다.
-          <br />
-          <br />프로젝트 팀은 종종 자금을 횡령하거나 프로젝트와 관련이 없는 곳에 자금을 사용합니다.
-          <br />우리는 이러한 문제를 해결하기 위해 새로운 패러다임을 제시합니다.
-          <br />
-          <br />
-          <br />[ Workflow ]
-          <br />
-          <br />1. ICO/INO를 위해 FundSafe에 프로젝트를 등록합니다.
-          <br />
-          <br />2. ICO/INO 자금은 FundSafe에 입금됩니다.
-          <br />
-          <br />3. 프로젝트 팀은 자금 사용 계획을 등록합니다.
-          <br />
-          <br />4. DAO가 찬반투표를 진행합니다.
-          <br />
-          <br />5.1 승인되지 않은 자금의 인출 요청은 출금될 수 없습니다.
-          <br />
-          <br />5.2 승인받은 자금의 인출 요청은 요청 금액만큼만 인출할 수 있습니다.
-          <br />
-          <br />
-          <br /><img src="logo/logo_fundsafe_mark_bg_white.png" style="max-width: 150px; cursor: pointer;" @click="goProjectDetail" />
-          <br />
-          <br />◦ FundSafe를 사용하는 프로젝트에는 FundSafe 인증 마크가 표시됩니다.
-          <br />◦ 사용자는 FundSafe 웹사이트에서 이 프로젝트가 실제로 FundSafe를 사용하는지 확인할 수 있습니다.
-          <br />
-          <br />※ 이미 운영중인 프로젝트 또한 자금을 FundSafe에 보관하여 관리할 수 있습니다.
-          <br />홀더분들이 프로젝트 팀에게 FundSafe를 사용할 것을 강력히 요구할 때 비로소 러그풀을 근절할 수 있습니다.
-          <br />
-          <br />
-          <br />
-        </div>
-      </div>
-
-      <div class="text-center text-body q-pl-md q-pr-md" style="word-break: keep-all;">
+      <!-- <div class="text-center text-body q-pl-md q-pr-md" style="word-break: keep-all;">
         <br />
         <br />
         <br />
@@ -172,7 +130,7 @@
           <br />
           <br /><br /><br /><br /><br /><br /><br />
         </div>
-      </div>
+      </div> -->
 
     </div>
 
@@ -180,53 +138,62 @@
     <div class="text-caption text-white flex flex-center" style="background: rgb(29, 29, 29);">
       <div class="row flex flex-center q-pt-md">
         <div class="q-pl-md q-pr-md q-pb-sm flex flex-center">
-          <q-img src="logo/icons-social-gitbook.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://docs.fundsafe.io')" title="Docs" />
+          <!--
+          <q-img src="logo/icons-social-gitbook.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://docs.beastar.io')" title="Docs" />
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-social-twitter.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://twitter.com/Fundsafe_io')" title="Twitter" />
+          <q-img src="logo/icons-social-twitter.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://twitter.com/beastar_2023')" title="Twitter" />
           &nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-social-medium.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://medium.com/@fundsafe')" title="Medium" />
+          <q-img src="logo/icons-social-medium.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://medium.com/@beastar_official')" title="Medium" />
           &nbsp;&nbsp;&nbsp;&nbsp;
           <q-img src="logo/icons-social-discord.svg" style="width: 27px; cursor: pointer;" @click="openUrl('https://discord.gg/mqDEH4Du69')" title="Discord" />
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-social-telegram.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://t.me/fundsafeio')" title="Telegram" />
+          <q-img src="logo/icons-social-telegram.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://t.me/beastar_official')" title="Telegram" />
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-apartment.svg" style="width: 25px; cursor: pointer;" @click="openUrl('https://www.klaystar.com')" title="Company" />
+          -->
+          <q-img src="logo/icons-social-instagram.svg" style="width: 30px; cursor: pointer;" @click="openUrl('https://www.instagram.com/beastar.official')" title="Instagram" />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <q-img src="logo/icons-apartment.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://www.starinc.io')" title="Company" />
         </div>
       </div>
     </div>
 
-    <div class="text-caption text-white flex flex-center q-pt-sm" style="background: rgb(29, 29, 29);">
-      <table border="0" cellpadding="0" cellspacing="0" width="100%" class="text-center">
-        <tr>
-          <td>Copyright ⓒ 2022 FundSafe all rights reserved.</td>
-        </tr>
-        <tr>
-          <td>fundsafe.io@gmail.com</td>
-        </tr>
-      </table>
+    <div class="text-caption flex flex-center q-pt-xs">
+      Copyright ⓒ 2023 Star Inc. all rights reserved.
     </div>
 
     <!-- 사업자정보 -->
-    <!-- OneOn Inc. | Representive : Youngdae Ahn | Address : 1707, 196, Mapo-daero, Mapo-gu, Seoul | Business Number : 863-87-01186 Verification | Mail-order-sales registration number : 2019-서울마포-0979 | E-mail : nftpy.contact@gmail.com  Terms  Privacy Policy -->
-    <div class="text-caption text-white flex flex-center" style="background: rgb(29, 29, 29);">
-      <!-- <div class="row">
-        <div class="col-12 q-pa-md">
+    <div class="text-caption flex flex-center">
+      <div class="row">
+        <div class="col-12 q-pa-xs">
           {{ $t('company_name') }}
           | {{ $t('company_representive') }} : {{ $t('company_representive_value') }}
           | {{ $t('company_address') }} : {{ $t('company_address_value') }}
           | {{ $t('company_business_number') }} : 139-87-02383
           <a @click="openUrl('http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1398702383')" style="cursor: pointer;"><b>{{ $t('company_verification') }}</b></a>
           | {{ $t('company_mail_order_sales_registration_number') }} : {{ $t('company_mail_order_sales_registration_number_value') }}
-          | {{ $t('company_email') }} : nftpy.contact@gmail.com
+          | {{ $t('company_email') }} : contact@starinc.io
+          | {{ $t('company_cs') }} : 02-717-0401
           &nbsp;<a style="cursor: pointer;" @click="showTerms">{{ $t('company_show_terms') }}</a>
           &nbsp;<a style="cursor: pointer;" @click="showPrivacy">{{ $t('company_show_privacy') }}</a>
         </div>
-      </div> -->
-      <div class="row">
-        <div class="col-12 q-pa-xs">
-        </div>
       </div>
     </div>
+
+    <div class="col-12 q-pa-md">
+    </div>
+
+    <!--
+    <div class="text-caption text-white flex flex-center q-pt-sm" style="background: rgb(29, 29, 29);">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" class="text-center">
+        <tr>
+          <td>Copyright ⓒ 2023 Star Inc. all rights reserved.</td>
+        </tr>
+        <tr>
+          <td>contact@starinc.io</td>
+        </tr>
+      </table>
+    </div>
+    -->
 
   </q-page>
 
@@ -241,14 +208,30 @@ import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: 'PageIndex',
+  name: 'Main',
   data () {
     return {
       smallSize: false,
-      // msgBox: false,
+      refresherDone: '',
+      pageSize: 100,
+      lastPageNum: 1, // 마지막 페이지
+      projectList: [],
+      noDataFlag: false,
+      keyword: '', // 검색키워드
     }
   },
   components: {
+  },
+  computed: {
+    getUid () {
+      return this.$store.getters.getUid
+    },
+    isAdmin () {
+      return this.$store.getters.getAdcd === this.$adminCode
+    },
+    getKeyword () {
+      return this.$store.getters.getKeyword
+    },
   },
   created: function () {
     // console.log(this.$q.platform.is.mobile)
@@ -271,11 +254,15 @@ export default defineComponent({
       this.smallSize = true
     }
 
+    this.selectListMax()
+
   },
   destroy: function () {
     window.removeEventListener("resize", this.resizeEventHandler)
   },
-  mounted: function () {},
+  mounted: function () {
+    this.selectListMax()
+  },
   setup () {
     const { locale } = useI18n({ useScope: 'global' })
 
@@ -304,6 +291,107 @@ export default defineComponent({
         this.smallSize = false
       }
     },
+
+    // 검색
+    async search() {
+      await this.selectListMax()
+      await this.refresher(null)
+    },
+    goDetail(seq) {
+      // 상세 화면으로 이동
+      this.$router.push({ path: '/project/projectDetail', query: { s: seq }})
+      // this.$refs.refTokenDetailModal.tokenSeq = seq
+      // this.$refs.refTokenDetailModal.show()
+    },
+    refresher (done) {
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise the refresh message
+      //        will continue to be displayed
+      // make some Ajax call then call done()
+      this.projectList = []
+      this.refresherDone = done // load가 끝나면 로딩메세지 종료
+      this.$refs.infiniteScroll.reset() // index 초기화
+      this.$refs.infiniteScroll.resume() // stop에서 다시 재생
+      // this.$refs.infiniteScroll.load() // loadMore로 검색
+      this.loadMore(1, done)
+    },
+    loadMore(index, done) {
+      // index - called for nth time
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise your loading message
+      //        will continue to be displayed. Has optional boolean
+      //        parameter that invokes stop() when true
+      // console.log('index: ' + index)
+      // make some Ajax call then call done()
+      // this.pageNum = index
+      setTimeout(() => {
+        // alert(index)
+        // console.log('loadMore called index: ' + index)
+        if (index <= this.lastPageNum) {
+          this.selectList(index, done)
+          if (index === this.lastPageNum) {
+            this.$refs.infiniteScroll.stop()
+          }
+
+          // refresher 로딩메세지 처리
+          if (this.refresherDone != null && this.refresherDone !== '') {
+            this.refresherDone() // 로딩메세지 종료
+            this.refresherDone = '' // 로딩메세지 초기화
+          }
+        }
+      }, 500)
+    },
+    // 신규 토큰 리스트 마지막 페이지 조회
+    selectListMax() {
+      // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
+      if (!this.keyword) {
+        this.keyword = ''
+      }
+      this.$axios.get('/api/project/selectProjectListLastPageNum',
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.lastPageNum = result.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    // 신규 토큰 리스트 조회
+    selectList(idx, done) {
+      if (!this.keyword) {
+        this.keyword = ''
+        // 키워드 설정
+        this.$store.dispatch('setKeyword', this.keyword)
+      }
+      this.$axios.get('/api/project/selectProjectList',
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          // console.log(result.data)
+          if (idx === 1) { // 첫번째 load인 경우
+            this.projectList = [] // 리스트 초기화
+          }
+          this.projectList = this.projectList.concat(result.data)
+
+          // 데이터 없음 표시 설정
+          if (!this.projectList || this.projectList.length < 1) {
+            this.noDataFlag = true
+          } else {
+            this.noDataFlag = false
+          }
+          if (done) {
+            done()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if (done) {
+            done()
+          }
+        })
+    },
+
     // 토큰 등록으로 이동
     goRegisterToken() {
       this.$router.push('/token/register')
