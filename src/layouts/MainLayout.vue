@@ -395,6 +395,28 @@
             </q-item-section>
           </q-item>
 
+          <!-- INSTAGRAM LIST -->
+          <q-item clickable to="/project/instagramList">
+            &nbsp;&nbsp;&nbsp;
+            <q-item-section avatar>
+              <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_instagram_list') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <!-- YOUTUBE LIST -->
+          <q-item clickable to="/project/youtubeList">
+            &nbsp;&nbsp;&nbsp;
+            <q-item-section avatar>
+              <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_youtube_list') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
           <!-- VOTE LIST -->
           <!--
           <q-item clickable to="/vote/voteList">

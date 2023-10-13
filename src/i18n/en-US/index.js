@@ -961,11 +961,17 @@ export default {
   menu_alarm_list: 'Alarm List',
   menu_alarm_list_description: 'Alarm list is displayed.',
   menu_project_list: 'Exhibition',
-  menu_project_list_description: 'Instarverse exhibitions',
+  menu_project_list_description: 'Instarverse Exhibitions',
   menu_project_register: 'Register Project',
   menu_project_register_description: 'Register Project.',
   menu_project_modify: 'Modify Project',
   menu_project_modify_description: 'Modify Project.',
+
+  menu_instagram_list: 'Instagram',
+  menu_instagram_list_description: 'Instagram Contents',
+  menu_youtube_list: 'YouTube',
+  menu_youtube_list_description: 'YouTube Contents',
+
   menu_create_contract: 'Create Contract',
   menu_create_contract_description: 'Create Contract.',
   menu_vote_list: 'Vote',

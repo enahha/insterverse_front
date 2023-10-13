@@ -966,6 +966,12 @@ export default {
   menu_project_register_description: '프로젝트를 등록합니다.',
   menu_project_modify: '프로젝트 수정',
   menu_project_modify_description: '프로젝트를 수정합니다.',
+
+  menu_instagram_list: '인스타그램',
+  menu_instagram_list_description: '인스타그램 콘텐츠',
+  menu_youtube_list: '유튜브',
+  menu_youtube_list_description: '유튜브 콘텐츠',
+
   menu_create_contract: '컨트랙트 생성',
   menu_create_contract_description: '컨트랙트를 생성합니다.',
   menu_vote_list: '투표',

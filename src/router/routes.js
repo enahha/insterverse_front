@@ -127,6 +127,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: 'projectList', component: () => import('pages/project/ProjectList.vue') },
+      { path: 'instagramList', component: () => import('pages/project/InstagramList.vue') },
+      { path: 'youtubeList', component: () => import('pages/project/YoutubeList.vue') },
       { path: 'myProjectList', component: () => import('pages/project/MyProjectList.vue') },
       { path: 'registerProject', component: () => import('pages/project/RegisterProject.vue') },
       { path: 'modifyProject', component: () => import('pages/project/ModifyProject.vue') },
