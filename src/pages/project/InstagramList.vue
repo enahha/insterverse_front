@@ -111,13 +111,13 @@ export default defineComponent({
   data () {
     return {
       refresherDone: '',
-      pageSize: 24,
-      lastPageNum: 10, // 마지막 페이지
+      pageSize: 6,
+      lastPageNum: 3, // 마지막 페이지
       projectList: [],
       noDataFlag: false,
       keyword: '', // 검색키워드
       numResults: '',
-      moreAvailable: true,
+      moreAvailable: 'false',
       maxId: '',
     }
   },
@@ -164,7 +164,9 @@ export default defineComponent({
     async search() {
       // await this.selectListMax()
       this.maxId = ''
-      await this.refresher(null)
+      if (this.keyword !== '') {
+        await this.refresher(null)
+      }
     },
     // 검색어 입력창 키업 이벤트
     onKeyup (event) {
@@ -268,6 +270,8 @@ export default defineComponent({
             // 데이터가 더 없을 경우
             if (this.moreAvailable === 'false') {
               this.lastPageNum = idx
+            } else {
+              this.lastPageNum += 1
             }
           }
 
