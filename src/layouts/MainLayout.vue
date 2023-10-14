@@ -407,6 +407,7 @@
           </q-item>
 
           <!-- YOUTUBE LIST -->
+          <!--
           <q-item clickable to="/project/youtubeList">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
@@ -416,6 +417,7 @@
               <q-item-label>{{ $t('menu_youtube_list') }}</q-item-label>
             </q-item-section>
           </q-item>
+          -->
 
           <!-- VOTE LIST -->
           <!--

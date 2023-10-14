@@ -14,9 +14,9 @@
     </div> -->
 
     <div class="row srch-wrap">
-      <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" clearable outlined />
-      &nbsp;&nbsp;
-      <q-btn @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" />
+      <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" />
+      <!-- &nbsp;&nbsp;
+      <q-btn @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" /> -->
       &nbsp;&nbsp;
       <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outline />
     </div>
@@ -25,12 +25,32 @@
       <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
     </q-page-scroller> -->
 
+    <!-- <img
+      id="image1"
+      crossorigin="anonymous"
+      src="https://scontent-ssn1-1.cdnyoutube.com/v/t51.2885-15/106737419_279956670011345_7184237292505553542_n.jpg?stp=dst-jpg_e35&_nc_ht=scontent-ssn1-1.cdnyoutube.com&_nc_cat=105&_nc_ohc=GgsG03ePLQIAX9qIumI&edm=ABmJApABAAAA&ccb=7-5&oh=00_AfCPf1rFTbE-sUpuhfQoD4wckTKsHEhKhA9_AZgDjwyi6w&oe=652BA178&_nc_sid=b41fef"
+    /> -->
+    <br />
+
+    <!-- <img src="https://instarverse.com/images/logo_instarverse.png" /> -->
+
     <!-- 프로젝트 리스트 -->
     <q-pull-to-refresh @refresh="refresher" class="project-list">
-      <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
+      <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll">
 
         <div v-for="item in projectList" :key="item.seq">
-          <q-item clickable @click="goDetail(item.seq)">
+
+          <div @click="showDetail(item.url)" style="cursor: pointer;">
+            <div v-if="$q.platform.is.mobile === true">
+              <q-img :src="item.url" style="width: 100%; height: 300px;" />
+            </div>
+            <div v-else>
+              <q-img :src="item.url" style="width: 370px; height: 370px;" />
+            </div>
+          </div>
+
+
+          <!-- <q-item clickable @click="goDetail(item.seq)">
             <q-item-section avatar>
               <q-avatar>
                 <img v-if="item.logo_image" :src="item.logo_image">
@@ -46,7 +66,7 @@
                 <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
               </div>
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
           <!-- 관리자 수정용 -->
           <!-- <div v-if="isAdmin" class="text-right">
@@ -72,6 +92,7 @@
   </q-page>
   <!-- <TokenDetailModal ref="refTokenDetailModal"/> -->
   <WalletModal ref="refWalletModal" />
+  <IframeModal ref="refIframeModal" />
 </template>
 
 <script>
@@ -79,7 +100,7 @@ import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: 'ProjectList',
+  name: 'YoutubeList',
   setup () {
     const { locale } = useI18n({ useScope: 'global' })
     return {
@@ -89,26 +110,29 @@ export default defineComponent({
   data () {
     return {
       refresherDone: '',
-      pageSize: 100,
+      pageSize: 3,
       lastPageNum: 1, // 마지막 페이지
       projectList: [],
       noDataFlag: false,
       keyword: '', // 검색키워드
+      numResults: '',
+      moreAvailable: true,
+      maxId: '',
     }
   },
   components: {
   },
   watch: {
-    getUid (newValue) {
-      // console.log('newValue: : ' + newValue)
-      // this.loadMore(1, null)
-      this.refresher(null)
-      // if (!newValue) {
-      //   this.$router.push('/')
-      // } else {
-      //   this.loadMore(1, null)
-      // }
-    },
+    // getUid (newValue) {
+    //   // console.log('newValue: : ' + newValue)
+    //   // this.loadMore(1, null)
+    //   this.refresher(null)
+    //   // if (!newValue) {
+    //   //   this.$router.push('/')
+    //   // } else {
+    //   //   this.loadMore(1, null)
+    //   // }
+    // },
   },
   computed: {
     getUid () {
@@ -123,16 +147,18 @@ export default defineComponent({
   },
   created: function () {
     // 검색 키워드 설정
-    this.keyword = this.getKeyword
+    // this.keyword = this.getKeyword
+    // this.keyword = 'abstractsunday'
+    // this.keyword = 'instarverse2023'
 
-    this.selectListMax()
+    // this.selectListMax()
   },
   mounted: function () {
   },
   methods: {
     // 검색
     async search() {
-      await this.selectListMax()
+      // await this.selectListMax()
       await this.refresher(null)
     },
     // 검색어 입력창 키업 이벤트
@@ -144,18 +170,18 @@ export default defineComponent({
         this.search()
       }
     },
-    // showDetail(seq) {
-    //   // 상세 화면으로 이동
-    //   // this.$router.push({ path: '/token/detail', query: { seq: seq }})
-    //   this.$refs.refTokenDetailModal.tokenSeq = seq
-    //   this.$refs.refTokenDetailModal.show()
-    // },
-    goDetail(seq) {
+    showDetail(url) {
       // 상세 화면으로 이동
-      this.$router.push({ path: '/project/projectDetail', query: { s: seq }})
-      // this.$refs.refTokenDetailModal.tokenSeq = seq
-      // this.$refs.refTokenDetailModal.show()
+      // this.$refs.refIframeModal.url = url
+      // this.$refs.refIframeModal.show()
+      window.open(url, '_system')
     },
+    // goDetail(seq) {
+    //   // 상세 화면으로 이동
+    //   this.$router.push({ path: '/project/projectDetail', query: { s: seq }})
+    //   // this.$refs.refTokenDetailModal.tokenSeq = seq
+    //   // this.$refs.refTokenDetailModal.show()
+    // },
     refresher (done) {
       // done - Function to call when you made all necessary updates.
       //        DO NOT forget to call it otherwise the refresh message
@@ -166,7 +192,7 @@ export default defineComponent({
       this.$refs.infiniteScroll.reset() // index 초기화
       this.$refs.infiniteScroll.resume() // stop에서 다시 재생
       // this.$refs.infiniteScroll.load() // loadMore로 검색
-      this.loadMore(1, done)
+      // this.loadMore(1, done)
     },
     loadMore(index, done) {
       // index - called for nth time
@@ -194,38 +220,46 @@ export default defineComponent({
         }
       }, 500)
     },
-    // 신규 토큰 리스트 마지막 페이지 조회
-    selectListMax() {
-      // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
-      if (!this.keyword) {
-        this.keyword = ''
-      }
-      this.$axios.get('/api/project/selectProjectListLastPageNum',
-        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.lastPageNum = result.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    // 신규 토큰 리스트 조회
+    // // 신규 토큰 리스트 마지막 페이지 조회
+    // selectListMax() {
+    //   // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
+    //   if (!this.keyword) {
+    //     this.keyword = ''
+    //   }
+    //   this.$axios.get('/api/project/selectProjectListLastPageNum',
+    //     {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+    //     .then((result) => {
+    //       // console.log(JSON.stringify(result.data))
+    //       this.lastPageNum = result.data
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //     })
+    // },
+
+    // 인스타그램 미디어 리스트 조회
     selectList(idx, done) {
-      if (!this.keyword) {
-        this.keyword = ''
-        // 키워드 설정
-        this.$store.dispatch('setKeyword', this.keyword)
-      }
-      this.$axios.get('/api/project/selectProjectList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+      // if (!this.keyword) {
+      //   this.keyword = ''
+      //   // 키워드 설정
+      //   this.$store.dispatch('setKeyword', this.keyword)
+      // }
+      this.$axios.get('/api/youtube/selectYoutubeMediaList',
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword, maxId: this.maxId}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
-          // console.log(result.data)
+          console.log(result.data)
           if (idx === 1) { // 첫번째 load인 경우
             this.projectList = [] // 리스트 초기화
           }
-          this.projectList = this.projectList.concat(result.data)
+
+          console.log(result.data.media_list)
+          if (result.data != null && result.data.media_list != undefined) {
+            this.projectList = this.projectList.concat(result.data.media_list)
+            this.numResults = result.data.num_results
+            this.moreAvailable = result.data.more_available
+            this.maxId = result.data.next_max_id
+          }
 
           // 데이터 없음 표시 설정
           if (!this.projectList || this.projectList.length < 1) {

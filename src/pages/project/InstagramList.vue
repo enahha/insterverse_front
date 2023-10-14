@@ -25,6 +25,15 @@
       <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
     </q-page-scroller> -->
 
+    <!-- <img
+      id="image1"
+      crossorigin="anonymous"
+      src="https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/106737419_279956670011345_7184237292505553542_n.jpg?stp=dst-jpg_e35&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=105&_nc_ohc=GgsG03ePLQIAX9qIumI&edm=ABmJApABAAAA&ccb=7-5&oh=00_AfCPf1rFTbE-sUpuhfQoD4wckTKsHEhKhA9_AZgDjwyi6w&oe=652BA178&_nc_sid=b41fef"
+    /> -->
+    <br />
+
+    <!-- <img src="https://instarverse.com/images/logo_instarverse.png" /> -->
+
     <!-- 프로젝트 리스트 -->
     <q-pull-to-refresh @refresh="refresher" class="project-list">
       <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
@@ -33,13 +42,14 @@
 
           <div @click="showDetail(item.url)" style="cursor: pointer;">
             <div v-if="$q.platform.is.mobile === true">
-              <img :src="item.url" style="width: 100%; height: 300px;" />
+              <q-img :src="item.url" style="width: 100%; height: 300px;" />
+              <div class="">{{ item.url }}</div>
             </div>
             <div v-else>
-              <img :src="item.url" style="width: 370px; height: 370px;" />
+              <q-img :src="item.url" style="width: 370px; height: 370px;" />
+              <div class="q-pa-md">{{ item.url }}</div>
             </div>
           </div>
-
 
           <!-- <q-item clickable @click="goDetail(item.seq)">
             <q-item-section avatar>
@@ -101,27 +111,29 @@ export default defineComponent({
   data () {
     return {
       refresherDone: '',
-      pageSize: 12,
-      lastPageNum: 1, // 마지막 페이지
+      pageSize: 24,
+      lastPageNum: 10, // 마지막 페이지
       projectList: [],
       noDataFlag: false,
       keyword: '', // 검색키워드
+      numResults: '',
+      moreAvailable: true,
       maxId: '',
     }
   },
   components: {
   },
   watch: {
-    getUid (newValue) {
-      // console.log('newValue: : ' + newValue)
-      // this.loadMore(1, null)
-      this.refresher(null)
-      // if (!newValue) {
-      //   this.$router.push('/')
-      // } else {
-      //   this.loadMore(1, null)
-      // }
-    },
+    // getUid (newValue) {
+    //   // console.log('newValue: : ' + newValue)
+    //   // this.loadMore(1, null)
+    //   this.refresher(null)
+    //   // if (!newValue) {
+    //   //   this.$router.push('/')
+    //   // } else {
+    //   //   this.loadMore(1, null)
+    //   // }
+    // },
   },
   computed: {
     getUid () {
@@ -136,8 +148,11 @@ export default defineComponent({
   },
   created: function () {
     // 검색 키워드 설정
-    // this.keyword = this.getKeyword
-    this.keyword = 'abstractsunday'
+    this.keyword = this.getKeyword
+    if (!this.keyword) {
+      this.keyword = 'abstractsunday'
+    }
+    // this.keyword = 'abstractsunday'
     // this.keyword = 'instarverse2023'
 
     // this.selectListMax()
@@ -148,6 +163,7 @@ export default defineComponent({
     // 검색
     async search() {
       // await this.selectListMax()
+      this.maxId = ''
       await this.refresher(null)
     },
     // 검색어 입력창 키업 이벤트
@@ -234,14 +250,26 @@ export default defineComponent({
       //   this.$store.dispatch('setKeyword', this.keyword)
       // }
       this.$axios.get('/api/instagram/selectInstagramMediaList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, maxId: this.maxId}})
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword, maxId: this.maxId}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
-          // console.log(result.data)
+          console.log(result.data)
           if (idx === 1) { // 첫번째 load인 경우
             this.projectList = [] // 리스트 초기화
           }
-          this.projectList = this.projectList.concat(result.data)
+
+          console.log(result.data.media_list)
+          if (result.data != null && result.data.media_list != undefined) {
+            this.projectList = this.projectList.concat(result.data.media_list)
+            this.numResults = result.data.num_results
+            this.moreAvailable = result.data.more_available
+            this.maxId = result.data.next_max_id
+
+            // 데이터가 더 없을 경우
+            if (this.moreAvailable === 'false') {
+              this.lastPageNum = idx
+            }
+          }
 
           // 데이터 없음 표시 설정
           if (!this.projectList || this.projectList.length < 1) {
