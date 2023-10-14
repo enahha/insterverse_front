@@ -111,7 +111,7 @@ export default defineComponent({
   data () {
     return {
       refresherDone: '',
-      pageSize: 6,
+      pageSize: 24,
       lastPageNum: 3, // 마지막 페이지
       projectList: [],
       noDataFlag: false,
