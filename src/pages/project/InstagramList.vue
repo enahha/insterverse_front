@@ -42,7 +42,14 @@
 
           <div @click="showDetail(item.url)" style="cursor: pointer;">
             <div v-if="$q.platform.is.mobile === true">
-              <q-img :src="item.url" style="width: 100%; height: 300px;" />
+
+              <div v-if="item.media_type === '2'">
+                <q-video :src="item.url" style="width: 100%; height: 300px" />
+              </div>
+              <div v-else>
+                <q-img :src="item.url" style="width: 100%; height: 300px;" />
+              </div>
+
               <div v-if="item.media_type === '1'" class="q-pt-md">
                 media_type: {{ item.media_type }} (Image)
               </div>
@@ -55,10 +62,19 @@
               <div v-else class="q-pt-md">
                 media_type: {{ item.media_type }} (?)
               </div>
-              <div class="q-pt-md">{{ item.thumbnail_url }}</div>
+
+              <div class="q-pt-md">{{ item.url }}</div>
+
             </div>
             <div v-else>
-              <q-img :src="item.url" style="width: 370px; height: 370px;" />
+
+              <div v-if="item.media_type === '2'">
+                <q-video :src="item.url" style="width: 370px; height: 370px" />
+              </div>
+              <div v-else>
+                <q-img :src="item.url" style="width: 370px; height: 370px;" />
+              </div>
+
               <div v-if="item.media_type === '1'" class="q-pt-md q-pl-md">
                 media_type: {{ item.media_type }} (Image)
               </div>
@@ -71,7 +87,9 @@
               <div v-else class="q-pt-md q-pl-md">
                 media_type: {{ item.media_type }} (?)
               </div>
-              <div class="q-pa-md">{{ item.thumbnail_url }}</div>
+
+              <div class="q-pa-md">{{ item.url }}</div>
+              
             </div>
           </div>
 
