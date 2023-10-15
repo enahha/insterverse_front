@@ -396,6 +396,7 @@
           </q-item>
 
           <!-- INSTAGRAM LIST -->
+          <!--
           <q-item clickable to="/project/instagramList">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
@@ -405,6 +406,7 @@
               <q-item-label>{{ $t('menu_instagram_list') }}</q-item-label>
             </q-item-section>
           </q-item>
+          -->
 
           <!-- YOUTUBE LIST -->
           <!--
