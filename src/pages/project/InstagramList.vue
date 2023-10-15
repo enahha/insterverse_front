@@ -40,7 +40,7 @@
 
         <div v-for="item in projectList" :key="item.seq">
 
-          <div @click="showDetail(item.url)" style="cursor: pointer;">
+          <div @click="showDetail(item)" style="cursor: pointer;">
             <div v-if="$q.platform.is.mobile === true">
 
               <div v-if="item.media_type === '2'">
@@ -219,11 +219,24 @@ export default defineComponent({
         this.search()
       }
     },
-    showDetail(url) {
+    showDetail(item) {
       // 상세 화면으로 이동
       // this.$refs.refIframeModal.url = url
       // this.$refs.refIframeModal.show()
-      window.open(url, '_system')
+      if (item.media_type === '8') {
+        // console.log(item)
+        // carousel 인 경우, 리스트 사이즈 만큼 창 오픈
+        // console.log(item.carousel_media_list)
+        // console.log(item.carousel_media_list.length)
+
+        for (let i = 0; i < item.carousel_media_list.length; i++) {
+          let carouselItem = item.carousel_media_list[i]
+          // console.log(carouselItem.url)
+          window.open(carouselItem.url, '_blank')
+        }
+      } else {
+        window.open(item.url, '_system')
+      }
     },
     // goDetail(seq) {
     //   // 상세 화면으로 이동
