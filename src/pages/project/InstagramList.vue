@@ -43,11 +43,35 @@
           <div @click="showDetail(item.url)" style="cursor: pointer;">
             <div v-if="$q.platform.is.mobile === true">
               <q-img :src="item.url" style="width: 100%; height: 300px;" />
-              <div class="">{{ item.url }}</div>
+              <div v-if="item.media_type === '1'" class="q-pt-md">
+                media_type: {{ item.media_type }} (Image)
+              </div>
+              <div v-else-if="item.media_type === '2'" class="q-pt-md">
+                media_type: {{ item.media_type }} (Video)
+              </div>
+              <div v-else-if="item.media_type === '8'" class="q-pt-md">
+                media_type: {{ item.media_type }} (Carousel)
+              </div>
+              <div v-else class="q-pt-md">
+                media_type: {{ item.media_type }} (?)
+              </div>
+              <div class="q-pt-md">{{ item.thumbnail_url }}</div>
             </div>
             <div v-else>
               <q-img :src="item.url" style="width: 370px; height: 370px;" />
-              <div class="q-pa-md">{{ item.url }}</div>
+              <div v-if="item.media_type === '1'" class="q-pt-md q-pl-md">
+                media_type: {{ item.media_type }} (Image)
+              </div>
+              <div v-else-if="item.media_type === '2'" class="q-pt-md q-pl-md">
+                media_type: {{ item.media_type }} (Video)
+              </div>
+              <div v-else-if="item.media_type === '8'" class="q-pt-md q-pl-md">
+                media_type: {{ item.media_type }} (Carousel)
+              </div>
+              <div v-else class="q-pt-md q-pl-md">
+                media_type: {{ item.media_type }} (?)
+              </div>
+              <div class="q-pa-md">{{ item.thumbnail_url }}</div>
             </div>
           </div>
 
