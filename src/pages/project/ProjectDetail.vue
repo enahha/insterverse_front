@@ -106,7 +106,7 @@
       <div class="row">
         <div class="col-12">
           <br />
-          <q-btn class="btn" color="primary" text-color="black" size="lg" style="width: 100%;" no-caps @click="vote('Y')">
+          <q-btn class="btn" color="primary" text-color="black" size="lg" style="width: 100%;" no-caps @click="exhibition_enter">
             <b>{{ $t('exhibition_enter') }}</b>
           </q-btn>
         </div>
@@ -151,7 +151,7 @@
         <div class="row">
           <div class="col-12">
             <br />
-            <q-btn class="btn" color="primary" text-color="black" size="lg" style="width: 100%;" no-caps @click="vote('Y')">
+            <q-btn class="btn" color="primary" text-color="black" size="lg" style="width: 100%;" no-caps @click="exhibition_enter">
               <b>{{ $t('exhibition_enter') }}</b>
             </q-btn>
           </div>
@@ -1521,6 +1521,9 @@ export default defineComponent({
     deleteProject() {
       // 삭제 확인창 표시
       this.confirmDeleteProject = true
+    },
+    exhibition_enter() {
+      window.open('https://instarverse.com/exhibition/index.html', '_system')
     },
     // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
     doDeleteProject() {
