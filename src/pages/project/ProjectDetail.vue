@@ -1523,7 +1523,7 @@ export default defineComponent({
       this.confirmDeleteProject = true
     },
     exhibition_enter() {
-      window.open('https://instarverse.com/exhibition/index.html?exhibitionSeq=1', '_system')
+      window.open('https://instarverse.com/exhibition/index.html?exhibitionSeq=' + this.projectSeq, '_system')
     },
     // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
     doDeleteProject() {
