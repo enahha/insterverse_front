@@ -92,7 +92,7 @@ module.exports = configure(function (ctx) {
 
       proxy: {
         '/api': {
-          target: 'http://localhost:8888',
+          target: 'http://localhost:8000',
           // target: 'https://instarverse.com',
           // target: 'http://15.165.176.21:8888',
           changeOrigin: true,
