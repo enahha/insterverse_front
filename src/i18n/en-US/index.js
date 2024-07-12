@@ -108,6 +108,8 @@ export default {
   menu_inquiry_list_description: 'Inquiry list is displayed.',
   menu_inquiry_register: 'Register Inquiry',
   menu_inquiry_register_description: 'Register Inquiry.',
+  about_us: "what's Instarverse?",
+  questions: 'Questions',
 
   // inquiry
   inquiry_title: 'Title',
@@ -680,6 +682,7 @@ export default {
   email_not_verified: 'Please verify email code',
   enter_email_verification_code: 'Please enter the [verification code]',
   check_email_verification_code: 'Please check the [verification code]',
+  confirm_resend: 'Did you not receive the email code?    ',
 
   // mypage
   user_information: 'User Information',
@@ -962,10 +965,12 @@ export default {
   menu_alarm_list_description: 'Alarm list is displayed.',
   menu_project_list: 'Exhibition',
   menu_project_list_description: 'Instarverse Exhibitions',
-  menu_project_register: 'Register Project',
+  menu_project_register: 'Register Exhibition',
   menu_project_register_description: 'Register Project.',
   menu_project_modify: 'Modify Project',
   menu_project_modify_description: 'Modify Project.',
+  best_exhibition: 'Best exhibition',
+  new_exhibition: 'New exhibition',
 
   menu_instagram_list: 'Instagram',
   menu_instagram_list_description: 'Instagram Contents',
@@ -1207,7 +1212,9 @@ export default {
   change_pwd: 'Change Password',
   show_terms: 'Terms',
   show_privacy: 'Privacy Policy',
-  agree_and_signup: 'Agree and Sign up',
+  agreed: 'Full agreement',
+  terms_must_be_agree: 'Please agree to the terms and conditions.',
+  agree_and_signup: 'Sign up',
   go_back: 'Go Back',
   enter_email_code: 'Email verification code',
   resend: 'Resend',

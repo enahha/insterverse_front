@@ -14,7 +14,7 @@
       <br />
 
       <table border="0" width="75%" align="center">
-        <tr>
+        <!-- <tr>
           <td colspan="3">
             <div class="col-12 text-center">
               <div class="">
@@ -31,6 +31,17 @@
               </div>
             </div>
           </td>
+        </tr> -->
+        <tr>
+          <td colspan="3">
+            <div class="col-12 text-center">
+              <div class="">
+                <font v-if="loginCd === 1" size="5" class="text-grey-7"><b>Login</b></font>
+                <font v-if="loginCd === 2 || loginCd === 3" size="5" class="text-grey-7"><b>Singin</b></font>
+                <font v-if="loginCd === 4 || loginCd === 5" size="5" class="text-grey-7"><b>Change Password</b></font>
+              </div>
+            </div>
+          </td>
         </tr>
         <tr>
           <td colspan="3">&nbsp;</td>
@@ -42,26 +53,39 @@
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
       <table v-if="loginCd === 1" border="0" width="75%" align="center">
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="userVo.uid" hide-bottom-space standout :placeholder="$t('id_email')" style="height: 56px;" />
+              <q-input v-model="userVo.uid" hide-bottom-space :placeholder="$t('id_email')" style="height: 56px;" />
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="userVo.pwd" hide-bottom-space standout type="password" :placeholder="$t('pwd_upper')" style="height: 56px;" @keyup="keyup" />
+              <q-input v-model="userVo.pwd" hide-bottom-space type="password" :placeholder="$t('pwd_upper')" style="height: 56px;" @keyup="keyup" />
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
-            <q-btn color="primary" text-color="black" style="width: 100%; height: 56px; min-width: 30px;" @click="doLogin">
+          <td colspan="3" class="space">
+            <q-btn text-color="black" style="background-color: #90B2D8; width: 100%; height: 56px; min-width: 30px;" @click="doLogin">
               <table border="0" width="100%" align="center">
                 <tr>
                   <td>
-                    <b>{{ $t('login') }}</b>
+                    <b style="color: #fefefe;">{{ $t('login') }}</b>
+                  </td>
+                </tr>
+              </table>
+            </q-btn>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" class="space">
+            <q-btn text-color="black" style="background-color: #fefefe; width: 100%; height: 56px; min-width: 30px;" @click="setLoginCode(2)">
+              <table border="0" width="100%" align="center">
+                <tr>
+                  <td>
+                    <b>{{ $t('signup') }}</b>
                   </td>
                 </tr>
               </table>
@@ -88,20 +112,20 @@
             </q-btn> -->
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td colspan="3">
             <div class="col-12 q-pa-md text-center">
               <br />
             </div>
           </td>
-        </tr>
+        </tr> -->
         <tr>
-          <td class="text-center" width="45%">
+          <!-- <td class="text-center" width="45%">
             <a style="cursor: pointer;" @click="setLoginCode(2)"><font size="2" color="grey">{{ $t('signup') }}</font></a>
           </td>
           <td class="text-center" width="10%">
             |
-          </td>
+          </td> -->
           <td class="text-center" width="45%">
             <a style="cursor: pointer;" @click="setLoginCode(4)"><font size="2" color="grey">{{ $t('change_pwd') }}</font></a>
           </td>
@@ -120,36 +144,59 @@
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
       <table v-if="loginCd === 2" border="0" width="75%" align="center">
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="userVo.uid" hide-bottom-space standout :placeholder="$t('id_email')" style="height: 56px;" />
+              <q-input v-model="userVo.nickname" hide-bottom-space :placeholder="$t('user_nickname')" style="height: 56px;" />
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="userVo.pwd" hide-bottom-space standout type="password" :placeholder="$t('pwd_upper')" style="height: 56px;" />
+              <q-input v-model="userVo.uid" hide-bottom-space :placeholder="$t('id_email')" style="height: 56px;" />
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="pwdCheck" hide-bottom-space standout type="password" :placeholder="$t('pwd_check_upper')" style="height: 56px;" />
+              <q-input v-model="userVo.pwd" hide-bottom-space type="password" :placeholder="$t('pwd_upper')" style="height: 56px;" />
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
+            <div class="col-12">
+              <q-input v-model="pwdCheck" hide-bottom-space type="password" :placeholder="$t('pwd_check_upper')" style="height: 56px;" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" class="space">
+            <q-checkbox
+              v-model="agreeAll"
+              style="margin-right: 8px;"
+            />
+            <b>{{ $t('agreed') }}</b>
+            <hr>
+            <q-checkbox
+              v-model="termsAgreed"
+              style="margin-right: 8px;"
+              :checked="agreeAll"
+            />
             <a style="cursor: pointer;" @click="showTerms"><font size="2" color="grey">{{ $t('show_terms') }}</font></a>
-            &nbsp;&nbsp;
+            <br>
+            <q-checkbox
+              v-model="privacyAgreed"
+              style="margin-right: 8px;"
+              :checked="agreeAll"
+            />
             <a style="cursor: pointer;" @click="showPrivacy"><font size="2" color="grey">{{ $t('show_privacy') }}</font></a>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
-            <q-btn :loading="loading" color="primary" text-color="black" style="width: 100%; height: 56px; min-width: 30px;" @click="goCheckEmailCode">
+          <td colspan="3" class="space">
+            <q-btn :loading="loading" text-color="black" style="background-color: #90B2D8; width: 100%; height: 56px; min-width: 30px;" @click="goCheckEmailCode">
               <table border="0" width="100%" align="center">
                 <tr>
                   <td>
@@ -195,43 +242,46 @@
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
       <table v-if="loginCd === 3" border="0" width="75%" align="center">
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12 text-center" style="height: 56px;">
               {{ $t('enter_email_code') }}
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="userVo.code" hide-bottom-space standout type="number" min="100000" max="999999" placeholder="EMAIL CODE" style="height: 56px;" @keyup="onKeyUpEmailCode" />
+              <q-input v-model="userVo.code" hide-bottom-space type="number" min="100000" max="999999" placeholder="EMAIL CODE" style="height: 56px;" @keyup="onKeyUpEmailCode" />
             </div>
           </td>
         </tr>
         <tr>
           <td colspan="3">
             <div class="col-12" style="height: 56px;">
-            <q-btn :loading="loading" color="primary" text-color="black" outline style="width: 100%; height: 56px; min-width: 30px;" @click="sendMailCode(userVo.uid)">
-              <span v-if="loading">
+            <!-- <q-btn :loading="loading" text-color="black" outline style="width: 100%; height: 40px; min-width: 30px;" @click="sendMailCode(userVo.uid)"> -->
+              <!-- <span v-if="loading">
                 <q-spinner-oval class="" />
-              </span>
+              </span> -->
               <table border="0" width="100%" align="center">
                 <tr>
                   <td>
-                    <b>{{ $t('resend') }}</b>
+                    <span>{{ $t('confirm_resend') }}  </span><a @click="sendMailCode(userVo.uid)"><b style="text-decoration: underline;">{{ $t('resend') }}</b></a>
+                    <span v-if="loading">
+                      <q-spinner-oval class="" />
+                    </span>
                   </td>
                 </tr>
               </table>
-            </q-btn>
+            <!-- </q-btn> -->
             </div>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td colspan="3">&nbsp;</td>
-        </tr>
+        </tr> -->
         <tr>
           <td colspan="3">
-            <q-btn :loading="loading" color="primary" text-color="black" style="width: 100%; height: 56px; min-width: 30px;" @click="checkEmailCode">
+            <q-btn :loading="loading" text-color="black" style="background-color: #90B2D8; width: 100%; height: 56px; min-width: 30px;" @click="checkEmailCode">
               <span v-if="loading">
                 <q-spinner-oval class="" />
               </span>
@@ -254,7 +304,7 @@
         </tr>
         <tr>
           <td class="text-center" width="45%">
-            <a style="cursor: pointer;" @click="setLoginCode(1)"><font size="2" color="grey">{{ $t('go_back') }}</font></a>
+            <a style="cursor: pointer;" @click="setLoginCode(2)"><font size="2" color="grey">{{ $t('go_back') }}</font></a>
           </td>
           <td class="text-center" width="10%">
             |
@@ -277,23 +327,23 @@
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
       <table v-if="loginCd === 4" border="0" width="75%" align="center">
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="userVo.uid" hide-bottom-space standout :placeholder="$t('id_email')" style="height: 56px;" />
+              <q-input v-model="userVo.uid" hide-bottom-space :placeholder="$t('id_email')" style="height: 56px;" />
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="userVo.pwd" hide-bottom-space standout type="password" :placeholder="$t('pwd_upper')" style="height: 56px;" />
+              <q-input v-model="userVo.pwd" hide-bottom-space type="password" :placeholder="$t('pwd_upper')" style="height: 56px;" />
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="3" class="space">
             <div class="col-12">
-              <q-input v-model="pwdCheck" hide-bottom-space standout type="password" :placeholder="$t('pwd_check_upper')" style="height: 56px;" />
+              <q-input v-model="pwdCheck" hide-bottom-space type="password" :placeholder="$t('pwd_check_upper')" style="height: 56px;" />
             </div>
           </td>
         </tr>
@@ -303,8 +353,8 @@
           </td>
         </tr>
         <tr>
-          <td colspan="3">
-            <q-btn :loading="loading" color="primary" text-color="black" style="width: 100%; height: 56px; min-width: 30px;" @click="goCheckEmailCodeChangePwd">
+          <td colspan="3" class="space">
+            <q-btn :loading="loading" text-color="black" style="background-color: #90B2D8; width: 100%; height: 56px; min-width: 30px;" @click="goCheckEmailCodeChangePwd">
               <table border="0" width="100%" align="center">
                 <tr>
                   <td>
@@ -359,34 +409,37 @@
         <tr>
           <td colspan="3">
             <div class="col-12">
-              <q-input v-model="userVo.code" hide-bottom-space standout type="number" min="100000" max="999999" placeholder="EMAIL CODE" style="height: 56px;" @keyup="onKeyUpEmailCodeChangePwd" />
+              <q-input v-model="userVo.code" hide-bottom-space type="number" min="100000" max="999999" placeholder="EMAIL CODE" style="height: 56px;" @keyup="onKeyUpEmailCodeChangePwd" />
             </div>
           </td>
         </tr>
         <tr>
           <td colspan="3">
             <div class="col-12" style="height: 56px;">
-            <q-btn :loading="loading" color="primary" text-color="black" outline style="width: 100%; height: 56px; min-width: 30px;" @click="sendMailCode(userVo.uid)">
-              <span v-if="loading">
+            <!-- <q-btn :loading="loading" text-color="black" outline style="background-color: #90B2D8; width: 100%; height: 56px; min-width: 30px;" @click="sendMailCode(userVo.uid)"> -->
+              <!-- <span v-if="loading">
                 <q-spinner-oval class="" />
-              </span>
+              </span> -->
               <table border="0" width="100%" align="center">
                 <tr>
                   <td>
-                    <b>{{ $t('resend') }}</b>
+                    <span>{{ $t('confirm_resend') }}  </span><a @click="sendMailCode(userVo.uid)"><b style="text-decoration: underline;">{{ $t('resend') }}</b></a>
+                    <span v-if="loading">
+                      <q-spinner-oval class="" />
+                    </span>
                   </td>
                 </tr>
               </table>
-            </q-btn>
+            <!-- </q-btn> -->
             </div>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td colspan="3">&nbsp;</td>
-        </tr>
+        </tr> -->
         <tr>
           <td colspan="3">
-            <q-btn :loading="loading" color="primary" text-color="black" style="width: 100%; height: 56px; min-width: 30px;" @click="checkEmailCodeChangePwd">
+            <q-btn :loading="loading" text-color="black" style="background-color: #90B2D8; width: 100%; height: 56px; min-width: 30px;" @click="checkEmailCodeChangePwd">
               <span v-if="loading">
                 <q-spinner-oval class="" />
               </span>
@@ -461,6 +514,7 @@ export default {
       userVo: {
         // uid: 'ayd1029@gmail.com',
         // pwd: 'ayd801029',
+        nickname: '',
         uid: '',
         pwd: '',
         pwd2: '',
@@ -471,6 +525,9 @@ export default {
       pwdCheck: '',
       kakaoAccessToken: '',
       // emailCode: '',
+      agreeAll: false,
+      termsAgreed: false,
+      privacyAgreed: false,
     }
   },
   // created: function () {
@@ -478,6 +535,27 @@ export default {
   //     this.layoutWidth = '280px'
   //   }
   // },
+  watch: {
+    agreeAll(newVal) {
+      this.termsAgreed = newVal
+      this.privacyAgreed = newVal
+    },
+    termsAgreed(newVal) {
+      if (newVal && this.privacyAgreed) {
+        this.agreeAll = true
+      } else if (!newVal) {
+        this.agreeAll = false
+      }
+    },
+    privacyAgreed(newVal) {
+      if (newVal && this.termsAgreed) {
+        this.agreeAll = true
+      } else if (!newVal) {
+        this.agreeAll = false
+      }
+    }
+
+  },
   methods: {
     async show () {
       this.loading = false
@@ -492,6 +570,12 @@ export default {
       // 2. 아이디 중복 체크
       const result = await this.checkIdDuplicate(this.userVo.uid)
       if (result === false) {
+        return
+      }
+
+      // 이용약관 체크
+      if(!this.termsAgreed || !this.privacyAgreed) {
+        this.$noti(this.$q, this.$t('terms_must_be_agree'))
         return
       }
 
@@ -707,6 +791,7 @@ export default {
           this.$noti(this.$q, err)
         })
     },
+
     doJoin() {
       this.$axios.post('/api/user/insertUser', this.userVo)
         .then((result) => {
@@ -797,6 +882,7 @@ export default {
       this.userVo.code = ''
       this.userVo.pwd = ''
       this.userVo.pwd2 = ''
+      this.userVo.nickname = ''
     },
 
 
@@ -1117,3 +1203,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.space{
+  padding: 10px;
+}
+</style>

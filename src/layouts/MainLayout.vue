@@ -24,11 +24,11 @@
                     <img src="logo/logo_instarverse.png" style="width: 24px; margin-top: 7px;" />
                   </a> -->
                 </td>
-                <td align="left" width="72">
+                <td align="left" width="100">
                   <div class="row">
                     <div class="q-pl-xs" style="margin-top: 0px;">
                       <a style="cursor: pointer;" @click="goHome">
-                        <span class="text-black">Instarverse</span>
+                        <span class="text-black doc-h2">Instarverse</span>
                       </a>
                     </div>
                   </div>
@@ -69,7 +69,7 @@
         &nbsp;&nbsp;&nbsp;
 
         <!-- wallet icon -->
-        <div v-if="getUid">
+        <!-- <div v-if="getUid">
           <q-btn flat dense rounded @click="toggleRightDrawer">
             <img v-if="getWalletType === 'kaikas'" src="logo/logo_kaikas.png" width="20" />
             <img v-else-if="getWalletType === 'metamask'" src="logo/logo_metamask.png" width="25" />
@@ -88,6 +88,36 @@
           icon="account_balance_wallet"
           aria-label="Menu"
           @click="showWalletModal"
+        /> -->
+
+        <!-- mypage -->
+        <div v-if="getUid">
+        <q-btn
+          flat
+          dense
+          round
+          color="black"
+          icon="account_circle"
+          aria-label="login"
+          @click="goMypage"
+        />
+        </div>
+
+        &nbsp;&nbsp;
+
+        <!-- local login icorn -->
+        <div v-if="getUid">
+          <q-btn icon="logout" flat dense rounded @click="logout"/>
+        </div>
+        <q-btn
+          v-else
+          flat
+          dense
+          round
+          color="black"
+          icon="input"
+          aria-label="login"
+          @click="showLoginModal"
         />
 
         &nbsp;&nbsp;
@@ -226,10 +256,8 @@
                 <q-separator />
               </div>
 
-
               <!-- settings -->
               <div class="q-pt-xs q-pb-xs">
-                <!-- <div class="text-h6 q-mb-md">Settings</div> -->
                 <div class="row text-center">
                   <div class="col q-pl-xs q-pr-sm">
                     <q-btn
@@ -395,6 +423,17 @@
             </q-item-section>
           </q-item>
 
+          <!-- PROJECT RESISTER -->
+          <q-item clickable to="/project/registerProject">
+            &nbsp;&nbsp;&nbsp;
+            <q-item-section avatar>
+              <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_project_register') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
           <!-- INSTAGRAM LIST -->
           <!--
           <q-item clickable to="/project/instagramList">
@@ -448,7 +487,7 @@
           -->
 
           <!-- MY PROJECT LIST -->
-          <q-item v-if="getUid" clickable to="/project/myProjectList">
+          <!-- <q-item v-if="getUid" clickable to="/project/myProjectList">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
               <q-icon name="rocket" style="width: 20px; height: 20px;" />
@@ -456,10 +495,10 @@
             <q-item-section>
               <q-item-label>{{ $t('menu_my_project_list') }}</q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
           <!-- MY VOTE LIST -->
-          <q-item v-if="getUid" clickable to="/vote/myVoteList">
+          <!-- <q-item v-if="getUid" clickable to="/vote/myVoteList">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
               <q-icon name="settings_applications" style="width: 20px; height: 20px;" />
@@ -467,7 +506,7 @@
             <q-item-section>
               <q-item-label>{{ $t('menu_my_vote_list') }}</q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
           <!-- INTRODUCTION -->
           <!-- <q-item clickable to="/introduction">
@@ -562,6 +601,95 @@
             </q-item>
 
           </div>
+
+        </q-list>
+
+
+        <q-list class="bottom-items">
+          <!-- ABOUT US -->
+          <q-item clickable to="/project/registerProject">
+            <q-item-section avatar>
+              <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('about_us') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <!-- QUESTIONS -->
+          <q-item clickable to="/project/registerProject">
+            <q-item-section avatar>
+              <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('questions') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section avatar>
+              <q-btn
+                flat
+                dense
+                round
+                color="black"
+                icon="language"
+                aria-label="Menu"
+              >
+              <q-menu>
+                <div class="no-wrap q-pa-sm pd-xy">
+                  <!-- settings -->
+                  <div class="q-pt-xs q-pb-xs">
+                    <div class="row text-center">
+                      <div class="col q-pl-xs q-pr-sm">
+                        <q-btn
+                          v-if="locale === 'ko-KR'"
+                          color="primary"
+                          push
+                          size="md"
+                          label="English"
+                          no-caps
+                          @click="changeLocale('en-US')"
+                        />
+                        <q-btn
+                          v-if="locale !== 'ko-KR'"
+                          color="grey"
+                          push
+                          size="md"
+                          label="English"
+                          no-caps
+                          disable
+                        />
+                      </div>
+                      <div class="col q-pl-sm q-pr-xs">
+                        <q-btn
+                          v-if="locale === 'en-US'"
+                          color="primary"
+                          push
+                          size="md"
+                          label="Korean"
+                          no-caps
+                          @click="changeLocale('ko-KR')"
+                        />
+                        <q-btn
+                          v-if="locale !== 'en-US'"
+                          color="grey"
+                          push
+                          size="md"
+                          label="Korean"
+                          no-caps
+                          disable
+                        />
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </q-menu>
+              </q-btn>
+            </q-item-section>
+          </q-item>
 
         </q-list>
 
@@ -699,14 +827,6 @@
       </q-list> -->
     </q-drawer>
 
-
-
-    <!-- <q-footer elevated>
-      <q-toolbar>
-        <q-toolbar-title>Footer</q-toolbar-title>
-      </q-toolbar>
-    </q-footer> -->
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -732,6 +852,7 @@
     </q-card>
   </q-dialog>
 
+
   <LoginModal ref="refLoginModal" @callback-login="callbackLogin" />
   <WalletModal ref="refWalletModal" @callback-wallet="callbackWallet" />
   <IframeModal ref="refIframeModal" />
@@ -741,7 +862,6 @@
 <script>
 // import EssentialLink from 'components/EssentialLink.vue'
 // import LoginModal from 'components/login/login-modal'
-
 import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
@@ -826,61 +946,61 @@ export default defineComponent({
     },
   },
   created: function() {
-    // // 디바이스 설정
-    // this.setDevice()
+    // // // 디바이스 설정
+    // // this.setDevice()
 
-    // 쿠키에 UID와 AUTH_KEY가 있으면 유저정보 바인딩
-    const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
-    const authKey = localStorage.getItem('AUTH_KEY') ? localStorage.getItem('AUTH_KEY') : this.$cookie.get('AUTH_KEY')
-    if (uid && authKey) {
-      this.$store.dispatch('setUid', uid)
-      const adcd =  localStorage.getItem('ADCD') ? localStorage.getItem('ADCD') : this.$cookie.get('ADCD')
-      this.$store.dispatch('setAdcd', adcd)
-    }
+    // // 쿠키에 UID와 AUTH_KEY가 있으면 유저정보 바인딩
+    // const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+    // const authKey = localStorage.getItem('AUTH_KEY') ? localStorage.getItem('AUTH_KEY') : this.$cookie.get('AUTH_KEY')
+    // if (uid && authKey) {
+    //   this.$store.dispatch('setUid', uid)
+    //   const adcd =  localStorage.getItem('ADCD') ? localStorage.getItem('ADCD') : this.$cookie.get('ADCD')
+    //   this.$store.dispatch('setAdcd', adcd)
+    // }
 
-    // 쿠키에 LOCALE이 있으면 설정
-    const cookieLocale = localStorage.getItem('LOCALE') ? localStorage.getItem('LOCALE') : this.$cookie.get('LOCALE')
-    // alert('cookieLocale: ' + cookieLocale)
-    if (cookieLocale && cookieLocale !== 'null') {
-      this.locale = cookieLocale
-    } else {
-      this.locale = 'en-US'
-    }
+    // // 쿠키에 LOCALE이 있으면 설정
+    // const cookieLocale = localStorage.getItem('LOCALE') ? localStorage.getItem('LOCALE') : this.$cookie.get('LOCALE')
+    // // alert('cookieLocale: ' + cookieLocale)
+    // if (cookieLocale && cookieLocale !== 'null') {
+    //   this.locale = cookieLocale
+    // } else {
+    //   this.locale = 'en-US'
+    // }
 
-    // CORDOVA APP에서 로그인 후 WEB으로 왔을 때 처리
-    if ((this.$q.platform.is.cordova === true || this.$q.platform.is.name === 'webkit') && this.$route.query.uid && this.$route.query.authKey
-      // && this.$q.platform.is.mobile === true && (this.$q.platform.is.platform === 'andriod' || this.$q.platform.is.platform === 'ios')
-    ) {
-      // localStorage에 locale 값이 있으면 localStorage 값으로 설정, 없으면 this.$route.query.locale 설정
-      // if (this.$route.query.locale) {
-      //   this.locale = this.$route.query.locale
-      //   alert('this.$route.query.locale: ' + this.$route.query.locale)
-      //   this.$cookie.set('LOCALE', this.$route.query.locale)
-      // }
-      const localStorageLocale = localStorage.getItem('LOCALE')
-      if (localStorageLocale && localStorageLocale !== 'null') {
-        this.locale = localStorageLocale
-        this.$cookie.set('LOCALE', localStorageLocale)
-      } else {
-        if (this.$route.query.locale && this.$route.query.locale !== 'null') {
-          this.locale = this.$route.query.locale
-        }
-        this.$cookie.set('LOCALE', this.$route.query.locale)
-        localStorage.setItem('LOCALE', this.$route.query.locale, 365) // APP용
-      }
-      // 사용자 정보 설정
-      this.$store.dispatch('setUid', this.$route.query.uid)
-      this.$store.dispatch('setAdcd', this.$route.query.adcd)
-      localStorage.setItem('UID', this.$route.query.uid, 365) // APP용
-      localStorage.setItem('AUTH_KEY', this.$route.query.authKey, 365) // APP용
-      localStorage.setItem('ADCD', this.$route.query.adcd, 365) // APP용
+    // // CORDOVA APP에서 로그인 후 WEB으로 왔을 때 처리
+    // if ((this.$q.platform.is.cordova === true || this.$q.platform.is.name === 'webkit') && this.$route.query.uid && this.$route.query.authKey
+    //   // && this.$q.platform.is.mobile === true && (this.$q.platform.is.platform === 'andriod' || this.$q.platform.is.platform === 'ios')
+    // ) {
+    //   // localStorage에 locale 값이 있으면 localStorage 값으로 설정, 없으면 this.$route.query.locale 설정
+    //   // if (this.$route.query.locale) {
+    //   //   this.locale = this.$route.query.locale
+    //   //   alert('this.$route.query.locale: ' + this.$route.query.locale)
+    //   //   this.$cookie.set('LOCALE', this.$route.query.locale)
+    //   // }
+    //   const localStorageLocale = localStorage.getItem('LOCALE')
+    //   if (localStorageLocale && localStorageLocale !== 'null') {
+    //     this.locale = localStorageLocale
+    //     this.$cookie.set('LOCALE', localStorageLocale)
+    //   } else {
+    //     if (this.$route.query.locale && this.$route.query.locale !== 'null') {
+    //       this.locale = this.$route.query.locale
+    //     }
+    //     this.$cookie.set('LOCALE', this.$route.query.locale)
+    //     localStorage.setItem('LOCALE', this.$route.query.locale, 365) // APP용
+    //   }
+    //   // 사용자 정보 설정
+    //   this.$store.dispatch('setUid', this.$route.query.uid)
+    //   this.$store.dispatch('setAdcd', this.$route.query.adcd)
+    //   localStorage.setItem('UID', this.$route.query.uid, 365) // APP용
+    //   localStorage.setItem('AUTH_KEY', this.$route.query.authKey, 365) // APP용
+    //   localStorage.setItem('ADCD', this.$route.query.adcd, 365) // APP용
 
-      // 로그인 처리
-      this.doLogin()
-    }
+    //   // 로그인 처리
+    //   this.doLogin()
+    // }
 
-    // 계정 정보 조회
-    this.selectUser()
+    // // 계정 정보 조회
+    // this.selectUser()
 
     // 화면 크기에 따른 좌측 메뉴 스크롤 DIV 의 Height 설정
     this.onResize()
@@ -1267,3 +1387,9 @@ export default defineComponent({
   },
 })
 </script>
+<style scoped>
+.bottom-items {
+  position: absolute;
+  bottom: 0;
+}
+</style>

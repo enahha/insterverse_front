@@ -14,11 +14,11 @@
     </div> -->
 
     <div class="row srch-wrap">
-      <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" clearable outlined />
+      <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 190px;" clearable />
       &nbsp;&nbsp;
-      <q-btn @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" />
+      <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
       &nbsp;&nbsp;
-      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outline />
+      <q-btn @click="search" icon="search" size="lg" style="width: 80px;" outline />
     </div>
 
     <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">

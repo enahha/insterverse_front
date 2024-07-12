@@ -108,6 +108,8 @@ export default {
   menu_inquiry_list_description: '문의사항 목록입니다.',
   menu_inquiry_register: '문의사항 등록',
   menu_inquiry_register_description: '문의사항을 등록합니다.',
+  about_us: '인스타버스란?',
+  questions: '문의',
 
   // inquiry
   inquiry_title: '제목',
@@ -680,6 +682,7 @@ export default {
   email_not_verified: '이메일을 인증해주세요',
   enter_email_verification_code: '인증코드를 입력해주세요',
   check_email_verification_code: '인증코드를 체크해주세요',
+  confirm_resend: '이메일 코드를 받지 못하셨나요?    ',
 
   // mypage
   user_information: '사용자 정보',
@@ -962,10 +965,12 @@ export default {
   menu_alarm_list_description: '알림 목록입니다.',
   menu_project_list: '전시회',
   menu_project_list_description: '인스타버스 전시회',
-  menu_project_register: '프로젝트 등록',
-  menu_project_register_description: '프로젝트를 등록합니다.',
+  menu_project_register: '전시 하기',
+  menu_project_register_description: '전시회 등록합니다.',
   menu_project_modify: '프로젝트 수정',
   menu_project_modify_description: '프로젝트를 수정합니다.',
+  best_exhibition: '인기 전시',
+  new_exhibition: '신규 전시',
 
   menu_instagram_list: '인스타그램',
   menu_instagram_list_description: '인스타그램 콘텐츠',
@@ -1207,7 +1212,9 @@ export default {
   change_pwd: '비밀번호 변경',
   show_terms: '이용약관',
   show_privacy: '개인정보처리방침',
-  agree_and_signup: '동의 및 가입',
+  agreed: '전체 동의',
+  agree_and_signup: '회원가입',
+  terms_must_be_agree: '약관에 동의해 주세요.',
   go_back: '돌아가기',
   enter_email_code: '이메일로 전송된 코드를 입력해주세요',
   resend: '재전송',

@@ -1,74 +1,80 @@
 <template>
   <!-- <q-page class="justify justify-center" style="background-image: url(images/star1.jpg)"> -->
   <q-page class="justify justify-center">
-    <div class="page-1200" style="word-break: keep-all;">
+    <img src="images/main_exhibition.png" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " />
+    <div class="page-1200" style="word-break: keep-all; padding-top: 200px;">
 
-      <div class="text-center doc-h2 q-pt-md">
-        <br />Metaverse for Exhibition
-      </div>
-      <br />
 
-      <div class="text-center">
-        <img src="images/main_exhibition.png" style="width: 100%; max-width: 1280px; border-radius: 50%;" />
-      </div>
-
-      <div class="text-center" v-if="locale === 'en-US'">
+      <!-- <div class="text-center" v-if="locale === 'en-US'">
         <br />"Every artist was first an amateur."
         <br />- Ralph Waldo Emerson -
       </div>
       <div class="text-center" v-else-if="locale === 'ko-KR'">
         <br />"모든 위대한 예술가들도 처음에는 아마추어였다."
         <br />- 랄프 월도 에머슨 -
-      </div>
+      </div> -->
 
       <br />
       <br />
 
-      <div class="row q-pt-md q-pl-md justify-center page-tit">
-        <div class="col-12 doc-heading doc-h2">
-          {{ $t('menu_project_list') }}
+      <!-- 인기 전시 -->
+      <div style="display: flex; align-items: center;">
+        <div class="doc-h2" style="margin-right: 50px;">
+          {{ $t('best_exhibition') }}
+        </div>
+        <div class="doc-h2" style="display: flex; flex-grow: 1; align-items: center;">
+          <div style="width: 20%; height: 5px; background-color: black;"></div>
+          <div style="width: 10%; height: 5px;"></div>
+          <div style="width: 80%; height: 5px; background-color: black;"></div>
         </div>
       </div>
-      <div class="row q-pl-md row justify-center page-sub-tit">
-        <div class="col-12">
-          {{ $t('menu_project_list_description') }}
-        </div>
-      </div>
 
-      <!-- 프로젝트 리스트 -->
-      <q-pull-to-refresh @refresh="refresher" class="project-list">
-        <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll">
+      <q-carousel
+        v-model="slide"
+        swipeable
+        animated
+        autoplay
+        infinite
+        flat
+        interval="5000"
+        control-color="purple"
+        navigation
+        padding
+        arrows
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        height="300px"
+        class="full-width"
+      >
+        <q-carousel-slide
+          v-for="(group, index) in groupedItems" 
+          :key="index"
+          :name="index.toString()"
+        >
+          <div class="row">
+            <div class="col" v-for="item in group" :key="item.seq">
+              <q-item clickable @click="goDetail(item.seq)">
+                <q-item-section avatar>
+                  <q-avatar>
+                    <img v-if="item.logo_image" :src="item.logo_image" />
+                    <q-icon v-else name="rocket_launch" size="md" />
+                  </q-avatar>
+                </q-item-section>
 
-          <div v-for="item in projectList" :key="item.seq">
-            <q-item clickable @click="goDetail(item.seq)">
-              <q-item-section avatar>
-                <q-avatar>
-                  <img v-if="item.logo_image" :src="item.logo_image">
-                  <q-icon v-else name="rocket_launch" size="md" />
-                </q-avatar>
-              </q-item-section>
-
-              <q-item-section>
-                <div class="row list-item">
-                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
-                  <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
-                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
-                  <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
-                </div>
-              </q-item-section>
-            </q-item>
-          </div>
-          <template v-slot:loading>
-            <div class="row justify-center q-my-md">
-              <q-spinner-dots color="primary" size="40px" />
+                <q-item-section>
+                  <div class="row list-item">
+                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
+                    <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
+                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
+                    <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
             </div>
-          </template>
-        </q-infinite-scroll>
-      </q-pull-to-refresh>
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
 
-      <div v-if="noDataFlag" class="row justify-center">
-        <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
-      </div>
 
       <!-- 하단 공간 확보 -->
       <div class="row justify-center q-pa-xl">
@@ -77,8 +83,8 @@
 
 
       <!-- 플랫폼 설명 -->
-      <!-- 
-      <div class="text-center text-body q-pl-md q-pr-md" style="word-break: keep-all;">
+      
+      <!-- <div class="text-center text-body q-pl-md q-pr-md" style="word-break: keep-all;">
         <br />
 
         <iframe
@@ -218,6 +224,7 @@ export default defineComponent({
       projectList: [],
       noDataFlag: false,
       keyword: '', // 검색키워드
+      slide: '0'
     }
   },
   components: {
@@ -232,21 +239,29 @@ export default defineComponent({
     getKeyword () {
       return this.$store.getters.getKeyword
     },
+    groupedItems() {
+      const chunkSize = 4 // Number of items per slide
+      const groups = []
+      for (let i = 0; i < this.projectList.length; i += chunkSize) {
+        groups.push(this.projectList.slice(i, i + chunkSize))
+      }
+      return groups
+    }
   },
   created: function () {
-    // console.log(this.$q.platform.is.mobile)
+    // // console.log(this.$q.platform.is.mobile)
 
-    // CORDOVA APP인 경우, /app/loginApp 화면으로 이동
-    if ((this.$q.platform.is.cordova === true || this.$q.platform.is.name === 'webkit') && location.origin !== this.$frontDomain
-      // && this.$q.platform.is.mobile === true && (this.$q.platform.is.platform === 'andriod' || this.$q.platform.is.platform === 'ios')
-    ) {
-      this.$router.push('/app/loginApp')
-      // https://nftpy.io WEB으로 이동
-      // alert('move to https://nftpy.io')
-      // if (location.origin !== this.$domain) {
-      //   location.href = this.$domain
-      // }
-    }
+    // // CORDOVA APP인 경우, /app/loginApp 화면으로 이동
+    // if ((this.$q.platform.is.cordova === true || this.$q.platform.is.name === 'webkit') && location.origin !== this.$frontDomain
+    //   // && this.$q.platform.is.mobile === true && (this.$q.platform.is.platform === 'andriod' || this.$q.platform.is.platform === 'ios')
+    // ) {
+    //   this.$router.push('/app/loginApp')
+    //   // https://nftpy.io WEB으로 이동
+    //   // alert('move to https://nftpy.io')
+    //   // if (location.origin !== this.$domain) {
+    //   //   location.href = this.$domain
+    //   // }
+    // }
 
     // 화면 리사이즈 이벤트 핸들러
     window.addEventListener("resize", this.resizeEventHandler)
@@ -254,7 +269,9 @@ export default defineComponent({
       this.smallSize = true
     }
 
-    this.selectListMax()
+    // this.selectListMax()
+
+    this.selectProjectListAsView()
 
   },
   destroy: function () {
@@ -389,6 +406,13 @@ export default defineComponent({
           if (done) {
             done()
           }
+        })
+    },
+    selectProjectListAsView() {
+      this.$axios.get('/api/project/selectProjectListAsView', {params: {limit: 12}})
+      .then((result) => {
+          console.log(result.data)
+          this.projectList = result.data
         })
     },
 

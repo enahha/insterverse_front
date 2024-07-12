@@ -162,8 +162,9 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: 'privacy', component: () => import('pages/terms/Privacy.vue') },
-      { path: 'terms', component: () => import('pages/terms/Terms.vue') },
+      // { path: 'privacy', component: () => import('pages/terms/Privacy.vue') },
+      // { path: 'terms', component: () => import('pages/terms/Terms.vue') },
+      { path: '', component: () => import('pages/Main.vue') },
     ]
   },
 
