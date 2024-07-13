@@ -25,13 +25,13 @@
                   </a> -->
                 </td>
                 <td align="left" width="100">
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="q-pl-xs" style="margin-top: 0px;">
                       <a style="cursor: pointer;" @click="goHome">
                         <span class="text-black doc-h2">Instarverse</span>
                       </a>
                     </div>
-                  </div>
+                  </div> -->
                 </td>
                 <td>
                   <!-- <div class="q-pl-xs">
@@ -340,7 +340,7 @@
       <q-scroll-area dark :vertical-thumb-style="{width: '10px'}" :style="`width: 100%; height: ${ scrollAreaHeight }px;`">
 
 
-        <q-list class="q-mt-sm">
+        <q-list class="">
           <!--
           <q-item-label
             class="bg-grey-4"
@@ -405,10 +405,14 @@
           <q-item clickable to="/web">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
-              <q-icon name="home" style="width: 20px; height: 20px;" />
+              <!-- <q-icon name="home" style="width: 20px; height: 20px;" /> -->
+              <q-img src="logo/logo_instarverse.png" width="40px" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ $t('menu_home') }}</q-item-label>
+              <q-item-label>
+                <!-- {{ $t('menu_home') }} -->
+                <q-img src="logo/logo_instarverse_main2.png" width="90px" />
+              </q-item-label>
             </q-item-section>
           </q-item>
 

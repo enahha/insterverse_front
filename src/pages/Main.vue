@@ -1,8 +1,9 @@
 <template>
   <!-- <q-page class="justify justify-center" style="background-image: url(images/star1.jpg)"> -->
   <q-page class="justify justify-center">
-    <img src="images/main_exhibition.png" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " />
-    <div class="page-1200" style="word-break: keep-all; padding-top: 200px;">
+    <!-- <img src="images/main_exhibition.png" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
+    <div class="page-1200" style="word-break: keep-all; padding-top: 0px;">
+      <q-img src="images/main_exhibition.png" style="width: 100%; max-width: 1280px;" />
 
 
       <!-- <div class="text-center" v-if="locale === 'en-US'">
