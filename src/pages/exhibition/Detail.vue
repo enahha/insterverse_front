@@ -694,12 +694,12 @@
               </div>
               <div class="row q-pt-sm q-pb-sm">
                 <div class="col-4">
-                  <span style="cursor: pointer; text-body2" @click="showReplyInput(item)">{{ $t('register_reply') }}</span>
-                  <span v-if="item.group_layer === 0" style="cursor: pointer; text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt1 }})</span>
-                  <span v-if="item.group_layer === 1" style="cursor: pointer; text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt2 }})</span>
-                  <span v-if="item.group_layer === 2" style="cursor: pointer; text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt3 }})</span>
-                  <span v-if="item.group_layer === 3" style="cursor: pointer; text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt4 }})</span>
-                  <span v-if="item.group_layer === 4" style="cursor: pointer; text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt5 }})</span>
+                  <span style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">{{ $t('register_reply') }}</span>
+                  <span v-if="item.group_layer === 0" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt1 }})</span>
+                  <span v-if="item.group_layer === 1" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt2 }})</span>
+                  <span v-if="item.group_layer === 2" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt3 }})</span>
+                  <span v-if="item.group_layer === 3" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt4 }})</span>
+                  <span v-if="item.group_layer === 4" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt5 }})</span>
                   <span v-else></span>
                 </div>
                 <!-- <div class="col-4"></div> -->
