@@ -276,6 +276,7 @@
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
+      class="bg-grey-3"
       show-if-above
     >
       <!-- <q-toolbar class="page-default text-left shadow-1">
@@ -364,8 +365,7 @@
 
           <!-- 1. HOME -->
           <q-item clickable to="/web">
-            &nbsp;&nbsp;&nbsp;
-            <q-item-section avatar>
+            <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="home" style="width: 20px; height: 20px;" /> -->
               <q-img src="logo/logo_instarverse.png" width="40px" />
             </q-item-section>
@@ -379,8 +379,7 @@
 
           <!-- PROJECT LIST -->
           <q-item clickable to="/exhibition">
-            &nbsp;&nbsp;&nbsp;
-            <q-item-section avatar>
+            <q-item-section avatar class="q-pt-md">
               <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
             </q-item-section>
             <q-item-section>
@@ -390,8 +389,7 @@
 
           <!-- PROJECT RESISTER -->
           <q-item clickable to="/project">
-            &nbsp;&nbsp;&nbsp;
-            <q-item-section avatar>
+            <q-item-section avatar class="q-pt-md">
               <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
             </q-item-section>
             <q-item-section>
@@ -558,8 +556,7 @@
 
             <!-- ADMIN USER LIST -->
             <q-item clickable to="/admin/adminUserList">
-              &nbsp;&nbsp;&nbsp;
-              <q-item-section avatar>
+              <q-item-section avatar class="q-pt-md">
                 <q-icon name="account_circle" style="width: 20px; height: 20px;" />
               </q-item-section>
               <q-item-section>
@@ -569,8 +566,7 @@
 
             <!-- ADMIN MAINTENANCE -->
             <q-item clickable to="/admin/adminMaintenance">
-              &nbsp;&nbsp;&nbsp;
-              <q-item-section avatar>
+              <q-item-section avatar class="q-pt-md">
                 <q-icon name="settings" style="width: 20px; height: 20px;" />
               </q-item-section>
               <q-item-section>
@@ -585,8 +581,8 @@
 
         <q-list class="bottom-items">
           <!-- ABOUT US -->
-          <q-item clickable to="/project/registerProject">
-            <q-item-section avatar>
+          <q-item clickable to="/introduction">
+            <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
             <q-item-section>
@@ -595,8 +591,8 @@
           </q-item>
 
           <!-- QUESTIONS -->
-          <q-item clickable to="/project/registerProject">
-            <q-item-section avatar>
+          <q-item clickable to="/contact">
+            <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
             <q-item-section>
@@ -604,70 +600,62 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
-            <q-item-section avatar>
-              <q-btn
-                flat
-                dense
-                round
-                color="black"
-                icon="language"
-                aria-label="Menu"
-              >
-              <q-menu>
-                <div class="no-wrap q-pa-sm pd-xy">
-                  <!-- settings -->
-                  <div class="q-pt-xs q-pb-xs">
-                    <div class="row text-center">
-                      <div class="col q-pl-xs q-pr-sm">
-                        <q-btn
-                          v-if="locale === 'ko-KR'"
-                          color=""
-                          push
-                          size="md"
-                          label="English"
-                          no-caps
-                          @click="changeLocale('en-US')"
-                        />
-                        <q-btn
-                          v-if="locale !== 'ko-KR'"
-                          color="grey"
-                          push
-                          size="md"
-                          label="English"
-                          no-caps
-                          disable
-                        />
-                      </div>
-                      <div class="col q-pl-sm q-pr-xs">
-                        <q-btn
-                          v-if="locale === 'en-US'"
-                          color=""
-                          push
-                          size="md"
-                          label="Korean"
-                          no-caps
-                          @click="changeLocale('ko-KR')"
-                        />
-                        <q-btn
-                          v-if="locale !== 'en-US'"
-                          color="grey"
-                          push
-                          size="md"
-                          label="Korean"
-                          no-caps
-                          disable
-                        />
-                      </div>
+          <!-- LANGUAGE -->
+          <q-item clickable>
+            <q-icon name="language" size="sm" class="q-pt-md q-pb-sm" />
+            <q-menu>
+              <div class="no-wrap q-pa-sm pd-xy">
+                <!-- settings -->
+                <div class="q-pt-xs q-pb-xs">
+                  <div class="row text-center">
+                    <div class="col q-pl-xs q-pr-sm">
+                      <q-btn
+                        v-if="locale === 'ko-KR'"
+                        color=""
+                        push
+                        size="md"
+                        label="English"
+                        no-caps
+                        @click="changeLocale('en-US')"
+                      />
+                      <q-btn
+                        v-if="locale !== 'ko-KR'"
+                        color="grey"
+                        push
+                        size="md"
+                        label="English"
+                        no-caps
+                        disable
+                      />
                     </div>
-
+                    <div class="col q-pl-sm q-pr-xs">
+                      <q-btn
+                        v-if="locale === 'en-US'"
+                        color=""
+                        push
+                        size="md"
+                        label="Korean"
+                        no-caps
+                        @click="changeLocale('ko-KR')"
+                      />
+                      <q-btn
+                        v-if="locale !== 'en-US'"
+                        color="grey"
+                        push
+                        size="md"
+                        label="Korean"
+                        no-caps
+                        disable
+                      />
+                    </div>
                   </div>
-
                 </div>
-              </q-menu>
-              </q-btn>
-            </q-item-section>
+              </div>
+            </q-menu>
           </q-item>
+
+
+
 
         </q-list>
 
@@ -1368,6 +1356,7 @@ export default defineComponent({
 <style scoped>
 .bottom-items {
   position: absolute;
+  width: 110px;
   bottom: 0;
 }
 </style>

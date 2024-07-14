@@ -145,6 +145,20 @@ const routes = [
     ]
   },
   {
+    path: '/introduction',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/introduction/Introduction.vue') },
+    ]
+  },
+  {
+    path: '/contact',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/contact/Contact.vue') },
+    ]
+  },
+  {
     path: '/import',
     component: () => import('layouts/MainLayout.vue'),
     children: [

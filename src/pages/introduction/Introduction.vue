@@ -14,19 +14,7 @@
           <br />Youngdae Ahn
         </div>
         <div>
-          DEV
-        </div>
-        <div class="text-h5 text-bold">
-          <br />Jihoon Yoon
-        </div>
-        <div>
-          DEV
-        </div>
-        <div class="text-h5 text-bold">
-          <br />JinUi Lee
-        </div>
-        <div>
-          Marketing
+          Star Inc.
         </div>
         <div>
           <br />

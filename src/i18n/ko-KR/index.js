@@ -109,7 +109,7 @@ export default {
   menu_inquiry_register: '문의사항 등록',
   menu_inquiry_register_description: '문의사항을 등록합니다.',
   about_us: '인스타버스란?',
-  questions: '문의',
+  questions: '문의하기',
 
   // inquiry
   inquiry_title: '제목',
