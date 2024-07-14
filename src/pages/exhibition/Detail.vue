@@ -106,7 +106,7 @@
       <div class="row">
         <div class="col-12">
           <br />
-          <q-btn class="btn" color="primary" text-color="black" size="lg" style="width: 100%;" no-caps @click="exhibition_enter">
+          <q-btn class="btn" color="white" text-color="black" size="lg" style="width: 100%;" no-caps @click="exhibition_enter">
             <b>{{ $t('exhibition_enter') }}</b>
           </q-btn>
         </div>
@@ -151,7 +151,7 @@
         <div class="row">
           <div class="col-12">
             <br />
-            <q-btn class="btn" color="primary" text-color="black" size="lg" style="width: 100%;" no-caps @click="exhibition_enter">
+            <q-btn class="btn" color="white" text-color="black" size="lg" style="width: 100%;" no-caps @click="exhibition_enter">
               <b>{{ $t('exhibition_enter') }}</b>
             </q-btn>
           </div>
