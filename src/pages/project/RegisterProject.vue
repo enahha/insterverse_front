@@ -1,5 +1,19 @@
 <template>
-  <q-page class="q-pa-md page-default project-reg-wrap">
+  <q-page class="page-default q-pa-md project-reg-wrap">
+    <div class="row justify-center page-tit">
+      <div class="col-12 doc-heading doc-h2">
+        {{ $t('menu_project_register') }}
+      </div>
+    </div>
+    <div class="row q-pl-md justify-center page-sub-tit">
+      <div class="col-12">
+        {{ $t('menu_project_register_description') }}
+      </div>
+    </div>
+    <div class="row justify-center q-pb-md">
+    </div>
+
+  <!-- <q-page class="page-default q-pa-md project-reg-wrap">
     <div class="row justify-center page-tit">
       <div class="col-12 doc-heading doc-h2">
         {{ $t('menu_project_register') }}
@@ -11,7 +25,8 @@
       </div>
     </div>
     <div class="row justify-center q-pb-md">
-    </div>
+    </div> -->
+    
 
     <div class="row justify-center q-pt-lg">
       <div class="col-12">

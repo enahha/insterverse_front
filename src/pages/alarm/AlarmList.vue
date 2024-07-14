@@ -16,7 +16,7 @@
     <div class="row srch-wrap">
       <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" clearable outlined />
       &nbsp;&nbsp;
-      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outline />
+      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outlined />
       <!-- &nbsp;&nbsp;
       <q-btn @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" /> -->
     </div>
@@ -165,7 +165,7 @@ export default defineComponent({
         this.$router.push({ path: '/vote/VoteDetail', query: { s: item.target_seq }})
       } else if (item.alarm_cd === 'PROJECT') {
         // 프로젝트 상세 화면으로 이동
-        this.$router.push({ path: '/project/ProjectDetail', query: { s: item.target_seq }})
+        this.$router.push({ path: '/exhibition/detail', query: { s: item.target_seq }})
 
       } else {
         // 추후 확장

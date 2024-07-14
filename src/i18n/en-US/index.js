@@ -966,7 +966,12 @@ export default {
   menu_project_list: 'Exhibition',
   menu_project_list_description: 'Instarverse Exhibitions',
   menu_project_register: 'Register Exhibition',
-  menu_project_register_description: 'Register Project.',
+  menu_project_selection_description: 'Please choose how to register your Exhibition.',
+  menu_project_register_description: 'Register exhibition information.',
+  menu_import: 'Import',
+  menu_import_description: 'Import from another platform.',
+  menu_import_instagram: 'Import from Instagram',
+  menu_import_instagram_description: 'Import from Instagram.',
   menu_project_modify: 'Modify Project',
   menu_project_modify_description: 'Modify Project.',
   best_exhibition: 'Best exhibition',
@@ -1076,6 +1081,21 @@ export default {
   confirm_delete: 'Delete it?',
   confirm_create: 'Create it?',
   confirm_go_back: 'Go Back?',
+
+  // project register - select type
+  register_project_title: 'Register',
+  register_project_detail: 'Upload artworks directly.',
+  import_project_title: 'Import',
+  import_project_detail: 'Import artworks from other platforms.',
+
+  // project register - select platform
+  import_from_instagram: 'Instagram',
+  import_from_x: 'X (Twitter)',
+  import_from_meta: 'Meta (Facebook)',
+  import_from_devianart: 'DevianArt',
+  import_from_artstation: 'ArtStation',
+  import_from_behance: 'Behance',
+  import_from_dribbble: 'Dribbble',
 
   // project register
   project_type: 'Project Type',

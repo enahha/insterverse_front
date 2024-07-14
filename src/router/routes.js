@@ -72,7 +72,7 @@ const routes = [
     path: '/i',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/project/ProjectDetail.vue') },
+      { path: '', component: () => import('src/pages/exhibition/Detail.vue') },
     ]
   },
   // vote info
@@ -123,16 +123,33 @@ const routes = [
     ]
   },
   {
+    path: '/exhibition',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('src/pages/exhibition/ProjectList.vue') },
+      { path: 'detail', component: () => import('src/pages/exhibition/Detail.vue') },
+    ]
+  },
+  {
     path: '/project',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: 'projectList', component: () => import('pages/project/ProjectList.vue') },
+      { path: '', component: () => import('src/pages/project/SelectType.vue') },
+      { path: 'selectPlatform', component: () => import('src/pages/project/SelectPlatform.vue') },
       { path: 'instagramList', component: () => import('pages/project/InstagramList.vue') },
       { path: 'youtubeList', component: () => import('pages/project/YoutubeList.vue') },
       { path: 'myProjectList', component: () => import('pages/project/MyProjectList.vue') },
       { path: 'registerProject', component: () => import('pages/project/RegisterProject.vue') },
+      { path: 'registerProjectInstagram', component: () => import('pages/project/RegisterProjectInstagram.vue') },
       { path: 'modifyProject', component: () => import('pages/project/ModifyProject.vue') },
-      { path: 'projectDetail', component: () => import('pages/project/ProjectDetail.vue') },
+    ]
+  },
+  {
+    path: '/import',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/import/Import.vue') },
+      { path: 'importInstagram', component: () => import('pages/import/ImportInstagram.vue') },
     ]
   },
   {

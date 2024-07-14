@@ -18,7 +18,7 @@
       &nbsp;&nbsp;
       <q-btn @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" />
       &nbsp;&nbsp;
-      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outline />
+      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outlined />
     </div>
 
     <div class="q-pb-md q-pl-sm row">

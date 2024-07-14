@@ -306,7 +306,7 @@ export default defineComponent({
       //   // 키워드 설정
       //   this.$store.dispatch('setKeyword', this.keyword)
       // }
-      this.$axios.get('/api/instagram/selectInstagramMediaList',
+      this.$axios.get('/api/instagram/selectInstagramMediaList777',
         {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword, maxId: this.maxId}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))

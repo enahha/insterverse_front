@@ -103,11 +103,11 @@
 
                       <q-item-section side>
                         <div class="row items-center">
-                          <q-btn v-if="item.done_yn === 'Y'" color="grey" style="width: 50px;" outline dense no-caps>
+                          <q-btn v-if="item.done_yn === 'Y'" color="grey" style="width: 50px;" outlined dense no-caps>
                             <span v-if="select_type === 'SCORE'">+ {{ item.score }}</span>
                             <span v-else>{{ $t('visit') }}</span>
                           </q-btn>
-                          <q-btn v-else color="primary" style="width: 50px;" outline dense no-caps>
+                          <q-btn v-else color="primary" style="width: 50px;" outlined dense no-caps>
                             <span v-if="select_type === 'SCORE'">+ {{ item.score }}</span>
                             <span v-else>{{ $t('visit') }}</span>
                           </q-btn>

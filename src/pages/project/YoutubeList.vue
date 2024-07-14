@@ -18,7 +18,7 @@
       <!-- &nbsp;&nbsp;
       <q-btn @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" /> -->
       &nbsp;&nbsp;
-      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outline />
+      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outlined />
     </div>
 
     <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
@@ -178,7 +178,7 @@ export default defineComponent({
     },
     // goDetail(seq) {
     //   // 상세 화면으로 이동
-    //   this.$router.push({ path: '/project/projectDetail', query: { s: seq }})
+    //   this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
     //   // this.$refs.refTokenDetailModal.tokenSeq = seq
     //   // this.$refs.refTokenDetailModal.show()
     // },

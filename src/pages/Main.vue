@@ -317,7 +317,7 @@ export default defineComponent({
     },
     goDetail(seq) {
       // 상세 화면으로 이동
-      this.$router.push({ path: '/project/projectDetail', query: { s: seq }})
+      this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
       // this.$refs.refTokenDetailModal.tokenSeq = seq
       // this.$refs.refTokenDetailModal.show()
     },
@@ -445,7 +445,7 @@ export default defineComponent({
       window.open('https://nftpy.io/files/ipa/klaystar.ipa')
     },
     goProjectDetail() {
-      this.$router.push({ path: '/project/projectDetail', query: { s: 1 }})
+      this.$router.push({ path: '/exhibition/detail', query: { s: 1 }})
     },
   }
 })

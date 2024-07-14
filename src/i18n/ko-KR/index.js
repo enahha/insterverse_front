@@ -965,8 +965,13 @@ export default {
   menu_alarm_list_description: '알림 목록입니다.',
   menu_project_list: '전시회',
   menu_project_list_description: '인스타버스 전시회',
-  menu_project_register: '전시 하기',
-  menu_project_register_description: '전시회 등록합니다.',
+  menu_project_register: '전시하기',
+  menu_project_selection_description: '전시회 등록 방법을 선택해주세요.',
+  menu_project_register_description: '전시회 정보를 등록합니다.',
+  menu_import: '가져오기',
+  menu_import_description: '다른 플랫폼에서 가져오기.',
+  menu_import_instagram: '인스타그램에서 가져오기',
+  menu_import_instagram_description: '인스타그램에서 가져오기.',
   menu_project_modify: '프로젝트 수정',
   menu_project_modify_description: '프로젝트를 수정합니다.',
   best_exhibition: '인기 전시',
@@ -1076,6 +1081,25 @@ export default {
   confirm_delete: '삭제하시겠습니까?',
   confirm_create: '생성하시겠습니까?',
   confirm_go_back: '돌아가시겠습니까?',
+
+  // project register - select type
+  register_project_title: '직접 등록하기',
+  register_project_detail: '작품을 직접 등록합니다.',
+  import_project_title: '가져오기',
+  import_project_detail: '다른 플랫폼에 등록되어 있는 작품을 가져와서 전시합니다.',
+
+  // project register - select platform
+  import_from_instagram: 'Instagram',
+  import_from_x: 'X (Twitter)',
+  import_from_meta: 'Meta (Facebook)',
+  import_from_devianart: 'DevianArt',
+  import_from_artstation: 'ArtStation',
+  import_from_behance: 'Behance',
+  import_from_dribbble: 'Dribbble',
+
+  // project register instagram
+
+
 
   // project register
   project_type: '프로젝트 타입',

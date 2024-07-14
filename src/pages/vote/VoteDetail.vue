@@ -74,7 +74,7 @@
       <!-- holder_list -->
       <div class="row justify-center q-pt-sm q-pb-md holder-list-wrap">
         <div class="col-12 text-center">
-          <q-btn class="btn" text-color="black" size="lg" style="width: 98%; max-width: 200px;" no-caps @click="showHolderList" outline rounded>
+          <q-btn class="btn" text-color="black" size="lg" style="width: 98%; max-width: 200px;" no-caps @click="showHolderList" outlined rounded>
             <b>{{ $t('vote_holder_list') }}</b>
           </q-btn>
         </div>
@@ -162,7 +162,7 @@
         <!-- holder_list -->
         <div class="row justify-center q-pt-sm q-pb-md holder-list-wrap">
           <div class="col-12 text-center">
-            <q-btn class="btn" text-color="black" size="lg" style="width: 98%; max-width: 200px;" no-caps @click="showHolderList" outline rounded>
+            <q-btn class="btn" text-color="black" size="lg" style="width: 98%; max-width: 200px;" no-caps @click="showHolderList" outlined rounded>
               <b>{{ $t('vote_holder_list') }}</b>
             </q-btn>
           </div>

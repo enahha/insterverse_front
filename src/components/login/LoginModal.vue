@@ -258,7 +258,7 @@
         <tr>
           <td colspan="3">
             <div class="col-12" style="height: 56px;">
-            <!-- <q-btn :loading="loading" text-color="black" outline style="width: 100%; height: 40px; min-width: 30px;" @click="sendMailCode(userVo.uid)"> -->
+            <!-- <q-btn :loading="loading" text-color="black" outlined style="width: 100%; height: 40px; min-width: 30px;" @click="sendMailCode(userVo.uid)"> -->
               <!-- <span v-if="loading">
                 <q-spinner-oval class="" />
               </span> -->
@@ -416,7 +416,7 @@
         <tr>
           <td colspan="3">
             <div class="col-12" style="height: 56px;">
-            <!-- <q-btn :loading="loading" text-color="black" outline style="background-color: #90B2D8; width: 100%; height: 56px; min-width: 30px;" @click="sendMailCode(userVo.uid)"> -->
+            <!-- <q-btn :loading="loading" text-color="black" outlined style="background-color: #90B2D8; width: 100%; height: 56px; min-width: 30px;" @click="sendMailCode(userVo.uid)"> -->
               <!-- <span v-if="loading">
                 <q-spinner-oval class="" />
               </span> -->

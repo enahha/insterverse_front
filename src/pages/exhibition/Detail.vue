@@ -163,7 +163,6 @@
   <q-page class="page-default project-detail-wrap">
     <q-tabs
       v-model="tab"
-      class="bg-grey-1 shadow-0"
       no-caps
       align="justify"
       inline-label

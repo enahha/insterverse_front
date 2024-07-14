@@ -214,12 +214,13 @@ textarea {
 }
 //탭
 .q-tabs {
-    background: #1b1f24 !important;
+    // background: #1b1f24 !important;
     margin-top: 20px;
     .q-tab {
         padding: 0 0;
         min-height: 60px;
-        border-bottom: 2px solid #646464;
+        // border-bottom: 2px solid #646464;
+        border-bottom: 2px solid #f2f2f2;
         &.q-tab--active {
             .q-tab__indicator {
                 bottom: -2px;
@@ -228,7 +229,8 @@ textarea {
     }
 }
 .q-tab-panels {
-    background: #1b1f24;
+    // background: #1b1f24;
+    // background: #f2f2f2;
     font-size: 1rem;
     .q-tab-panel {
         padding: 40px 55px;
@@ -245,55 +247,55 @@ textarea {
     }
 }
 //팝업
-.q-dialog {
-    .q-layout-container {
-        background: #000000 !important;
-        .q-header {
-            background: #272a2f !important;
-            left: 0 !important;
-            border-bottom: 1px solid #ddd;
-            .q-toolbar {
-                padding: 0 20px !important;
-            }
-            i, .q-toolbar__title {
-                color: #fff !important;
-            }
-            .q-toolbar__title {
-                font-size: 17px;
-                span {
-                    font-size: 13px;
-                }
-            }
-        }
-        .q-card {
-            background: #272a2f !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            border: 0 !important;
-            font, span {
-                color: #fff !important;
-            }
-        }
-    }
-    .q-page-container {
-        background: #272a2f !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-    .srch-wrap {
-        margin-top: 0;
-    }
-    .q-card__section {
-        color: #fff !important;
-    }
-    .q-card__actions {
-        button {
-            color: #fff !important;
-            border: 1px solid #ffffff38 !important;
-            line-height: 0.9;
-        }
-    }
-}
+// .q-dialog {
+//     .q-layout-container {
+//         background: #000000 !important;
+//         .q-header {
+//             background: #272a2f !important;
+//             left: 0 !important;
+//             border-bottom: 1px solid #ddd;
+//             .q-toolbar {
+//                 padding: 0 20px !important;
+//             }
+//             i, .q-toolbar__title {
+//                 color: #fff !important;
+//             }
+//             .q-toolbar__title {
+//                 font-size: 17px;
+//                 span {
+//                     font-size: 13px;
+//                 }
+//             }
+//         }
+//         .q-card {
+//             background: #272a2f !important;
+//             box-shadow: none !important;
+//             border-radius: 0 !important;
+//             border: 0 !important;
+//             font, span {
+//                 color: #fff !important;
+//             }
+//         }
+//     }
+//     .q-page-container {
+//         background: #272a2f !important;
+//         padding-left: 0 !important;
+//         padding-right: 0 !important;
+//     }
+//     .srch-wrap {
+//         margin-top: 0;
+//     }
+//     .q-card__section {
+//         color: #fff !important;
+//     }
+//     .q-card__actions {
+//         button {
+//             color: #fff !important;
+//             border: 1px solid #ffffff38 !important;
+//             line-height: 0.9;
+//         }
+//     }
+// }
 //댓글 리스트
 .comment-wrap {
     padding: 40px 55px;
@@ -338,14 +340,14 @@ textarea {
         }
     }
 }
-.q-menu {
-    box-shadow: 2px 7px 14px 1px rgb(70 70 70 / 26%), 0 3px 6px rgb(70 70 70 / 9%), 0 5px 5px rgb(70 70 70 / 8%) !important;
-    background: #E1D2BB !important;
-    border-radius: 15px !important;
-    .q-btn--push.q-btn--actionable {
-        background: #B0704D !important;
-    }
-}
+// .q-menu {
+//     box-shadow: 2px 7px 14px 1px rgb(70 70 70 / 26%), 0 3px 6px rgb(70 70 70 / 9%), 0 5px 5px rgb(70 70 70 / 8%) !important;
+//     background: #E1D2BB !important;
+//     border-radius: 15px !important;
+//     .q-btn--push.q-btn--actionable {
+//         background: #B0704D !important;
+//     }
+// }
 //상단
 .acount-info-wrap {
     span {
@@ -393,7 +395,8 @@ textarea {
     top: 110px;
     width: 420px;
     height: 560px;
-    background: #121418;
+    // background: #121418;
+    background: #f2f2f2;
     padding: 30px 30px;
     color: #fff;
     border-radius: 20px;
@@ -481,7 +484,8 @@ textarea {
 //공지사항 게시판
 .notice-list {
     margin-top: 25px;
-    background: #121418;
+    // background: #121418;
+    background: #f2f2f2;
     border-radius: 15px;
     border-radius: 5px;
     // padding: 10px 15px;
@@ -524,7 +528,8 @@ textarea {
 }
 //알람 게시판
 .alarm-list {
-    background: #121418;
+    // background: #121418;
+    background: #f2f2f2;
     border-radius: 15px;
     padding: 10px 15px;
     .q-infinite-scroll {
@@ -814,7 +819,8 @@ textarea {
 }
 //홀더 리스트
 .holder-list {
-    background: #121418;
+    // background: #121418;
+    background: #f2f2f2;
     // border-radius: 15px;
     border-radius: 5px;
     // padding: 10px 15px;
@@ -856,23 +862,23 @@ textarea {
     }
 }
 //파일첨부
-.q-uploader {
-    background: transparent !important;
-    .q-uploader__header {
-        background: #050506 !important;
-        color: #fff !important;
-    }
-    .q-uploader__list {
-        background: #050506;
-        border-top: 1px solid #ddd;
-    }
-}
+// .q-uploader {
+//     background: transparent !important;
+//     .q-uploader__header {
+//         background: #050506 !important;
+//         color: #fff !important;
+//     }
+//     .q-uploader__list {
+//         background: #050506;
+//         border-top: 1px solid #ddd;
+//     }
+// }
 //에디터
 .q-editor {
-    background: #050506 !important;
+    // background: #050506 !important;
     border-radius: 7px;
     .q-editor__toolbar {
-        background: #050506 !important;
+        // background: #050506 !important;
         .q-icon {
             font-size: 1.3em !important;
         }
@@ -885,17 +891,17 @@ textarea {
         margin: 0;
     }
     .q-editor__content {
-        background: #050506 !important;
+        // background: #050506 !important;
         border-top: 1px solid #ddd;
     }
 }
-.q-menu {
-    .q-item {
-        * {
-            color: #fff !important;
-        }
-    }
-}
+// .q-menu {
+//     .q-item {
+//         * {
+//             color: #fff !important;
+//         }
+//     }
+// }
 //나의 프로젝트 리스트
 .my-project-list-wrap {
     max-width: 1024px;
@@ -984,35 +990,35 @@ textarea {
 }
 //공통
 .page-default {
-    .q-field__control {
-        padding: 0 0 !important;
-        height: 100% !important;
-        background: #000000d1;
-        border-radius: 10px;
-        max-height: 41px;
-        .q-field__marginal {
-            height: 41px !important;
-            font-size: 21px;
-        }
-        input {
-            background: #000000d1;
-            color: #fff !important;
-            padding: 5px 20px;
-            border-radius: 10px;
-        }
-    }
+    // .q-field__control {
+    //     padding: 0 0 !important;
+    //     height: 100% !important;
+    //     background: #000000d1;
+    //     border-radius: 10px;
+    //     max-height: 41px;
+    //     .q-field__marginal {
+    //         height: 41px !important;
+    //         font-size: 21px;
+    //     }
+    //     input {
+    //         background: #000000d1;
+    //         color: #fff !important;
+    //         padding: 5px 20px;
+    //         border-radius: 10px;
+    //     }
+    // }
     .text-subtitle1 {
         margin-bottom: 1px;
         font-size: 14px;
         font-weight: 300;
     }
-    .q-btn {
-        font-size: 15px !important;
-        &.bg-secondary {
-            background: #01b892 !important;
-            color: #fff !important;
-        }
-    }
+    // .q-btn {
+    //     font-size: 15px !important;
+    //     &.bg-secondary {
+    //         background: #01b892 !important;
+    //         color: #fff !important;
+    //     }
+    // }
 }
 //출금
 .vote-withdraw-wrap {
@@ -1059,20 +1065,20 @@ textarea {
             padding: 0 !important;
         }
     }
-    .q-expansion-item {
-        .q-item {
-            background: #000000d1 !important;
-            border-radius: 10px;
-            min-height: 38px !important;
-        }
-    }
+    // .q-expansion-item {
+    //     .q-item {
+    //         background: #000000d1 !important;
+    //         border-radius: 10px;
+    //         min-height: 38px !important;
+    //     }
+    // }
 }
 //프로젝트등록
 .project-reg-wrap {
     max-width: 1024px;
-    .page-sub-tit {
-        margin-left: 10px;
-    }
+    // .page-sub-tit {
+    //     margin-left: 10px;
+    // }
     .q-field__control {
         .q-field__marginal {
             margin: 0 10px !important;
@@ -1081,17 +1087,17 @@ textarea {
         .q-field__native {
             padding: 5px 20px;
         }
-        span {
-            color: #fff !important;
-        }
+        // span {
+        //     color: #fff !important;
+        // }
     }
-    .q-expansion-item {
-        .q-item {
-            background: #000000d1 !important;
-            border-radius: 10px;
-            min-height: 38px !important;
-        }
-    }
+    // .q-expansion-item {
+    //     .q-item {
+    //         background: #000000d1 !important;
+    //         border-radius: 10px;
+    //         min-height: 38px !important;
+    //     }
+    // }
 }
 //공지사항등록
 //공지사항수정
@@ -1107,13 +1113,13 @@ textarea {
             padding: 0 !important;
         }
     }
-    .q-expansion-item {
-        .q-item {
-            background: #000000d1 !important;
-            border-radius: 10px;
-            min-height: 38px !important;
-        }
-    }
+    // .q-expansion-item {
+    //     .q-item {
+    //         background: #000000d1 !important;
+    //         border-radius: 10px;
+    //         min-height: 38px !important;
+    //     }
+    // }
 }
 .btn-blk {
     font-size: 15px !important;
@@ -1129,9 +1135,11 @@ textarea {
 }
 .q-drawer--right {
     border-left:0;
-    background: #121418 !important;
+    // background: #121418 !important;
+    background: #f2f2f2 !important;
     .q-toolbar {
-        background: #121418 !important;
+        // background: #121418 !important;
+        background: #f2f2f2 !important;
     }
     .q-btn {
         background: #b1c4c0 !important;
@@ -1257,10 +1265,10 @@ textarea {
         }
     }
     //팝업
-    .q-dialog {
-        .q-page-container {
-        }
-    }
+    // .q-dialog {
+    //     .q-page-container {
+    //     }
+    // }
 }
 
 @media (max-width: 1023px) {

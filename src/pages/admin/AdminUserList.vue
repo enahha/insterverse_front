@@ -16,7 +16,7 @@
     <div class="row srch-wrap">
       <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" clearable outlined />
       &nbsp;&nbsp;
-      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outline />
+      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outlined />
     </div>
 
     <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">

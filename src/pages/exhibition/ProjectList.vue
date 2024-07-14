@@ -1,24 +1,24 @@
 <template>
-  <q-page class="page-1200 project-list-wrap">
-    <div class="row q-pt-md q-pl-md justify-center page-tit">
+  <q-page class="page-1200 q-pa-md project-list-wrap">
+    <div class="row justify-center page-tit">
       <div class="col-12 doc-heading doc-h2">
         {{ $t('menu_project_list') }}
       </div>
     </div>
-    <div class="row q-pl-md row justify-center page-sub-tit">
+    <div class="row q-pl-md justify-center page-sub-tit">
       <div class="col-12">
         {{ $t('menu_project_list_description') }}
       </div>
     </div>
-    <!-- <div class="row justify-center q-pb-md">
-    </div> -->
+    <div class="row justify-center q-pb-md">
+    </div>
 
     <div class="row srch-wrap">
-      <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 190px;" clearable />
+      <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 190px;" clearable outlined />
       &nbsp;&nbsp;
       <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
       &nbsp;&nbsp;
-      <q-btn @click="search" icon="search" size="lg" style="width: 80px;" outline />
+      <q-btn @click="search" icon="search" size="lg" style="width: 80px;" />
     </div>
 
     <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
@@ -152,7 +152,7 @@ export default defineComponent({
     // },
     goDetail(seq) {
       // 상세 화면으로 이동
-      this.$router.push({ path: '/project/projectDetail', query: { s: seq }})
+      this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
       // this.$refs.refTokenDetailModal.tokenSeq = seq
       // this.$refs.refTokenDetailModal.show()
     },

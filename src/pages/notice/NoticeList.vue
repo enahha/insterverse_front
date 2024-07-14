@@ -18,7 +18,7 @@
       &nbsp;&nbsp;
       <q-btn v-if="isAdmin" @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" />
 
-      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outline />
+      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outlined />
     </div>
 
     <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">

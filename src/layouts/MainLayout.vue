@@ -314,7 +314,6 @@
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
-      dark
       show-if-above
     >
       <!-- <q-toolbar class="page-default text-left shadow-1">
@@ -376,8 +375,8 @@
               </tr>
               <tr>
                 <td align="center">
-                  <q-btn v-if="getUid" outline style="color: goldenrod; width: 100%;" :label="$t('logout')" @click="logout" rounded />
-                  <q-btn v-if="!getUid" outline style="color: goldenrod; width: 100%;" :label="$t('login')" @click="showLoginModal" rounded />
+                  <q-btn v-if="getUid" outlined style="color: goldenrod; width: 100%;" :label="$t('logout')" @click="logout" rounded />
+                  <q-btn v-if="!getUid" outlined style="color: goldenrod; width: 100%;" :label="$t('login')" @click="showLoginModal" rounded />
                 </td>
               </tr>
             </table>
@@ -417,7 +416,7 @@
           </q-item>
 
           <!-- PROJECT LIST -->
-          <q-item clickable to="/project/projectList">
+          <q-item clickable to="/exhibition">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
               <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
@@ -428,7 +427,7 @@
           </q-item>
 
           <!-- PROJECT RESISTER -->
-          <q-item clickable to="/project/registerProject">
+          <q-item clickable to="/project">
             &nbsp;&nbsp;&nbsp;
             <q-item-section avatar>
               <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
@@ -437,6 +436,19 @@
               <q-item-label>{{ $t('menu_project_register') }}</q-item-label>
             </q-item-section>
           </q-item>
+
+          <!-- IMPORT -->
+          <!--
+          <q-item clickable to="/project/projectSelectionSns">
+            &nbsp;&nbsp;&nbsp;
+            <q-item-section avatar>
+              <q-img src="logo/logo_instagram_square.png" width="30px" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_import') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          -->
 
           <!-- INSTAGRAM LIST -->
           <!--
@@ -771,7 +783,7 @@
               <tr>
                 <td colspan="2" align="center">
                   <div class="q-pt-xs">
-                    <!-- <q-btn outline dense style="color: goldenrod; width: 90%;" :label="$t('logout')" @click="logout" rounded /> -->
+                    <!-- <q-btn outlined dense style="color: goldenrod; width: 90%;" :label="$t('logout')" @click="logout" rounded /> -->
                     <q-btn
                       color="primary"
                       push
