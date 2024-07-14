@@ -13,6 +13,31 @@
     <div class="row justify-center q-pb-xl">
     </div>
 
+    <!-- 상단 버튼 -->
+    <div class="row q-pt-xl">
+      <div class="col-12">
+        <span @click="goBack" style="cursor: pointer;">
+          <q-icon name="arrow_back" size="md" />
+          {{ $t('go_back') }}
+        </span>
+      </div>
+    </div>
+
+    <!-- TOP으로 스크롤 버튼 -->
+    <!-- <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[10, 10]">
+      <q-btn fab icon="keyboard_arrow_up" color="black" style="z-index: 9;" class="z-top" />
+    </q-page-scroller> -->
+    <!-- place QPageScroller at end of page -->
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="" />
+    </q-page-scroller>
+
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
     <!-- <div class="row srch-wrap">
       <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" />
       &nbsp;&nbsp;
@@ -21,9 +46,8 @@
       <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outlined />
     </div> -->
 
-    <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
-      <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
-    </q-page-scroller> -->
+
+    
 
     <!-- <img
       id="image1"
@@ -82,6 +106,22 @@
     <div class="row justify-center q-pa-xl">
     </div>
 
+    <!-- 돌아가기 확인창 -->
+    <q-dialog v-model="confirmGoBack">
+      <q-card>
+        <q-card-section class="row items-center" style="min-width: 200px;">
+          <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
+          <q-icon name="warning" color="primary" size="md" />
+          <span class="q-ml-sm">{{ $t('confirm_go_back') }}</span>
+        </q-card-section>
+        <q-separator />
+        <q-card-actions align="around">
+          <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+          <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
   </q-page>
   <!-- <TokenDetailModal ref="refTokenDetailModal"/> -->
   <WalletModal ref="refWalletModal" />
@@ -102,6 +142,7 @@ export default defineComponent({
   },
   data () {
     return {
+      confirmGoBack: false,
       refresherDone: '',
       pageSize: 24,
       lastPageNum: 3, // 마지막 페이지
@@ -219,9 +260,20 @@ export default defineComponent({
         })
     },
     goBack() {
+      // goBack 확인창 표시
+      this.confirmGoBack = true
+    },
+    doGoBack() {
       // 페이지 이동
       this.$router.go(-1)
-    },
+      // if (this.$route.query.fromAdmin === 'Y') {
+      //   // 나의 프로젝트 리스트 화면 - admin
+      //   this.$router.push('/admin/adminMyList')
+      // } else {
+      //   // 나의 프로젝트 리스트 화면
+      //   this.$router.push('/project/projectList')
+      // }
+    }
 
   },
 })

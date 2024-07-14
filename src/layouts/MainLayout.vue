@@ -135,6 +135,7 @@
         </q-btn>
         -->
 
+        <!--
         <q-btn
           flat
           dense
@@ -143,11 +144,10 @@
           icon="more_vert"
           aria-label="Menu"
         >
-
           <q-menu>
             <div class="no-wrap q-pa-sm pd-xy">
 
-              <!-- acount information -->
+              acount information
               <div class="row justify-center q-pb-xs acount-info-wrap">
                 <div class="col-12" style="word-break: break-all;">
                   <table border="0" style="width: 100%;">
@@ -188,44 +188,6 @@
                           >
                             {{ $t('login') }}
                           </q-btn>
-                          <!-- <q-list bordered separator>
-                            !-- 1. klaystar --
-                            <q-item clickable class="text-center" v-close-popup @click="connectWallet('klaystar')">
-                              <q-item-section avatar>
-                                <img src="logo/logo_instarverse.png" width="32" />
-                              </q-item-section>
-                              <q-item-section>
-                                <q-item-label>{{ $t('wallet_nftpy') }}</q-item-label>
-                              </q-item-section>
-                            </q-item>
-                            !-- 2. kaikas --
-                            <q-item clickable class="text-center" v-close-popup @click="connectWallet('kaikas')">
-                              <q-item-section avatar>
-                                <img src="logo/logo_kaikas.png" width="32" />
-                              </q-item-section>
-                              <q-item-section>
-                                <q-item-label>{{ $t('wallet_kaikas') }}</q-item-label>
-                              </q-item-section>
-                            </q-item>
-                            !-- 3. MetaMask --
-                            <q-item clickable class="text-center" v-close-popup @click="connectWallet('metamask')">
-                              <q-item-section avatar>
-                                <img src="logo/logo_metamask.png" width="32" />
-                              </q-item-section>
-                              <q-item-section>
-                                <q-item-label>{{ $t('wallet_metamask') }}</q-item-label>
-                              </q-item-section>
-                            </q-item>
-                            !-- 4. Klip --
-                            <q-item clickable class="text-center" v-close-popup @click="connectWallet('klip')">
-                              <q-item-section avatar>
-                                <img src="logo/klip.svg" width="32" />
-                              </q-item-section>
-                              <q-item-section>
-                                <q-item-label>{{ $t('wallet_klip') }}</q-item-label>
-                              </q-item-section>
-                            </q-item>
-                          </q-list> -->
                         </div>
                       </td>
                       <td v-if="getUid" align="left">
@@ -256,7 +218,7 @@
                 <q-separator />
               </div>
 
-              <!-- settings -->
+              settings
               <div class="q-pt-xs q-pb-xs">
                 <div class="row text-center">
                   <div class="col q-pl-xs q-pr-sm">
@@ -305,8 +267,8 @@
 
             </div>
           </q-menu>
-
         </q-btn>
+        -->
 
       </q-toolbar>
     </q-header>
@@ -660,7 +622,7 @@
                       <div class="col q-pl-xs q-pr-sm">
                         <q-btn
                           v-if="locale === 'ko-KR'"
-                          color="primary"
+                          color=""
                           push
                           size="md"
                           label="English"
@@ -680,7 +642,7 @@
                       <div class="col q-pl-sm q-pr-xs">
                         <q-btn
                           v-if="locale === 'en-US'"
-                          color="primary"
+                          color=""
                           push
                           size="md"
                           label="Korean"
