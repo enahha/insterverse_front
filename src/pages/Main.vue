@@ -1,9 +1,36 @@
 <template>
   <!-- <q-page class="justify justify-center" style="background-image: url(images/star1.jpg)"> -->
-  <q-page class="justify justify-center">
-    <!-- <img src="images/main_exhibition.png" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
-    <div class="page-1200" style="word-break: keep-all; padding-top: 0px;">
-      <q-img src="images/main_exhibition.png" style="width: 100%; max-width: 1280px;" />
+  <q-page class="justify justify-center main-list">
+    <q-carousel
+      class="benner carousel"
+      v-model="benneSlide"
+      swipeable
+      animated
+      :autoplay="15000"
+      control-color="white"
+      arrows
+      navigation
+      infinite
+      height="1000px"
+      style="margin: -60px auto;"
+    >
+    
+      <template v-slot:navigation-icon="{ active, btnProps, onClick }">
+          <q-btn v-if="active" size="lg" icon="change_history" color="yellow" flat round dense @click="onClick" />
+          <q-btn v-else size="sm" :icon="btnProps.icon" color="white" flat round dense @click="onClick" />
+      </template>
+
+      <q-carousel-slide
+        v-for="item in bannerImage" 
+        :key="item.seq"
+        :name="(item.seq).toString()"
+        :img-src="item.src"
+        style="box-shadow: inset  0px -10px 15px -5px rgba(255, 255, 255, 1);"
+      />
+      <!-- <img :src="item.src" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
+    </q-carousel>
+
+    <div class="page-1200" style="word-break: keep-all; padding-top: 150px;">
 
 
       <!-- <div class="text-center" v-if="locale === 'en-US'">
@@ -19,40 +46,38 @@
       <br />
 
       <!-- 인기 전시 -->
-      <div style="display: flex; align-items: center;">
-        <div class="doc-h2" style="margin-right: 50px;">
+      <div class="best-exhibition">
+        <div class="doc-h2 part-1">
           {{ $t('best_exhibition') }}
         </div>
-        <div class="doc-h2" style="display: flex; flex-grow: 1; align-items: center;">
+        <div class="doc-h2 part-2">
           <div style="width: 20%; height: 5px; background-color: black;"></div>
           <div style="width: 10%; height: 5px;"></div>
           <div style="width: 80%; height: 5px; background-color: black;"></div>
         </div>
       </div>
 
+
       <q-carousel
-        v-model="slide"
+        class="view"
+        v-model="bestSlide"
         swipeable
         animated
-        autoplay
+        :autoplay="10000"
+        control-color="black"
         infinite
         flat
-        interval="5000"
-        control-color="purple"
         navigation
         padding
         arrows
-        transition-prev="slide-right"
-        transition-next="slide-left"
-        height="300px"
-        class="full-width"
+        height="450px"
       >
         <q-carousel-slide
           v-for="(group, index) in groupedItems" 
           :key="index"
           :name="index.toString()"
         >
-          <div class="row">
+          <div class="row item-container">
             <div class="col" v-for="item in group" :key="item.seq">
               <q-item clickable @click="goDetail(item.seq)">
                 <q-item-section avatar>
@@ -64,10 +89,10 @@
 
                 <q-item-section>
                   <div class="row list-item">
-                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
-                    <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
-                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
-                    <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
+                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateString(item.title_ko) }}</q-item-label>
+                    <q-item-label v-else class="col-12">{{ truncateString(item.title) }}</q-item-label>
+                    <!-- <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label> -->
+                    <!-- <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label> -->
                   </div>
                 </q-item-section>
               </q-item>
@@ -76,6 +101,66 @@
         </q-carousel-slide>
       </q-carousel>
 
+      <div style="padding-top: 150px;"></div>
+
+      <!-- 신규 전시 -->
+      <div class="new-exhibition">
+        <div class="doc-h2 part-1">
+          <div style="width: 100%; height: 5px; background-color: black;"></div>
+        </div>
+        <div class="doc-h2 part-2">
+          {{ $t('new_exhibition') }}
+        </div>
+        <div class="doc-h2 part-3">
+          <div style="width: 100%; height: 5px; background-color: black;"></div>
+        </div>
+      </div>
+
+
+      <q-carousel
+        class="view"
+        v-model="newSlide"
+        swipeable
+        animated
+        :autoplay="10000"
+        control-color="black"
+        infinite
+        flat
+        navigation
+        padding
+        arrows
+        height="450px"
+      >
+        <q-carousel-slide
+          v-for="(group, index) in groupedItems" 
+          :key="index"
+          :name="index.toString()"
+        >
+          <div class="row item-container">
+            <div class="col" v-for="item in group" :key="item.seq">
+              <q-item clickable @click="goDetail(item.seq)">
+                <q-item-section avatar>
+                  <q-avatar>
+                    <img v-if="item.logo_image" :src="item.logo_image" />
+                    <q-icon v-else name="rocket_launch" size="md" />
+                  </q-avatar>
+                </q-item-section>
+
+                <q-item-section>
+                  <div class="row list-item">
+                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateString(item.title_ko) }}</q-item-label>
+                    <q-item-label v-else class="col-12">{{ truncateString(item.title) }}</q-item-label>
+                    <!-- <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label> -->
+                    <!-- <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label> -->
+                  </div>
+                </q-item-section>
+              </q-item>
+            </div>
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
+
+      
 
       <!-- 하단 공간 확보 -->
       <div class="row justify-center q-pa-xl">
@@ -225,7 +310,24 @@ export default defineComponent({
       projectList: [],
       noDataFlag: false,
       keyword: '', // 검색키워드
-      slide: '0'
+      benneSlide: '0',
+      bestSlide: '0',
+      newSlide: '0',
+
+      bannerImage: [
+        {
+          seq: 0,
+          src: 'images/main_exhibition.png',
+        },
+        {
+          seq: 1,
+          src: 'images/token_temp_image.png',
+        },
+        {
+          seq: 2,
+          src: 'images/og_image_vote.png',
+        },
+      ]
     }
   },
   components: {
@@ -300,6 +402,13 @@ export default defineComponent({
     //   // }
     //   location.href = this.$domain
     // },
+    truncateString(str) {
+      const maxLength = 30
+      if (str.length <= maxLength) {
+        return str;
+      }
+      return str.slice(0, maxLength - 3) + '...';
+    },
     resizeEventHandler() {
       // console.log('resizeEventHandler')
       // console.log(document.body.offsetWidth)

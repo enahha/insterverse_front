@@ -1,17 +1,20 @@
 <template>
   <q-page class="page-1200 q-pa-md project-list-wrap">
     <div class="row justify-center page-tit">
-      <div class="col-12 doc-heading doc-h2">
-        {{ $t('menu_project_list') }}
+      <div class="col-12 doc-heading title" v-if="locale === 'ko-KR'">
+        {{ $t('menu_project_list') }}   <span  class="subtitle">Exhibition</span>
+      </div>
+      <div class="col-12 doc-heading title" v-else>
+        {{ $t('menu_project_list') }}   <span class="subtitle">전시회</span>
       </div>
     </div>
-    <div class="row q-pl-md justify-center page-sub-tit">
+    <!-- <div class="row q-pl-md justify-center page-sub-tit">
       <div class="col-12">
         {{ $t('menu_project_list_description') }}
       </div>
     </div>
     <div class="row justify-center q-pb-md">
-    </div>
+    </div> -->
 
     <div class="row srch-wrap">
       <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 190px;" clearable outlined />

@@ -9,7 +9,7 @@
     word-break: break-all;
 }
 .page-1200 {
-    max-width: 1280px;
+    max-width: 1600px;
     margin-left: auto;
     margin-right: auto;
     word-break: break-all;
@@ -64,9 +64,9 @@ textarea {
 }
 .q-page-container {
     background: #FEFEFE;
-    padding: 0 15px;
+    padding: 0 0px;
     .q-icon {
-        color: #000000 !important;
+        // color: #000000 !important;
         opacity: 1;
         &:hover {
             opacity: 0.65;
@@ -74,7 +74,7 @@ textarea {
     }
 }
 .text-white {
-    color: #000000 !important;
+    color: #ffffff !important;
 }
 .q-header {
     // background: #0000ff;
@@ -626,6 +626,7 @@ textarea {
             margin: 0 auto 15px;
             > .q-avatar {
                 font-size: 250px;
+                border-radius: 0;
             }
         }
         .q-item__section--avatar {
@@ -636,7 +637,7 @@ textarea {
         .q-item__label {
             width: 100%;
             font-size: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
             display: -ms-flexbox;
             display: -webkit-flex;
             display: flex;
@@ -651,7 +652,34 @@ textarea {
                 margin-bottom: 0;
             }
         }
-
+    }
+    .best-exhibition {
+        display: flex; 
+        align-items: center;
+        > .part-1 {
+            margin-right: 50px;
+        }
+        > .part-2 {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+        }
+    }
+    .new-exhibition {
+        display: flex; 
+        align-items: center;
+        > .part-1 {
+            display: flex; 
+            flex-grow: 1; 
+            align-items: center
+        }
+        > .part-2 {
+            margin-left: 250px;
+            margin-right: 50px;
+        }
+        > .part-3 {
+            width: 300px;
+        }
     }
 }
 //프로젝트 게시판
@@ -957,6 +985,14 @@ textarea {
                 }
             }
         }
+    }
+    .title {
+        font-size: 40px; 
+        color: #0C2C69;
+    }
+    .subtitle {
+        font-size: 60px;
+        color: #90B2D8;
     }
 }
 //사용자 등록
@@ -1296,6 +1332,42 @@ textarea {
     .q-toolbar {
         &.page-default {
             padding: 0 10px !important;
+        }
+    }
+    .main-list{
+        .item-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .q-item {
+            padding: 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .q-item__section--side {
+                > .q-avatar {
+                    font-size: 100px;
+                }
+            }
+        }
+        .q-carousel{
+            height: 10000px;
+        }
+        .best-exhibition {
+            > .part-1 {
+                margin: 0 20px;
+            }
+        }
+        .new-exhibition {
+            display: flex; 
+            align-items: center;
+            > .part-2 {
+                margin: 0 30px;
+            }
+            > .part-3 {
+                width: 60px;
+            }
         }
     }
     //프로젝트 게시판
