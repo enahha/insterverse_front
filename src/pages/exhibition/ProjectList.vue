@@ -1,11 +1,8 @@
 <template>
   <q-page class="page-1200 q-pa-md project-list-wrap">
-      <div class="row page-tit">
-        <div class="col-12 doc-heading title" v-if="locale === 'ko-KR'">
-          {{ $t('menu_project_list') }}   <span  class="subtitle">Exhibition</span>
-        </div>
-        <div class="col-12 doc-heading title" v-else>
-          {{ $t('menu_project_list') }}   <span class="subtitle">전시회</span>
+      <div class="row title">
+        <div class="col-12 doc-heading">
+          <div style="padding-bottom: 200px;">{{ $t('menu_project_list') }}   <span  class="subtitle">Exhibition</span></div>
         </div>
       </div>
       <!-- <div class="row q-pl-md justify-center page-sub-tit">

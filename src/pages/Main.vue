@@ -50,13 +50,8 @@
 
       <!-- 인기 전시 -->
       <div class="best-exhibition">
-        <div class="doc-h2 part-1">
+        <div class="doc-h2 part-1" >
           {{ $t('best_exhibition') }}
-        </div>
-        <div class="doc-h2 part-2">
-          <div style="width: 20%; height: 5px; background-color: black;"></div>
-          <div style="width: 10%; height: 5px;"></div>
-          <div style="width: 80%; height: 5px; background-color: black;"></div>
         </div>
       </div>
 
@@ -73,7 +68,7 @@
         navigation
         padding
         arrows
-        height="450px"
+        height="400px"
       >
         <q-carousel-slide
           v-for="(group, index) in groupedItems" 
@@ -109,13 +104,7 @@
       <!-- 신규 전시 -->
       <div class="new-exhibition">
         <div class="doc-h2 part-1">
-          <div style="width: 100%; height: 5px; background-color: black;"></div>
-        </div>
-        <div class="doc-h2 part-2">
           {{ $t('new_exhibition') }}
-        </div>
-        <div class="doc-h2 part-3">
-          <div style="width: 100%; height: 5px; background-color: black;"></div>
         </div>
       </div>
 
@@ -132,7 +121,7 @@
         navigation
         padding
         arrows
-        height="450px"
+        height="400px"
       >
         <q-carousel-slide
           v-for="(group, index) in groupedItems" 
@@ -229,52 +218,56 @@
 
     </div>
 
-    <!-- links -->
-    <div class="text-caption text-white flex flex-center" style="background: rgb(29, 29, 29);">
-      <div class="row flex flex-center q-pt-md">
-        <div class="q-pl-md q-pr-md q-pb-sm flex flex-center">
-          <!--
-          <q-img src="logo/icons-social-gitbook.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://docs.beastar.io')" title="Docs" />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-social-twitter.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://twitter.com/beastar_2023')" title="Twitter" />
-          &nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-social-medium.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://medium.com/@beastar_official')" title="Medium" />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-social-discord.svg" style="width: 27px; cursor: pointer;" @click="openUrl('https://discord.gg/mqDEH4Du69')" title="Discord" />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-social-telegram.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://t.me/beastar_official')" title="Telegram" />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          -->
-          <q-img src="logo/icons-social-instagram.svg" style="width: 30px; cursor: pointer;" @click="openUrl('https://www.instagram.com/beastar.official')" title="Instagram" />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <q-img src="logo/icons-apartment.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://www.starinc.io')" title="Company" />
+    <div class="footer">
+      <div class="footer-info">
+        <!-- links -->
+        <div class="text-caption flex flex-center" style="background: rgb(29, 29, 29);">
+          <div class="row flex flex-center q-pt-md">
+            <div class="q-pl-md q-pr-md q-pb-sm flex flex-center">
+              <!--
+              <q-img src="logo/icons-social-gitbook.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://docs.beastar.io')" title="Docs" />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <q-img src="logo/icons-social-twitter.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://twitter.com/beastar_2023')" title="Twitter" />
+              &nbsp;&nbsp;&nbsp;
+              <q-img src="logo/icons-social-medium.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://medium.com/@beastar_official')" title="Medium" />
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <q-img src="logo/icons-social-discord.svg" style="width: 27px; cursor: pointer;" @click="openUrl('https://discord.gg/mqDEH4Du69')" title="Discord" />
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <q-img src="logo/icons-social-telegram.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://t.me/beastar_official')" title="Telegram" />
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              -->
+              <!-- <q-img src="logo/icons-social-instagram.svg" style="width: 30px; cursor: pointer;" @click="openUrl('https://www.instagram.com/beastar.official')" title="Instagram" />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <q-img src="logo/icons-apartment.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://www.starinc.io')" title="Company" /> -->
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="text-caption flex flex-center q-pt-xs">
-      Copyright ⓒ 2023 Star Inc. all rights reserved.
-    </div>
-
-    <!-- 사업자정보 -->
-    <div class="text-caption flex flex-center">
-      <div class="row">
-        <div class="col-12 q-pa-xs">
-          {{ $t('company_name') }}
-          | {{ $t('company_representive') }} : {{ $t('company_representive_value') }}
-          | {{ $t('company_address') }} : {{ $t('company_address_value') }}
-          | {{ $t('company_business_number') }} : 139-87-02383
-          <a @click="openUrl('http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1398702383')" style="cursor: pointer;"><b>{{ $t('company_verification') }}</b></a>
-          | {{ $t('company_mail_order_sales_registration_number') }} : {{ $t('company_mail_order_sales_registration_number_value') }}
-          | {{ $t('company_email') }} : contact@starinc.io
-          | {{ $t('company_cs') }} : 02-717-0401
-          &nbsp;<a style="cursor: pointer;" @click="showTerms">{{ $t('company_show_terms') }}</a>
-          &nbsp;<a style="cursor: pointer;" @click="showPrivacy">{{ $t('company_show_privacy') }}</a>
+        <div class="text-caption flex flex-center q-pt-xs">
+          <span class="text-white"> ⓒ 2023 Star Inc. all rights reserved.</span>
         </div>
-      </div>
-    </div>
 
-    <div class="col-12 q-pa-md">
+        <!-- 사업자정보 -->
+        <div class="text-caption flex flex-center">
+          <div class="row">
+            <div class="col-12 q-pa-xs text-white">
+              {{ $t('company_name') }}
+              | {{ $t('company_representive') }} : {{ $t('company_representive_value') }}
+              | {{ $t('company_address') }} : {{ $t('company_address_value') }}
+              | {{ $t('company_business_number') }} : 139-87-02383
+              <a @click="openUrl('http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1398702383')" style="cursor: pointer;"><b>{{ $t('company_verification') }}</b></a>
+              | {{ $t('company_mail_order_sales_registration_number') }} : {{ $t('company_mail_order_sales_registration_number_value') }}
+              | {{ $t('company_email') }} : contact@starinc.io
+              | {{ $t('company_cs') }} : 02-717-0401
+              &nbsp;<a style="cursor: pointer;" @click="showTerms">{{ $t('company_show_terms') }}</a>
+              &nbsp;<a style="cursor: pointer;" @click="showPrivacy">{{ $t('company_show_privacy') }}</a>
+            </div>
+          </div>
+        </div>
+
+      <!-- <div class="col-12 q-pa-md"> -->
+      <!-- </div> -->
+      </div>
     </div>
 
     <!--

@@ -93,31 +93,23 @@
         <!-- mypage -->
         <div v-if="getUid">
         <q-btn
-          flat
-          dense
-          round
-          color="black"
-          icon="account_circle"
-          aria-label="login"
+          label="마이페이지"
           @click="goMypage"
+          style="background-color: #FEFEFE; color: black"
         />
         </div>
 
-        &nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- local login icorn -->
         <div v-if="getUid">
-          <q-btn icon="logout" flat dense rounded @click="logout"/>
+          <q-btn label="logout" @click="logout" style="background-color: #90B2D8;"/>
         </div>
         <q-btn
           v-else
-          flat
-          dense
-          round
-          color="black"
-          icon="input"
-          aria-label="login"
+          label="login"
           @click="showLoginModal"
+          style="background-color: #90B2D8;"
         />
 
         &nbsp;&nbsp;
@@ -601,6 +593,9 @@
 
           <!-- LANGUAGE -->
           <q-item clickable>
+            <q-item-section avatar class="q-pt-md">
+              <!-- <q-icon name="language" style="width: 20px; height: 20px;" /> -->
+            </q-item-section>
             <q-icon name="language" size="sm" class="q-pt-md q-pb-sm" />
             <q-menu>
               <div class="no-wrap q-pa-sm pd-xy">
@@ -1355,7 +1350,7 @@ export default defineComponent({
 <style scoped>
 .bottom-items {
   position: absolute;
-  width: 110px;
+  width: 100%;
   bottom: 0;
 }
 </style>
