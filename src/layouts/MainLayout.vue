@@ -367,11 +367,10 @@
           <q-item clickable to="/web">
             <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="home" style="width: 20px; height: 20px;" /> -->
-              <q-img src="logo/logo_instarverse.png" width="40px" />
+              <q-img src="icons/icon_aboutus_ex.png" width="40px" />
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                <!-- {{ $t('menu_home') }} -->
                 <q-img src="logo/logo_instarverse_main2.png" width="90px" />
               </q-item-label>
             </q-item-section>

@@ -1,30 +1,38 @@
 <template>
   <div class="row justify-center project-detail-header">
     <div class="col-12 q-pb-xs">
+      <!-- 베너 이미지 db저장된 uri로 바꿔야 함. 임시 이미지 -->
+      <img src="images/main_exhibition.png" alt="Active Icon" style="width: 100%; height: 400px; margin: -60px auto;" />
+
       <!-- <div class="row flex flex-center"> -->
       <!-- <div class="row justify justify-between q-pt-sm"> -->
-      <div class="row justify justify-between q-pt-sm">
+      <div class="row q-pt-sm" style="background-color: blue">
         <div class="row flex flex-center">
           <div class="row flex flex-center">
             <div class="col">
-              <table border="0" width="100%" style="margin: 0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="center">
+              <table border="0" width="100%" style="margin: -150px auto;" cellpadding="0" cellspacing="0" align="center">
                 <tr>
                   <td>
-                    <div class="text-right q-pl-sm">
+                    <!-- <div class="text-right q-pl-sm">
                       <q-avatar size="md">
                         <img v-if="projectVo.logo_image" :src="projectVo.logo_image">
                         <q-icon v-else name="rocket_launch" size="md" />
                       </q-avatar>
-                    </div>
+                    </div> -->
                   </td>
                   <td width="100%">
-                    <div class="text-h6 q-pl-sm" style="word-break: break-word;">
-                      <div v-if="locale === 'ko-KR'">
+                    <div class="q-pl-sm" style="word-break: break-word; font-size: 50px">
+                      <div>
                         {{ projectVo.title_ko }}
                       </div>
-                      <div v-else class="col-12">
+                      <div class="col-12">
                         {{ projectVo.title }}
                       </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="col-12">
+                      {{ projectVo.title }}
                     </div>
                   </td>
                 </tr>
@@ -69,7 +77,7 @@
 
   <!-- Side Area -->
   <!-- <div :class="`page-side-bar project-type ${getRightDrawerOpen ? 'on' : ''}`"></div> -->
-  <div v-if="smallSize">
+  <!-- <div v-if="smallSize">
     <div class="page-side-bar project-type">
       <div class="row">
         <q-avatar size="md">
@@ -158,9 +166,9 @@
         </div>
       </div>
     </q-page-sticky>
-  </div>
+  </div> -->
 
-  <q-page class="page-default project-detail-wrap">
+  <q-page class="page-1200 q-pa-md project-detail-wrap">
     <q-tabs
       v-model="tab"
       no-caps

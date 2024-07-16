@@ -1,76 +1,76 @@
 <template>
   <q-page class="page-1200 q-pa-md project-list-wrap">
-    <div class="row justify-center page-tit">
-      <div class="col-12 doc-heading title" v-if="locale === 'ko-KR'">
-        {{ $t('menu_project_list') }}   <span  class="subtitle">Exhibition</span>
-      </div>
-      <div class="col-12 doc-heading title" v-else>
-        {{ $t('menu_project_list') }}   <span class="subtitle">전시회</span>
-      </div>
-    </div>
-    <!-- <div class="row q-pl-md justify-center page-sub-tit">
-      <div class="col-12">
-        {{ $t('menu_project_list_description') }}
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-    </div> -->
-
-    <div class="row srch-wrap">
-      <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 190px;" clearable outlined />
-      &nbsp;&nbsp;
-      <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
-      &nbsp;&nbsp;
-      <q-btn @click="search" icon="search" size="lg" style="width: 80px;" />
-    </div>
-
-    <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
-      <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
-    </q-page-scroller> -->
-
-    <!-- 프로젝트 리스트 -->
-    <q-pull-to-refresh @refresh="refresher" class="project-list">
-      <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
-
-        <div v-for="item in projectList" :key="item.seq">
-          <q-item clickable @click="goDetail(item.seq)">
-            <q-item-section avatar>
-              <q-avatar>
-                <img v-if="item.logo_image" :src="item.logo_image">
-                <q-icon v-else name="rocket_launch" size="md" />
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <div class="row list-item">
-                <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
-                <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
-                <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
-                <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-
-          <!-- 관리자 수정용 -->
-          <!-- <div v-if="isAdmin" class="text-right">
-            <q-btn @click="goSetDescription(item.seq)" size="sm" label="Modify" />
-          </div> -->
+      <div class="row page-tit">
+        <div class="col-12 doc-heading title" v-if="locale === 'ko-KR'">
+          {{ $t('menu_project_list') }}   <span  class="subtitle">Exhibition</span>
         </div>
-        <template v-slot:loading>
-          <div class="row justify-center q-my-md">
-            <q-spinner-dots color="primary" size="40px" />
+        <div class="col-12 doc-heading title" v-else>
+          {{ $t('menu_project_list') }}   <span class="subtitle">전시회</span>
+        </div>
+      </div>
+      <!-- <div class="row q-pl-md justify-center page-sub-tit">
+        <div class="col-12">
+          {{ $t('menu_project_list_description') }}
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md">
+      </div> -->
+
+      <div class="row srch-wrap">
+        <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable borderless />
+        &nbsp;&nbsp;
+        <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
+        &nbsp;&nbsp;
+        <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
+      </div>
+
+      <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
+        <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
+      </q-page-scroller> -->
+
+      <!-- 프로젝트 리스트 -->
+      <q-pull-to-refresh @refresh="refresher" class="project-list">
+        <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
+
+          <div v-for="item in projectList" :key="item.seq">
+            <q-item clickable @click="goDetail(item.seq)">
+              <q-item-section avatar>
+                <q-avatar>
+                  <img v-if="item.logo_image" :src="item.logo_image">
+                  <q-icon v-else name="rocket_launch" size="md" />
+                </q-avatar>
+              </q-item-section>
+
+              <q-item-section>
+                <div class="row list-item">
+                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
+                  <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
+                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
+                  <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
+                </div>
+              </q-item-section>
+            </q-item>
+
+            <!-- 관리자 수정용 -->
+            <!-- <div v-if="isAdmin" class="text-right">
+              <q-btn @click="goSetDescription(item.seq)" size="sm" label="Modify" />
+            </div> -->
           </div>
-        </template>
-      </q-infinite-scroll>
-    </q-pull-to-refresh>
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+        </q-infinite-scroll>
+      </q-pull-to-refresh>
 
-    <div v-if="noDataFlag" class="row justify-center">
-      <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
-    </div>
+      <div v-if="noDataFlag" class="row justify-center">
+        <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+      </div>
 
-    <!-- 하단 공간 확보 -->
-    <div class="row justify-center q-pa-xl">
-    </div>
+      <!-- 하단 공간 확보 -->
+      <div class="row justify-center q-pa-xl">
+      </div>
 
   </q-page>
   <!-- <TokenDetailModal ref="refTokenDetailModal"/> -->

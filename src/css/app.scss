@@ -9,7 +9,7 @@
     word-break: break-all;
 }
 .page-1200 {
-    max-width: 1600px;
+    max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
     word-break: break-all;
@@ -164,17 +164,18 @@ textarea {
     .q-field {
         width: 100% !important;
         .q-field__control {
-            height: 50px !important;
+            height: 40px !important;
             padding: 0 !important;
             padding-right: 60px !important;
-            background: #f2f2f2;
+            background: #FEFEFE;
             border-radius: 5px;
             max-height: inherit !important;
             &:before {
                 border: 0 !important;
             }
             input {
-                background: #f2f2f2;
+                background: #FEFEFE;
+                border: 2px solid #90B2D8;
                 border-radius: 5px;
                 color: #000000 !important;
                 font-size: 14px;
@@ -194,15 +195,15 @@ textarea {
         }
     }
     button {
-        font-size: 13px !important;
+        font-size: 20px !important;
         width: 45px !important;
-        color: #000000 !important;
+        color: #90B2D8 !important;
         background: #FEFEFE !important;
         padding: 0 0;
         border-radius: 5px;
         position: absolute;
-        right: 4px;
-        top: 5px;
+        right: 10px;
+        top: -5px;
         height: 40px;
         &:before {
             border: 0 !important;
@@ -379,14 +380,15 @@ textarea {
 .project-detail-wrap {
     max-width: calc(100% - 440px);
     width: 100%;
-    margin-left: 0;
+    // margin-left: 0;
 }
 .project-detail-header {
-    padding: 0 20px;
-    margin-left: 0;
-    max-width: calc(100% - 440px);
+    // padding: 0 20px;
+    // margin-left: 0;
+    // max-width: calc(100% - 440px);
     width: 100%;
-    margin-top: 20px;
+    height: 400px;
+    // margin-top: 20px;
 }
 //페이지 사이드바
 .page-side-bar {
@@ -627,6 +629,9 @@ textarea {
             > .q-avatar {
                 font-size: 250px;
                 border-radius: 0;
+                > img:hover {
+                    box-shadow: 2px 7px 14px 1px rgb(70 70 70 / 26%);
+                }
             }
         }
         .q-item__section--avatar {
@@ -991,7 +996,7 @@ textarea {
         color: #0C2C69;
     }
     .subtitle {
-        font-size: 60px;
+        font-size: 50px;
         color: #90B2D8;
     }
 }

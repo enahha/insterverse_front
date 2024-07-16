@@ -8,16 +8,19 @@
       animated
       :autoplay="15000"
       control-color="white"
-      arrows
       navigation
       infinite
       height="1000px"
       style="margin: -60px auto;"
     >
     
-      <template v-slot:navigation-icon="{ active, btnProps, onClick }">
-          <q-btn v-if="active" size="lg" icon="change_history" color="yellow" flat round dense @click="onClick" />
-          <q-btn v-else size="sm" :icon="btnProps.icon" color="white" flat round dense @click="onClick" />
+      <template v-slot:navigation-icon="{ active, onClick }">
+        <q-btn v-if="active" size="lg" flat round dense @click="onClick">
+          <img src="icons/icon_main_1.png" alt="Active Icon" style="width: 20px;" />
+        </q-btn>
+        <q-btn v-else size="sm" flat round dense @click="onClick">
+          <img src="icons/icon_main_2.png" alt="Inactive Icon" style="width: 20px;"/>
+        </q-btn>
       </template>
 
       <q-carousel-slide
