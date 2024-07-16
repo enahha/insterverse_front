@@ -10,7 +10,7 @@
       control-color="white"
       navigation
       infinite
-      height="1000px"
+      height="800px"
       style="margin: -60px auto;"
     >
     
