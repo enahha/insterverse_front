@@ -54,6 +54,9 @@ export default {
   unsupported_mainnet: '현재 지원되지 않는 메인넷입니다.',
   contract_already_exists: '컨트랙트가 이미 존재합니다.',
   refreshed: '새로고침 완료.',
+  id: '아이디',
+  password: '패스워드',
+  import: '가져오기',
 
   // vote detail
   vote_holder_list: '투표자 목록',
@@ -534,7 +537,7 @@ export default {
   swap_from: '제공',
   swap_to: '수령',
   total_value: '합계',
-  // get_klaystar: '클레이스타 스왑',
+  // get_klaystar: '스타 스왑',
 
   // admin
   request_success: '요청되었습니다.',
@@ -797,10 +800,10 @@ export default {
   airdrop_status_name_failed: '재신청', // 99
   
   // liquidity pool
-  system_wallet_address: '클레이스타 지갑 주소',
+  system_wallet_address: '스타 지갑 주소',
   pool_if_pair_token_is_klay: '페어 토큰이 KLAY 인 경우',
-  pool_if_pair_token_is_klay_description: `페어 토큰이 KLAY 인 경우, 유동성 풀 생성시 지갑 내 모든 KLAY와 쌍으로 생성됩니다. 따라서 클레이스타 지갑 주소로 전송시 다른 풀 생성 요청건과 중복되어 더 많은 KLAY 공급이 발생할 수 있으므로 아래의 KLAY 풀 생성 전용 지갑으로 전송해주세요.`,
-  system_wallet_address_for_klay: '클레이스타 지갑 주소 for KLAY',
+  pool_if_pair_token_is_klay_description: `페어 토큰이 KLAY 인 경우, 유동성 풀 생성시 지갑 내 모든 KLAY와 쌍으로 생성됩니다. 따라서 스타 지갑 주소로 전송시 다른 풀 생성 요청건과 중복되어 더 많은 KLAY 공급이 발생할 수 있으므로 아래의 KLAY 풀 생성 전용 지갑으로 전송해주세요.`,
+  system_wallet_address_for_klay: '스타 지갑 주소 for KLAY',
   pool_target_token: '상장 대상 토큰',
   pool_pair_token: '유동성 페어 토큰',
   pool_target_token_total_supply: '상장 대상 토큰 공급량',
@@ -1043,7 +1046,7 @@ export default {
   menu_notice_register_description: '공지사항을 등록합니다.',
   menu_notice_modify: '공지사항 수정',
   menu_notice_modify_description: '공지사항을 수정합니다.',
-  // menu_linktree: '클레이스타',
+  // menu_linktree: '스타',
   // menu_support: '서포트',
   // menu_support_description: '서포트 화면입니다.',
   // menu_admin_contract_verification_request_list: '계약검증 신청 목록',
@@ -1272,9 +1275,9 @@ export default {
   under_construction: '공사중입니다',
   coming_soon: 'Coming soon...',
   main_introduction_overline: '소개',
-  main_introduction_title: '클레이스타는',
+  main_introduction_title: '스타는',
   main_introduction_content:
-  `클레이스타는 가치 공유 시스템입니다.\n
+  `스타는 가치 공유 시스템입니다.\n
   기업, 단체, 프로젝트, 인플루언서, 그리고 개인까지 어떤 유형이라도\n
   그 가치를 모두와 공유하는 플랫폼입니다.`,
   main_behind_the_scene_overline: '배경',
@@ -1290,7 +1293,7 @@ export default {
   `간단한 소개와 몇가지 정보만으로 자신만의 토큰을 등록할 수 있습니다.\n
   주체는 기업이 될 수도 있고 개인이 될 수도 있습니다.\n
   사용자들이 등록된 토큰을 매수함으로써 투자는 유치됩니다.\n
-  클레이스타는 이 모든 것을 단 하루만에 끝낼 수 있는 유일한 플랫폼입니다.`,
+  스타는 이 모든 것을 단 하루만에 끝낼 수 있는 유일한 플랫폼입니다.`,
 
   // company information
   company_name: '㈜스타',

@@ -95,7 +95,7 @@
       <input type="hidden" name="vbankRegNo" value="" >
       <input type="hidden" name="merchantData" v-model="customData"><!-- 상점 자유 데이터 -->
       <input type="hidden" name="logo_url" value="">
-      <input type="hidden" name="logo_2nd" value="https://klaystar.com/logo/pay_logo_64x13.png"><!-- 서브로고 삽입 [size: 64*13] -->
+      <input type="hidden" name="logo_2nd" value="https://instarverse.com/logo/pay_logo_64x13.png"><!-- 서브로고 삽입 [size: 64*13] -->
     </form>
 
   </q-page>

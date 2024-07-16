@@ -349,8 +349,8 @@ export default defineComponent({
           })
 
       } else {
-        alert('Process failed. payCode is not CREATE_TOKEN or CONTRACT_VERIFY or CREATE_POOL or CREATE_AIRDROP. Contact: contact@klaystar.com')
-        console.log('Process failed. payCode is not CREATE_TOKEN or CONTRACT_VERIFY or CREATE_POOL or CREATE_AIRDROP. Contact: contact@klaystar.com')
+        alert('Process failed. payCode is not CREATE_TOKEN or CONTRACT_VERIFY or CREATE_POOL or CREATE_AIRDROP. Contact: contact@starinc.io')
+        console.log('Process failed. payCode is not CREATE_TOKEN or CONTRACT_VERIFY or CREATE_POOL or CREATE_AIRDROP. Contact: contact@starinc.io')
       }
     } else {
       this.$noti(this.$q, this.$t('payment_failed'))
@@ -374,7 +374,7 @@ export default defineComponent({
       contents += 'SEQ: ' + this.key + '<br>'
       contents += 'redirectUrl: ' + this.redirectUrl + '<br>'
       contents += '<br>'
-      contents += 'https://klaystar.com'
+      contents += 'https://instarverse.com'
 
       const params = {
         subject: title,

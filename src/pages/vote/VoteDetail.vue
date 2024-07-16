@@ -1432,7 +1432,7 @@ export default defineComponent({
         this.$noti(this.$q, 'Value is Empty')
         return
       }
-      // API 서버로 보내서 og 정보 달고 다시 frontPath로 넘어옴. path: https://klaystar.com/#/info?seq=999&tab=XXX
+      // API 서버로 보내서 og 정보 달고 다시 frontPath로 넘어옴. path: https://instarverse.com/#/info?seq=999&tab=XXX
       const host = location.protocol + '//' + location.host
       const url = host + '/v?s=' + value + '&t=' + this.tab + '&l=' + this.locale.substring(0, 2) // seq, tab, locale
 

@@ -54,6 +54,9 @@ export default {
   unsupported_mainnet: 'Unsupported mainnet.',
   contract_already_exists: 'Contract already exists.',
   refreshed: 'Refreshed.',
+  id: 'ID',
+  password: 'Password',
+  import: 'Import',
 
   // vote detail
   vote_holder_list: 'Voter List',

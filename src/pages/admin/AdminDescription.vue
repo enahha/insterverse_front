@@ -201,13 +201,13 @@
     <div class="row justify-center q-pb-xl">
       <div class="col-12">
         <!-- <br /> -->
-        <!-- <q-img src="https://klaystar.com/logo/logo.png" style="width: 24px" /> -->
+        <!-- <q-img src="https://instarverse.com/logo/logo.png" style="width: 24px" /> -->
         <q-card class="my-card">
           <q-item>
             <q-item-section avatar>
               <q-avatar>
                 <img v-if="tokenLogoImage" :src="tokenLogoImage">
-                <img v-else src="https://klaystar.com/logo/logo.png">
+                <img v-else src="https://instarverse.com/logo/logo.png">
               </q-avatar>
             </q-item-section>
 

@@ -14,7 +14,7 @@
     </div>
 
     <!-- 상단 버튼 -->
-    <div class="row q-pt-xl">
+    <div class="row q-pb-xl">
       <div class="col-12">
         <span @click="goBack" style="cursor: pointer;">
           <q-icon name="arrow_back" size="md" />
@@ -22,6 +22,33 @@
         </span>
       </div>
     </div>
+
+    <table border="0" width="" cellpadding="0" cellspacing="0" align="left">
+      <tr>
+        <td width="100" class="text-left">
+          <span class="text-weight-bold text-subtitle1">{{ $t('id') }}</span>
+        </td>
+        <td class="text-left" width="200">
+          <q-input v-model="projectWalletAddress" ref="refInstagramId" style="max-width: 200px;" clearable standout dense tabindex="1" />
+        </td>
+        <td rowspan="2" class="text-center q-pl-sm">
+          <q-btn class="btn" color="grey-3" text-color="black" style="width: 120px; height: 89px;" no-caps @click="importPostList" tabindex="3">
+            <span class="text-weight-bold text-subtitle1">{{ $t('import') }}</span>
+          </q-btn>
+        </td>
+      </tr>
+      <tr class="">
+        <td class="text-left q-pt-md">
+          <span class="text-weight-bold text-subtitle1">{{ $t('password') }}</span>
+        </td>
+        <td class="text-left q-pt-sm" style="max-width: 200px;">
+          <q-input v-model="projectWalletAddress" ref="refInstagramId" style="max-width: 200px;" clearable standout dense tabindex="2" />
+        </td>
+      </tr>
+    </table>
+    <!-- 인스타그램 아이디 -->
+
+
 
     <!-- TOP으로 스크롤 버튼 -->
     <!-- <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[10, 10]">
@@ -193,8 +220,33 @@ export default defineComponent({
   mounted: function () {
   },
   methods: {
+    // 로그인 후 포스트 리스트 가져오기
+    async importPostList() {
+      console.log(123)
+
+      // 인스타그램 앱 시크릿 코드 : 492e1d70cad605c96a6d52eb9220ad62
+      // 인스타그램 앱 클라이언트 아이디 : 681042560396956
+
+      const param = {
+        client_id: '681042560396956',
+        redirect_uri: '',
+        scope: 'user_profile,user_media',
+        response_type: 'code',
+        // state: '',
+      }
+      const result = await this.$axios.get('https://api.instagram.com/oauth/authorize', { params: { ...param } })
+      if (result.data) {
+        // console.log(result.data)
+        this.rows = result.data
+      } else {
+        this.$noti(this.$q, this.$t('request_data_failed'))
+      }
+
+
+
+    },
     async refresher() {
-      this.mintingImageList = []
+      this.postList = []
       this.currentPage = 1
 
       await this.selectListMax()
@@ -224,13 +276,13 @@ export default defineComponent({
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)
           if (idx === 1) { // 첫번째 load인 경우
-            this.mintingImageList = [] // 리스트 초기화
+            this.postList = [] // 리스트 초기화
           }
-          this.mintingImageList = this.mintingImageList.concat(result.data)
+          this.postList = this.postList.concat(result.data)
 
           // nft_image가 video 타입이면 isVideoNft를 true로 설정
-          for (let i = 0; i < this.mintingImageList.length; i++) {
-            const file_extension = this.mintingImageList[i].file_extension
+          for (let i = 0; i < this.postList.length; i++) {
+            const file_extension = this.postList[i].file_extension
             // console.log('file_extension: ' + file_extension)
             if (
               file_extension === 'mp4'
@@ -249,9 +301,9 @@ export default defineComponent({
               || file_extension === 'mp4'
               || file_extension === 'mp4'
             ) {
-              this.mintingImageList[i].isVideoNft = true
+              this.postList[i].isVideoNft = true
             } else {
-              this.mintingImageList[i].isVideoNft = false
+              this.postList[i].isVideoNft = false
             }
           }
         })

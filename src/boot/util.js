@@ -26,7 +26,7 @@ export default boot(({ app }) => {
   app.config.globalProperties.$systemWalletAddress = '0x16F5dF3C8dD43166492b867079f48DB746107CFE'
   // app.config.globalProperties.$systemWalletAddressKlay = '0x16F5dF3C8dD43166492b867079f48DB746107CFE'
 
-  app.config.globalProperties.$systemMailFrom = 'contact@klaystar.com'
+  app.config.globalProperties.$systemMailFrom = 'contact@starinc.io'
 
   // 관리자 여부
   app.config.globalProperties.$adminCode = '1029'

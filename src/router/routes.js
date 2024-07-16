@@ -59,13 +59,13 @@ const routes = [
     ]
   },
 
-  {
-    path: '/',
-    component: () => import('layouts/EmptyLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Index.vue') },
-    ]
-  },
+  // {
+  //   path: '/',
+  //   component: () => import('layouts/EmptyLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/Index.vue') },
+  //   ]
+  // },
 
   // project info
   {
@@ -193,9 +193,10 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      // { path: 'privacy', component: () => import('pages/terms/Privacy.vue') },
-      // { path: 'terms', component: () => import('pages/terms/Terms.vue') },
       { path: '', component: () => import('pages/Main.vue') },
+      { path: 'privacy', component: () => import('pages/terms/Privacy.vue') },
+      // { path: 'terms', component: () => import('pages/terms/Terms.vue') },
+      { path: 'delete', component: () => import('pages/delete/DeleteUser.vue') },
     ]
   },
 
