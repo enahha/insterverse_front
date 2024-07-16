@@ -2,7 +2,7 @@
   <q-page class="page-1200 q-pa-md project-list-wrap">
       <div class="row title">
         <div class="col-12 doc-heading">
-          <div style="padding-bottom: 200px;">{{ $t('menu_project_list') }}   <span  class="subtitle">Exhibition</span></div>
+          <div style="">{{ $t('menu_project_list') }}   <span  class="subtitle">Exhibition</span></div>
         </div>
       </div>
       <!-- <div class="row q-pl-md justify-center page-sub-tit">
@@ -68,6 +68,8 @@
       <!-- 하단 공간 확보 -->
       <div class="row justify-center q-pa-xl">
       </div>
+
+      
 
   </q-page>
   <!-- <TokenDetailModal ref="refTokenDetailModal"/> -->

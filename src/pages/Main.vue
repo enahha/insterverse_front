@@ -218,13 +218,13 @@
 
     </div>
 
-    <div class="footer">
+    <!-- <div class="footer">
       <div class="footer-info">
-        <!-- links -->
+        links
         <div class="text-caption flex flex-center" style="background: rgb(29, 29, 29);">
           <div class="row flex flex-center q-pt-md">
             <div class="q-pl-md q-pr-md q-pb-sm flex flex-center">
-              <!--
+              
               <q-img src="logo/icons-social-gitbook.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://docs.beastar.io')" title="Docs" />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <q-img src="logo/icons-social-twitter.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://twitter.com/beastar_2023')" title="Twitter" />
@@ -235,10 +235,10 @@
               &nbsp;&nbsp;&nbsp;&nbsp;
               <q-img src="logo/icons-social-telegram.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://t.me/beastar_official')" title="Telegram" />
               &nbsp;&nbsp;&nbsp;&nbsp;
-              -->
-              <!-- <q-img src="logo/icons-social-instagram.svg" style="width: 30px; cursor: pointer;" @click="openUrl('https://www.instagram.com/beastar.official')" title="Instagram" />
+             
+              <q-img src="logo/icons-social-instagram.svg" style="width: 30px; cursor: pointer;" @click="openUrl('https://www.instagram.com/beastar.official')" title="Instagram" />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <q-img src="logo/icons-apartment.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://www.starinc.io')" title="Company" /> -->
+              <q-img src="logo/icons-apartment.svg" style="width: 35px; cursor: pointer;" @click="openUrl('https://www.starinc.io')" title="Company" />
             </div>
           </div>
         </div>
@@ -247,7 +247,7 @@
           <span class="text-white"> ⓒ 2023 Star Inc. all rights reserved.</span>
         </div>
 
-        <!-- 사업자정보 -->
+        사업자정보
         <div class="text-caption flex flex-center">
           <div class="row">
             <div class="col-12 q-pa-xs text-white">
@@ -265,10 +265,10 @@
           </div>
         </div>
 
-      <!-- <div class="col-12 q-pa-md"> -->
-      <!-- </div> -->
+      <div class="col-12 q-pa-md">
       </div>
-    </div>
+      </div>
+    </div> -->
 
     <!--
     <div class="text-caption text-white flex flex-center q-pt-sm" style="background: rgb(29, 29, 29);">
