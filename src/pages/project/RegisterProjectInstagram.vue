@@ -29,6 +29,9 @@
       <br />
       instagram user id<br />
       {{ userId }}<br />
+      <br />
+      nextPageUrl<br />
+      {{ nextPageUrl }}<br />
     </div>
 
     <!-- <table border="0" width="" cellpadding="0" cellspacing="0" align="left">
@@ -64,14 +67,9 @@
     </q-page-scroller> -->
     <!-- place QPageScroller at end of page -->
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-      <q-btn fab icon="keyboard_arrow_up" color="" />
+      <q-btn fab icon="keyboard_arrow_up" color="secondary" />
     </q-page-scroller>
 
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
     <!-- <div class="row srch-wrap">
       <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" />
@@ -98,26 +96,29 @@
     <div v-if="postList.length > 0">
       <div class="row justify-center q-pt-xl">
         <div class="col-12">
-          <span class="text-weight-bold text-subtitle1">{{ $t('minting_uploaded_nft_image_list') }}</span>
+          <span class="text-weight-bold text-subtitle1">{{ $t('select_artwork_to_exhibit') }}</span>
         </div>
       </div>
       <div class="justify-center q-pt-xs">
 
         <q-list bordered separator>
-          <q-item v-for="item in postList" :key="item.seq" clickable class="text-left" @click="openUrl(item.file_url)">
-            <q-item-section avatar>
-              <video v-if="item.isVideoNft" :src="item.file_url" controls autoplay loop muted style="width: 100%; max-width: 80px;"></video>
-              <img v-else :src="item.file_url" style="width: 100%; max-width: 80px" />
+          <q-item v-for="(item, index) in postList" :key="item.seq" clickable class="text-left" @click="checkItem(index)">
+            <q-item-section style="flex:50px;">
+              <q-checkbox v-model="item.selected" color="blue" />
+            </q-item-section>
+            <q-item-section style="flex:80px;">
+              <video v-if="item.isVideoNft" :src="item.media_url" controls autoplay loop muted style="width: 100%; max-width: 80px;"></video>
+              <img v-else :src="item.media_url" style="width: 100%; max-width: 80px" />
             </q-item-section>
             <q-item-section>
-              <q-item-label class=""><span class="text-grey-5">{{ $t('minting_nft_image_file_name') }} : </span><span class="text-bold">{{ item.file_name + '.' +  item.file_extension }}</span></q-item-label>
-              <q-item-label class="q-pt-xs"><span class="text-grey-5">{{ $t('minting_nft_image_file_name_original') }} : </span><span>{{ item.file_name_original }}</span></q-item-label>
-              <q-item-label class="q-pt-xs"><span class="text-grey-5">{{ $t('minting_nft_image_reg_time') }} : </span><span>{{ qDate.formatDate(item.reg_time, 'YYYY-MM-DD HH:mm:ss') }}</span></q-item-label>
+              <q-item-label class=""><span class="text-grey-5">{{ $t('id') }} : </span><span>{{ item.id }}</span></q-item-label>
+              <q-item-label class="q-pt-xs"><span class="text-grey-5">{{ $t('caption') }} : </span><span>{{ item.caption }}</span></q-item-label>
+              <q-item-label class="q-pt-xs"><span class="text-grey-5">{{ $t('timestamp') }} : </span><span>{{ qDate.formatDate(item.timestamp, 'YYYY-MM-DD HH:mm:ss') }}</span></q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
 
-        <q-btn v-if="currentPage <= lastPageNum" class="btn" color="secondary" text-color="black" size="md" style="width: 100%;" @click="loadMore(currentPage)" tabindex="16">
+        <q-btn v-if="nextPageUrl" class="btn" color="secondary" text-color="white" size="lg" style="width: 100%;" @click="loadMore" :loading="isLoading" tabindex="16">
           <b>{{ $t('load_more') }}</b>
         </q-btn>
       </div>
@@ -166,6 +167,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n'
+import { date } from 'quasar'
 
 export default defineComponent({
   name: 'RegisterProjectInstagram',
@@ -179,6 +181,13 @@ export default defineComponent({
     return {
       token: '', // 인스타그램 액세스 토큰 long
       userId: '', // 인스타그램 사용자 아이디
+      userInfo: {
+        id: '',
+        username: '',
+      },
+      mediaListField: 'id,caption,media_type,media_url,username,timestamp', // 미디어 리스트 조회 항목
+      nextPageUrl: '', // 인스타그램 미디어 다음페이지 조회 URL
+      isLoading: false,
       confirmGoBack: false,
       // instagramId: 'aaa',
       // instagramPwd: 'bbb',
@@ -217,6 +226,9 @@ export default defineComponent({
     getKeyword () {
       return this.$store.getters.getKeyword
     },
+    qDate() {
+      return date
+    },
   },
   created: function () {
     // 인스타그램 액세스 토큰
@@ -227,25 +239,92 @@ export default defineComponent({
     this.userId = this.$route.query.userId
     this.$cookie.set('INSTAGRAM_USER_ID', this.userId, 365)
     localStorage.setItem('INSTAGRAM_USER_ID', this.userId, 365)
+
+    // 사용자 정보 조회
+    this.getUserInfo(this.token)
+
+    // 사용자 미디어 조회
+    this.getUserMediaList(this.token)
     
   },
   mounted: function () {
   },
   methods: {
+    async getUserInfo(token) {
+      // id, username 조회
+      const paramUserInfo = {
+        fields: 'id,username',
+        access_token: token,
+      }
+      const resultUserInfo = await this.$axios.get('https://graph.instagram.com/me', { params: { ...paramUserInfo } })
+      if (resultUserInfo.data) {
+        console.log(resultUserInfo.data)
+        this.userInfo = resultUserInfo.data
+      } else {
+        this.$noti(this.$q, this.$t('request_data_failed'))
+      }
+    },
+    async getUserMediaList(token) {
+      // media 조회
+      const paramMediaList = {
+        fields: 'id,caption,media_type,media_url,username,timestamp',
+        access_token: token,
+      }
+      const resultMediaList = await this.$axios.get('https://graph.instagram.com/me/media', { params: { ...paramMediaList } })
+      if (resultMediaList.data) {
+        console.log(resultMediaList.data)
+        this.postList = resultMediaList.data.data
+        this.setUndefinedToFalse() // undefined selected -> false
+        this.nextPageUrl = resultMediaList.data.paging.next
+      } else {
+        this.$noti(this.$q, this.$t('request_data_failed'))
+      }
+    },
+    // undefined selected -> false (undefined면 체크박스가 - 표시되어서 이를 방지하기 위해서 실행)
+    setUndefinedToFalse() {
+      for (let i = 0; i < this.postList.length; i++) {
+        let postObj = this.postList[i]
+        if (!postObj.selected) {
+          postObj.selected = false
+        }
+      }
+    },
+    checkItem(index) {
+      // console.log(index)
+      // console.log(this.postList[index].selected)
+      if (this.postList[index].selected) {
+        this.postList[index].selected = false
+      } else {
+        this.postList[index].selected = true
+      }
+    },
     // 로그인 후 포스트 리스트 가져오기
     async importPostList() {
       console.log(123)
     },
-    async refresher() {
-      this.postList = []
-      this.currentPage = 1
+    // async refresher() {
+    //   this.postList = []
+    //   this.currentPage = 1
 
-      await this.selectListMax()
-      await this.loadMore(1)
-    },
-    async loadMore(index) {
-      this.selectList(index)
-      this.currentPage++
+    //   await this.selectListMax()
+    //   await this.loadMore(1)
+    // },
+    // 사용자 미디어 다음페이지 조회
+    async loadMore() {
+      // this.$q.loading.show() // 로딩 표시
+      this.isLoading = true // 로딩 표시
+
+      const resultMediaList = await this.$axios.get(this.nextPageUrl)
+      if (resultMediaList.data) {
+        console.log(resultMediaList.data)
+        this.postList = this.postList.concat(resultMediaList.data.data)
+        this.setUndefinedToFalse() // undefined selected -> false
+        this.nextPageUrl = resultMediaList.data.paging.next
+      } else {
+        this.$noti(this.$q, this.$t('request_data_failed'))
+      }
+
+      this.isLoading = false // 로딩 표시 종료
     },
     // NFT 민팅 이미지 마지막 페이지 조회
     async selectListMax() {
@@ -316,7 +395,18 @@ export default defineComponent({
       //   // 나의 프로젝트 리스트 화면
       //   this.$router.push('/project/projectList')
       // }
-    }
+    },
+    openUrl(url) {
+      return // 사용 안함
+
+      // cordova인 경우 IframeModal 표시
+      if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit') {
+        this.$refs.refIframeModal.url = url
+        this.$refs.refIframeModal.show()
+      } else {
+        window.open(url, '_system')
+      }
+    },
 
   },
 })
