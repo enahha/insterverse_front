@@ -21,6 +21,7 @@ export default defineComponent({
     const frontLocale = this.$route.query.frontLocale
     const adcd = this.$route.query.adcd
     const token = this.$route.query.token
+    const userId = this.$route.query.userId
 
     // // 로그인 정보 쿠키에 저장
     // this.$store.dispatch('setUid', email)
@@ -41,7 +42,7 @@ export default defineComponent({
     }
 
     // 화면 이동
-    this.$router.replace(frontPath + '?token=' + token)
+    this.$router.replace(frontPath + '?token=' + token + '&userId=' + userId)
   },
   mounted: function () {},
   setup () {

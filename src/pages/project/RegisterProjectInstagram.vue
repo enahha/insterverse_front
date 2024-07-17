@@ -24,7 +24,11 @@
     </div>
 
     <div>
-      instagram access token: {{ token }}
+      instagram access token<br />
+      {{ token }}<br />
+      <br />
+      instagram user id<br />
+      {{ userId }}<br />
     </div>
 
     <!-- <table border="0" width="" cellpadding="0" cellspacing="0" align="left">
@@ -173,7 +177,8 @@ export default defineComponent({
   },
   data () {
     return {
-      token: '', // 인스타그램 액세스 토큰
+      token: '', // 인스타그램 액세스 토큰 long
+      userId: '', // 인스타그램 사용자 아이디
       confirmGoBack: false,
       // instagramId: 'aaa',
       // instagramPwd: 'bbb',
@@ -218,6 +223,10 @@ export default defineComponent({
     this.token = this.$route.query.token
     this.$cookie.set('INSTAGRAM_ACCESS_TOKEN', this.token, 365)
     localStorage.setItem('INSTAGRAM_ACCESS_TOKEN', this.token, 365)
+    
+    this.userId = this.$route.query.userId
+    this.$cookie.set('INSTAGRAM_USER_ID', this.userId, 365)
+    localStorage.setItem('INSTAGRAM_USER_ID', this.userId, 365)
     
   },
   mounted: function () {

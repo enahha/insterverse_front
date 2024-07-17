@@ -92,6 +92,19 @@
       </div>
     </div>
 
+    <!-- 테스트용 버튼 -->
+    <div class="row q-pt-xl">
+      <div class="col-12">
+        <span @click="goTest" style="cursor: pointer;">
+          <q-icon name="arrow_right" size="md" />
+          {{ $t('go_register_from_instagram') }}
+        </span>
+      </div>
+    </div>
+
+
+
+
     <!-- 하단 공간 확보 -->
     <div class="row justify-center q-pa-xl">
     </div>
@@ -150,8 +163,9 @@ export default defineComponent({
   },
   methods: {
     goRegister(type) {
-      this.$q.loading.show() // 로딩 표시
+      
       if (type == 'instagram') { // 인스타그램에서 가져오기
+        this.$q.loading.show() // 로딩 표시
         // this.$router.push('/project/registerProjectInstagram')
 
         // 인스타그램 앱 시크릿 코드 : 492e1d70cad605c96a6d52eb9220ad62
@@ -190,6 +204,10 @@ export default defineComponent({
     goBack() {
       // 페이지 이동
       this.$router.go(-1)
+    },
+    goTest() {
+      const token = 'IGQWRQVl8wdjhuT0c4U2J4YTlRSDlLV3Y0WXlNczRzQS1ycWR4Mzg4eU83TVVTRGdCY0loY3pqRERnYmZAVcTFDRHRaQjRON2N5eUIzeUc4QzdGVk9TZADdGM21yQWVSM2h3bm4xNm05dkd1eVB2dlI0VjdhQW5LRmlSd240emxlbkZAhTlUZD'
+      this.$router.push('/project/registerProjectInstagram' + '?token=' + token)
     },
 
   },
