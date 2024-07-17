@@ -23,13 +23,17 @@
       </div>
     </div>
 
-    <table border="0" width="" cellpadding="0" cellspacing="0" align="left">
+    <div>
+      instagram access token: {{ token }}
+    </div>
+
+    <!-- <table border="0" width="" cellpadding="0" cellspacing="0" align="left">
       <tr>
         <td width="100" class="text-left">
           <span class="text-weight-bold text-subtitle1">{{ $t('id') }}</span>
         </td>
         <td class="text-left" width="200">
-          <q-input v-model="projectWalletAddress" ref="refInstagramId" style="max-width: 200px;" clearable standout dense tabindex="1" />
+          <q-input v-model="instagramId" ref="refInstagramId" style="max-width: 200px;" clearable standout dense tabindex="1" />
         </td>
         <td rowspan="2" class="text-center q-pl-sm">
           <q-btn class="btn" color="grey-3" text-color="black" style="width: 120px; height: 89px;" no-caps @click="importPostList" tabindex="3">
@@ -42,10 +46,10 @@
           <span class="text-weight-bold text-subtitle1">{{ $t('password') }}</span>
         </td>
         <td class="text-left q-pt-sm" style="max-width: 200px;">
-          <q-input v-model="projectWalletAddress" ref="refInstagramId" style="max-width: 200px;" clearable standout dense tabindex="2" />
+          <q-input v-model="instagramPwd" ref="refInstagramPwd" style="max-width: 200px;" clearable standout dense tabindex="2" />
         </td>
       </tr>
-    </table>
+    </table> -->
     <!-- 인스타그램 아이디 -->
 
 
@@ -160,7 +164,7 @@ import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: 'InstagramList',
+  name: 'RegisterProjectInstagram',
   setup () {
     const { locale } = useI18n({ useScope: 'global' })
     return {
@@ -169,7 +173,10 @@ export default defineComponent({
   },
   data () {
     return {
+      token: '', // 인스타그램 액세스 토큰
       confirmGoBack: false,
+      // instagramId: 'aaa',
+      // instagramPwd: 'bbb',
       refresherDone: '',
       pageSize: 24,
       lastPageNum: 3, // 마지막 페이지
@@ -207,15 +214,11 @@ export default defineComponent({
     },
   },
   created: function () {
-    // 검색 키워드 설정
-    this.keyword = this.getKeyword
-    if (!this.keyword) {
-      this.keyword = 'abstractsunday'
-    }
-    // this.keyword = 'abstractsunday'
-    // this.keyword = 'instarverse2023'
-
-    // this.selectListMax()
+    // 인스타그램 액세스 토큰
+    this.token = this.$route.query.token
+    this.$cookie.set('INSTAGRAM_ACCESS_TOKEN', this.token, 365)
+    localStorage.setItem('INSTAGRAM_ACCESS_TOKEN', this.token, 365)
+    
   },
   mounted: function () {
   },
@@ -223,27 +226,6 @@ export default defineComponent({
     // 로그인 후 포스트 리스트 가져오기
     async importPostList() {
       console.log(123)
-
-      // 인스타그램 앱 시크릿 코드 : 492e1d70cad605c96a6d52eb9220ad62
-      // 인스타그램 앱 클라이언트 아이디 : 681042560396956
-
-      const param = {
-        client_id: '681042560396956',
-        redirect_uri: '',
-        scope: 'user_profile,user_media',
-        response_type: 'code',
-        // state: '',
-      }
-      const result = await this.$axios.get('https://api.instagram.com/oauth/authorize', { params: { ...param } })
-      if (result.data) {
-        // console.log(result.data)
-        this.rows = result.data
-      } else {
-        this.$noti(this.$q, this.$t('request_data_failed'))
-      }
-
-
-
     },
     async refresher() {
       this.postList = []

@@ -11,7 +11,7 @@
         <br />
         <br />
         <div class="text-h5 text-bold">
-          fundsafe.io@gmail.com
+          contact@starinc.io
           <br />
         </div>
         <div>

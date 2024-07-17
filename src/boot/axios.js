@@ -12,7 +12,7 @@ import axios from 'axios'
 const api = axios.create(
   {
     // baseURL: 'http://localhost:8888' // 로컬테스트용
-    baseURL: 'https://fundsafe.io' // 배포용
+    baseURL: 'https://instarverse.com' // 배포용
   }
 )
 

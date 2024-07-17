@@ -40,11 +40,16 @@ export default boot(({ app }) => {
 
 
   const DOMAIN_LOCAL = ''
-  const DOMAIN_FUNDSAFE_TEST = 'http://localhost:8888'
-  const DOMAIN_FUNDSAFE = 'https://fundsafe.io'
-  app.config.globalProperties.$apiServer = DOMAIN_FUNDSAFE
+  const DOMAIN_INSTARVERSE_TEST = 'http://localhost:8888'
+  const DOMAIN_INSTARVERSE = 'https://instarverse.com'
+  app.config.globalProperties.$apiServer = DOMAIN_INSTARVERSE
 
-  app.config.globalProperties.$frontDomain = DOMAIN_FUNDSAFE
+  app.config.globalProperties.$frontDomain = DOMAIN_INSTARVERSE
+
+  // 인스타그램
+  app.config.globalProperties.$instagramClientId = '681042560396956'
+  app.config.globalProperties.$instagramLoginRedirectUri = 'https://instarverse.com/api/login/instagramLoginRedirectUri'
+  
 
   // 결제 관련 상수
   // app.config.globalProperties.$CREATE_TOKEN_CD_PAID = '11' // 토큰 생성 상태 코드 - 결제완료

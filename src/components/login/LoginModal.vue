@@ -925,7 +925,7 @@ export default {
       }
       let adcd = this.$cookie.get('ADCD')
       if (!adcd) {
-        currentLocale = localStorage.getItem('ADCD')
+        adcd = localStorage.getItem('ADCD')
       }
       const stateParam = this.$route.path + '|' + currentLocale + '|' + adcd
       

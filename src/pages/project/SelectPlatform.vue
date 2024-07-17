@@ -150,8 +150,39 @@ export default defineComponent({
   },
   methods: {
     goRegister(type) {
+      this.$q.loading.show() // 로딩 표시
       if (type == 'instagram') { // 인스타그램에서 가져오기
-        this.$router.push('/project/registerProjectInstagram')
+        // this.$router.push('/project/registerProjectInstagram')
+
+        // 인스타그램 앱 시크릿 코드 : 492e1d70cad605c96a6d52eb9220ad62
+        // 인스타그램 앱 클라이언트 아이디 : 681042560396956
+
+        let currentLocale = this.locale
+        if (!this.locale) {
+          currentLocale = this.$cookie.get('LOCALE')
+          if (!this.locale) {
+            currentLocale = localStorage.getItem('LOCALE')
+          }
+        }
+        let adcd = this.$cookie.get('ADCD')
+        if (!adcd) {
+          adcd = localStorage.getItem('ADCD')
+        }
+
+        const stateParam = '/project/registerProjectInstagram' + '|' + currentLocale + '|' + adcd
+        const scope = 'user_profile,user_media'
+        const response_type = 'code'
+
+        const url = 'https://api.instagram.com/oauth/authorize' + '?'
+                  + 'client_id=' + this.$instagramClientId
+                  + '&redirect_uri=' + this.$instagramLoginRedirectUri
+                  + '&scope=' + scope
+                  + '&response_type=' + response_type
+                  + '&state=' + stateParam
+        // window.open(url)
+        // this.$refs.refIframeModal.url = url
+        // this.$refs.refIframeModal.show()
+        window.location.href = url
       } else {
         this.$noti(this.$q, this.$t('coming_soon'))
       }
