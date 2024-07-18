@@ -1,629 +1,619 @@
 <template>
-  <q-page class="page-default q-pa-md project-reg-wrap">
-    <div class="row justify-center page-tit">
-      <div class="col-12 doc-heading doc-h2">
-        {{ $t('menu_project_register') }}
-      </div>
-    </div>
-    <div class="row q-pl-md justify-center page-sub-tit">
-      <div class="col-12">
-        {{ $t('menu_project_register_description') }}
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-    </div>
-
-  <!-- <q-page class="page-default q-pa-md project-reg-wrap">
-    <div class="row justify-center page-tit">
-      <div class="col-12 doc-heading doc-h2">
-        {{ $t('menu_project_register') }}
-      </div>
-    </div>
-    <div class="row justify-center page-sub-tit">
-      <div class="col-12">
-        {{ $t('menu_project_register_description') }}
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-    </div> -->
-    
-
-    <div class="row justify-center q-pt-lg">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('mainnet') }}<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-select
-          v-model="mainnetObj"
-          :options="mainnetOptions"
-          dense
-          standout
-          style="width: 200px;"
-          tabindex="1"
-        />
-      </div>
-    </div>
-
-    <div class="row justify-center q-pt-md">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_type') }}<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-select
-          v-model="projectTypeObj"
-          :options="projectTypeOptions"
-          dense
-          standout
-          style="width: 200px;"
-          tabindex="1"
-        />
-      </div>
-    </div>
-
-    <div class="row justify-center q-pt-md">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_wallet_address') }}<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectWalletAddress" ref="projectWalletAddress" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
-      </div>
-    </div>
-
+  <q-page class="page-1200 q-pa-md project-reg-wrap">
     <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_token_contract_address') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectTokenContractAddress" ref="projectTokenContractAddress" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
-      </div>
+      <div class="row title-sec">
+          <div class="col-12 doc-heading">
+            <span class="subtitle">Showcase</span>
+            <div class="title">{{ $t('menu_project_register') }}</div>
+          </div>
+        </div>
     </div>
 
-    <!-- lp contract address -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }}</span>
-      </div>
-    </div>
-    <q-expansion-item
-      icon="join_full"
-      :label="$t('project_lp_contract_address_description')"
-      style="border-radius: 30px"
-      header-class="bg-grey-2"
-      class="q-pb-xl"
+    <q-tabs
+      v-model="tab"
+      no-caps
+      align="justify"
+      inline-label
     >
-      <q-list padding bordered class="q-pl-md q-pr-md">
-        <!-- lp contract address 1 -->
-        <div class="row justify-center q-pt-md">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 1</span>
+      <q-tab name="1">{{ $t('project_artist_description') }}</q-tab>
+      <q-tab name="2">{{ $t('project_description') }}</q-tab>
+      <q-tab name="3">{{ $t('project_art_upload') }}</q-tab>
+      <q-tab name="4">{{ $t('project_preview') }}</q-tab>
+    </q-tabs>
+
+    <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
+      <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
+    </q-page-scroller> -->
+
+
+    <q-tab-panels v-model="tab">
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 작가 정보 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="1" style="word-break: break-word;">
+        <div class="tab-panel-1">
+          <span>{{ $t('artist_basic_information') }}</span>
+          <div class="underline"></div>
+
+          <div style="margin-left: 5%;">
+            <table style="width: 800px;">
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span></td>
+                    <td class="labal-input"><q-input v-model="nickname" ref="nickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('artist_representative_sns') }}<span class="text-red"> *</span></span></td>
+                    <td class="labal-input"><q-input v-model="representativeSNS" ref="representativeSNS" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                </div>
+              </tr>
+
+              <tr>
+                <div class="input-group q-pt-lg">
+                  <td class="labal" style="align-content: start; padding-top: 2%;"><span class="text-weight-bold text-subtitle1">{{ $t('artist_sns_id') }} / {{ $t('artist_link') }}<span class="text-red"> </span></span></td>
+
+                  <td class="labal-input">
+                    <table>
+                      <tr>
+                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span></td>
+                        <td class="labal-input"><q-input v-model="email" ref="email" clearable tabindex="1" /></td>
+                      </tr>
+                      <tr>
+                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span></td>
+                        <td class="labal-input"><q-input v-model="instargram" ref="instargram" clearable tabindex="1" /></td>
+                      </tr>
+                      <tr>
+                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span></td>
+                        <td class="labal-input"><q-input v-model="twitter" ref="twitter" clearable tabindex="1" /></td>
+                      </tr>
+                      <tr>
+                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span></td>
+                        <td class="labal-input"><q-input v-model="discord" ref="discord" clearable tabindex="1" /></td>
+                      </tr>
+                      <tr>
+                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span></td>
+                        <td class="labal-input"><q-input v-model="telegram" ref="telegram" clearable tabindex="1" /></td>
+                      </tr>
+                    </table>
+                  </td>
+                </div>
+              </tr>
+            </table>
           </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress1" ref="projectLpContractAddress1" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
+          <br><br><br><br><br>
+
+
+          <span>{{ $t('artist_details') }}</span>
+          <div class="underline"></div>
+
+          <div class="row justify-center q-pt-lg">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1">{{ $t('artist_career') }}<span class="text-red"> </span></span>
+            </div>
           </div>
-        </div>
+          <div class="row justify-center q-pb-lg">
+            <div class="col-12  q-pb-lg">
+              <q-editor
+                v-model="projectDescription"
+                min-height="10rem"
+                autofocus
+                tabindex="5"
+                @keyup.enter.stop
+                toolbar-bg="grey-1"
+                :toolbar="[
+                  ['left', 'center', 'right', 'justify'],
+                  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+                  ['token', 'hr', 'link', 'custom_btn'],
+                  [
+                    {
+                      label: $q.lang.editor.formatting,
+                      icon: $q.iconSet.editor.formatting,
+                      list: 'no-icons',
+                      options: [
+                        'p',
+                        'h1',
+                        'h2',
+                        'h3',
+                        'h4',
+                        'h5',
+                        'h6',
+                        'code'
+                      ]
+                    },
+                    {
+                      label: $q.lang.editor.fontSize,
+                      icon: $q.iconSet.editor.fontSize,
+                      fixedLabel: true,
+                      fixedIcon: true,
+                      list: 'no-icons',
+                      options: [
+                        'size-1',
+                        'size-2',
+                        'size-3',
+                        'size-4',
+                        'size-5',
+                        'size-6',
+                        'size-7'
+                      ]
+                    },
+                    {
+                      label: $q.lang.editor.defaultFont,
+                      icon: $q.iconSet.editor.font,
+                      fixedIcon: true,
+                      list: 'no-icons',
+                      options: [
+                        'default_font',
+                        'arial',
+                        'arial_black',
+                        'comic_sans',
+                        'courier_new',
+                        'impact',
+                        'lucida_grande',
+                        'times_new_roman',
+                        'verdana'
+                      ]
+                    },
+                    'removeFormat'
+                  ],
+                  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-        <!-- lp contract address 2 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 2</span>
+                  ['undo', 'redo'],
+                  ['print', 'fullscreen'],
+                  ['viewsource']
+                ]"
+                :fonts="{
+                  arial: 'Arial',
+                  arial_black: 'Arial Black',
+                  comic_sans: 'Comic Sans MS',
+                  courier_new: 'Courier New',
+                  impact: 'Impact',
+                  lucida_grande: 'Lucida Grande',
+                  times_new_roman: 'Times New Roman',
+                  verdana: 'Verdana'
+                }"
+              />
+            </div>
           </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress2" ref="projectLpContractAddress2" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
+          
+          <div style="display: flex; justify-content: end;">
+            <q-btn
+              :label="$t('next')"
+              @click="goTabNext"
+              style="background-color: #90B2D8; color: black "
+            />
           </div>
-        </div>
 
-        <!-- lp contract address 3 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 3</span>
+
+        </div>
+      </q-tab-panel>
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 2. 전시정보 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="2" style="word-break: break-word;">
+        <div class="tab-panel-2">
+          <span>{{ $t('project_basic_information') }}</span>
+          <div class="underline"></div>
+
+          
+          <div style="margin-left: 5%;">
+            <table style="width: 800px;">
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span></td>
+                    <td class="labal-input"><q-input v-model="projectNameKo" ref="projectNameKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }} (Korean)<span class="text-red"> *</span></span></td>
+                    <td class="labal-input"><q-input v-model="projectName" ref="projectName" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_symbol') }}</span>
+                      <q-icon name="help" size="xs">
+                        <q-tooltip>
+                          {{ $t('project_symbol_hint') }}
+                        </q-tooltip>
+                      </q-icon>
+                      <span class="text-red"> *</span>
+                    </td>
+                    <td class="labal-input"><q-input v-model="projectSymbol" ref="projectSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_subtitle') }}<span class="text-red"> *</span></span></td>
+                    <td class="labal-input"><q-input v-model="projectSummary" ref="projectSummary" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1" /></td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal">
+                      <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_banner') }}<span class="text-red"> *</span></span>
+                      <span class="text-grey">
+                        &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
+                      </span>
+                    </td>
+                    <td class="labal-input">
+                      <div class="row justify-center q-pb-md">
+                        <div class="col-12">
+                          <q-uploader
+                            field-name="file"
+                            ref="uploaderObj"
+                            url="/api/common/uploadImage"
+                            hide-upload-btn
+                            color="grey-3"
+                            text-color="black"
+                            :multiple="false"
+                            accept="image/*"
+                            :filter="filterFiles"
+                            max-files="1"
+                            :auto-upload="true"
+                            tabindex="9"
+                            @uploaded="fileUploadedBanner"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-12 text-red text-bold">
+                        {{ $t('project_banner_hint') }}
+                      </div>
+                    </td>
+                </div>
+              </tr>
+
+              <tr>
+                <div class="input-group q-pt-lg">
+                  <td class="labal">
+                    <span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_day') }}</span>
+                  </td>
+                  <td class="labal-input" style="">
+                    <!-- 전시 시작일 -->
+                    <div class="" style="max-width: 300px;">
+                      <q-input v-model="start_time" :label="$t('start_date')" ref="start_time" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+                        <template v-slot:prepend>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                              <q-date v-model="start_time" mask="YYYY-MM-DD HH:mm">
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="Close" color="primary" flat />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                        <template v-slot:append>
+                          <q-icon name="access_time" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                              <q-time v-model="start_time" mask="YYYY-MM-DD HH:mm" format24h>
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="Close" color="primary" flat />
+                                </div>
+                              </q-time>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
+                    <!-- 전시 종료일 -->
+                    <div class="" style="max-width: 300px;">
+                      <q-input v-model="end_time" :label="$t('end_date')" ref="end_time" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+                        <template v-slot:prepend>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                              <q-date v-model="end_time" mask="YYYY-MM-DD HH:mm">
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="Close" color="primary" flat />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                        <template v-slot:append>
+                          <q-icon name="access_time" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                              <q-time v-model="end_time" mask="YYYY-MM-DD HH:mm" format24h>
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="Close" color="primary" flat />
+                                </div>
+                              </q-time>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                      <div class="col-12 text-red text-bold">
+                        {{ $t('project_date_hint') }}
+                      </div>
+                    </div>
+                  </td>
+                </div>
+              </tr>
+
+
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal">
+                      <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_poster_image') }}<span class="text-red"> *</span></span>
+                      <span class="text-grey">
+                        &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
+                      </span>
+                    </td>
+                    <td class="labal-input">
+                      <div class="row justify-center q-pb-md">
+                        <div class="col-12">
+                          <q-uploader
+                            field-name="file"
+                            ref="uploaderObj"
+                            url="/api/common/uploadImage"
+                            hide-upload-btn
+                            color="grey-3"
+                            text-color="black"
+                            :multiple="false"
+                            accept="image/*"
+                            :filter="filterFiles"
+                            max-files="1"
+                            :auto-upload="true"
+                            tabindex="9"
+                            @uploaded="fileUploadedPoster"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-12 text-red text-bold">
+                        {{ $t('square_image_only') }}
+                      </div>
+                      <div class="row justify-center">
+                        <div class="col-12">
+                            <span class="text-weight-bold text-subtitle1">※ {{ $t('whitelist_preview_main_image') }}</span>
+                        </div>
+                        </div>
+                        <div class="row justify-center q-pb-xs">
+                        <div class="col-12">
+                            <img v-if="projectPosterImage" :src="projectPosterImage" style="width: 100%;">
+                            <span v-else>{{ $t('no_image') }}</span>
+                        </div>
+                      </div>
+                    </td>
+                </div>
+              </tr>
+            </table>
           </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress3" ref="projectLpContractAddress3" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
+
+          <br><br><br><br><br>
+
+          <div class="row justify-center q-pt-lg">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_description') }}</span>
+            </div>
           </div>
-        </div>
+          <div class="row justify-center q-pb-lg">
+            <div class="col-12  q-pb-lg">
+              <q-editor
+                v-model="projectDescription"
+                min-height="10rem"
+                autofocus
+                tabindex="5"
+                @keyup.enter.stop
+                toolbar-bg="grey-1"
+                :toolbar="[
+                  ['left', 'center', 'right', 'justify'],
+                  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+                  ['token', 'hr', 'link', 'custom_btn'],
+                  [
+                    {
+                      label: $q.lang.editor.formatting,
+                      icon: $q.iconSet.editor.formatting,
+                      list: 'no-icons',
+                      options: [
+                        'p',
+                        'h1',
+                        'h2',
+                        'h3',
+                        'h4',
+                        'h5',
+                        'h6',
+                        'code'
+                      ]
+                    },
+                    {
+                      label: $q.lang.editor.fontSize,
+                      icon: $q.iconSet.editor.fontSize,
+                      fixedLabel: true,
+                      fixedIcon: true,
+                      list: 'no-icons',
+                      options: [
+                        'size-1',
+                        'size-2',
+                        'size-3',
+                        'size-4',
+                        'size-5',
+                        'size-6',
+                        'size-7'
+                      ]
+                    },
+                    {
+                      label: $q.lang.editor.defaultFont,
+                      icon: $q.iconSet.editor.font,
+                      fixedIcon: true,
+                      list: 'no-icons',
+                      options: [
+                        'default_font',
+                        'arial',
+                        'arial_black',
+                        'comic_sans',
+                        'courier_new',
+                        'impact',
+                        'lucida_grande',
+                        'times_new_roman',
+                        'verdana'
+                      ]
+                    },
+                    'removeFormat'
+                  ],
+                  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-        <!-- lp contract address 4 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 4</span>
+                  ['undo', 'redo'],
+                  ['print', 'fullscreen'],
+                  ['viewsource']
+                ]"
+                :fonts="{
+                  arial: 'Arial',
+                  arial_black: 'Arial Black',
+                  comic_sans: 'Comic Sans MS',
+                  courier_new: 'Courier New',
+                  impact: 'Impact',
+                  lucida_grande: 'Lucida Grande',
+                  times_new_roman: 'Times New Roman',
+                  verdana: 'Verdana'
+                }"
+              />
+            </div>
           </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress4" ref="projectLpContractAddress4" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
+          <br><br>
+
+          <div class="row justify-center q-pt-lg">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_background') }}</span>
+            </div>
           </div>
-        </div>
+          <div class="row justify-center q-pb-lg">
+            <div class="col-12  q-pb-lg">
+              <q-editor
+                v-model="projectDescription"
+                min-height="10rem"
+                autofocus
+                tabindex="5"
+                @keyup.enter.stop
+                toolbar-bg="grey-1"
+                :toolbar="[
+                  ['left', 'center', 'right', 'justify'],
+                  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+                  ['token', 'hr', 'link', 'custom_btn'],
+                  [
+                    {
+                      label: $q.lang.editor.formatting,
+                      icon: $q.iconSet.editor.formatting,
+                      list: 'no-icons',
+                      options: [
+                        'p',
+                        'h1',
+                        'h2',
+                        'h3',
+                        'h4',
+                        'h5',
+                        'h6',
+                        'code'
+                      ]
+                    },
+                    {
+                      label: $q.lang.editor.fontSize,
+                      icon: $q.iconSet.editor.fontSize,
+                      fixedLabel: true,
+                      fixedIcon: true,
+                      list: 'no-icons',
+                      options: [
+                        'size-1',
+                        'size-2',
+                        'size-3',
+                        'size-4',
+                        'size-5',
+                        'size-6',
+                        'size-7'
+                      ]
+                    },
+                    {
+                      label: $q.lang.editor.defaultFont,
+                      icon: $q.iconSet.editor.font,
+                      fixedIcon: true,
+                      list: 'no-icons',
+                      options: [
+                        'default_font',
+                        'arial',
+                        'arial_black',
+                        'comic_sans',
+                        'courier_new',
+                        'impact',
+                        'lucida_grande',
+                        'times_new_roman',
+                        'verdana'
+                      ]
+                    },
+                    'removeFormat'
+                  ],
+                  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-        <!-- lp contract address 5 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 5</span>
+                  ['undo', 'redo'],
+                  ['print', 'fullscreen'],
+                  ['viewsource']
+                ]"
+                :fonts="{
+                  arial: 'Arial',
+                  arial_black: 'Arial Black',
+                  comic_sans: 'Comic Sans MS',
+                  courier_new: 'Courier New',
+                  impact: 'Impact',
+                  lucida_grande: 'Lucida Grande',
+                  times_new_roman: 'Times New Roman',
+                  verdana: 'Verdana'
+                }"
+              />
+            </div>
           </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress5" ref="projectLpContractAddress5" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
+          
+          <div style="display: flex; justify-content: space-between">
+            <q-btn
+              :label="$t('go_back')"
+              @click="goTabBack"
+              style="background-color: #90B2D8; color: black "
+            />
+            <q-btn
+              :label="$t('next')"
+              @click="goTabNext"
+              style="background-color: #90B2D8; color: black "
+            />
           </div>
+
+
+
+
+
         </div>
+      </q-tab-panel>
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 3. 작품 업로드 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="3">
+        <div class="tab-panel-3">
+          <span>{{ $t('project_art_upload') }}</span>
+          <div class="underline"></div>
+          <q-btn
+            :label="$t('add_art_work')"
+            @click="goAddWork"
+            style="background-color: #90B2D8; color: black "
+          />
 
-        <!-- lp contract address 6 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 6</span>
-          </div>
+
+
+
+
+
+
         </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress6" ref="projectLpContractAddress6" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
-          </div>
+      </q-tab-panel>
+            <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 4. 미리보기 및 등록 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="4">
+        <div class="tab-panel-4">
+
+        
+        
+        
         </div>
-
-        <!-- lp contract address 7 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 7</span>
-          </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress7" ref="projectLpContractAddress7" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
-          </div>
-        </div>
-
-        <!-- lp contract address 8 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 8</span>
-          </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress8" ref="projectLpContractAddress8" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
-          </div>
-        </div>
-
-        <!-- lp contract address 9 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 9</span>
-          </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress9" ref="projectLpContractAddress9" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
-          </div>
-        </div>
-
-        <!-- lp contract address 10 -->
-        <div class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_lp_contract_address') }} 10</span>
-          </div>
-        </div>
-        <div class="row justify-center q-pb-md">
-          <div class="col-12">
-            <q-input v-model="projectLpContractAddress10" ref="projectLpContractAddress10" :rules="[val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
-          </div>
-        </div>
-      </q-list>
-
-    </q-expansion-item>
-    
-
-    <div class="row justify-center q-pt-lg">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_title') }} (English)<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectTitle" ref="projectTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="1" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_title') }} (Korean)<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectTitleKo" ref="projectTitleKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable standout tabindex="2" />
-      </div>
-    </div>
-
-    <div class="row justify-center q-pt-lg">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_summary') }} (English)<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectSummary" ref="projectSummary" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable standout tabindex="3" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_summary') }} (Korean)<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectSummaryKo" ref="projectSummaryKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable standout tabindex="4" />
-      </div>
-    </div>
-
-    <div class="row justify-center q-pt-lg">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_description') }} (English)<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-lg">
-      <div class="col-12">
-        <q-editor
-          v-model="projectDescription"
-          min-height="10rem"
-          autofocus
-          tabindex="5"
-          @keyup.enter.stop
-          toolbar-bg="grey-1"
-          :toolbar="[
-            ['left', 'center', 'right', 'justify'],
-            ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-            ['token', 'hr', 'link', 'custom_btn'],
-            [
-              {
-                label: $q.lang.editor.formatting,
-                icon: $q.iconSet.editor.formatting,
-                list: 'no-icons',
-                options: [
-                  'p',
-                  'h1',
-                  'h2',
-                  'h3',
-                  'h4',
-                  'h5',
-                  'h6',
-                  'code'
-                ]
-              },
-              {
-                label: $q.lang.editor.fontSize,
-                icon: $q.iconSet.editor.fontSize,
-                fixedLabel: true,
-                fixedIcon: true,
-                list: 'no-icons',
-                options: [
-                  'size-1',
-                  'size-2',
-                  'size-3',
-                  'size-4',
-                  'size-5',
-                  'size-6',
-                  'size-7'
-                ]
-              },
-              {
-                label: $q.lang.editor.defaultFont,
-                icon: $q.iconSet.editor.font,
-                fixedIcon: true,
-                list: 'no-icons',
-                options: [
-                  'default_font',
-                  'arial',
-                  'arial_black',
-                  'comic_sans',
-                  'courier_new',
-                  'impact',
-                  'lucida_grande',
-                  'times_new_roman',
-                  'verdana'
-                ]
-              },
-              'removeFormat'
-            ],
-            ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
-
-            ['undo', 'redo'],
-            ['print', 'fullscreen'],
-            ['viewsource']
-          ]"
-          :fonts="{
-            arial: 'Arial',
-            arial_black: 'Arial Black',
-            comic_sans: 'Comic Sans MS',
-            courier_new: 'Courier New',
-            impact: 'Impact',
-            lucida_grande: 'Lucida Grande',
-            times_new_roman: 'Times New Roman',
-            verdana: 'Verdana'
-          }"
-        />
-      </div>
-    </div>
-    <div class="row justify-center q-pt-sm">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_description') }} (Korean)<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-editor
-          v-model="projectDescriptionKo"
-          min-height="10rem"
-          autofocus
-          tabindex="6"
-          @keyup.enter.stop
-          toolbar-bg="grey-1"
-          :toolbar="[
-            ['left', 'center', 'right', 'justify'],
-            ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-            ['token', 'hr', 'link', 'custom_btn'],
-            [
-              {
-                label: $q.lang.editor.formatting,
-                icon: $q.iconSet.editor.formatting,
-                list: 'no-icons',
-                options: [
-                  'p',
-                  'h1',
-                  'h2',
-                  'h3',
-                  'h4',
-                  'h5',
-                  'h6',
-                  'code'
-                ]
-              },
-              {
-                label: $q.lang.editor.fontSize,
-                icon: $q.iconSet.editor.fontSize,
-                fixedLabel: true,
-                fixedIcon: true,
-                list: 'no-icons',
-                options: [
-                  'size-1',
-                  'size-2',
-                  'size-3',
-                  'size-4',
-                  'size-5',
-                  'size-6',
-                  'size-7'
-                ]
-              },
-              {
-                label: $q.lang.editor.defaultFont,
-                icon: $q.iconSet.editor.font,
-                fixedIcon: true,
-                list: 'no-icons',
-                options: [
-                  'default_font',
-                  'arial',
-                  'arial_black',
-                  'comic_sans',
-                  'courier_new',
-                  'impact',
-                  'lucida_grande',
-                  'times_new_roman',
-                  'verdana'
-                ]
-              },
-              'removeFormat'
-            ],
-            ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
-
-            ['undo', 'redo'],
-            ['print', 'fullscreen'],
-            ['viewsource']
-          ]"
-          :fonts="{
-            arial: 'Arial',
-            arial_black: 'Arial Black',
-            comic_sans: 'Comic Sans MS',
-            courier_new: 'Courier New',
-            impact: 'Impact',
-            lucida_grande: 'Lucida Grande',
-            times_new_roman: 'Times New Roman',
-            verdana: 'Verdana'
-          }"
-        />
-      </div>
-    </div>
-    <br />
-
-    <div class="row justify-center q-pt-lg">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_official_website') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectOfficialWebsite" ref="projectOfficialWebsite" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="7" placeholder="e.g. https://klayswap.com" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}<span class="text-red"> *</span></span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectOfficialEmail" ref="projectOfficialEmail" :rules="[required, val => minLength(val, 5), val => maxLength(val, 30)]" clearable standout tabindex="8" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_logo_image') }}</span>
-        <span class="text-grey">
-          &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-        </span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-uploader
-          field-name="file"
-          ref="uploaderObj"
-          url="/api/common/uploadImage"
-          hide-upload-btn
-          color="grey-3"
-          text-color="black"
-          :multiple="false"
-          accept="image/*"
-          :filter="filterFiles"
-          max-files="1"
-          :auto-upload="true"
-          tabindex="9"
-          @uploaded="fileUploaded"
-        />
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12 text-red text-bold">
-        {{ $t('square_image_only') }}
-      </div>
-    </div>
-
-    <!-- preview -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">※ {{ $t('preview') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-card class="my-card">
-          <q-item>
-            <q-item-section avatar>
-              <q-avatar>
-                <img v-if="projectLogoImage" :src="projectLogoImage">
-                <q-icon v-else name="rocket_launch" size="md" />
-
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <div class="row">
-                <q-item-label class="col-12">{{ projectTitle }}</q-item-label>
-                <q-item-label class="col-12">{{ projectSummary }}</q-item-label>
-              </div>
-            </q-item-section>
-          </q-item>
-        </q-card>
-      </div>
-    </div>
-    <br />
-
-    <div class="row justify-center q-pt-lg">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_docs') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectDocs" ref="projectDocs" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="10" placeholder="e.g. https://docs.klayswap.com" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_blog') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectBlog" ref="projectBlog" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="11" placeholder="e.g. https://medium.com/iotrustlab/tagged/klayswap" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_medium') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectMedium" ref="projectMedium" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="12" placeholder="e.g. https://medium.com/klayswap" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectTelegram" ref="projectTelegram" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="13" placeholder="e.g. https://t.me/klayswapchannel" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectTwitter" ref="projectTwitter" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="14" placeholder="e.g. https://twitter.com/KLAYswap" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_github') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectGithub" ref="projectGithub" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="15" placeholder="e.g. https://github.com/KlaySwap" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_meta') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectMeta" ref="projectMeta" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="16" placeholder="e.g. https://www.facebook.com/klayswap" />
-      </div>
-    </div>
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="projectDiscord" ref="projectDiscord" :rules="[val => maxLength(val, 100)]" clearable standout tabindex="17" placeholder="e.g. https://discord.gg/fRhThwHXGQ" />
-      </div>
-    </div>
-
-    <div class="row justify-center q-pt-md">
-      <div class="col-6 text-left">
-        <q-btn class="btn" color="grey-3" text-color="black" size="lg" style="width: 98%;" @click="goBack" tabindex="19">
-          <b>{{ $t('go_back') }}</b>
-        </q-btn>
-      </div>
-      <div class="col-6 text-right">
-        <q-btn class="btn" color="secondary" text-color="black" size="lg" style="width: 98%;" @click="register" tabindex="18">
-          <b>{{ $t('save_description') }}</b>
-        </q-btn>
-      </div>
-    </div>
-
-    <!-- 하단 공간 확보 -->
-    <div class="row justify-center q-pa-xl">
-    </div>
+      </q-tab-panel>
+    </q-tab-panels>
 
   </q-page>
 
@@ -654,6 +644,7 @@ export default defineComponent({
   name: 'RegisterProject',
   data () {
     return {
+      tab: '3',
       projectSeq: '', // route parameter seq
       mainnetObj: {
         label: 'Klaytn',
@@ -734,6 +725,11 @@ export default defineComponent({
       projectDiscord: '',
       // seqFileMst: '' // 파일 마스터 SEQ
       confirmGoBack: false, // goBack 확인창
+      
+      projectPosterImage: '',
+      projectBannerImage: '',
+      start_time: '',
+      end_time: '',
     }
   },
   components: {
@@ -757,6 +753,14 @@ export default defineComponent({
   },
   mounted: function () {},
   methods: {
+    goTabNext() {
+      const currentTab = parseInt(this.tab)
+      this.tab = (currentTab + 1).toString()
+    },
+    goTabBack() {
+      const currentTab = parseInt(this.tab)
+      this.tab = (currentTab - 1).toString()
+    },
     callbackLogin(userVo) {
       // console.log('callbackLogin!!!')
       this.$store.dispatch('setUid', userVo.uid)
@@ -767,6 +771,9 @@ export default defineComponent({
       this.$store.dispatch('setWalletType', userVo.wallet_type)
       this.$store.dispatch('setWalletAddress', userVo.wallet_address)
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
+    },
+    goAddWork() {
+      this.$router.push('/media/registerMedia')
     },
     ///////////////////////////////////////////////////////////////////////////
     // validation
@@ -989,7 +996,7 @@ export default defineComponent({
     //   this.$refs.uploaderObj.removeUploadedFiles()
     //   this.$refs.uploaderObj.upload()
     // },
-    fileUploaded (file, xhr) {
+    fileUploadedBanner (file, xhr) {
       // 이미지 업로드가 완료되면 호출되는 메소드
       // let fileName = file.name
       // let fileSize = file.size
@@ -1000,7 +1007,21 @@ export default defineComponent({
       // console.log('fileType: ' + fileType)
       console.log('fileNameNew: ' + fileNameNew)
 
-      this.projectLogoImage = fileNameNew // 프로젝트 로고 URL 설정
+      this.projectBannerImage = fileNameNew // 프로젝트 로고 URL 설정
+      // this.$refs.uploaderObj.reset()
+    },
+    fileUploadedPoster (file, xhr) {
+      // 이미지 업로드가 완료되면 호출되는 메소드
+      // let fileName = file.name
+      // let fileSize = file.size
+      // let fileType = file.type
+      let fileNameNew = file.xhr.responseText
+      // console.log('fileName: ' + fileName)
+      // console.log('fileSize: ' + fileSize)
+      // console.log('fileType: ' + fileType)
+      console.log('fileNameNew: ' + fileNameNew)
+
+      this.projectPosterImage = fileNameNew // 프로젝트 로고 URL 설정
       // this.$refs.uploaderObj.reset()
     },
     goBack() {

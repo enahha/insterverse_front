@@ -3,44 +3,46 @@
     <div class="col-12 q-pb-xs">
       <!-- 베너 이미지 db저장된 uri로 바꿔야 함. 임시 이미지 -->
       <img src="images/main_exhibition.png" alt="Active Icon" style="width: 100%; height: 400px; margin: -60px auto;" />
+      <!-- 흰색 그라데이션 커버 이미지(고정) -->
+
 
       <!-- <div class="row flex flex-center"> -->
       <!-- <div class="row justify justify-between q-pt-sm"> -->
-      <div class="row q-pt-sm" style="background-color: blue">
-        <div class="row flex flex-center">
-          <div class="row flex flex-center">
+      <div class="row q-pt-sm" style="background-color: blue;">
+        <div class="row flex flex-center full-screen">
+          <div class="row flex flex-center full-screen">
             <div class="col">
-              <table border="0" width="100%" style="margin: -150px auto;" cellpadding="0" cellspacing="0" align="center">
+              <table border="0" width="100%" style="margin: -150px auto; padding-left: 15%;" align="center">
                 <tr>
-                  <td>
-                    <!-- <div class="text-right q-pl-sm">
+                  <!-- <td>
+                    <div class="text-right q-pl-sm">
                       <q-avatar size="md">
                         <img v-if="projectVo.logo_image" :src="projectVo.logo_image">
                         <q-icon v-else name="rocket_launch" size="md" />
                       </q-avatar>
-                    </div> -->
-                  </td>
+                    </div>
+                  </td> -->
                   <td width="100%">
-                    <div class="q-pl-sm" style="word-break: break-word; font-size: 50px">
-                      <div>
+                    <div class="q-pl-sm title" style="word-break: break-word; font-size: 50px;">
+                      <div style="font-weight: bold;">
                         {{ projectVo.title_ko }}
                       </div>
-                      <div class="col-12">
+                      <div class="col-12" style="word-break: break-word; font-size: 30px;">
                         {{ projectVo.title }}
                       </div>
                     </div>
                   </td>
-                  <td>
+                  <!-- <td>
                     <div class="col-12">
                       {{ projectVo.title }}
                     </div>
-                  </td>
+                  </td> -->
                 </tr>
               </table>
             </div>
           </div>
         </div>
-        <div class="q-pl-sm">
+        <div class="q-pl-sm" style="padding-left: 15%;">
           <div class="row flex flex-center">
             <!-- <div v-if="popupYn !== 'y'"> -->
             <div>
@@ -55,7 +57,7 @@
             <div class="col">
               <q-btn flat round dense icon="share" size="md" color="black" icon-right="true" @click="shareUrlCopy(projectVo.seq)" />
             </div>
-            <div class="q-pl-md q-pr-sm">
+            <!-- <div class="q-pl-md q-pr-sm">
               <q-select
                 v-if="popupYn === 'y'"
                 v-model="locale"
@@ -67,11 +69,23 @@
                 style="width: 55px"
                 @update:model-value="onChangeLocale"
               />
-            </div>
+            </div> -->
           </div>
         </div>
-      </div>
+        
+        <div class="col">
+          <table border="0" width="100%" style="margin: -100px auto; padding-left: 15%;" align="center">
+            <tr>
+              <td style="display: flex; flex-direction: column; align-items: end; padding-right: 25%;">
+                <!-- <q-btn :label="$t('edit')" @click="goModify" style="background-color: #90B2D8; width: 100px; margin: 10px;"/> -->
+                <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 3%;"/>
+              </td>
+            </tr>
+          </table>
+        </div>
 
+
+      </div>
     </div>
   </div>
 
@@ -190,7 +204,7 @@
       <!-- 정보 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="i" style="word-break: break-word;">
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
 
@@ -203,7 +217,7 @@
           <div v-else class="col-12 t-text">
             {{ projectVo.title }}
           </div>
-        </div>
+        </div> -->
         <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_summary') }}</span>
@@ -221,7 +235,6 @@
         <div v-if="projectVo.description || projectVo.description_ko" class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_description') }}</span>
-
           </div>
         </div>
         <div v-if="projectVo.description || projectVo.description_ko" class="q-pb-md q-pl-xs">
@@ -257,18 +270,17 @@
           </div>
         </div>
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_wallet_address') }}</span>
             <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.wallet_address)">&nbsp;{{ $t('copy') }}</q-btn>
-
           </div>
         </div>
         <div class="row justify-center q-pb-md q-pl-xs t-stit">
           <div class="col-12">
             <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.wallet_address )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.wallet_address }}</a>
           </div>
-        </div>
+        </div> -->
 
         <div class="row justify-center">
           <div class="col-12">
@@ -284,7 +296,7 @@
         </div>
 
         <!-- lp contract address 1 -->
-        <div v-if="projectVo.lp_contract_address_1">
+        <!-- <div v-if="projectVo.lp_contract_address_1">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 1</span>
@@ -297,9 +309,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_1 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_1 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 2 -->
-        <div v-if="projectVo.lp_contract_address_2">
+        <!-- <div v-if="projectVo.lp_contract_address_2">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 2</span>
@@ -312,9 +324,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_2 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_2 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 3 -->
-        <div v-if="projectVo.lp_contract_address_3">
+        <!-- <div v-if="projectVo.lp_contract_address_3">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 3</span>
@@ -327,9 +339,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_3 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_3 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 4 -->
-        <div v-if="projectVo.lp_contract_address_4">
+        <!-- <div v-if="projectVo.lp_contract_address_4">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 4</span>
@@ -342,9 +354,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_4 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_4 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 5 -->
-        <div v-if="projectVo.lp_contract_address_5">
+        <!-- <div v-if="projectVo.lp_contract_address_5">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 5</span>
@@ -357,9 +369,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_5 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_5 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 6 -->
-        <div v-if="projectVo.lp_contract_address_6">
+        <!-- <div v-if="projectVo.lp_contract_address_6">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 6</span>
@@ -372,9 +384,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_6 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_6 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 7 -->
-        <div v-if="projectVo.lp_contract_address_7">
+        <!-- <div v-if="projectVo.lp_contract_address_7">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 7</span>
@@ -387,9 +399,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_7 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_7 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 8 -->
-        <div v-if="projectVo.lp_contract_address_8">
+        <!-- <div v-if="projectVo.lp_contract_address_8">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 8</span>
@@ -402,9 +414,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_8 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_8 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 9 -->
-        <div v-if="projectVo.lp_contract_address_9">
+        <!-- <div v-if="projectVo.lp_contract_address_9">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 9</span>
@@ -417,9 +429,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_9 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_9 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- lp contract address 10 -->
-        <div v-if="projectVo.lp_contract_address_10">
+        <!-- <div v-if="projectVo.lp_contract_address_10">
           <div class="row justify-center">
             <div class="col-12">
               <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_lp_contract_address') }} 10</span>
@@ -432,9 +444,9 @@
               <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.lp_contract_address_10 )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.lp_contract_address_10 }}</a>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_platform_contract_address') }}</span>
             <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.platform_contract_address)">&nbsp;{{ $t('copy') }}</q-btn>
@@ -445,9 +457,9 @@
           <div class="col-12">
             <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.platform_contract_address )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.platform_contract_address }}</a>
           </div>
-        </div>
+        </div> -->
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_platform_contract_balance') }} ①</span>
 
@@ -457,9 +469,9 @@
           <div class="col-12">
             {{ Number(platformContractBalance).toLocaleString() }} {{ symbol }}
           </div>
-        </div>
+        </div> -->
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_platform_deposit_balance') }} ②</span>
 
@@ -469,9 +481,9 @@
           <div class="col-12">
             {{ Number(projectVo.platform_deposit_balance).toLocaleString() }} {{ symbol }}
           </div>
-        </div>
+        </div> -->
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_platform_yield') }} ③</span>
 
@@ -481,9 +493,9 @@
           <div class="col-12">
             {{ Number(projectVo.platform_yield).toLocaleString() }} {{ symbol }}
           </div>
-        </div>
+        </div> -->
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_total_balance') }} ( ① + ② + ③ )</span>
 
@@ -493,7 +505,7 @@
           <div class="col-12">
             {{ (Number(platformContractBalance) + Number(projectVo.platform_total_balance)).toLocaleString() }} {{ symbol }}
           </div>
-        </div>
+        </div> -->
 
         <!-- place QPageScroller at end of page -->
         <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">

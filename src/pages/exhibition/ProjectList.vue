@@ -2,7 +2,7 @@
   <q-page class="page-1200 q-pa-md project-list-wrap">
       <div class="row title">
         <div class="col-12 doc-heading">
-          <div style="">{{ $t('menu_project_list') }}   <span  class="subtitle">Exhibition</span></div>
+          <div class="title-sec">{{ $t('menu_project_list') }}   <span class="subtitle">Exhibition</span></div>
         </div>
       </div>
       <!-- <div class="row q-pl-md justify-center page-sub-tit">
@@ -69,12 +69,10 @@
       <div class="row justify-center q-pa-xl">
       </div>
 
-      
-
-  </q-page>
-  <!-- <TokenDetailModal ref="refTokenDetailModal"/> -->
-  <WalletModal ref="refWalletModal" />
-</template>
+    </q-page>
+    <!-- <TokenDetailModal ref="refTokenDetailModal"/> -->
+    <WalletModal ref="refWalletModal" />
+  </template>
 
 <script>
 import { defineComponent } from 'vue';
@@ -130,6 +128,7 @@ export default defineComponent({
     this.selectListMax()
   },
   mounted: function () {
+    this.refresher(null)
   },
   methods: {
     // 검색
@@ -154,7 +153,7 @@ export default defineComponent({
     // },
     goDetail(seq) {
       // 상세 화면으로 이동
-      this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
+      this.$router.push({ path: '/project/projectDetail', query: { s: seq }})
       // this.$refs.refTokenDetailModal.tokenSeq = seq
       // this.$refs.refTokenDetailModal.show()
     },

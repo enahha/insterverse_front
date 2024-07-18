@@ -55,6 +55,9 @@ textarea {
         color: #ccc !important;
     }
 }
+.full-screen {
+    width: 100%;
+}
 .q-btn {
     word-break: keep-all;
 }
@@ -116,6 +119,7 @@ textarea {
     background-size: cover;
     width: 100%;
     height: 700px;
+    margin-top: 300px;
     > .footer-info {
         position: absolute;
         padding-top: 550px;
@@ -1002,6 +1006,9 @@ textarea {
             }
         }
     }
+    .title-sec{
+        padding-left: 150px;
+    }
     .title {
         background: url('/images/background_top.png');
         background-size: cover;
@@ -1131,10 +1138,82 @@ textarea {
 }
 //프로젝트등록
 .project-reg-wrap {
-    max-width: 1024px;
+    // max-width: 1024px;
     // .page-sub-tit {
     //     margin-left: 10px;
     // }
+    .underline {
+        width: 10%;
+        height: 5px;
+        background-color: black;
+    }
+    .tab-panel-1{
+        max-width: 100%;
+        > span {
+            font-size: 23px;
+            font-weight: bold;
+        }
+        .labal {
+            width: 30%;
+            text-align: start;
+            padding-left: 5%;
+
+        }
+        .labal-input {
+            width: 700px;
+        }
+        > input{
+            width: 50%;
+        }
+
+    }
+    .tab-panel-2 {
+        max-width: 100%;
+        > span {
+            font-size: 23px;
+            font-weight: bold;
+        }
+        .labal {
+            width: 30%;
+            text-align: start;
+            padding-left: 5%;
+
+        }
+        .labal-input {
+            width: 1000px;
+        }
+        > input{
+            width: 50%;
+        }
+    }
+    .tab-panel-3 {
+        max-width: 1024px;
+        > span {
+            font-size: 23px;
+            font-weight: bold;
+        }
+    }
+    .tab-panel-4 {
+        max-width: 1024px;
+        > span {
+            font-size: 23px;
+            font-weight: bold;
+        }
+    }
+    .title-sec {
+        background: url("/images/background_top.png");
+        background-size: cover;
+        width: 100%;
+        padding-bottom: 10px;
+        font-size: 40px; 
+    }
+    .title {
+        font-weight: bold;
+    }
+    .subtitle {
+        font-size: 25px;
+        color: #90B2D8;
+    }
     .q-field__control {
         .q-field__marginal {
             margin: 0 10px !important;
@@ -1154,6 +1233,41 @@ textarea {
     //         min-height: 38px !important;
     //     }
     // }
+}
+.add_art_wrap {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    word-break: break-all;
+    > span {
+        font-size: 23px;
+        font-weight: bold;
+    }
+    .labal {
+        width: 30%;
+        text-align: start;
+        padding-left: 5%;
+
+    }
+    .labal-input {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .q-input {
+        width: 50%;
+    }
+    .work-info {
+        width: 17%;
+        padding-left: 10px;
+    }
+    .sale {
+        width: 42%;
+        padding-left: 10px;
+    }
+    .q-uploader {
+        width: 550px;
+    }
 }
 //공지사항등록
 //공지사항수정
@@ -1325,6 +1439,7 @@ textarea {
     //     .q-page-container {
     //     }
     // }
+
 }
 
 @media (max-width: 1023px) {
@@ -1518,6 +1633,44 @@ textarea {
               width: 100% !important;
               text-align: left !important;
             }
+        }
+    }
+    .project-list-wrap {
+        .title-sec{
+            padding-top: 20px;
+            padding-left: 70px;
+        }
+        .title {
+            background: url('/images/background_top.png');
+            background-size: cover;
+            width: 100%;
+            padding-bottom: 10px;
+            font-size: 30px; 
+            color: #0C2C69;
+        }
+        .subtitle {
+            font-size: 40px;
+            color: #90B2D8;
+        }
+    }
+    .add_art_wrap {
+        .labal {
+            width: 30%;
+        }
+        .labal-input {
+            width: 100%;
+        }
+        .q-input {
+            width: 100%;
+        }
+        .work-info {
+            width: 40%;
+        }
+        .sale {
+            width: 80%;
+        }
+        .q-uploader {
+            width: 100px;
         }
     }
 }

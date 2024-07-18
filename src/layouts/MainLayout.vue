@@ -371,7 +371,8 @@
           <!-- PROJECT LIST -->
           <q-item clickable to="/exhibition">
             <q-item-section avatar class="q-pt-md">
-              <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
+              <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+              <q-img src="icons/icon_exhibition.png" width="20px" />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ $t('menu_project_list') }}</q-item-label>
@@ -382,6 +383,7 @@
           <q-item clickable to="/project">
             <q-item-section avatar class="q-pt-md">
               <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
+              <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ $t('menu_project_register') }}</q-item-label>
