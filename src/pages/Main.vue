@@ -540,6 +540,13 @@ export default defineComponent({
           this.projectList = result.data
         })
     },
+    selectProjectListAsNew() {
+      this.$axios.get('/api/project/selectProjectListAsView', {params: {limit: 12}})
+      .then((result) => {
+          console.log(result.data)
+          this.projectList = result.data
+        })
+    },
 
     // 토큰 등록으로 이동
     goRegisterToken() {

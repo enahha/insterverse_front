@@ -1,5 +1,5 @@
 <template>
-    <q-page class="q-pa-md q-pa-md add_art_wrap">
+    <q-page class="q-pa-md q-pa-md add-art-wrap">
         <div class="row justify-center page-tit">
         <div class="col-12 doc-heading doc-h2">
             {{ $t('add_art_work') }}
@@ -216,6 +216,37 @@
         <!-- 하단 공간 확보 -->
         <div class="row justify-center q-pa-xl">
         </div>
+
+        <!-- <div class="media-table-wrapper text-center q-pt-lg">
+            <div class="table-scroll-wrapper">
+                <table border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                    <th></th>
+                    <th>{{ $t('media') }}</th>
+                    <th>{{ $t('media_title') }}</th>
+                    <th>{{ $t('media_price') }}</th>
+                    <th>{{ $t('media_description') }}</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in mediaList" :key="index">
+                    <td>{{ item.seq }}</td>
+                    <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
+                    <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
+
+                    <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
+                    <td style="width: 150px;" v-else><span>-</span></td>
+
+                    <td>{{ truncateText(item.description, truncateDescription) }}</td>
+                    <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div> -->
+
   
     </q-page>
   
@@ -336,6 +367,14 @@
         forSale: false,
         mediaPrice: '',
         mediaImage: '',
+        truncateTitle: 10,
+        truncateDescription: 200,
+
+        mediaList: [
+            { seq: 1, url: 'https://picsum.photos/300', title: '무제', price: 1000, description: '2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재' },
+            { seq: 2, url: 'https://picsum.photos/500', title: '숲에서 이리저리 돌아다니다 그린 그림', price: 0, description: '2021년 아르코미술관 기획초대전은 작가 정재...' },
+            { seq: 3, url: 'https://picsum.photos/1000', title: '해변', price: 12000, description: '2021년 아르코미술관 기획초대전은 작가 정재...' }
+        ]
       }
     },
     components: {
@@ -386,6 +425,12 @@
             this.$store.dispatch('setWalletType', userVo.wallet_type)
             this.$store.dispatch('setWalletAddress', userVo.wallet_address)
             this.$store.dispatch('setMobileNo', userVo.mobile_no)
+        },
+        truncateText(text, maxLength) {
+            if (text.length <= maxLength) {
+                return text
+            }
+            return text.substring(0, maxLength) + '...'
         },
         // 미디어 저장
         saveMedia() {

@@ -85,13 +85,13 @@ export default boot(({ app }) => {
   app.config.globalProperties.$noti = function (quasar, message) {
     quasar.notify({
       message: message,
-      color: 'white',
+      color: 'black',
       // avatar: 'images/logo-64x64.png',
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
       position: 'bottom',
       html: true,
       actions: [
-        { label: 'X', color: 'white', handler: () => { /* ... */ } },
+        { label: 'X', color: 'black', handler: () => { /* ... */ } },
       ]
     })
   }

@@ -1269,9 +1269,11 @@ export default defineComponent({
         this.$store.dispatch('setWalletAddress', '')
         this.$store.dispatch('setMobileNo', '')
         this.$cookie.set('UID', '')
+        this.$cookie.set('NICKNAME', '')
         this.$cookie.set('AUTH_KEY', '')
         this.$cookie.set('ADCD', '')
         localStorage.setItem('UID', '')
+        localStorage.setItem('NICKNAME', '')
         localStorage.setItem('AUTH_KEY', '')
         localStorage.setItem('ADCD', '')
 

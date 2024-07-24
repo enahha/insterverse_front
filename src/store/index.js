@@ -18,6 +18,7 @@ export default store(function (/* { ssrContext } */) {
     state: {
       rightDrawerOpen: false,
       loginModal: false,
+      projectSeq: '',
       uid: '',
       adcd: '', // 권한코드
       name: '',
@@ -34,6 +35,9 @@ export default store(function (/* { ssrContext } */) {
     getters: {
       getRightDrawerOpen: function (state) {
         return state.rightDrawerOpen
+      },
+      getProjectSeq: function (state) {
+        return state.projectSeq
       },
       getUid: function (state) {
         return state.uid
@@ -98,6 +102,9 @@ export default store(function (/* { ssrContext } */) {
     mutations: {
       SET_RIGHT_DRAWER_OPEN (state, rightDrawerOpen) {
         state.rightDrawerOpen = rightDrawerOpen
+      },
+      SET_PROJECTSEQ (state, projectSeq) {
+        state.projectSeq = projectSeq
       },
       SET_UID (state, uid) {
         state.uid = uid
@@ -186,6 +193,9 @@ export default store(function (/* { ssrContext } */) {
       },
       setRightDrawerOpen: function (context, payload) {
         return context.commit('SET_RIGHT_DRAWER_OPEN', payload)
+      },
+      setProjectSeq: function (context, payload) {
+        return context.commit('SET_PROJECTSEQ', payload)
       },
       setUid: function (context, payload) {
         return context.commit('SET_UID', payload)

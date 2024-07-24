@@ -37,13 +37,13 @@
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="nickname" ref="nickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('artist_representative_sns') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="representativeSns" ref="representativeSns" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="representativeSns" ref="refRepresentativeSns" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
 
@@ -55,23 +55,23 @@
                     <table>
                       <tr>
                         <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span></td>
-                        <td class="labal-input"><q-input v-model="email" ref="email" clearable tabindex="1" /></td>
+                        <td class="labal-input"><q-input v-model="email" ref="refEmail" clearable tabindex="1" /></td>
                       </tr>
                       <tr>
                         <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span></td>
-                        <td class="labal-input"><q-input v-model="instargram" ref="instargram" clearable tabindex="1" /></td>
+                        <td class="labal-input"><q-input v-model="instargram" ref="refInstargram" clearable tabindex="1" /></td>
                       </tr>
                       <tr>
                         <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span></td>
-                        <td class="labal-input"><q-input v-model="twitter" ref="twitter" clearable tabindex="1" /></td>
+                        <td class="labal-input"><q-input v-model="twitter" ref="refTwitter" clearable tabindex="1" /></td>
                       </tr>
                       <tr>
                         <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span></td>
-                        <td class="labal-input"><q-input v-model="discord" ref="discord" clearable tabindex="1" /></td>
+                        <td class="labal-input"><q-input v-model="discord" ref="refDiscord" clearable tabindex="1" /></td>
                       </tr>
                       <tr>
                         <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span></td>
-                        <td class="labal-input"><q-input v-model="telegram" ref="telegram" clearable tabindex="1" /></td>
+                        <td class="labal-input"><q-input v-model="telegram" ref="refTelegram" clearable tabindex="1" /></td>
                       </tr>
                     </table>
                   </td>
@@ -173,8 +173,16 @@
               />
             </div>
           </div>
+
+          <!-- <div style="display: flex; justify-content: flex-end;">
+            <q-btn
+              :label="$t('save')"
+              @click="register"
+              :style="{ backgroundColor: methodsExecuted ? 'black' : '#0C2C69', color: 'white', width: '10%' }"
+            />
+          </div> -->
           
-          <div style="display: flex; justify-content: end;">
+          <div style="display: flex; justify-content: flex-end; padding-top: 100px;">
             <q-btn
               :label="$t('next')"
               @click="goTabNext"
@@ -199,13 +207,13 @@
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="title" ref="title" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }} (Korean)<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="titleKo" ref="titleKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="titleKo" ref="refTitleKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
@@ -218,19 +226,19 @@
                       </q-icon>
                       <span class="text-red"> *</span>
                     </td>
-                    <td class="labal-input"><q-input v-model="symbol" ref="symbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_subtitle') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="subtitle" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="subtitle" ref="refSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_type') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="exhibitionType" :disable="true" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/></td>
+                    <td class="labal-input"><q-input v-model="exhibitionName" :disable="true" ref="refExhibitionName" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/></td>
                     <td>
                       <q-btn
                           :label="$t('choice')"
@@ -283,11 +291,11 @@
                   <td class="labal-input" style="">
                     <!-- 전시 시작일 -->
                     <div class="" style="max-width: 300px;">
-                      <q-input v-model="start_time" :label="$t('start_date')" ref="start_time" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+                      <q-input v-model="startTime" :label="$t('start_time')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
                         <template v-slot:prepend>
                           <q-icon name="event" class="cursor-pointer">
                             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-date v-model="start_time" mask="YYYY-MM-DD HH:mm">
+                              <q-date v-model="startTime" mask="YYYY-MM-DD HH:mm">
                                 <div class="row items-center justify-end">
                                   <q-btn v-close-popup label="Close" color="primary" flat />
                                 </div>
@@ -298,7 +306,7 @@
                         <template v-slot:append>
                           <q-icon name="access_time" class="cursor-pointer">
                             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-time v-model="start_time" mask="YYYY-MM-DD HH:mm" format24h>
+                              <q-time v-model="startTime" mask="YYYY-MM-DD HH:mm" format24h>
                                 <div class="row items-center justify-end">
                                   <q-btn v-close-popup label="Close" color="primary" flat />
                                 </div>
@@ -310,11 +318,11 @@
                     </div>
                     <!-- 전시 종료일 -->
                     <div class="" style="max-width: 300px;">
-                      <q-input v-model="end_time" :label="$t('end_date')" ref="end_time" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+                      <q-input v-model="endTime" :label="$t('end_time')" ref="refEndTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
                         <template v-slot:prepend>
                           <q-icon name="event" class="cursor-pointer">
                             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-date v-model="end_time" mask="YYYY-MM-DD HH:mm">
+                              <q-date v-model="endTime" mask="YYYY-MM-DD HH:mm">
                                 <div class="row items-center justify-end">
                                   <q-btn v-close-popup label="Close" color="primary" flat />
                                 </div>
@@ -325,7 +333,7 @@
                         <template v-slot:append>
                           <q-icon name="access_time" class="cursor-pointer">
                             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-time v-model="end_time" mask="YYYY-MM-DD HH:mm" format24h>
+                              <q-time v-model="endTime" mask="YYYY-MM-DD HH:mm" format24h>
                                 <div class="row items-center justify-end">
                                   <q-btn v-close-popup label="Close" color="primary" flat />
                                 </div>
@@ -571,6 +579,14 @@
               />
             </div>
           </div>
+
+          <!-- <div style="display: flex; justify-content: flex-end;">
+            <q-btn
+              :label="$t('save')"
+              @click="register"
+              :style="{ backgroundColor: methodsExecuted ? 'black' : '#0C2C69', color: 'white', width: '10%' }"
+            />
+          </div> -->
           
           <div style="display: flex; justify-content: space-between; padding-top: 100px;">
             <q-btn
@@ -614,40 +630,52 @@
               icon="add"
               size="3em"
               text-color="white"
-              style="background-color: #E1D2BB; border-radius: 100%; font-size: large;"
+              style="background-color: #E1D2BB; border-radius: 100%; font-size: large; margin: 10px;"
             />
           </div>
 
-          <div class="media-table-wrapper text-center q-pt-lg">
-            <div class="table-scroll-wrapper">
-              <table border="0" cellspacing="0" cellpadding="0">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>{{ $t('media') }}</th>
-                    <th>{{ $t('media_title') }}</th>
-                    <th>{{ $t('media_price') }}</th>
-                    <th>{{ $t('media_description') }}</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(item, index) in mediaList" :key="index">
-                    <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                    <td>{{ item.seq }}</td>
-                    <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
-                    <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
+          <q-pull-to-refresh @refresh="refresher">
+          <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll" style="background-color: #FEFEFE;">
+            
+            <div class="media-table-wrapper text-center q-pt-lg">
+              <div class="table-scroll-wrapper">
+                <table border="0" cellspacing="0" cellpadding="0">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>{{ $t('media') }}</th>
+                      <th>{{ $t('media_title') }}</th>
+                      <th>{{ $t('media_price') }}</th>
+                      <th>{{ $t('media_description') }}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, index) in mediaList" :key="index">
+                        <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
+                        <td>{{ item.seq }}</td>
+                        <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
+                        <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
 
-                    <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
-                    <td style="width: 150px;" v-else><span>-</span></td>
+                        <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
+                        <td style="width: 150px;" v-else><span>-</span></td>
 
-                    <td>{{ truncateText(item.description, truncateDescription) }}</td>
-                    <td><q-icon name="delete_forever" size="sm" /></td>
-                  </tr>
-                </tbody>
-              </table>
+                        <td>{{ truncateText(item.description, truncateDescription) }}</td>
+                        <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+
+          </q-infinite-scroll>
+          </q-pull-to-refresh>
 
           <div style="display: flex; justify-content: space-between; padding-top: 100px;">
             <q-btn
@@ -672,6 +700,7 @@
         <div class="row tab-panel-4">
           <q-btn
             size="lg"
+            @click="updateProjectStatus"
             :label="$t('register_project')"
             class="exhibit-btn"
           />
@@ -684,7 +713,7 @@
   </q-page>
 
   <WalletModal ref="refWalletModal" />
-  <ExhibitionTypeModal ref="refExhibitionTypeModal" @callback-register="setExhibitionType"/>
+  <ExhibitionTypeModal ref="refExhibitionTypeModal" @callback-register="setexhibitionName"/>
 
   <q-dialog v-model="confirmGoBack">
     <q-card>
@@ -805,26 +834,32 @@ export default defineComponent({
       
 
       ////////////////////////
-      nickname: '',
-      representativeSns: '',
-      email: '',
-      instargram: '',
-      twitter: '',
-      discord: '',
-      telegram: '',
-      artistDescription: '',
-      title: '',
-      titleKo: '',
-      symbol: '',
-      subtitle: '',
-      exhibitionType: '',
+      nickname: 'TestNickname',
+      representativeSns: 'TestSNS',
+      email: 'test@example.com',
+      instargram: 'test_instagram',
+      twitter: 'test_twitter',
+      discord: 'test_discord',
+      telegram: 'test_telegram',
+      artistDescription: 'This is a test description for the artist.',
+      title: 'Test Title',
+      titleKo: '테스트 제목',
+      symbol: 'TST',
+      subtitle: 'Test Subtitle',
+      exhibitionName: 'Test Exhibition',
       bannerImage: '',
       posterImage: '',
-      start_time: '',
-      end_time: '',
+      startTime: '',
+      endTime: '',
       projectDescription: '',
       projectBackground: '',
 
+      methodsExecuted: false,
+      keyword: '',
+      refresherDone: '',
+      pageSize: 50,
+      lastPageNum: 1, // 마지막 페이지
+      noDataFlag: false,
       mediaList: [
         { seq: 1, url: 'https://picsum.photos/300', title: '무제', price: 1000, description: '2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재' },
         { seq: 2, url: 'https://picsum.photos/500', title: '숲에서 이리저리 돌아다니다 그린 그림', price: 0, description: '2021년 아르코미술관 기획초대전은 작가 정재...' },
@@ -838,6 +873,9 @@ export default defineComponent({
     getUid () {
       return this.$store.getters.getUid
     },
+    getNickname () {
+      return this.$store.getters.getNickname
+    },
     getWalletType () {
       return this.$store.getters.getWalletType
     },
@@ -848,12 +886,28 @@ export default defineComponent({
   created: function () {
     // 키 설정
     this.projectSeq = this.$route.query.seq
+
+    const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+    const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+    if (nickname && uid) {
+      this.$store.dispatch('setNickname', nickname)
+      this.$store.dispatch('setUid', uid)
+    }
+    
     // 팀 지갑주소에 사용자 지갑주소 디폴트 설정
     this.projectWalletAddress = this.getWalletAddress
   },
-  mounted: function () {},
+  watch: {
+    getNickname(newNickname) {
+      this.nickname = newNickname;
+    }
+  },
+  mounted: function () {
+    this.nickname = this.getNickname
+  },
   methods: {
     goTabNext() {
+      this.register()   // 등록
       const currentTab = parseInt(this.tab)
       this.tab = (currentTab + 1).toString()
     },
@@ -870,8 +924,8 @@ export default defineComponent({
     showExhibitionTypeModal() {
       this.$refs.refExhibitionTypeModal.show()
     },
-    setExhibitionType(name) {
-      this.exhibitionType = name
+    setexhibitionName(name) {
+      this.exhibitionName = name
     },
     callbackLogin(userVo) {
       // console.log('callbackLogin!!!')
@@ -885,7 +939,103 @@ export default defineComponent({
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
     },
     goAddWork() {
-      this.$router.push('/media/registerMedia')
+      this.$router.push({ path: '/media/registerMedia', query: { seq: this.projectSeq }})
+    },
+    async search() {
+      await this.selectListMax()
+      await this.refresher(null)
+    },
+    // 검색어 입력창 키업 이벤트
+    onKeyup (event) {
+      if (event.key === 'Enter') { // 엔터일 경우 검색
+        this.search()
+      }
+    },
+    refresher (done) {
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise the refresh message
+      //        will continue to be displayed
+      // make some Ajax call then call done()
+      this.mediaList = []
+      this.refresherDone = done // load가 끝나면 로딩메세지 종료
+      this.$refs.infiniteScroll.reset() // index 초기화
+      this.$refs.infiniteScroll.resume() // stop에서 다시 재생
+      // this.$refs.infiniteScroll.load() // loadMore로 검색
+      this.loadMore(1, done)
+    },
+    loadMore(index, done) {
+      // index - called for nth time
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise your loading message
+      //        will continue to be displayed. Has optional boolean
+      //        parameter that invokes stop() when true
+      // console.log('index: ' + index)
+      // make some Ajax call then call done()
+      // this.pageNum = index
+      setTimeout(() => {
+        // alert(index)
+        // console.log('loadMore called index: ' + index)
+        if (index <= this.lastPageNum) {
+          this.selectList(index, done)
+          if (index === this.lastPageNum) {
+            this.$refs.infiniteScroll.stop()
+          }
+
+          // refresher 로딩메세지 처리
+          if (this.refresherDone != null && this.refresherDone !== '') {
+            this.refresherDone() // 로딩메세지 종료
+            this.refresherDone = '' // 로딩메세지 초기화
+          }
+        }
+      }, 500)
+    },
+    // 작품 마지막 페이지 조회
+    selectListMax() {
+      // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
+      if (!this.keyword) {
+        this.keyword = ''
+      }
+      this.$axios.get('/api/notice/selectNoticeListLastPageNum',
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.lastPageNum = result.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    // 작품 리스트 조회
+    selectList(idx, done) {
+      if (!this.keyword) {
+        this.keyword = ''
+      }
+      this.$axios.get('/api/notice/selectNoticeList',
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          // console.log(result.data)
+          if (idx === 1) { // 첫번째 load인 경우
+            this.noticeList = [] // 리스트 초기화
+          }
+          this.noticeList = this.noticeList.concat(result.data)
+
+          // 데이터 없음 표시 설정
+          if (!this.noticeList || this.noticeList.length < 1) {
+            this.noDataFlag = true
+          } else {
+            this.noDataFlag = false
+          }
+          if (done) {
+            done()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if (done) {
+            done()
+          }
+        })
     },
     ///////////////////////////////////////////////////////////////////////////
     // validation
@@ -923,86 +1073,38 @@ export default defineComponent({
     ///////////////////////////////////////////////////////////////////////////
     validate() {
       let result = true
-      if (!this.$refs.projectWalletAddress.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectTokenContractAddress.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress1.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress2.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress3.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress4.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress5.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress6.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress7.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress8.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress9.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectLpContractAddress10.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectTitle.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectTitleKo.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectSummary.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectSummaryKo.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectOfficialWebsite.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectOfficialEmail.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectDocs.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectBlog.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectMedium.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectTelegram.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectTwitter.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectGithub.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectMeta.validate()) {
-        result = false
-      }
-      if (!this.$refs.projectDiscord.validate()) {
-        result = false
-      }
+      // 왜 안되는거야악!!
+      // if (!this.$refs.refNickname.validate()) {
+      //   result = falsetrue
+      // }
+      // if (!this.$refs.refRepresentativeSns.validate()) {
+      //   result = falsetrue
+      // }
+      // if (!this.$refs.refTitle.validate()) {
+      //   result = falsetrue
+      // }
+      // if (!this.$refs.refTitleKo.validate()) {
+      //   result = falsetrue
+      // }
+      // // if (!this.projectImageUrl) {
+      // //   this.$noti(this.$q, this.$t('validation_failed_minting_nft_image'))true
+      // //   result = falsetrue
+      // // }
+      // if (!this.$refs.refSymbol.validate()) {
+      //   result = falsetrue
+      // }
+      // if (!this.$refs.refSubtitle.validate()) {
+      //   result = falsetrue
+      // }
+      // if (!this.$refs.refExhibitionName.validate()) {
+      //   result = falsetrue
+      // }
+      // if (!this.$refs.refStartTime.validate()) {
+      //   result = falsetrue
+      // }
       return result
     },
+
     // 등록 처리 시작
     async register() {
       // Field validation check
@@ -1013,70 +1115,67 @@ export default defineComponent({
 
       // 로그인 여부 체크, 메인화면으로?
       if (!this.getUid) {
-        this.$refs.refWalletModal.show()
+        this.$refs.refLoginModal.show()
         return
       }
 
-      // check mainnet
-      if (this.mainnetObj.value !== 'KLAYTN') {
-        this.$noti(this.$q, this.$t('unsupported_mainnet'))
+      // // check mainnet
+      // if (this.mainnetObj.value !== 'KLAYTN') {
+      //   this.$noti(this.$q, this.$t('unsupported_mainnet'))
+      //   return
+      // }
+
+      // 등록 (insert한번 실행되면 update로 전환)
+      if(this.methodsExecuted == true) {
+        this.doModifyProject()
         return
       }
 
-      // 등록
       this.doRegister()
     },
     // 등록
     async doRegister() {
+      // insert / update 구분용
+      this.methodsExecuted = true
       // 1. 등록
       const params = {
         uid: this.getUid,
         seq: this.projectSeq,
-        mainnet: this.mainnetObj.value,
-        type: this.projectTypeObj.value,
-        wallet_address: this.projectWalletAddress,
-        token_contract_address: this.projectTokenContractAddress,
-        lp_contract_address_1: this.projectLpContractAddress1,
-        lp_contract_address_2: this.projectLpContractAddress2,
-        lp_contract_address_3: this.projectLpContractAddress3,
-        lp_contract_address_4: this.projectLpContractAddress4,
-        lp_contract_address_5: this.projectLpContractAddress5,
-        lp_contract_address_6: this.projectLpContractAddress6,
-        lp_contract_address_7: this.projectLpContractAddress7,
-        lp_contract_address_8: this.projectLpContractAddress8,
-        lp_contract_address_9: this.projectLpContractAddress9,
-        lp_contract_address_10: this.projectLpContractAddress10,
-        title: this.projectTitle,
-        title_ko: this.projectTitleKo,
-        summary: this.projectSummary,
-        summary_ko: this.projectSummaryKo,
+        nickname: this.nickname,
+        status_cd: '10',      // 등록중
+        representative_sns_id: this.representativeSns,
+        email: this.email,
+        instargram: this.instargram,
+        twitter: this.twitter,
+        discord: this.discord,
+        telegram: this.telegram,
+        artist_details: this.artistDescription,
+        title: this.title,
+        title_ko: this.titleKo,
+        symbol: this.symbol,
+        subtitle: this.subtitle,
+        exhibition_name: this.exhibitionName,
+        banner_url: this.bannerImage,
+        poster_url: this.posterImage,
+        start_time: this.start_time,
+        end_time: this.end_time,
         description: this.projectDescription,
-        description_ko: this.projectDescriptionKo,
-        official_website: this.projectOfficialWebsite,
-        official_email: this.projectOfficialEmail,
-        logo_image: this.projectLogoImage,
-        docs: this.projectDocs,
-        blog: this.projectBlog,
-        medium: this.projectMedium,
-        telegram: this.projectTelegram,
-        twitter: this.projectTwitter,
-        github: this.projectGithub,
-        meta: this.projectMeta,
-        discord: this.projectDiscord,
+        production_background: this.projectBackground,
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
-      this.$q.loading.show() // 로딩 표시 시작
+      // this.$q.loading.show() // 로딩 표시 시작
       this.$axios.post('/api/project/insertProject', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
+          // this.$q.loading.hide() // 로딩 표시 종료
           if (result.data && result.data.resultCd === 'SUCCESS') {
             // console.log(result.data)
+            this.projectSeq = result.data.last_seq
             this.$noti(this.$q, this.$t('register_success'))
 
             // 페이지 이동
             // 나의 프로젝트 리스트 화면
-            this.$router.push('/project/myProjectList')
+            // this.$router.push('/project/projectList')
 
             // <!-- 관리자 수정용 -->
             // this.$router.push('/project/newList')
@@ -1089,6 +1188,103 @@ export default defineComponent({
           console.log(err)
           this.$noti(this.$q, err)
         })
+    },
+    // 프로젝트 수정
+    async doModifyProject() {
+      // 1. 프로젝트 수정 처리
+      const params = {
+        uid: this.getUid,
+        seq: this.projectSeq,
+        nickname: this.nickname,
+        status_cd: '10',      // 등록중
+        representative_sns_id: this.representativeSns,
+        email: this.email,
+        instargram: this.instargram,
+        twitter: this.twitter,
+        discord: this.discord,
+        telegram: this.telegram,
+        artist_details: this.artistDescription,
+        title: this.title,
+        title_ko: this.titleKo,
+        symbol: this.symbol,
+        subtitle: this.subtitle,
+        exhibition_name: this.exhibitionName,
+        banner_url: this.bannerImage,
+        poster_url: this.posterImage,
+        start_time: this.start_time,
+        end_time: this.end_time,
+        description: this.projectDescription,
+        production_background: this.projectBackground,
+        mod_id: this.getUid
+        // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
+      }
+      this.$q.loading.show() // 로딩 표시 시작
+      this.$axios.post('/api/project/updateProject', params)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.$noti(this.$q, this.$t('modify_success'))
+
+            // // 페이지 이동
+            // this.$router.go(-1)
+            // if (this.$route.query.fromAdmin === 'Y') {
+            //   // 나의 프로젝트 리스트 화면 - admin
+            //   this.$router.push('/admin/adminMyList')
+            // } else {
+            //   // 나의 프로젝트 리스트 화면
+            //   this.$router.push('/project/myList')
+            // }
+            // <!-- 관리자 수정용 -->
+            // this.$router.push('/project/newList')
+          } else {
+            this.$noti(this.$q, this.$t('modify_failed'))
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
+    },
+    async updateProjectStatus() {
+      // 1. 프로젝트 수정 처리
+      const params = {
+        uid: this.getUid,
+        seq: this.projectSeq,
+        status_cd: '99',      // 등록중
+      }
+      this.$q.loading.show() // 로딩 표시 시작
+      this.$axios.post('/api/project/updateProjectStatus', params)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.$noti(this.$q, this.$t('modify_success'))
+
+            // // 페이지 이동
+            // this.$router.go(-1)
+            // if (this.$route.query.fromAdmin === 'Y') {
+            //   // 나의 프로젝트 리스트 화면 - admin
+            //   this.$router.push('/admin/adminMyList')
+            // } else {
+            //   // 나의 프로젝트 리스트 화면
+            //   this.$router.push('/project/myList')
+            // }
+            // <!-- 관리자 수정용 -->
+            // this.$router.push('/project/newList')
+          } else {
+            this.$noti(this.$q, this.$t('modify_failed'))
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
+
     },
     // 파일 업로드 필터
     filterFiles (files) {

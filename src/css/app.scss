@@ -1398,10 +1398,14 @@ textarea {
         }
         table tbody td { 
             padding: 20px 15px;
+
         }
         table thead th { 
             border-bottom: solid 3px #000000; 
             padding: 10px 0;
+        }
+        .q-icon {
+            margin: 6px;
         }
     }
     .tab-panel-4 {
@@ -1480,7 +1484,7 @@ textarea {
     font-size: 25px;
     color: #90B2D8;
 }
-.add_art_wrap {
+.add-art-wrap {
     max-width: 1450px;
     margin-left: auto;
     margin-right: auto;
@@ -1515,6 +1519,22 @@ textarea {
     }
     .q-uploader {
         width: 550px;
+    }
+    .media-table-wrapper {
+        > table {
+            width: 100%;
+            margin-top: 20px;
+        }
+    }
+    table tbody td { 
+        padding: 20px 15px;
+        .q-icon {
+            margin: 6px;
+        }
+    }
+    table thead th { 
+        border-bottom: solid 3px #000000; 
+        padding: 10px 0;
     }
 }
 // 작품 정보 디테일
