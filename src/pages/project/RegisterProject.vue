@@ -1,12 +1,9 @@
 <template>
   <q-page class="page-1200 q-pa-md project-reg-wrap">
-    <div class="row justify-center">
-      <div class="row title-sec">
-          <div class="col-12 doc-heading">
-            <span class="subtitle">Showcase</span>
-            <div class="title">{{ $t('menu_project_register') }}</div>
-          </div>
-        </div>
+    <div class="row title">
+      <div class="col-12 doc-heading">
+        <div class="title-sec">{{ $t('menu_project_register') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Exhibition</span></div>
+      </div>
     </div>
 
     <q-tabs
@@ -31,7 +28,7 @@
       <!-- 작가 정보 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="1" style="word-break: break-word;">
-        <div class="tab-panel-1">
+        <div class="tab-panel-1 q-pt-lg">
           <span>{{ $t('artist_basic_information') }}</span>
           <div class="underline"></div>
 
@@ -46,7 +43,7 @@
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('artist_representative_sns') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="representativeSNS" ref="representativeSNS" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="representativeSns" ref="representativeSns" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
 
@@ -96,7 +93,7 @@
           <div class="row justify-center q-pb-lg">
             <div class="col-12  q-pb-lg">
               <q-editor
-                v-model="projectDescription"
+                v-model="artistDescription"
                 min-height="10rem"
                 autofocus
                 tabindex="5"
@@ -181,7 +178,7 @@
             <q-btn
               :label="$t('next')"
               @click="goTabNext"
-              style="background-color: #90B2D8; color: black "
+              style="background-color: #90B2D8; color: white "
             />
           </div>
 
@@ -192,7 +189,7 @@
       <!-- 2. 전시정보 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="2" style="word-break: break-word;">
-        <div class="tab-panel-2">
+        <div class="tab-panel-2 q-pt-lg">
           <span>{{ $t('project_basic_information') }}</span>
           <div class="underline"></div>
 
@@ -202,13 +199,13 @@
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="projectNameKo" ref="projectNameKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="title" ref="title" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }} (Korean)<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="projectName" ref="projectName" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="titleKo" ref="titleKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
@@ -221,13 +218,26 @@
                       </q-icon>
                       <span class="text-red"> *</span>
                     </td>
-                    <td class="labal-input"><q-input v-model="projectSymbol" ref="projectSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="symbol" ref="symbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
                     <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_subtitle') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="projectSummary" ref="projectSummary" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1" /></td>
+                    <td class="labal-input"><q-input v-model="subtitle" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1" /></td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_type') }}<span class="text-red"> *</span></span></td>
+                    <td class="labal-input"><q-input v-model="exhibitionType" :disable="true" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/></td>
+                    <td>
+                      <q-btn
+                          :label="$t('choice')"
+                          @click="showExhibitionTypeModal"
+                          style="background-color: #90B2D8; color: white "
+                        />
+                    </td>
                 </div>
               </tr>
               <tr>
@@ -364,17 +374,17 @@
                       <div class="col-12 text-red text-bold">
                         {{ $t('square_image_only') }}
                       </div>
-                      <div class="row justify-center">
+                      <!-- <div class="row justify-center">
                         <div class="col-12">
                             <span class="text-weight-bold text-subtitle1">※ {{ $t('whitelist_preview_main_image') }}</span>
                         </div>
                         </div>
                         <div class="row justify-center q-pb-xs">
                         <div class="col-12">
-                            <img v-if="projectPosterImage" :src="projectPosterImage" style="width: 100%;">
+                            <img v-if="posterImage" :src="posterImage" style="width: 100%;">
                             <span v-else>{{ $t('no_image') }}</span>
                         </div>
-                      </div>
+                      </div> -->
                     </td>
                 </div>
               </tr>
@@ -481,7 +491,7 @@
           <div class="row justify-center q-pb-lg">
             <div class="col-12  q-pb-lg">
               <q-editor
-                v-model="projectDescription"
+                v-model="projectBackground"
                 min-height="10rem"
                 autofocus
                 tabindex="5"
@@ -562,16 +572,16 @@
             </div>
           </div>
           
-          <div style="display: flex; justify-content: space-between">
+          <div style="display: flex; justify-content: space-between; padding-top: 100px;">
             <q-btn
               :label="$t('go_back')"
               @click="goTabBack"
-              style="background-color: #90B2D8; color: black "
+              style="background-color: #90B2D8; color: white "
             />
             <q-btn
               :label="$t('next')"
               @click="goTabNext"
-              style="background-color: #90B2D8; color: black "
+              style="background-color: #90B2D8; color: white "
             />
           </div>
 
@@ -585,39 +595,96 @@
       <!-- 3. 작품 업로드 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="3">
-        <div class="tab-panel-3">
+        <div class="tab-panel-3 q-pt-lg">
           <span>{{ $t('project_art_upload') }}</span>
           <div class="underline"></div>
-          <q-btn
-            :label="$t('add_art_work')"
-            @click="goAddWork"
-            style="background-color: #90B2D8; color: black "
-          />
 
 
+          <div class="row srch-wrap" style="width: 100%;">
+            <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable borderless />
+            &nbsp;&nbsp;
+            <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
+            &nbsp;&nbsp;
+            <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
+          </div>
 
+          <div style="width: 100%; display: flex; justify-content: flex-end">
+            <q-btn
+              @click="goAddWork"
+              icon="add"
+              size="3em"
+              text-color="white"
+              style="background-color: #E1D2BB; border-radius: 100%; font-size: large;"
+            />
+          </div>
 
+          <div class="media-table-wrapper text-center q-pt-lg">
+            <div class="table-scroll-wrapper">
+              <table border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>{{ $t('media') }}</th>
+                    <th>{{ $t('media_title') }}</th>
+                    <th>{{ $t('media_price') }}</th>
+                    <th>{{ $t('media_description') }}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, index) in mediaList" :key="index">
+                    <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
+                    <td>{{ item.seq }}</td>
+                    <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
+                    <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
 
+                    <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
+                    <td style="width: 150px;" v-else><span>-</span></td>
+
+                    <td>{{ truncateText(item.description, truncateDescription) }}</td>
+                    <td><q-icon name="delete_forever" size="sm" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; padding-top: 100px;">
+            <q-btn
+              :label="$t('go_back')"
+              @click="goTabBack"
+              style="background-color: #90B2D8; color: white "
+            />
+            <q-btn
+              :label="$t('next')"
+              @click="goTabNext"
+              style="background-color: #90B2D8; color: white "
+            />
+          </div>
 
 
         </div>
       </q-tab-panel>
-            <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <!-- 4. 미리보기 및 등록 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="4">
-        <div class="tab-panel-4">
+        <div class="row tab-panel-4">
+          <q-btn
+            size="lg"
+            :label="$t('register_project')"
+            class="exhibit-btn"
+          />
 
-        
-        
-        
         </div>
       </q-tab-panel>
     </q-tab-panels>
 
+
   </q-page>
 
   <WalletModal ref="refWalletModal" />
+  <ExhibitionTypeModal ref="refExhibitionTypeModal" @callback-register="setExhibitionType"/>
 
   <q-dialog v-model="confirmGoBack">
     <q-card>
@@ -638,13 +705,20 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { useI18n } from 'vue-i18n'
 import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
 
 export default defineComponent({
   name: 'RegisterProject',
+  setup () {
+    const { locale } = useI18n({ useScope: 'global' })
+    return {
+      locale,
+    }
+  },
   data () {
     return {
-      tab: '3',
+      tab: '1',
       projectSeq: '', // route parameter seq
       mainnetObj: {
         label: 'Klaytn',
@@ -710,7 +784,7 @@ export default defineComponent({
       projectTitleKo: '',
       projectSummary: '',
       projectSummaryKo: '',
-      projectDescription: '',
+      // projectDescription: '',
       projectDescriptionKo: '',
       projectOfficialWebsite: '',
       projectOfficialEmail: '',
@@ -725,11 +799,37 @@ export default defineComponent({
       projectDiscord: '',
       // seqFileMst: '' // 파일 마스터 SEQ
       confirmGoBack: false, // goBack 확인창
+
+      truncateTitle: 10,
+      truncateDescription: 200,
       
-      projectPosterImage: '',
-      projectBannerImage: '',
+
+      ////////////////////////
+      nickname: '',
+      representativeSns: '',
+      email: '',
+      instargram: '',
+      twitter: '',
+      discord: '',
+      telegram: '',
+      artistDescription: '',
+      title: '',
+      titleKo: '',
+      symbol: '',
+      subtitle: '',
+      exhibitionType: '',
+      bannerImage: '',
+      posterImage: '',
       start_time: '',
       end_time: '',
+      projectDescription: '',
+      projectBackground: '',
+
+      mediaList: [
+        { seq: 1, url: 'https://picsum.photos/300', title: '무제', price: 1000, description: '2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재' },
+        { seq: 2, url: 'https://picsum.photos/500', title: '숲에서 이리저리 돌아다니다 그린 그림', price: 0, description: '2021년 아르코미술관 기획초대전은 작가 정재...' },
+        { seq: 3, url: 'https://picsum.photos/1000', title: '해변', price: 12000, description: '2021년 아르코미술관 기획초대전은 작가 정재...' }
+      ]
     }
   },
   components: {
@@ -760,6 +860,18 @@ export default defineComponent({
     goTabBack() {
       const currentTab = parseInt(this.tab)
       this.tab = (currentTab - 1).toString()
+    },
+    truncateText(text, maxLength) {
+      if (text.length <= maxLength) {
+        return text
+      }
+      return text.substring(0, maxLength) + '...'
+    },
+    showExhibitionTypeModal() {
+      this.$refs.refExhibitionTypeModal.show()
+    },
+    setExhibitionType(name) {
+      this.exhibitionType = name
     },
     callbackLogin(userVo) {
       // console.log('callbackLogin!!!')
@@ -899,7 +1011,7 @@ export default defineComponent({
         return
       }
 
-      // 로그인 여부 체크, 로그인 모달 표시
+      // 로그인 여부 체크, 메인화면으로?
       if (!this.getUid) {
         this.$refs.refWalletModal.show()
         return
@@ -1007,7 +1119,7 @@ export default defineComponent({
       // console.log('fileType: ' + fileType)
       console.log('fileNameNew: ' + fileNameNew)
 
-      this.projectBannerImage = fileNameNew // 프로젝트 로고 URL 설정
+      this.bannerImage = fileNameNew // 프로젝트 로고 URL 설정
       // this.$refs.uploaderObj.reset()
     },
     fileUploadedPoster (file, xhr) {
@@ -1021,7 +1133,7 @@ export default defineComponent({
       // console.log('fileType: ' + fileType)
       console.log('fileNameNew: ' + fileNameNew)
 
-      this.projectPosterImage = fileNameNew // 프로젝트 로고 URL 설정
+      this.posterImage = fileNameNew // 프로젝트 로고 URL 설정
       // this.$refs.uploaderObj.reset()
     },
     goBack() {

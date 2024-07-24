@@ -332,6 +332,9 @@ export default defineComponent({
     getUid () {
       return this.$store.getters.getUid
     },
+    getNickname () {
+      return this.$store.getters.getNickname
+    },
     isAdmin () {
       return this.$store.getters.getAdcd === this.$adminCode
     },
@@ -349,6 +352,10 @@ export default defineComponent({
   },
   created: function () {
     // // console.log(this.$q.platform.is.mobile)
+    const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+    if (nickname) {
+      this.$store.dispatch('setNickname', nickname)
+    }
 
     // // CORDOVA APP인 경우, /app/loginApp 화면으로 이동
     // if ((this.$q.platform.is.cordova === true || this.$q.platform.is.name === 'webkit') && location.origin !== this.$frontDomain
@@ -398,6 +405,18 @@ export default defineComponent({
     //   // }
     //   location.href = this.$domain
     // },
+
+    callbackLogin(userVo) {
+      // console.log('callbackLogin!!!')
+      this.$store.dispatch('setUid', userVo.uid)
+      this.$store.dispatch('setAdcd', userVo.adcd)
+      this.$store.dispatch('setName', userVo.name)
+      this.$store.dispatch('setNickname', userVo.nickname)
+      this.$store.dispatch('setProfileImage', userVo.profile_image)
+      this.$store.dispatch('setWalletType', userVo.wallet_type)
+      this.$store.dispatch('setWalletAddress', userVo.wallet_address)
+      this.$store.dispatch('setMobileNo', userVo.mobile_no)
+    },
     truncateString(str) {
       const maxLength = 30
       if (str.length <= maxLength) {

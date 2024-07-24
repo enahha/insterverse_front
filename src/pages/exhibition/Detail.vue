@@ -8,7 +8,7 @@
 
       <!-- <div class="row flex flex-center"> -->
       <!-- <div class="row justify justify-between q-pt-sm"> -->
-      <div class="row q-pt-sm" style="background-color: blue;">
+      <div class="row q-pt-sm" style="">
         <div class="row flex flex-center full-screen">
           <div class="row flex flex-center full-screen">
             <div class="col">
@@ -79,6 +79,7 @@
               <td style="display: flex; flex-direction: column; align-items: end; padding-right: 25%;">
                 <!-- <q-btn :label="$t('edit')" @click="goModify" style="background-color: #90B2D8; width: 100px; margin: 10px;"/> -->
                 <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 3%;"/>
+                <q-btn label="MediaDetailModal" @click="showMediaDetailModal" size="20px" style="background-color: #E1D2BB; width: 180px; margin-top: 3%;"/>
               </td>
             </tr>
           </table>
@@ -88,99 +89,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Side Area -->
-  <!-- <div :class="`page-side-bar project-type ${getRightDrawerOpen ? 'on' : ''}`"></div> -->
-  <!-- <div v-if="smallSize">
-    <div class="page-side-bar project-type">
-      <div class="row">
-        <q-avatar size="md">
-          <img v-if="projectVo.logo_image" :src="projectVo.logo_image">
-          <q-icon v-else name="rocket_launch" size="md" />
-        </q-avatar>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
-        </div>
-      </div>
-      <div class="row q-pb-md">
-        <div v-if="locale === 'ko-KR'" class="col-12 t-text">
-          {{ projectVo.title_ko }}
-        </div>
-        <div v-else class="col-12 t-text">
-          {{ projectVo.title }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_summary') }}</span>
-        </div>
-      </div>
-      <div class="row">
-        <div v-if="locale === 'ko-KR'" class="col-12 t-text">
-          {{ projectVo.summary_ko }}
-        </div>
-        <div v-else class="col-12 t-text">
-          {{ projectVo.summary }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <br />
-          <q-btn class="btn" color="white" text-color="black" size="lg" style="width: 100%;" no-caps @click="exhibition_enter">
-            <b>{{ $t('exhibition_enter') }}</b>
-          </q-btn>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div v-else>
-    <q-page-sticky position="top-right" :offset="[0, 0]">
-      <div class="page-side-bar project-type">
-        <div class="row">
-          <q-avatar size="md">
-            <img v-if="projectVo.logo_image" :src="projectVo.logo_image">
-            <q-icon v-else name="rocket_launch" size="md" />
-          </q-avatar>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
-          </div>
-        </div>
-        <div class="row q-pb-md">
-          <div v-if="locale === 'ko-KR'" class="col-12 t-text">
-            {{ projectVo.title_ko }}
-          </div>
-          <div v-else class="col-12 t-text">
-            {{ projectVo.title }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_summary') }}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div v-if="locale === 'ko-KR'" class="col-12 t-text">
-            {{ projectVo.summary_ko }}
-          </div>
-          <div v-else class="col-12 t-text">
-            {{ projectVo.summary }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <br />
-            <q-btn class="btn" color="white" text-color="black" size="lg" style="width: 100%;" no-caps @click="exhibition_enter">
-              <b>{{ $t('exhibition_enter') }}</b>
-            </q-btn>
-          </div>
-        </div>
-      </div>
-    </q-page-sticky>
-  </div> -->
 
   <q-page class="page-1200 q-pa-md project-detail-wrap">
     <q-tabs
@@ -193,10 +101,6 @@
       <q-tab name="l" icon="link">&nbsp;&nbsp;{{ $t('link') }}</q-tab>
       <q-tab name="c" icon="chat">&nbsp;&nbsp;{{ $t('comment') }}</q-tab>
     </q-tabs>
-
-    <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
-      <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
-    </q-page-scroller> -->
 
 
     <q-tab-panels v-model="tab">
@@ -220,7 +124,7 @@
         </div> -->
         <div class="row justify-center">
           <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_summary') }}</span>
+            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_subtitle') }}</span>
 
           </div>
         </div>
@@ -246,7 +150,7 @@
           </div>
         </div>
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('mainnet') }}</span>
 
@@ -256,7 +160,7 @@
           <div class="col-12">
             {{ projectVo.mainnet }}
           </div>
-        </div>
+        </div> -->
 
         <div class="row justify-center">
           <div class="col-12">
@@ -762,7 +666,7 @@
 
       <!-- place QPageScroller at end of page -->
       <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-        <q-btn fab icon="keyboard_arrow_up" color="primary" />
+        <q-btn fab icon="keyboard_arrow_up" color="#FEFEFE" />
       </q-page-scroller>
 
     </div>
@@ -821,6 +725,7 @@
 
   <WalletModal ref="refWalletModal" />
   <IframeModal ref="refIframeModal" />
+  <MediaDetailModal ref="refMediaDetailModal" />
 
 </template>
 
@@ -1066,6 +971,9 @@ export default defineComponent({
         this.smallSize = false
       }
     },
+    showMediaDetailModal() {
+      this.$refs.refMediaDetailModal.show()
+    },
     callbackLogin(userVo) {
       // console.log('callbackLogin!!!')
       this.$store.dispatch('setUid', userVo.uid)
@@ -1145,11 +1053,13 @@ export default defineComponent({
     insertProjectComment() {
       // console.log('insertProjectComment')
 
-      // 로그인 여부 체크, 로그인 모달 표시
-      if (!this.getUid) {
-        this.$refs.refWalletModal.show()
-        return
-      }
+      // 로그인 여부 체크, 로그인 모달 표시   < -- 이건 지갑 로그인
+      // if (!this.getUid) {
+      //   this.$refs.refWalletModal.show()
+      //   return
+      // }
+
+      // 로그인 안했을 시 return 추가해야 함.
 
       // 내용 유무 체크
       if (!this.myContents) {

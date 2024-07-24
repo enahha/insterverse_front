@@ -35,6 +35,14 @@ const routes = [
     ]
   },
   {
+    path: '/faq',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: 'register', component: () => import('pages/faq/Register.vue') },
+      { path: 'modify', component: () => import('pages/faq/Modify.vue') },
+    ]
+  },
+  {
     path: '/inquiry',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -105,7 +113,7 @@ const routes = [
     path: '/mypage',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/mypage/MyPage.vue') },
+      { path: '', component: () => import('src/pages/mypage/MyPage.vue') },
     ]
   },
   {

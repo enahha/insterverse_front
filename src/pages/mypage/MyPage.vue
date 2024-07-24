@@ -1,421 +1,304 @@
 <template>
-  <q-page class="q-pa-md page-default mypage-wrap">
-    <div class="row justify-center page-tit">
-      <div class="col-12 doc-heading doc-h2">
-        {{ $t('menu_mypage') }}
-      </div>
-    </div>
-    <div class="row justify-center page-sub-tit">
-      <div class="col-12">
-        {{ $t('menu_mypage_description') }}
-      </div>
-    </div>
-
-    <!-- uid -->
-    <div class="row justify-center q-pt-md q-pb-xs">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_uid') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="getUid" ref="uid" standout readonly />
-      </div>
-    </div>
-
-    <!-- wallet_address -->
-    <div class="row justify-center q-pt-md q-pb-xs">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_wallet_address') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="wallet_address" ref="uid" standout />
-      </div>
-    </div>
-
-    <!-- pwd -->
-    <div class="row justify-center q-pt-md q-pb-xs">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_pwd') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="pwd" ref="pwd" :rules="[val => minLength(val, 6), val => maxLength(val, 30)]" clearable standout tabindex="1" />
-      </div>
-    </div>
-
-    <!-- pwdCheck -->
+  <q-page class="q-pa-md page-1200 mypage-wrap">
     <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_pwd_check') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="pwdCheck" ref="pwdCheck" :rules="[val => minLength(val, 6), val => maxLength(val, 30)]" clearable standout tabindex="2" />
-      </div>
+      <div class="row title-sec">
+          <div class="col-12 doc-heading">
+            <span class="subtitle" v-if="locale === 'ko-KR'">My Page</span>
+            <div class="title">{{ $t('menu_mypage') }}</div>
+          </div>
+        </div>
     </div>
 
-    <!-- nickname -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_nickname') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="nickname" ref="nickname" :rules="[val => minLength(val, 2), val => maxLength(val, 100)]" clearable standout tabindex="4" />
-      </div>
-    </div>
+    <q-tabs
+      v-model="tab"
+      no-caps
+      align="justify"
+      inline-label
+    >
+      <q-tab name="1">{{ $t('menu_mypage_privacy') }}</q-tab>
+      <q-tab name="2">{{ $t('menu_mypage_my_exhibition') }}</q-tab>
+      <q-tab name="3">{{ $t('menu_mypage_sales_detail') }}</q-tab>
+      <q-tab name="4">{{ $t('menu_mypage_feedback') }}</q-tab>
+    </q-tabs>
 
-    <!-- profile_image -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1" style="display: inline-block">{{ $t('user_profile_image') }}</span>
-        <span class="text-grey">
-          &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-        </span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-uploader
-          field-name="file"
-          ref="uploaderObj"
-          url="/api/common/uploadImage"
-          hide-upload-btn
-          color="grey-3"
-          text-color="black"
-          :multiple="false"
-          accept="image/*"
-          :filter="filterFiles"
-          max-files="1"
-          :auto-upload="true"
-          tabindex="9"
-          @uploaded="fileUploaded_profile_image"
-        />
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12 text-red text-bold">
-        {{ $t('square_image_only') }}
-      </div>
-    </div>
+    <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
+      <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
+    </q-page-scroller> -->
 
-    <!-- profile_image preview -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">※ {{ $t('user_preview_profile_image') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-item>
-          <q-item-section avatar>
-            <q-avatar>
-              <img v-if="profile_image" :src="profile_image">
-              <img v-else src="https://cdn.quasar.dev/img/boy-avatar.png">
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <div class="row">
-              <q-item-label class="col-12">{{ nickname }}</q-item-label>
+
+    <q-tab-panels v-model="tab">
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 개인정보 변경 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="1" style="word-break: break-word;">
+        <div class="tab-panel-1 q-pt-lg">
+          <span>{{ $t('artist_basic_information') }}</span>
+          <div class="underline"></div>
+
+          <div style="margin-left: 5%;">
+            <table style="width: 800px;">
+              <tr>
+                <div class="input-group q-pt-lg">
+                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('user_nickname') }}<span class="text-red"> *</span></span></td>
+                  <td class="labal-input"><q-input v-model="exhibitionType" :disable="true" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/></td>
+                  <td>
+                    <q-btn
+                        :label="$t('change')"
+                        @click="showExhibitionTypeModal"
+                        style="background-color: #90B2D8; color: white "
+                      />
+                  </td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('user_pwd') }}<span class="text-red"> *</span></span></td>
+                  <td class="labal-input"><q-input v-model="subtitle" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1" /></td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('change_pwd') }}<span class="text-red"> *</span></span></td>
+                  <td class="labal-input"><q-input v-model="exhibitionType" :disable="true" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/></td>
+                  <td>
+                    <q-btn
+                      :label="$t('change')"
+                      @click="showExhibitionTypeModal"
+                      style="background-color: #90B2D8; color: white "
+                    />
+                  </td>
+                </div>
+              </tr>
+              <tr>
+                <div class="row justify-center q-pa-xl">
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_account') }}<span class="text-red"> *</span></span></td>
+                  <td class="labal-input">
+                    <q-select
+                      v-model="selectedBank"
+                      :options="bankOption"
+                      option-label="label"
+                      option-value="value"
+                      :label="$t('menu_mypage_bank')"
+                      outlined
+                      dense
+                    />
+                    <q-input v-model="exhibitionType" :disable="true" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/>
+                  </td>
+                </div>
+              </tr>
+              <tr>
+                <td class="bank-change_btn">
+                  <q-btn
+                    :label="$t('save')"
+                    @click="showExhibitionTypeModal"
+                    style="background-color: #0C2C69; color: white "
+                  />
+                </td>
+              </tr>
+            </table>
+          </div>
+          </div>
+      </q-tab-panel>
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 2. 나의 전시 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="2" style="word-break: break-word;">
+        <div class="tab-panel-2 q-pt-lg">
+          <!-- 프로젝트 리스트 -->
+          <q-pull-to-refresh @refresh="refresher" class="project-list">
+            <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
+
+              <div v-for="item in projectList" :key="item.seq">
+                <q-item clickable @click="goDetail(item.seq)">
+                  <q-item-section avatar>
+                    <q-avatar>
+                      <img v-if="item.logo_image" :src="item.logo_image">
+                      <q-icon v-else name="rocket_launch" size="md" />
+                    </q-avatar>
+                  </q-item-section>
+
+                  <q-item-section>
+                    <div class="row list-item">
+                      <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
+                      <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
+                      <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
+                      <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+
+                <!-- 관리자 수정용 -->
+                <!-- <div v-if="isAdmin" class="text-right">
+                  <q-btn @click="goSetDescription(item.seq)" size="sm" label="Modify" />
+                </div> -->
+              </div>
+              <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                  <q-spinner-dots color="primary" size="40px" />
+                </div>
+              </template>
+            </q-infinite-scroll>
+          </q-pull-to-refresh>
+
+          <div v-if="noDataFlag" class="row justify-center">
+            <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+          </div>
+        </div>
+      </q-tab-panel>
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 3. 판매 내역 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="3" style="word-break: break-word;">
+        <div class="tab-panel-3 q-pt-lg">
+          <div class="withdrawal">
+            <div class="title">{{ $t('menu_mypage_total_sales') }} 3,000,000 {{ $t('menu_mypage_currncy') }}</div>
+            <div>                  
+              <q-btn
+                :label="$t('menu_mypage_withdrawal')"
+                @click="showExhibitionTypeModal"
+                style="background-color: #0C2C69; color: white "
+              />
             </div>
-          </q-item-section>
-        </q-item>
-      </div>
-    </div>
-    <br />
+          </div>
+          <div class="sales-detail q-pt-lg">
+            <div class="title">{{ $t('menu_mypage_sales_detail') }}</div>
+            <div class="underline"></div>
 
-    <div class="row text-weight-bold text-subtitle1 q-pt-md q-pb-md section-tit">
-      {{ $t('user_information') }}
-    </div>
+            <div class="sale-info">
+            <div v-for="item in mediaList" :key="item.seq">
+              <q-item clickable @click="goDetail(item.seq)">
+                <q-item-section avatar>
+                  <q-avatar>
+                    <img v-if="item.url" :src="item.url">
+                    <q-icon v-else name="rocket_launch" size="md" />
+                  </q-avatar>
+                </q-item-section>
 
-    <!-- name -->
-    <div class="row justify-center q-pt-lg">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_name') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="name" ref="name" :rules="[val => minLength(val, 2), val => maxLength(val, 100)]" clearable standout tabindex="3" />
-      </div>
-    </div>
+                <q-item-section>
+                  <div class="row list-item">
+                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title }}</q-item-label>
+                    <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
+                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.price }}</q-item-label>
+                    <q-item-label v-else class="col-12">{{ item.price }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+            </div>
+            </div>
+          </div>     
+        </div>
+      </q-tab-panel>
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 4. 피드백 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="4" style="word-break: break-word;">
+        <div class="tab-panel-4 q-pt-lg">
+          <span>{{ $t('menu_mypage_feedback_info') }}</span>
+          <div class="underline"></div>
 
-    <!-- mobile_no -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_mobile_no') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="mobile_no" ref="mobile_no" :rules="[val => minLength(val, 10), val => maxLength(val, 20)]" clearable standout tabindex="5" />
-      </div>
-    </div>
+          <!-- 프로젝트 댓글 리스트 -->
+          <q-pull-to-refresh @refresh="refresher">
+            <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
+              <div v-for="item in projectCommentList" :key="item.seq">
 
-    <!-- id_card_image -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1" style="display: inline-block">{{ $t('user_id_card_image') }}</span>
-        <span class="text-grey">
-          &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-        </span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-uploader
-          field-name="file"
-          ref="uploaderObj"
-          url="/api/common/uploadImage"
-          hide-upload-btn
-          color="grey-3"
-          text-color="black"
-          :multiple="false"
-          accept="image/*"
-          :filter="filterFiles"
-          max-files="1"
-          :auto-upload="true"
-          tabindex="9"
-          @uploaded="fileUploaded_id_card_image"
-        />
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md" style="word-break: break-word;">
-      <div class="col-12">
-        {{ $t('user_id_card_type') }}
-      </div>
-      <div class="col-12 text-red text-bold">
-        {{ $t('user_id_card_description') }}
-      </div>
-    </div>
+                <div :style="`padding-left: ${ item.group_layer * 20 }px`" v-if="item.visible_child" :class="`${ item.group_layer === 0 ? 'bg-white' : 'bg-grey-2'}`">
+                  <div class="row q-pt-md">
+                    <div class="col-8">
+                      <table border="0" cellpadding="0" sellspacing="0" width="100%">
+                        <tr>
+                          <td rowspan="2" width="60" class="flex-bottom">
+                            <q-avatar>
+                              <!-- <img src="https://cdn.quasar.dev/img/avatar7.jpg"> -->
+                              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                            </q-avatar>
+                          </td>
+                          <td><span class="text-body2">{{ item.reg_name }}</span></td>
+                        </tr>
+                        <tr>
+                          <td><span class="text-caption text-grey-7">{{ item.reg_time }}</span></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div v-if="getUid && getUid === item.reg_id" class="col-4 text-right q-pt-md">
+                      <!-- <span style="cursor: pointer;" @click="modifyComment(item)">{{ $t('modify') }}</span> -->
+                      <q-btn icon="edit" @click="modifyComment(item)" flat dense />
+                      &nbsp;&nbsp;
+                      <!-- <span style="cursor: pointer;" @click="deleteComment(item.seq)">{{ $t('delete') }}</span> -->
+                      <q-btn icon="delete" @click="deleteComment(item.seq)" flat dense />
+                      &nbsp;&nbsp;
+                    </div>
+                  </div>
+                  <div class="row q-pt-sm" style="word-break: break-word;">
+                    <div class="col-12 text-body1">{{ item.contents }}</div>
+                  </div>
+                  <div class="row q-pt-sm q-pb-sm">
+                    <div class="col-4">
+                      <span style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">{{ $t('register_reply') }}</span>
+                      <span v-if="item.group_layer === 0" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt1 }})</span>
+                      <span v-if="item.group_layer === 1" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt2 }})</span>
+                      <span v-if="item.group_layer === 2" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt3 }})</span>
+                      <span v-if="item.group_layer === 3" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt4 }})</span>
+                      <span v-if="item.group_layer === 4" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt5 }})</span>
+                      <span v-else></span>
+                    </div>
+                    <!-- <div class="col-4"></div> -->
+                    <div class="col-8 text-right">
+                      <q-btn v-if="item.like_cd === 'Y'" icon="thumb_up_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
+                      <q-btn v-else icon="thumb_up_off_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
+                      &nbsp;{{ item.like_cnt }}
+                      &nbsp;&nbsp;
+                      <q-btn v-if="item.like_cd === 'N'" icon="thumb_down_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
+                      <q-btn v-else icon="thumb_down_off_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
+                      &nbsp;{{ item.dislike_cnt }}
+                      &nbsp;&nbsp;
+                      <!-- ### {{ item.group_order }} ### {{ item.group_layer }} -->
+                    </div>
+                  </div>
 
-    <!-- id_card_image preview -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">※ {{ $t('user_preview_id_card_image') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <img v-if="id_card_image" :src="id_card_image" style="width: 100%;">
-        <span v-else>{{ $t('no_image') }}</span>
-      </div>
-    </div>
-    <br />
+                  <div v-if="item.visible_reply_input" class="row q-pt-sm q-pb-sm">
+                    <div class="col-12">
+                      <q-input v-model="myReply" type="textarea" :placeholder="$t('enter_the_reply')" rows="2" outlined @keyup="countMyReplyLength" />
+                    </div>
 
-    <!-- home_address -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_home_address') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="home_address" ref="home_address" :rules="[val => minLength(val, 2), val => maxLength(val, 200)]" clearable standout tabindex="3" />
-      </div>
-    </div>
+                    <div class="col-6 text-left q-pt-sm">
+                      &nbsp;&nbsp;&nbsp;{{ myReplyLength }} / 300
+                    </div>
+                    <div class="col-6 text-right q-pt-sm">
+                      <q-btn size="md" color="black" style="height: 36px;" @click="insertProjectCommentReply(item)" outline>{{ $t('register') }}</q-btn>
+                    </div>
+                  </div>
 
-    <!-- home_address_image -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1" style="display: inline-block">{{ $t('user_home_address_image') }}</span>
-        <span class="text-grey">
-          &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-        </span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-uploader
-          field-name="file"
-          ref="uploaderObj"
-          url="/api/common/uploadImage"
-          hide-upload-btn
-          color="grey-3"
-          text-color="black"
-          :multiple="false"
-          accept="image/*"
-          :filter="filterFiles"
-          max-files="1"
-          :auto-upload="true"
-          tabindex="9"
-          @uploaded="fileUploaded_home_address_image"
-        />
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md" style="word-break: break-word;">
-      <div class="col-12 text-red text-bold">
-        {{ $t('user_home_address_description') }}
-      </div>
-    </div>
+                </div>
 
-    <!-- home_address_image preview -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">※ {{ $t('user_preview_home_address_image') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <img v-if="home_address_image" :src="home_address_image" style="width: 100%;">
-        <span v-else>{{ $t('no_image') }}</span>
-      </div>
-    </div>
-    <br />
+              </div>
+              <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                  <q-spinner-dots color="primary" size="40px" />
+                </div>
+              </template>
+            </q-infinite-scroll>
+          </q-pull-to-refresh>
 
-    <div class="row text-weight-bold text-subtitle1 q-pt-md q-pb-md section-tit">
-      {{ $t('user_company_information') }}
-    </div>
-
-    <!-- business_registration_no -->
-    <div class="row justify-center q-pt-lg">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_business_registration_no') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="business_registration_no" ref="business_registration_no" :rules="[val => minLength(val, 10), val => maxLength(val, 10)]" clearable standout tabindex="3" />
-      </div>
-    </div>
-
-    <!-- business_license_image -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1" style="display: inline-block">{{ $t('user_business_license_image') }}</span>
-        <span class="text-grey">
-          &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-        </span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-uploader
-          field-name="file"
-          ref="uploaderObj"
-          url="/api/common/uploadImage"
-          hide-upload-btn
-          color="grey-3"
-          text-color="black"
-          :multiple="false"
-          accept="image/*"
-          :filter="filterFiles"
-          max-files="1"
-          :auto-upload="true"
-          tabindex="9"
-          @uploaded="fileUploaded_business_license_image"
-        />
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md" style="word-break: break-word;">
-    </div>
-
-    <!-- business_license_image preview -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">※ {{ $t('user_preview_business_license_image') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <img v-if="business_license_image" :src="business_license_image" style="width: 100%;">
-        <span v-else>{{ $t('no_image') }}</span>
-      </div>
-    </div>
-    <br />
-
-    <!-- company_address -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_company_address') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="company_address" ref="company_address" :rules="[val => minLength(val, 2), val => maxLength(val, 200)]" clearable standout tabindex="3" />
-      </div>
-    </div>
-
-    <!-- company_address_image -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1" style="display: inline-block">{{ $t('user_company_address_image') }}</span>
-        <span class="text-grey">
-          &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-        </span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-uploader
-          field-name="file"
-          ref="uploaderObj"
-          url="/api/common/uploadImage"
-          hide-upload-btn
-          color="grey-3"
-          text-color="black"
-          :multiple="false"
-          accept="image/*"
-          :filter="filterFiles"
-          max-files="1"
-          :auto-upload="true"
-          tabindex="9"
-          @uploaded="fileUploaded_company_address_image"
-        />
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md" style="word-break: break-word;">
-      <div class="col-12 text-red text-bold">
-        {{ $t('user_company_address_description') }}
-      </div>
-    </div>
-
-    <!-- company_address_image preview -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">※ {{ $t('user_preview_company_address_image') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <img v-if="company_address_image" :src="company_address_image" style="width: 100%;">
-        <span v-else>{{ $t('no_image') }}</span>
-      </div>
-    </div>
-    <br />
-
-    <!-- company_tel_no -->
-    <div class="row justify-center">
-      <div class="col-12">
-        <span class="text-weight-bold text-subtitle1">{{ $t('user_company_tel_no') }}</span>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <div class="col-12">
-        <q-input v-model="company_tel_no" ref="company_tel_no" :rules="[val => minLength(val, 9), val => maxLength(val, 20)]" clearable standout tabindex="6" />
-      </div>
-    </div>
+          <!-- place QPageScroller at end of page -->
+          <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+            <q-btn fab icon="keyboard_arrow_up" color="#FEFEFE" />
+          </q-page-scroller>
 
 
-    <!-- Buttons -->
-    <div class="row justify-center q-pt-md q-pb-xs">
-      <div class="col-6 text-left">
-        <q-btn class="btn" color="grey-3" text-color="black" size="lg" style="width: 98%;" @click="goBack" tabindex="18">
-          <b>{{ $t('go_back') }}</b>
-        </q-btn>
-      </div>
-      <div class="col-6 text-right">
-        <q-btn class="btn" color="secondary" text-color="black" size="lg" style="width: 98%;" @click="modifyUser" tabindex="17">
-          <b>{{ $t('modify') }}</b>
-        </q-btn>
-      </div>
-    </div>
+          <div v-if="noDataFlag && tab === 'c'" class="row justify-center">
+            <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+          </div>
+
+          <!-- 하단 공간 확보 -->
+          <div class="row justify-center q-pa-xl">
+          </div>
+        </div>
+      </q-tab-panel>
+    </q-tab-panels>
 
     <!-- 하단 공간 확보 -->
     <div class="row justify-center q-pa-xl">
@@ -444,12 +327,20 @@
 <script>
 import { sha512 } from 'js-sha512'
 import { defineComponent } from 'vue';
+import { useI18n } from 'vue-i18n'
 import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
 
 export default defineComponent({
   name: 'Mypage',
+  setup () {
+    const { locale } = useI18n({ useScope: 'global' })
+    return {
+      locale,
+    }
+  },
   data () {
     return {
+      tab: '2',   // 나의 전시가 먼저 안나오면 에러남,,, 왜인지 모르겠음,,,
       // uid: '',
       wallet_address: '',
       pwd: '',
@@ -484,14 +375,57 @@ export default defineComponent({
       // del_id: '',
       // del_time: '',
       confirmGoBack: false, // goBack 확인창
+
+      pageSize: 100,
+      lastPageNum: 1, // 마지막 페이지
+      projectList: [],
+      projectCommentList: [],
+      noDataFlag: false,
+      refresherDone: '',
+
+      selectedBank: null,
+      bankOption: [
+        {
+          label: '우리은행',
+          value: '우리',
+        },
+        {
+          label: '국민은행',
+          value: '국민',
+        },
+        {
+          label: '기업은행',
+          value: '기업',
+        }
+      ],
+
+
+      mediaList: [
+        { seq: 1, url: 'https://picsum.photos/300', title: '무제', price: 1000, description: '2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재' },
+        { seq: 2, url: 'https://picsum.photos/500', title: '숲에서 이리저리 돌아다니다 그린 그림', price: 0, description: '2021년 아르코미술관 기획초대전은 작가 정재...' },
+        { seq: 3, url: 'https://picsum.photos/1000', title: '해변', price: 12000, description: '2021년 아르코미술관 기획초대전은 작가 정재...' }
+      ]
+
     }
   },
   components: {
   },
+  watch: {
+    getUid (newValue) {
+      // console.log('newValue: : ' + newValue)
+      // this.loadMore(1, null)
+      this.refresher(null)
+      // if (!newValue) {
+      //   this.$router.push('/')
+      // } else {
+      //   this.loadMore(1, null)
+      // }
+    },
+  },
   computed: {
     getUid () {
       return this.$store.getters.getUid
-    }
+    },
   },
   created: function () {
     // 키 설정
@@ -502,8 +436,12 @@ export default defineComponent({
 
     // 계정 정보 조회
     this.selectUser()
+
+    this.selectListMax()
   },
-  mounted: function () {},
+  mounted: function () {
+    this.refresher(null)
+  },
   methods: {
     // 계정 조회
     selectUser() {
@@ -552,6 +490,100 @@ export default defineComponent({
       this.$store.dispatch('setWalletType', userVo.wallet_type)
       this.$store.dispatch('setWalletAddress', userVo.wallet_address)
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
+    },
+    goDetail(seq) {
+      // 상세 화면으로 이동
+      this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
+      // this.$refs.refTokenDetailModal.tokenSeq = seq
+      // this.$refs.refTokenDetailModal.show()
+    },
+    refresher (done) {
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise the refresh message
+      //        will continue to be displayed
+      // make some Ajax call then call done()
+      this.projectList = []
+      this.refresherDone = done // load가 끝나면 로딩메세지 종료
+      this.$refs.infiniteScroll.reset() // index 초기화
+      this.$refs.infiniteScroll.resume() // stop에서 다시 재생
+      // this.$refs.infiniteScroll.load() // loadMore로 검색
+      this.loadMore(1, done)
+    },
+    loadMore(index, done) {
+      // index - called for nth time
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise your loading message
+      //        will continue to be displayed. Has optional boolean
+      //        parameter that invokes stop() when true
+      // console.log('index: ' + index)
+      // make some Ajax call then call done()
+      // this.pageNum = index
+      setTimeout(() => {
+        // alert(index)
+        // console.log('loadMore called index: ' + index)
+        if (index <= this.lastPageNum) {
+          this.selectList(index, done)
+          if (index === this.lastPageNum) {
+            this.$refs.infiniteScroll.stop()
+          }
+
+          // refresher 로딩메세지 처리
+          if (this.refresherDone != null && this.refresherDone !== '') {
+            this.refresherDone() // 로딩메세지 종료
+            this.refresherDone = '' // 로딩메세지 초기화
+          }
+        }
+      }, 500)
+    },
+    // 신규 토큰 리스트 마지막 페이지 조회
+    selectListMax() {
+      // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
+      if (!this.keyword) {
+        this.keyword = ''
+      }
+      this.$axios.get('/api/project/selectProjectListLastPageNum',
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.lastPageNum = result.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    // 신규 토큰 리스트 조회
+    selectList(idx, done) {
+      if (!this.keyword) {
+        this.keyword = ''
+        // 키워드 설정
+        this.$store.dispatch('setKeyword', this.keyword)
+      }
+      this.$axios.get('/api/project/selectProjectList',
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          // console.log(result.data)
+          if (idx === 1) { // 첫번째 load인 경우
+            this.projectList = [] // 리스트 초기화
+          }
+          this.projectList = this.projectList.concat(result.data)
+
+          // 데이터 없음 표시 설정
+          if (!this.projectList || this.projectList.length < 1) {
+            this.noDataFlag = true
+          } else {
+            this.noDataFlag = false
+          }
+          if (done) {
+            done()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if (done) {
+            done()
+          }
+        })
     },
     ///////////////////////////////////////////////////////////////////////////
     // validation

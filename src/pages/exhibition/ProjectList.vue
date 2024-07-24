@@ -2,7 +2,7 @@
   <q-page class="page-1200 q-pa-md project-list-wrap">
       <div class="row title">
         <div class="col-12 doc-heading">
-          <div class="title-sec">{{ $t('menu_project_list') }}   <span class="subtitle">Exhibition</span></div>
+          <div class="title-sec">{{ $t('menu_project_list') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Exhibition</span></div>
         </div>
       </div>
       <!-- <div class="row q-pl-md justify-center page-sub-tit">
@@ -153,7 +153,7 @@ export default defineComponent({
     // },
     goDetail(seq) {
       // 상세 화면으로 이동
-      this.$router.push({ path: '/project/projectDetail', query: { s: seq }})
+      this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
       // this.$refs.refTokenDetailModal.tokenSeq = seq
       // this.$refs.refTokenDetailModal.show()
     },

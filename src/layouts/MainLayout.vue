@@ -91,7 +91,7 @@
         /> -->
 
         <!-- mypage -->
-        <div v-if="getUid">
+        <div v-if="getNickname">
         <q-btn
           label="마이페이지"
           @click="goMypage"
@@ -102,7 +102,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- local login icorn -->
-        <div v-if="getUid">
+        <div v-if="getNickname">
           <q-btn label="logout" @click="logout" style="background-color: #90B2D8;"/>
         </div>
         <q-btn
@@ -573,6 +573,16 @@
 
 
         <q-list class="bottom-items">
+          <!-- NOTICE -->
+          <q-item clickable to="/notice">
+            <q-item-section avatar class="q-pt-md">
+              <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('notice') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
           <!-- ABOUT US -->
           <q-item clickable to="/introduction">
             <q-item-section avatar class="q-pt-md">
@@ -589,7 +599,7 @@
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ $t('questions') }}</q-item-label>
+              <q-item-label>{{ $t('contact') }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -910,6 +920,10 @@ export default defineComponent({
   created: function() {
     // // // 디바이스 설정
     // // this.setDevice()
+    const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+    if (nickname) {
+      this.$store.dispatch('setNickname', nickname)
+    }
 
     // // 쿠키에 UID와 AUTH_KEY가 있으면 유저정보 바인딩
     // const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')

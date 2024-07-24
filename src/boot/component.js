@@ -13,6 +13,9 @@ import SwapPresale from 'components/swap/SwapPresale'
 import VueCountdown from '@chenfengyuan/vue-countdown'
 import UserDetailModal from 'components/admin/UserDetailModal'
 import HolderListModal from 'components/vote/HolderListModal'
+import ExhibitionTypeModal from 'components/exhibition/ExhibitionTypeModal'
+import MediaDetailModal from 'components/media/MediaDetailModal'
+import FaqDetailModal from 'components/faq/FaqDetailModal'
 
 export default boot(({ app }) => {
   app.component('LoginModal', LoginModal) // 로그인
@@ -28,4 +31,7 @@ export default boot(({ app }) => {
   app.component('VueCountdown', VueCountdown) // 사전판매 상세 타임카운터
   app.component('UserDetailModal', UserDetailModal) // 사용자 상세
   app.component('HolderListModal', HolderListModal) // 홀더 목록
+  app.component('ExhibitionTypeModal', ExhibitionTypeModal) // 전시관 목록 모달
+  app.component('MediaDetailModal', MediaDetailModal) // 작품 상세 모달
+  app.component('FaqDetailModal', FaqDetailModal) // 작품 상세 모달
 })

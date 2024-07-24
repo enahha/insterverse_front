@@ -1138,11 +1138,14 @@ export default {
 
             // 로그인 정보 쿠키에 저장
             this.$store.dispatch('setUid', result.data.uid)
+            this.$store.dispatch('setNickname', result.data.nickname)
             this.$store.dispatch('setAdcd', result.data.adcd)
             this.$cookie.set('UID', result.data.uid, 365)
             this.$cookie.set('AUTH_KEY', result.data.auth_key, 365)
+            this.$cookie.set('NICKNAME', result.data.nickname, 365)
             this.$cookie.set('ADCD', result.data.adcd, 365)
             localStorage.setItem('UID', result.data.uid, 365)
+            localStorage.setItem('NICKNAME', result.data.nickname, 365)
             localStorage.setItem('AUTH_KEY', result.data.auth_key, 365)
             localStorage.setItem('ADCD', result.data.adcd, 365)
 

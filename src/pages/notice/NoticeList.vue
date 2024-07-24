@@ -1,15 +1,10 @@
 <template>
-  <q-page class="page-default">
-    <div class="row q-pt-md q-pl-md justify-center page-tit">
-      <div class="col-12 doc-heading doc-h2">
-        {{ $t('menu_notice_list') }}
+  <q-page class="page-1200 q-pa-md">
+      <div class="row title">
+        <div class="col-12 doc-heading">
+          <div class="title-sec">{{ $t('notice') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Notice</span></div>
+        </div>
       </div>
-    </div>
-    <div class="row q-pl-md row justify-center page-sub-tit">
-      <div class="col-12">
-        {{ $t('menu_notice_list_description') }}
-      </div>
-    </div>
     <!-- <div class="row justify-center q-pb-md">
     </div> -->
 
