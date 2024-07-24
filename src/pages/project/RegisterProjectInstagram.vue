@@ -107,13 +107,14 @@
               <q-checkbox v-model="item.selected" color="blue" />
             </q-item-section>
             <q-item-section style="flex:80px;">
-              <video v-if="item.isVideoNft" :src="item.media_url" controls autoplay loop muted style="width: 100%; max-width: 80px;"></video>
+              <video v-if="item.media_type == 'VIDEO'" :src="item.media_url" controls autoplay loop muted style="width: 100%; max-width: 80px;"></video>
               <img v-else :src="item.media_url" style="width: 100%; max-width: 80px" />
             </q-item-section>
             <q-item-section>
               <q-item-label class=""><span class="text-grey-5">{{ $t('id') }} : </span><span>{{ item.id }}</span></q-item-label>
               <q-item-label class="q-pt-xs"><span class="text-grey-5">{{ $t('caption') }} : </span><span>{{ item.caption }}</span></q-item-label>
               <q-item-label class="q-pt-xs"><span class="text-grey-5">{{ $t('timestamp') }} : </span><span>{{ qDate.formatDate(item.timestamp, 'YYYY-MM-DD HH:mm:ss') }}</span></q-item-label>
+              <q-item-label class="q-pt-xs"><span class="text-grey-5">{{ $t('media type') }} : </span><span>{{ item.media_type }}</span></q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -240,21 +241,26 @@ export default defineComponent({
     this.$cookie.set('INSTAGRAM_USER_ID', this.userId, 365)
     localStorage.setItem('INSTAGRAM_USER_ID', this.userId, 365)
 
+    this.$q.loading.show() // 로딩 표시 시작
+
     // 사용자 정보 조회
-    this.getUserInfo(this.token)
+    this.getUserInfo()
 
     // 사용자 미디어 조회
-    this.getUserMediaList(this.token)
+    this.getUserMediaList()
+
+    // this.$q.loading.hide() // 로딩 표시 종료
     
   },
   mounted: function () {
   },
   methods: {
-    async getUserInfo(token) {
+    // 사용자 정보 조회
+    async getUserInfo() {
       // id, username 조회
       const paramUserInfo = {
         fields: 'id,username',
-        access_token: token,
+        access_token: this.token,
       }
       const resultUserInfo = await this.$axios.get('https://graph.instagram.com/me', { params: { ...paramUserInfo } })
       if (resultUserInfo.data) {
@@ -264,21 +270,111 @@ export default defineComponent({
         this.$noti(this.$q, this.$t('request_data_failed'))
       }
     },
-    async getUserMediaList(token) {
-      // media 조회
+    // 사용자 미디어 리스트 조회
+    async getUserMediaList() {
+      // media list 조회
       const paramMediaList = {
         fields: 'id,caption,media_type,media_url,username,timestamp',
-        access_token: token,
+        access_token: this.token,
       }
       const resultMediaList = await this.$axios.get('https://graph.instagram.com/me/media', { params: { ...paramMediaList } })
       if (resultMediaList.data) {
         console.log(resultMediaList.data)
-        this.postList = resultMediaList.data.data
-        this.setUndefinedToFalse() // undefined selected -> false
+        // this.postList = resultMediaList.data.data
+        // this.setUndefinedToFalse() // undefined selected -> false
+        this.nextPageUrl = resultMediaList.data.paging.next
+
+        // 케로셀 미디어 하위 미디어 설정 후 포스트 리스트 설정
+        this.postList = await this.getChildrenAddedPostList(resultMediaList.data.data)
+        console.log('this.postList: ')
+        console.log(this.postList)
+      } else {
+        this.$noti(this.$q, this.$t('request_data_failed'))
+      }
+    },
+    // 하위 미디어 설정
+    async getChildrenAddedPostList(newList) {
+
+      // 추가 대상 리스트
+      let childrenAddedMediaList = []
+
+      for (let i = 0; i < newList.length; i++) {
+        const postObj = newList[i]
+
+        // 케로셀 미디어가 아닌 경우 스킵
+        if (postObj.media_type != 'CAROUSEL_ALBUM') {
+          postObj.selected = false // 체크박스 해제 디폴트 설정
+          childrenAddedMediaList.push(postObj)
+        } else {
+          // 케로셀 미디어인 경우, 하위 미디어 조회
+          const paramChildrenMediaList = {
+            // fields: 'id,caption,media_type,media_url,username,timestamp',
+            access_token: this.token,
+          }
+          const resultChildrenMediaList = await this.$axios.get('https://graph.instagram.com/' + postObj.id + '/children', { params: { ...paramChildrenMediaList } })
+          if (resultChildrenMediaList.data) {
+            // console.log(resultChildrenMediaList.data)
+            const childrenMediaIdList = resultChildrenMediaList.data.data
+
+            // 하위 미디어 리스트 루프
+            for (let i = 0; i < childrenMediaIdList.length; i++) {
+              const childrenMediaObj = childrenMediaIdList[i]
+              const mediaId = childrenMediaObj.id
+
+              console.log('mediaId: ' + mediaId)
+              let media = await this.getMedia(mediaId, postObj.caption)
+              console.log(media)
+
+              // 미디어 추가
+              childrenAddedMediaList.push(media)
+            }
+          } else {
+            this.$noti(this.$q, this.$t('request_data_failed'))
+          }
+        }
+
+        console.log('childrenAddedMediaList: ')
+        console.log(childrenAddedMediaList)
+      }
+      this.$q.loading.hide() // 로딩 표시 종료
+
+      return childrenAddedMediaList
+    },
+    async getMedia(mediaId, caption) {
+      // media 조회
+      const paramMedia = {
+        fields: 'id,media_type,media_url,username,timestamp', // caption이 없음
+        access_token: this.token,
+      }
+      let resultMedia = await this.$axios.get('https://graph.instagram.com/' + mediaId, { params: { ...paramMedia } })
+      if (resultMedia.data) {
+        resultMedia.data.selected = false // 체크박스 해제 디폴트 설정
+        resultMedia.data.caption = caption // children media는 caption이 없기 때문에 부모 미디어의 캡션으로 설정
+        // console.log(resultMedia.data)
+        return resultMedia.data
+      } else {
+        this.$noti(this.$q, this.$t('request_data_failed'))
+      }
+    },
+    // 사용자 미디어 다음페이지 조회
+    async loadMore() {
+      // this.$q.loading.show() // 로딩 표시
+      this.isLoading = true // 로딩 표시
+
+      const resultMediaList = await this.$axios.get(this.nextPageUrl)
+      if (resultMediaList.data) {
+        console.log(resultMediaList.data)
+        // this.postList = this.postList.concat(resultMediaList.data.data)
+        let newPostList = await this.getChildrenAddedPostList(resultMediaList.data.data)
+        this.postList = this.postList.concat(newPostList)
+
+        // this.setUndefinedToFalse() // undefined selected -> false
         this.nextPageUrl = resultMediaList.data.paging.next
       } else {
         this.$noti(this.$q, this.$t('request_data_failed'))
       }
+
+      this.isLoading = false // 로딩 표시 종료
     },
     // undefined selected -> false (undefined면 체크박스가 - 표시되어서 이를 방지하기 위해서 실행)
     setUndefinedToFalse() {
@@ -309,78 +405,7 @@ export default defineComponent({
     //   await this.selectListMax()
     //   await this.loadMore(1)
     // },
-    // 사용자 미디어 다음페이지 조회
-    async loadMore() {
-      // this.$q.loading.show() // 로딩 표시
-      this.isLoading = true // 로딩 표시
 
-      const resultMediaList = await this.$axios.get(this.nextPageUrl)
-      if (resultMediaList.data) {
-        console.log(resultMediaList.data)
-        this.postList = this.postList.concat(resultMediaList.data.data)
-        this.setUndefinedToFalse() // undefined selected -> false
-        this.nextPageUrl = resultMediaList.data.paging.next
-      } else {
-        this.$noti(this.$q, this.$t('request_data_failed'))
-      }
-
-      this.isLoading = false // 로딩 표시 종료
-    },
-    // NFT 민팅 이미지 마지막 페이지 조회
-    async selectListMax() {
-      this.$axios.get('/api/minting/selectMintingImageListLastPageNum',
-        {params: {uid: this.getUid, pageSize: this.pageSize, seq_minting: this.seq}})
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.lastPageNum = result.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    // NFT 민팅 이미지 리스트 조회
-    selectList(idx) {
-      this.$axios.get('/api/minting/selectMintingImageList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, seq_minting: this.seq}})
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          // console.log(result.data)
-          if (idx === 1) { // 첫번째 load인 경우
-            this.postList = [] // 리스트 초기화
-          }
-          this.postList = this.postList.concat(result.data)
-
-          // nft_image가 video 타입이면 isVideoNft를 true로 설정
-          for (let i = 0; i < this.postList.length; i++) {
-            const file_extension = this.postList[i].file_extension
-            // console.log('file_extension: ' + file_extension)
-            if (
-              file_extension === 'mp4'
-              || file_extension === 'avi'
-              || file_extension === 'wmv'
-              || file_extension === 'mpg'
-              || file_extension === 'mpeg'
-              || file_extension === 'mov'
-              || file_extension === 'm4v'
-              || file_extension === 'avif'
-              || file_extension === 'ogm'
-              || file_extension === 'webm'
-              || file_extension === 'ogv'
-              || file_extension === 'asx'
-              || file_extension === 'mp4'
-              || file_extension === 'mp4'
-              || file_extension === 'mp4'
-            ) {
-              this.postList[i].isVideoNft = true
-            } else {
-              this.postList[i].isVideoNft = false
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
     goBack() {
       // goBack 확인창 표시
       this.confirmGoBack = true
