@@ -20,7 +20,7 @@
                     </div>
                     <div class="row justify-center q-pb-xs">
                     <div class="col-12 priview">
-                        <img v-if="mediaImage" :src="mediaImage" style="width: 100%; height: auto;">
+                        <img v-if="mediaUrl" :src="mediaUrl" style="width: 100%; height: auto;">
                         <span v-else>{{ $t('no_image') }}</span>
                     </div>
                 </div>
@@ -47,11 +47,11 @@
                             <div class="q-pt-lg">
                                 <td class="labal-input">
                                     <q-checkbox
-                                    left-label
-                                    v-model="forSale"
-                                    :label = "$t('media_sale')"
-                                    checked-icon="task_alt"
-                                    unchecked-icon="highlight_off"
+                                        left-label
+                                        v-model="forSale"
+                                        :label = "$t('media_sale')"
+                                        checked-icon="task_alt"
+                                        unchecked-icon="highlight_off"
                                     />
                                     <q-input v-model="mediaPrice" :disabled="!forSale" :label="$t('media_price')" ref="mediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" style="width: 81%;"/>
                                 </td>
@@ -60,9 +60,9 @@
                         <tr>
                             <div class="q-pt-lg">
                                 <td class="labal-input">
-                                    <q-input class="work-info" v-model="mediaCreated" :label="$t('media_created')" ref="projectName" clearable tabindex="1" />
-                                    <q-input class="work-info" v-model="mediaSize" :label="$t('media_size')" ref="projectName" clearable tabindex="1" />
-                                    <q-input class="work-info" v-model="mediaMaterials" :label="$t('media_materials')" ref="projectName" clearable tabindex="1" />
+                                    <q-input class="work-info" v-model="mediaCreated" :label="$t('media_created')" ref="mediaCreated" clearable tabindex="1" />
+                                    <q-input class="work-info" v-model="mediaSize" :label="$t('media_size')" ref="mediaSize" clearable tabindex="1" />
+                                    <q-input class="work-info" v-model="mediaMaterials" :label="$t('media_materials')" ref="mediaMaterials" clearable tabindex="1" />
                                 </td>
                             </div>
                         </tr>
@@ -106,7 +106,7 @@
             </div>
             <div class="row justify-center q-pb-xs">
                 <div class="col-12 priview">
-                    <img v-if="mediaImage" :src="mediaImage" style="width: 100%; height: auto;">
+                    <img v-if="mediaUrl" :src="mediaUrl" style="width: 100%; height: auto;">
                     <!-- <span v-else>{{ $t('no_image') }}</span> -->
                 </div>
             </div>
@@ -122,7 +122,7 @@
         <div class="row justify-center q-pb-lg">
         <div class="col-12  q-pb-lg">
             <q-editor
-            v-model="projectDescription"
+            v-model="mediaDescription"
             min-height="10rem"
             autofocus
             tabindex="5"
@@ -208,7 +208,7 @@
         <div style="display: flex; justify-content: flex-end">
         <q-btn
             :label="$t('save')"
-            @click="saveMedia"
+            @click="register"
             style="background-color: #000000; color: #FEFEFE "
         />
         </div>
@@ -279,102 +279,20 @@
       return {
         smallSize: false,
         projectSeq: '', // route parameter seq
-        mainnetObj: {
-          label: 'Klaytn',
-          value: 'KLAYTN',
-        },
-        mainnetOptions: [
-          {
-            label: 'Klaytn',
-            value: 'KLAYTN',
-          },
-          {
-            label: 'Ethereum',
-            value: 'ETHEREUM',
-          },
-          {
-            label: 'Polygon',
-            value: 'POLYGON',
-          },
-          {
-            label: 'BSC',
-            value: 'BSC',
-          },
-          {
-            label: 'Fantom',
-            value: 'FANTOM',
-          },
-          {
-            label: 'Avalanche',
-            value: 'AVALANCHE',
-          },
-        ],
-        projectTypeObj: {
-          label: 'NFT',
-          value: 'NFT',
-        },
-        projectTypeOptions: [
-          {
-            label: 'NFT',
-            value: 'NFT',
-          },
-          {
-            label: 'Token',
-            value: 'TOKEN',
-          },
-          // {
-          //   label: 'Polygon',
-          //   value: 'POLYGON',
-          // },
-        ],
-        projectTokenContractAddress: '',
-        projectLpContractAddress1: '',
-        projectLpContractAddress2: '',
-        projectLpContractAddress3: '',
-        projectLpContractAddress4: '',
-        projectLpContractAddress5: '',
-        projectLpContractAddress6: '',
-        projectLpContractAddress7: '',
-        projectLpContractAddress8: '',
-        projectLpContractAddress9: '',
-        projectLpContractAddress10: '',
-        projectWalletAddress: '',
-        projectTitle: '',
-        projectTitleKo: '',
-        projectSummary: '',
-        projectSummaryKo: '',
-        projectDescription: '',
-        projectDescriptionKo: '',
-        projectOfficialWebsite: '',
-        projectOfficialEmail: '',
-        projectLogoImage: '',
-        projectDocs: '',
-        projectBlog: '',
-        projectMedium: '',
-        projectTelegram: '',
-        projectTwitter: '',
-        projectGithub: '',
-        projectMeta: '',
-        projectDiscord: '',
-        // seqFileMst: '' // 파일 마스터 SEQ
-        confirmGoBack: false, // goBack 확인창
-
-        projectBannerImage: '',
-        projectPosterImage: '',
-
-
         /////
-        forSale: false,
-        mediaPrice: '',
-        mediaImage: '',
+        mediaOrderNumber: '1',
+        mediaTitle: 'room',
+        mediaSubtitle: 'black and white',
+        mediaPrice: '1122',
+        mediaCreated: '2019/09/09',
+        mediaSize: '500*500',
+        mediaMaterials: 'digtal',
+        mediaDescription: 'happy room',
+        forSale: true,
+        mediaUrl: '',
+        mediaType: 'image',
         truncateTitle: 10,
         truncateDescription: 200,
-
-        mediaList: [
-            { seq: 1, url: 'https://picsum.photos/300', title: '무제', price: 1000, description: '2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재' },
-            { seq: 2, url: 'https://picsum.photos/500', title: '숲에서 이리저리 돌아다니다 그린 그림', price: 0, description: '2021년 아르코미술관 기획초대전은 작가 정재...' },
-            { seq: 3, url: 'https://picsum.photos/1000', title: '해변', price: 12000, description: '2021년 아르코미술관 기획초대전은 작가 정재...' }
-        ]
       }
     },
     components: {
@@ -384,6 +302,9 @@
     computed: {
         getUid () {
             return this.$store.getters.getUid
+        },
+        getNickname () {
+            return this.$store.getters.getNickname
         },
         getWalletType () {
             return this.$store.getters.getWalletType
@@ -395,6 +316,14 @@
     created: function () {
         // 키 설정
         this.projectSeq = this.$route.query.seq
+
+        const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+        const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+        if (nickname && uid) {
+        this.$store.dispatch('setNickname', nickname)
+        this.$store.dispatch('setUid', uid)
+        }
+
         // 팀 지갑주소에 사용자 지갑주소 디폴트 설정
         this.projectWalletAddress = this.getWalletAddress
 
@@ -432,10 +361,6 @@
             }
             return text.substring(0, maxLength) + '...'
         },
-        // 미디어 저장
-        saveMedia() {
-            this.$router.push('/project/registerProject')
-        },
         ///////////////////////////////////////////////////////////////////////////
         // validation
         ///////////////////////////////////////////////////////////////////////////
@@ -472,82 +397,28 @@
         ///////////////////////////////////////////////////////////////////////////
         validate() {
             let result = true
-            if (!this.$refs.projectWalletAddress.validate()) {
+            if (!this.$refs.mediaOrderNumber.validate()) {
             result = false
             }
-            if (!this.$refs.projectTokenContractAddress.validate()) {
+            if (!this.$refs.mediaTitle.validate()) {
             result = false
             }
-            if (!this.$refs.projectLpContractAddress1.validate()) {
+            if (!this.$refs.mediaSubtitle.validate()) {
             result = false
             }
-            if (!this.$refs.projectLpContractAddress2.validate()) {
+            if (!this.$refs.mediaPrice.validate()) {
             result = false
             }
-            if (!this.$refs.projectLpContractAddress3.validate()) {
+            if (!this.$refs.mediaCreated.validate()) {
             result = false
             }
-            if (!this.$refs.projectLpContractAddress4.validate()) {
+            if (!this.$refs.mediaSize.validate()) {
             result = false
             }
-            if (!this.$refs.projectLpContractAddress5.validate()) {
+            if (!this.$refs.mediaMaterials.validate()) {
             result = false
             }
-            if (!this.$refs.projectLpContractAddress6.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectLpContractAddress7.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectLpContractAddress8.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectLpContractAddress9.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectLpContractAddress10.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectTitle.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectTitleKo.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectSummary.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectSummaryKo.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectOfficialWebsite.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectOfficialEmail.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectDocs.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectBlog.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectMedium.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectTelegram.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectTwitter.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectGithub.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectMeta.validate()) {
-            result = false
-            }
-            if (!this.$refs.projectDiscord.validate()) {
+            if (!this.$refs.mediaDescription.validate()) {
             result = false
             }
             return result
@@ -555,22 +426,22 @@
         // 등록 처리 시작
         async register() {
             // Field validation check
-            if(!this.validate()) {
-            this.$noti(this.$q, this.$t('validation_failed'))
-            return
-            }
+            // if(!this.validate()) {
+            //     this.$noti(this.$q, this.$t('validation_failed'))
+            //     return
+            // }
 
             // 로그인 여부 체크, 로그인 모달 표시
-            if (!this.getUid) {
-            this.$refs.refWalletModal.show()
-            return
-            }
+            // if (!this.getUid) {
+            //     this.$refs.refWalletModal.show()
+            //     return
+            // }
 
             // check mainnet
-            if (this.mainnetObj.value !== 'KLAYTN') {
-            this.$noti(this.$q, this.$t('unsupported_mainnet'))
-            return
-            }
+            // if (this.mainnetObj.value !== 'KLAYTN') {
+            // this.$noti(this.$q, this.$t('unsupported_mainnet'))
+            // return
+            // }
 
             // 등록
             this.doRegister()
@@ -579,58 +450,37 @@
         async doRegister() {
             // 1. 등록
             const params = {
-            uid: this.getUid,
-            seq: this.projectSeq,
-            mainnet: this.mainnetObj.value,
-            type: this.projectTypeObj.value,
-            wallet_address: this.projectWalletAddress,
-            token_contract_address: this.projectTokenContractAddress,
-            lp_contract_address_1: this.projectLpContractAddress1,
-            lp_contract_address_2: this.projectLpContractAddress2,
-            lp_contract_address_3: this.projectLpContractAddress3,
-            lp_contract_address_4: this.projectLpContractAddress4,
-            lp_contract_address_5: this.projectLpContractAddress5,
-            lp_contract_address_6: this.projectLpContractAddress6,
-            lp_contract_address_7: this.projectLpContractAddress7,
-            lp_contract_address_8: this.projectLpContractAddress8,
-            lp_contract_address_9: this.projectLpContractAddress9,
-            lp_contract_address_10: this.projectLpContractAddress10,
-            title: this.projectTitle,
-            title_ko: this.projectTitleKo,
-            summary: this.projectSummary,
-            summary_ko: this.projectSummaryKo,
-            description: this.projectDescription,
-            description_ko: this.projectDescriptionKo,
-            official_website: this.projectOfficialWebsite,
-            official_email: this.projectOfficialEmail,
-            logo_image: this.projectLogoImage,
-            docs: this.projectDocs,
-            blog: this.projectBlog,
-            medium: this.projectMedium,
-            telegram: this.projectTelegram,
-            twitter: this.projectTwitter,
-            github: this.projectGithub,
-            meta: this.projectMeta,
-            discord: this.projectDiscord,
-            // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
+                uid: this.getUid,
+                seq: this.projectSeq,
+                exhibition_seq: this.projectSeq,
+                type: this.mediaType,
+                url: this.mediaUrl,
+                order_no: this.mediaOrderNumber,
+                title: this.mediaTitle,
+                subtitle: this.mediaSubtitle,
+                description: this.mediaDescription,
+                sale_yn: this.forSale? 'y':'n',
+                price: this.mediaPrice,
+                size: this.mediaSize,
+                materials: this.mediaMaterials,
             }
             this.$q.loading.show() // 로딩 표시 시작
-            this.$axios.post('/api/project/insertProject', params)
+            this.$axios.post('/api/media/insertMedia', params)
             .then((result) => {
                 // console.log(JSON.stringify(result.data))
                 this.$q.loading.hide() // 로딩 표시 종료
                 if (result.data && result.data.resultCd === 'SUCCESS') {
-                // console.log(result.data)
-                this.$noti(this.$q, this.$t('register_success'))
+                    // console.log(result.data)
+                    this.$noti(this.$q, this.$t('register_success'))
 
-                // 페이지 이동
-                // 나의 프로젝트 리스트 화면
-                this.$router.push('/project/myProjectList')
+                    // 페이지 이동
+                    // 나의 프로젝트 리스트 화면
+                    this.$router.push({ path: '/project/registerProject', query: { seq: this.projectSeq, tab: 3 }})
 
-                // <!-- 관리자 수정용 -->
-                // this.$router.push('/project/newList')
+                    // <!-- 관리자 수정용 -->
+                    // this.$router.push('/project/newList')
                 } else {
-                this.$noti(this.$q, this.$t('register_failed'))
+                    this.$noti(this.$q, this.$t('register_failed'))
                 }
             })
             .catch((err) => {
@@ -652,25 +502,6 @@
             return file.size <= MAX_FILE_SIZE
             })
         },
-        // fileAdded (files) {
-        //   // this.$refs.uploaderObj.reset()
-        //   this.$refs.uploaderObj.removeUploadedFiles()
-        //   this.$refs.uploaderObj.upload()
-        // },
-        fileUploadedBanner (file, xhr) {
-            // 이미지 업로드가 완료되면 호출되는 메소드
-            // let fileName = file.name
-            // let fileSize = file.size
-            // let fileType = file.type
-            let fileNameNew = file.xhr.responseText
-            // console.log('fileName: ' + fileName)
-            // console.log('fileSize: ' + fileSize)
-            // console.log('fileType: ' + fileType)
-            console.log('fileNameNew: ' + fileNameNew)
-
-            this.projectBannerImage = fileNameNew // 프로젝트 로고 URL 설정
-            // this.$refs.uploaderObj.reset()
-        },
         fileUploadedMedia (file, xhr) {
             // 이미지 업로드가 완료되면 호출되는 메소드
             // let fileName = file.name
@@ -682,7 +513,7 @@
             // console.log('fileType: ' + fileType)
             console.log('fileNameNew: ' + fileNameNew)
 
-            this.mediaImage = fileNameNew // 작품 이미지 설정
+            this.mediaUrl = fileNameNew // 작품 이미지 설정
             // this.$refs.uploaderObj.reset()
         },
         goBack() {

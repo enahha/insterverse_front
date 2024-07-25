@@ -59,7 +59,7 @@
                       </tr>
                       <tr>
                         <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span></td>
-                        <td class="labal-input"><q-input v-model="instargram" ref="refInstargram" clearable tabindex="1" /></td>
+                        <td class="labal-input"><q-input v-model="instargram" placeholder="" ref="refInstargram" clearable tabindex="1" /></td>
                       </tr>
                       <tr>
                         <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span></td>
@@ -627,10 +627,12 @@
           <div style="width: 100%; display: flex; justify-content: flex-end">
             <q-btn
               @click="goAddWork"
+              round
+              dense
               icon="add"
               size="3em"
               text-color="white"
-              style="background-color: #E1D2BB; border-radius: 100%; font-size: large; margin: 10px;"
+              style="background-color: #E1D2BB; font-size: large; margin: 10px;"
             />
           </div>
 
@@ -639,7 +641,7 @@
             
             <div class="media-table-wrapper text-center q-pt-lg">
               <div class="table-scroll-wrapper">
-                <table border="0" cellspacing="0" cellpadding="0">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
                   <thead>
                     <tr>
                       <th></th>
@@ -834,19 +836,19 @@ export default defineComponent({
       
 
       ////////////////////////
-      nickname: 'TestNickname',
-      representativeSns: 'TestSNS',
-      email: 'test@example.com',
-      instargram: 'test_instagram',
-      twitter: 'test_twitter',
-      discord: 'test_discord',
-      telegram: 'test_telegram',
-      artistDescription: 'This is a test description for the artist.',
-      title: 'Test Title',
-      titleKo: '테스트 제목',
-      symbol: 'TST',
-      subtitle: 'Test Subtitle',
-      exhibitionName: 'Test Exhibition',
+      nickname: '',
+      representativeSns: '',
+      email: '',
+      instargram: '',
+      twitter: '',
+      discord: '',
+      telegram: '',
+      artistDescription: '',
+      title: '',
+      titleKo: '',
+      symbol: '',
+      subtitle: '',
+      exhibitionName: '',
       bannerImage: '',
       posterImage: '',
       startTime: '',
@@ -860,11 +862,7 @@ export default defineComponent({
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
       noDataFlag: false,
-      mediaList: [
-        { seq: 1, url: 'https://picsum.photos/300', title: '무제', price: 1000, description: '2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재' },
-        { seq: 2, url: 'https://picsum.photos/500', title: '숲에서 이리저리 돌아다니다 그린 그림', price: 0, description: '2021년 아르코미술관 기획초대전은 작가 정재...' },
-        { seq: 3, url: 'https://picsum.photos/1000', title: '해변', price: 12000, description: '2021년 아르코미술관 기획초대전은 작가 정재...' }
-      ]
+      mediaList: []
     }
   },
   components: {
@@ -893,9 +891,17 @@ export default defineComponent({
       this.$store.dispatch('setNickname', nickname)
       this.$store.dispatch('setUid', uid)
     }
+
+    // 미디어 등록 후 tab 설정
+    if (this.$route.query.tab) {
+      this.tab = this.$route.query.tab
+    }
     
     // 팀 지갑주소에 사용자 지갑주소 디폴트 설정
     this.projectWalletAddress = this.getWalletAddress
+
+    // 미디어 리스트 조회
+    this.selectListMax()
   },
   watch: {
     getNickname(newNickname) {
@@ -995,8 +1001,8 @@ export default defineComponent({
       if (!this.keyword) {
         this.keyword = ''
       }
-      this.$axios.get('/api/notice/selectNoticeListLastPageNum',
-        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+      this.$axios.get('/api/media/selectMediaListLastPageNum',
+        {params: {uid: this.getUid, exhibition_seq: this.projectSeq, pageSize: this.pageSize, keyword: this.keyword}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -1010,18 +1016,18 @@ export default defineComponent({
       if (!this.keyword) {
         this.keyword = ''
       }
-      this.$axios.get('/api/notice/selectNoticeList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+      this.$axios.get('/api/media/selectMediaList',
+        {params: {uid: this.getUid, exhibition_seq: this.projectSeq, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)
           if (idx === 1) { // 첫번째 load인 경우
-            this.noticeList = [] // 리스트 초기화
+            this.mediaList = [] // 리스트 초기화
           }
-          this.noticeList = this.noticeList.concat(result.data)
+          this.mediaList = this.mediaList.concat(result.data)
 
           // 데이터 없음 표시 설정
-          if (!this.noticeList || this.noticeList.length < 1) {
+          if (!this.mediaList || this.mediaList.length < 1) {
             this.noDataFlag = true
           } else {
             this.noDataFlag = false
@@ -1161,6 +1167,7 @@ export default defineComponent({
         end_time: this.end_time,
         description: this.projectDescription,
         production_background: this.projectBackground,
+        collection_status_cd: '10'
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
       // this.$q.loading.show() // 로딩 표시 시작
@@ -1181,6 +1188,8 @@ export default defineComponent({
             // this.$router.push('/project/newList')
           } else {
             this.$noti(this.$q, this.$t('register_failed'))
+            // insert / update 구분용
+            this.methodsExecuted = false
           }
         })
         .catch((err) => {
@@ -1215,6 +1224,7 @@ export default defineComponent({
         end_time: this.end_time,
         description: this.projectDescription,
         production_background: this.projectBackground,
+        collection_status_cd: '10',
         mod_id: this.getUid
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
@@ -1253,7 +1263,7 @@ export default defineComponent({
       const params = {
         uid: this.getUid,
         seq: this.projectSeq,
-        status_cd: '99',      // 등록중
+        status_cd: '99',      // 등록
       }
       this.$q.loading.show() // 로딩 표시 시작
       this.$axios.post('/api/project/updateProjectStatus', params)
