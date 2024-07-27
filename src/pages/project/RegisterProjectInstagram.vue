@@ -257,38 +257,48 @@ export default defineComponent({
   methods: {
     // 사용자 정보 조회
     async getUserInfo() {
-      // id, username 조회
-      const paramUserInfo = {
-        fields: 'id,username',
-        access_token: this.token,
-      }
-      const resultUserInfo = await this.$axios.get('https://graph.instagram.com/me', { params: { ...paramUserInfo } })
-      if (resultUserInfo.data) {
-        console.log(resultUserInfo.data)
-        this.userInfo = resultUserInfo.data
-      } else {
+      try {
+        // id, username 조회
+        const paramUserInfo = {
+          fields: 'id,username',
+          access_token: this.token,
+        }
+        const resultUserInfo = await this.$axios.get('https://graph.instagram.com/me', { params: { ...paramUserInfo } })
+        if (resultUserInfo.data) {
+          console.log(resultUserInfo.data)
+          this.userInfo = resultUserInfo.data
+        } else {
+          this.$noti(this.$q, this.$t('request_data_failed'))
+        }
+      } catch(e) {
+        this.$q.loading.hide() // 로딩 표시 종료
         this.$noti(this.$q, this.$t('request_data_failed'))
       }
     },
     // 사용자 미디어 리스트 조회
     async getUserMediaList() {
-      // media list 조회
-      const paramMediaList = {
-        fields: 'id,caption,media_type,media_url,username,timestamp',
-        access_token: this.token,
-      }
-      const resultMediaList = await this.$axios.get('https://graph.instagram.com/me/media', { params: { ...paramMediaList } })
-      if (resultMediaList.data) {
-        console.log(resultMediaList.data)
-        // this.postList = resultMediaList.data.data
-        // this.setUndefinedToFalse() // undefined selected -> false
-        this.nextPageUrl = resultMediaList.data.paging.next
+      try {
+        // media list 조회
+        const paramMediaList = {
+          fields: 'id,caption,media_type,media_url,username,timestamp',
+          access_token: this.token,
+        }
+        const resultMediaList = await this.$axios.get('https://graph.instagram.com/me/media', { params: { ...paramMediaList } })
+        if (resultMediaList.data) {
+          console.log(resultMediaList.data)
+          // this.postList = resultMediaList.data.data
+          // this.setUndefinedToFalse() // undefined selected -> false
+          this.nextPageUrl = resultMediaList.data.paging.next
 
-        // 케로셀 미디어 하위 미디어 설정 후 포스트 리스트 설정
-        this.postList = await this.getChildrenAddedPostList(resultMediaList.data.data)
-        console.log('this.postList: ')
-        console.log(this.postList)
-      } else {
+          // 케로셀 미디어 하위 미디어 설정 후 포스트 리스트 설정
+          this.postList = await this.getChildrenAddedPostList(resultMediaList.data.data)
+          console.log('this.postList: ')
+          console.log(this.postList)
+        } else {
+          this.$noti(this.$q, this.$t('request_data_failed'))
+        }
+      } catch(e) {
+        this.$q.loading.hide() // 로딩 표시 종료
         this.$noti(this.$q, this.$t('request_data_failed'))
       }
     },
@@ -412,14 +422,8 @@ export default defineComponent({
     },
     doGoBack() {
       // 페이지 이동
-      this.$router.go(-1)
-      // if (this.$route.query.fromAdmin === 'Y') {
-      //   // 나의 프로젝트 리스트 화면 - admin
-      //   this.$router.push('/admin/adminMyList')
-      // } else {
-      //   // 나의 프로젝트 리스트 화면
-      //   this.$router.push('/project/projectList')
-      // }
+      // this.$router.go(-1)
+      this.$router.push('/project/selectPlatform')
     },
     openUrl(url) {
       return // 사용 안함
