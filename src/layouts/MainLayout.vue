@@ -936,23 +936,23 @@ export default defineComponent({
       this.$store.dispatch('setNickname', nickname)
     }
 
-    // // 쿠키에 UID와 AUTH_KEY가 있으면 유저정보 바인딩
-    // const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
-    // const authKey = localStorage.getItem('AUTH_KEY') ? localStorage.getItem('AUTH_KEY') : this.$cookie.get('AUTH_KEY')
-    // if (uid && authKey) {
-    //   this.$store.dispatch('setUid', uid)
-    //   const adcd =  localStorage.getItem('ADCD') ? localStorage.getItem('ADCD') : this.$cookie.get('ADCD')
-    //   this.$store.dispatch('setAdcd', adcd)
-    // }
+    // 쿠키에 UID와 AUTH_KEY가 있으면 유저정보 바인딩
+    const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+    const authKey = localStorage.getItem('AUTH_KEY') ? localStorage.getItem('AUTH_KEY') : this.$cookie.get('AUTH_KEY')
+    if (uid && authKey) {
+      this.$store.dispatch('setUid', uid)
+      const adcd =  localStorage.getItem('ADCD') ? localStorage.getItem('ADCD') : this.$cookie.get('ADCD')
+      this.$store.dispatch('setAdcd', adcd)
+    }
 
-    // // 쿠키에 LOCALE이 있으면 설정
-    // const cookieLocale = localStorage.getItem('LOCALE') ? localStorage.getItem('LOCALE') : this.$cookie.get('LOCALE')
-    // // alert('cookieLocale: ' + cookieLocale)
-    // if (cookieLocale && cookieLocale !== 'null') {
-    //   this.locale = cookieLocale
-    // } else {
-    //   this.locale = 'en-US'
-    // }
+    // 쿠키에 LOCALE이 있으면 설정
+    const cookieLocale = localStorage.getItem('LOCALE') ? localStorage.getItem('LOCALE') : this.$cookie.get('LOCALE')
+    // alert('cookieLocale: ' + cookieLocale)
+    if (cookieLocale && cookieLocale !== 'null') {
+      this.locale = cookieLocale
+    } else {
+      this.locale = 'en-US'
+    }
 
     // // CORDOVA APP에서 로그인 후 WEB으로 왔을 때 처리
     // if ((this.$q.platform.is.cordova === true || this.$q.platform.is.name === 'webkit') && this.$route.query.uid && this.$route.query.authKey
@@ -1294,7 +1294,7 @@ export default defineComponent({
       }
     },
     callbackLogin(userVo) {
-      console.log('callbackLogin!!!')
+      // console.log('callbackLogin!!!')
       this.$store.dispatch('setUid', userVo.uid)
       this.$store.dispatch('setAdcd', userVo.adcd)
       this.$store.dispatch('setName', userVo.name)

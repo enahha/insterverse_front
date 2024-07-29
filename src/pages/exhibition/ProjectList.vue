@@ -99,16 +99,16 @@ export default defineComponent({
   components: {
   },
   watch: {
-    getUid (newValue) {
-      // console.log('newValue: : ' + newValue)
-      // this.loadMore(1, null)
-      this.refresher(null)
-      // if (!newValue) {
-      //   this.$router.push('/')
-      // } else {
-      //   this.loadMore(1, null)
-      // }
-    },
+    // getUid (newValue) {
+    //   // console.log('newValue: : ' + newValue)
+    //   // this.loadMore(1, null)
+    //   this.refresher(null)
+    //   // if (!newValue) {
+    //   //   this.$router.push('/')
+    //   // } else {
+    //   //   this.loadMore(1, null)
+    //   // }
+    // },
   },
   computed: {
     getUid () {
