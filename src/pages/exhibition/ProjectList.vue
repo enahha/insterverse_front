@@ -33,7 +33,7 @@
             <q-item clickable @click="goDetail(item.seq)">
               <q-item-section avatar>
                 <q-avatar>
-                  <img v-if="item.logo_image" :src="item.logo_image">
+                  <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
                 </q-avatar>
               </q-item-section>

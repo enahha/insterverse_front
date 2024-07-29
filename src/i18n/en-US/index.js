@@ -939,8 +939,8 @@ export default {
   menu_mypage_feedback: 'Feedback',
   menu_mypage_feedback_info: 'Comments information',
   menu_mypage_sales_detail: 'Details of sales',
-  menu_mypage_total_sales: 'Total',
-  menu_mypage_withdrawal: 'Withdrawal',
+  menu_mypage_total_settlement: 'Total',
+  menu_mypage_settlement_list: 'History',
   menu_mypage_withdrawal_ing: 'Requesting',
 
   // menu_register_token: 'Register Token',

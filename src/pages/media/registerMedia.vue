@@ -30,22 +30,22 @@
                     <table>
                         <tr>
                             <div class="q-pt-lg">
-                                <td class="labal-input"><q-input v-model="mediaOrderNumber" :label="$t('media_order_number')" ref="mediaOrderNumber" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                                <td class="label-input"><q-input v-model="mediaOrderNumber" :label="$t('media_order_number')" ref="mediaOrderNumber" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" /></td>
                             </div>
                         </tr>
                         <tr>
                             <div class="q-pt-lg">
-                                <td class="labal-input"><q-input v-model="mediaTitle" :label="$t('media_title')" ref="mediaTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                                <td class="label-input"><q-input v-model="mediaTitle" :label="$t('media_title')" ref="mediaTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" /></td>
                             </div>
                         </tr>
                         <tr>
                             <div class="q-pt-lg">
-                                <td class="labal-input"><q-input v-model="mediaSubtitle" :label="$t('media_subtitle')" ref="mediaSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                                <td class="label-input"><q-input v-model="mediaSubtitle" :label="$t('media_subtitle')" ref="mediaSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" /></td>
                             </div>
                         </tr>
                         <tr>
                             <div class="q-pt-lg">
-                                <td class="labal-input">
+                                <td class="label-input">
                                     <q-checkbox
                                         left-label
                                         v-model="forSale"
@@ -53,16 +53,16 @@
                                         checked-icon="task_alt"
                                         unchecked-icon="highlight_off"
                                     />
-                                    <q-input v-model="mediaPrice" :disabled="!forSale" :label="$t('media_price')" ref="mediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" style="width: 81%;"/>
+                                    <q-input v-model="mediaPrice" :disabled="!forSale" :label="$t('media_price')" ref="mediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 81%;"/>
                                 </td>
                             </div>
                         </tr>
                         <tr>
                             <div class="q-pt-lg">
-                                <td class="labal-input">
-                                    <q-input class="work-info" v-model="mediaCreated" :label="$t('media_created')" ref="mediaCreated" clearable tabindex="1" />
-                                    <q-input class="work-info" v-model="mediaSize" :label="$t('media_size')" ref="mediaSize" clearable tabindex="1" />
-                                    <q-input class="work-info" v-model="mediaMaterials" :label="$t('media_materials')" ref="mediaMaterials" clearable tabindex="1" />
+                                <td class="label-input">
+                                    <q-input class="work-info" v-model="mediaCreated" :label="$t('media_created')" ref="mediaCreated" clearable outlined tabindex="1" />
+                                    <q-input class="work-info" v-model="mediaSize" :label="$t('media_size')" ref="mediaSize" clearable outlined tabindex="1" />
+                                    <q-input class="work-info" v-model="mediaMaterials" :label="$t('media_materials')" ref="mediaMaterials" clearable outlined tabindex="1" />
                                 </td>
                             </div>
                         </tr>

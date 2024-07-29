@@ -382,8 +382,8 @@
           <!-- 3. Register Project -->
           <q-item clickable @click="goIfLoggedIn('/project')">
             <q-item-section avatar class="q-pt-md">
-              <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
-              <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
+              <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+              <q-img src="icons/icon_showcase_1.png" width="30px" />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ $t('menu_project_register') }}</q-item-label>
@@ -629,6 +629,7 @@
                       <q-btn
                         v-if="locale === 'ko-KR'"
                         color=""
+                        text-color="black"
                         push
                         size="md"
                         label="English"
@@ -638,6 +639,7 @@
                       <q-btn
                         v-if="locale !== 'ko-KR'"
                         color="grey"
+                        text-color="black"
                         push
                         size="md"
                         label="English"
@@ -649,6 +651,7 @@
                       <q-btn
                         v-if="locale === 'en-US'"
                         color=""
+                        text-color="black"
                         push
                         size="md"
                         label="Korean"
@@ -658,6 +661,7 @@
                       <q-btn
                         v-if="locale !== 'en-US'"
                         color="grey"
+                        text-color="black"
                         push
                         size="md"
                         label="Korean"

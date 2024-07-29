@@ -39,8 +39,8 @@
             <table style="width: 800px;">
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('user_nickname') }}<span class="text-red"> *</span></span></td>
-                  <td class="labal-input"><q-input v-model="nickname" ref="nickname" clearable tabindex="1"/></td>
+                  <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('user_nickname') }}<span class="text-red"> *</span></span></td>
+                  <td class="label-input"><q-input v-model="nickname" ref="nickname" clearable tabindex="1"/></td>
                   <td>
                     <q-btn
                         :label="$t('change')"
@@ -52,14 +52,14 @@
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('pwd_upper') }}<span class="text-red"> *</span></span></td>
-                  <td class="labal-input"><q-input v-model="pwd" ref="pwd"  type="password" clearable tabindex="1" /></td>
+                  <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('pwd_upper') }}<span class="text-red"> *</span></span></td>
+                  <td class="label-input"><q-input v-model="pwd" ref="pwd"  type="password" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('pwd_check_upper') }}<span class="text-red"> *</span></span></td>
-                  <td class="labal-input"><q-input v-model="pwdCheck" ref="pwdCheck"  type="password" clearable tabindex="1"/></td>
+                  <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('pwd_check_upper') }}<span class="text-red"> *</span></span></td>
+                  <td class="label-input"><q-input v-model="pwdCheck" ref="pwdCheck"  type="password" clearable tabindex="1"/></td>
                   <td>
                     <q-btn
                       :label="$t('change')"
@@ -75,8 +75,8 @@
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_account') }}<span class="text-red"> *</span></span></td>
-                  <td class="labal-input">
+                  <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_account') }}<span class="text-red"> *</span></span></td>
+                  <td class="label-input">
                     <q-select
                       v-model="bankType"
                       :options="bankOption"
@@ -86,14 +86,14 @@
                       outlined
                       dense
                     />
-                    <q-input v-model="bankAccount" ref="bankAccount" :label="$t('menu_mypage_bank_account')" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/>
+                    <q-input v-model="bankAccount" ref="bankAccount" :label="$t('menu_mypage_bank_account')" clearable tabindex="1"/>
                   </td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_wallet') }}<span class="text-red"> *</span></span></td>
-                  <td class="labal-input">
+                  <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_wallet') }}<span class="text-red"> *</span></span></td>
+                  <td class="label-input">
                     <q-select
                       v-model="walletTyoe"
                       :options="walletOption"
@@ -103,7 +103,7 @@
                       outlined
                       dense
                     />
-                    <q-input v-model="walletAddress" ref="walletAddress" :label="$t('menu_mypage_wallet_address')" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/>
+                    <q-input v-model="walletAddress" ref="walletAddress" :label="$t('menu_mypage_wallet_address')" clearable tabindex="1"/>
                   </td>
                 </div>
               </tr>
@@ -133,7 +133,7 @@
                 <q-item clickable @click="goDetail(item.seq)">
                   <q-item-section avatar>
                     <q-avatar>
-                      <img v-if="item.logo_image" :src="item.logo_image">
+                      <img v-if="item.postar_url" :src="item.postar_url">
                       <q-icon v-else name="rocket_launch" size="md" />
                     </q-avatar>
                   </q-item-section>
@@ -172,10 +172,10 @@
       <q-tab-panel name="3" style="word-break: break-word;">
         <div class="tab-panel-3 q-pt-lg">
           <div class="withdrawal">
-            <div class="title">{{ $t('menu_mypage_total_sales') }} 3,000,000 {{ $t('menu_mypage_currncy') }}</div>
+            <div class="title">{{ $t('menu_mypage_total_settlement') }} {{ $t('menu_mypage_currncy') }} 3,000,000 </div>
             <div>                  
               <q-btn
-                :label="$t('menu_mypage_withdrawal')"
+                :label="$t('menu_mypage_settlement_list')"
                 @click="showExhibitionTypeModal"
                 style="background-color: #0C2C69; color: white "
               />
@@ -488,7 +488,7 @@ export default defineComponent({
             if (!this.wallet_address) {
               this.wallet_address = this.$store.getters.getWalletAddress
             }
-            this.nickname = result.data.nickname
+            // this.nickname = result.data.nickname
             this.profile_image = result.data.profile_image
             // this.reg_name = result.data.reg_name
             this.name = result.data.name

@@ -521,7 +521,7 @@ textarea {
         min-height: 60px;
         padding: 20px 15px;
         + .q-item {
-            border-top: 1px solid #282828;
+            // border-top: 1px solid #282828;
         }
     }
     .list-item {
@@ -551,7 +551,7 @@ textarea {
 .contact-wrap {
     .tab-1 {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         .company-info {
             width: 45%;
             display: flex;
@@ -1353,12 +1353,12 @@ textarea {
             font-size: 23px;
             font-weight: bold;
         }
-        .labal {
+        .label {
             width: 30%;
             text-align: start;
             padding-left: 5%;
         }
-        .labal-input {
+        .label-input {
             width: 1000px;
         }
         > input{
@@ -1372,12 +1372,12 @@ textarea {
     //         font-size: 23px;
     //         font-weight: bold;
     //     }
-    //     .labal {
+    //     .label {
     //         width: 30%;
     //         text-align: start;
     //         padding-left: 5%;
     //     }
-    //     .labal-input {
+    //     .label-input {
     //         width: 1000px;
     //     }
     //     > input{
@@ -1439,12 +1439,12 @@ textarea {
             font-size: 23px;
             font-weight: bold;
         }
-        .labal {
+        .label {
             width: 30%;
             text-align: start;
             padding-left: 5%;
         }
-        .labal-input {
+        .label-input {
             width: 1000px;
         }
         > input{
@@ -1458,12 +1458,12 @@ textarea {
         font-size: 23px;
         font-weight: bold;
     }
-    .labal {
+    .label {
         width: 30%;
         text-align: start;
         padding-left: 5%;
     }
-    .labal-input {
+    .label-input {
         width: 1000px;
     }
     > input{
@@ -1499,13 +1499,13 @@ textarea {
         padding-bottom: 56.25%;
         background-color: #000000;
     }
-    .labal {
+    .label {
         width: 30%;
         text-align: start;
         padding-left: 5%;
 
     }
-    .labal-input {
+    .label-input {
         width: 100%;
         display: flex;
         justify-content: flex-end;
@@ -1967,7 +1967,7 @@ textarea {
     .notice-list {
         .list-item {
             flex-direction: column;
-            border-bottom: 1px solid #000;
+            // border-bottom: 1px solid #000;
             .q-item__label {
                 width: 100% !important;
                 text-align: left !important;
@@ -2013,10 +2013,10 @@ textarea {
         }
     }
     .add_art_wrap {
-        .labal {
+        .label {
             width: 30%;
         }
-        .labal-input {
+        .label-input {
             width: 100%;
         }
         .q-input {
@@ -2033,11 +2033,11 @@ textarea {
         }
     }
     .project-reg-wrap{
-        .labal {
+        .label {
             width: 30%;
-            background-color: #000;
+            // background-color: #000;
         }
-        .labal-input {
+        .label-input {
             width: 100%;
         }
         .q-input {
@@ -2076,5 +2076,14 @@ textarea {
             padding: 0px 0px;
         }
     
+    }
+    .contact-wrap {
+        .tab-1 {
+            height: 800px;
+            padding-top: 100px;
+            .contact-register {
+                width: 90%;
+            }
+        }
     }
 }

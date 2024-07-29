@@ -27,10 +27,10 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="1" style="word-break: break-word;">
         <div class="tab-1">
-          <div class="company-info">
+          <!-- <div class="company-info">
             <q-item>
               <q-item-section avatar class="">
-                <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+                <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
                 <q-img src="icons/icon_contact_call.png" width="40px" />
               </q-item-section>
               <q-item-section>
@@ -40,14 +40,14 @@
 
             <q-item>
               <q-item-section avatar class="">
-                <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+                <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
                 <q-img src="icons/icon_contactus_2.png" width="40px" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ contactEmail }}</q-item-label>
               </q-item-section>
             </q-item>
-          </div>
+          </div> -->
 
           <div class="contact-register">
             <q-card bordered class="bg-grey-9 my-card">

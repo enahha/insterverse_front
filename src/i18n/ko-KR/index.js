@@ -940,8 +940,8 @@ export default {
   menu_mypage_feedback: '피드백',
   menu_mypage_feedback_info: '댓글 정보',
   menu_mypage_sales_detail: '판매 내역',
-  menu_mypage_total_sales: '판매 총합',
-  menu_mypage_withdrawal: '출금 요청하기',
+  menu_mypage_total_settlement: '정산 예정 금액',
+  menu_mypage_settlement_list: '정산 내역 보기',
   menu_mypage_withdrawal_ing: '요청중',
 
   // menu_register_token: '토큰 등록',

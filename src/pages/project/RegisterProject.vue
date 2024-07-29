@@ -36,42 +36,42 @@
             <table style="width: 800px;">
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span></td>
+                    <td class="label-input"><q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('artist_representative_sns') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="representativeSns" ref="refRepresentativeSns" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('artist_representative_sns') }}<span class="text-red"> *</span></span></td>
+                    <td class="label-input"><q-input v-model="representativeSns" ref="refRepresentativeSns" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" /></td>
                 </div>
               </tr>
 
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal" style="align-content: start; padding-top: 2%;"><span class="text-weight-bold text-subtitle1">{{ $t('artist_sns_id') }} / {{ $t('artist_link') }}<span class="text-red"> </span></span></td>
+                  <td class="label" style="align-content: start; padding-top: 2%;"><span class="text-weight-bold text-subtitle1">{{ $t('artist_sns_id') }} / {{ $t('artist_link') }}<span class="text-red"> </span></span></td>
 
-                  <td class="labal-input">
+                  <td class="label-input">
                     <table>
                       <tr>
-                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span></td>
-                        <td class="labal-input"><q-input v-model="email" ref="refEmail" clearable tabindex="1" /></td>
+                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span></td>
+                        <td class="label-input"><q-input v-model="email" ref="refEmail" clearable outlined tabindex="1" /></td>
                       </tr>
                       <tr>
-                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span></td>
-                        <td class="labal-input"><q-input v-model="instargram" placeholder="" ref="refInstargram" clearable tabindex="1" /></td>
+                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span></td>
+                        <td class="label-input"><q-input v-model="instargram" placeholder="" ref="refInstargram" clearable outlined tabindex="1" /></td>
                       </tr>
                       <tr>
-                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span></td>
-                        <td class="labal-input"><q-input v-model="twitter" ref="refTwitter" clearable tabindex="1" /></td>
+                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span></td>
+                        <td class="label-input"><q-input v-model="twitter" ref="refTwitter" clearable outlined tabindex="1" /></td>
                       </tr>
                       <tr>
-                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span></td>
-                        <td class="labal-input"><q-input v-model="discord" ref="refDiscord" clearable tabindex="1" /></td>
+                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span></td>
+                        <td class="label-input"><q-input v-model="discord" ref="refDiscord" clearable outlined tabindex="1" /></td>
                       </tr>
                       <tr>
-                        <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span></td>
-                        <td class="labal-input"><q-input v-model="telegram" ref="refTelegram" clearable tabindex="1" /></td>
+                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span></td>
+                        <td class="label-input"><q-input v-model="telegram" ref="refTelegram" clearable outlined tabindex="1" /></td>
                       </tr>
                     </table>
                   </td>
@@ -206,19 +206,19 @@
             <table style="width: 800px;">
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span></td>
+                    <td class="label-input"><q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }} (Korean)<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="titleKo" ref="refTitleKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable tabindex="1" /></td>
+                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }} (Korean)<span class="text-red"> *</span></span></td>
+                    <td class="label-input"><q-input v-model="titleKo" ref="refTitleKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_symbol') }}</span>
+                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_symbol') }}</span>
                       <q-icon name="help" size="xs">
                         <q-tooltip>
                           {{ $t('project_symbol_hint') }}
@@ -226,19 +226,19 @@
                       </q-icon>
                       <span class="text-red"> *</span>
                     </td>
-                    <td class="labal-input"><q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable tabindex="1" /></td>
+                    <td class="label-input"><q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_subtitle') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="subtitle" ref="refSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1" /></td>
+                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_subtitle') }}<span class="text-red"> *</span></span></td>
+                    <td class="label-input"><q-input v-model="subtitle" ref="refSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable outlined tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_type') }}<span class="text-red"> *</span></span></td>
-                    <td class="labal-input"><q-input v-model="exhibitionName" :disable="true" ref="refExhibitionName" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/></td>
+                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_type') }}<span class="text-red"> *</span></span></td>
+                    <td class="label-input"><q-input v-model="exhibitionName" :disable="true" ref="refExhibitionName" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable outlined tabindex="1"/></td>
                     <td>
                       <q-btn
                           :label="$t('choice')"
@@ -250,13 +250,13 @@
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal">
+                    <td class="label">
                       <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_banner') }}<span class="text-red"> *</span></span>
                       <span class="text-grey">
                         &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
                       </span>
                     </td>
-                    <td class="labal-input">
+                    <td class="label-input">
                       <div class="row justify-center q-pb-md">
                         <div class="col-12">
                           <q-uploader
@@ -285,10 +285,10 @@
 
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal">
+                  <td class="label">
                     <span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_day') }}</span>
                   </td>
-                  <td class="labal-input" style="">
+                  <td class="label-input" style="">
                     <!-- 전시 시작일 -->
                     <div class="" style="max-width: 300px;">
                       <q-input v-model="startTime" :label="$t('start_time')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
@@ -353,13 +353,13 @@
 
               <tr>
                 <div class="input-group q-pt-lg">
-                    <td class="labal">
+                    <td class="label">
                       <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_poster_image') }}<span class="text-red"> *</span></span>
                       <span class="text-grey">
                         &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
                       </span>
                     </td>
-                    <td class="labal-input">
+                    <td class="label-input">
                       <div class="row justify-center q-pb-md">
                         <div class="col-12">
                           <q-uploader
@@ -617,7 +617,7 @@
 
 
           <!-- <div class="row srch-wrap" style="width: 100%;">
-            <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable borderless />
+            <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable outlined borderless />
             &nbsp;&nbsp;
             &nbsp;&nbsp;
             <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
