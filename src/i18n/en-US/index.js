@@ -930,8 +930,11 @@ export default {
   menu_mypage_description: 'Modify the account information.',
   menu_mypage_privacy: 'Info',
   menu_mypage_bank: 'Bank',
-  menu_mypage_currncy: 'WON',
+  menu_mypage_wallet_type: 'Type',
+  menu_mypage_wallet_address: 'Address',
+  menu_mypage_currncy: '$',
   menu_mypage_settlement_account: 'Account',
+  menu_mypage_settlement_wallet: 'Wallet',
   menu_mypage_my_exhibition: 'My exhibition',
   menu_mypage_feedback: 'Feedback',
   menu_mypage_feedback_info: 'Comments information',
@@ -939,7 +942,6 @@ export default {
   menu_mypage_total_sales: 'Total',
   menu_mypage_withdrawal: 'Withdrawal',
   menu_mypage_withdrawal_ing: 'Requesting',
-
 
   // menu_register_token: 'Register Token',
   // menu_register_token_description: 'Register a new token.',
