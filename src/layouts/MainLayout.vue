@@ -380,7 +380,7 @@
           </q-item>
 
           <!-- 3. Register Project -->
-          <q-item clickable @click="goIfLoggedIn('/project')">
+          <q-item clickable to="/project">
             <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
               <q-img src="icons/icon_showcase_1.png" width="30px" />

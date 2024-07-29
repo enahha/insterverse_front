@@ -32,52 +32,48 @@
           <span>{{ $t('artist_basic_information') }}</span>
           <div class="underline"></div>
 
-          <div style="margin-left: 5%;">
-            <table style="width: 800px;">
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span></td>
-                    <td class="label-input"><q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" /></td>
-                </div>
-              </tr>
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('artist_representative_sns') }}<span class="text-red"> *</span></span></td>
-                    <td class="label-input"><q-input v-model="representativeSns" ref="refRepresentativeSns" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" /></td>
-                </div>
-              </tr>
+          <div class="q-pt-md" style="margin-left: 1%;">
+            <div class="q-pt-md">
+              <span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span>
+            </div>
+            <div style="max-width: 600px;">
+              <q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+            </div>
 
-              <tr>
-                <div class="input-group q-pt-lg">
-                  <td class="label" style="align-content: start; padding-top: 2%;"><span class="text-weight-bold text-subtitle1">{{ $t('artist_sns_id') }} / {{ $t('artist_link') }}<span class="text-red"> </span></span></td>
+            <div class="q-pt-md">
+              <span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span>
+            </div>
+            <div style="max-width: 600px;">
+              <q-input v-model="email" ref="refEmail" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+            </div>
 
-                  <td class="label-input">
-                    <table>
-                      <tr>
-                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span></td>
-                        <td class="label-input"><q-input v-model="email" ref="refEmail" clearable outlined tabindex="1" /></td>
-                      </tr>
-                      <tr>
-                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span></td>
-                        <td class="label-input"><q-input v-model="instargram" placeholder="" ref="refInstargram" clearable outlined tabindex="1" /></td>
-                      </tr>
-                      <tr>
-                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span></td>
-                        <td class="label-input"><q-input v-model="twitter" ref="refTwitter" clearable outlined tabindex="1" /></td>
-                      </tr>
-                      <tr>
-                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span></td>
-                        <td class="label-input"><q-input v-model="discord" ref="refDiscord" clearable outlined tabindex="1" /></td>
-                      </tr>
-                      <tr>
-                        <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span></td>
-                        <td class="label-input"><q-input v-model="telegram" ref="refTelegram" clearable outlined tabindex="1" /></td>
-                      </tr>
-                    </table>
-                  </td>
-                </div>
-              </tr>
-            </table>
+            <div class="q-pt-md">
+              <span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span>
+            </div>
+            <div style="max-width: 600px;">
+              <q-input v-model="instargram" ref="refInstargram" placeholder="ex) https://www.instagram.com/banana123" clearable outlined tabindex="1" />
+            </div>
+
+            <div class="q-pt-lg">
+              <span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span>
+            </div>
+            <div style="max-width: 600px;">
+              <q-input v-model="twitter" ref="refTwitter" placeholder="ex) https://x.com/banana123" clearable outlined tabindex="1" />
+            </div>
+
+            <div class="q-pt-lg">
+              <span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span>
+            </div>
+            <div style="max-width: 600px;">
+              <q-input v-model="discord" ref="refDiscord" placeholder="ex) https://discord.gg/banana123" clearable outlined tabindex="1" />
+            </div>
+
+            <div class="q-pt-lg">
+              <span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span>
+            </div>
+            <div style="max-width: 600px;">
+              <q-input v-model="telegram" ref="refTelegram" placeholder="ex) https://t.me/banana123" clearable outlined tabindex="1" />
+            </div>
           </div>
           <br><br><br><br><br>
 
@@ -799,56 +795,13 @@ export default defineComponent({
         // },
       ],
       // preview
-      projectVo: {
-        seq: '',
-        mainnet: '',
-        type: '',
-        wallet_address: '',
-        token_contract_address: '',
-        lp_contract_address_1: '',
-        lp_contract_address_2: '',
-        lp_contract_address_3: '',
-        lp_contract_address_4: '',
-        lp_contract_address_5: '',
-        lp_contract_address_6: '',
-        lp_contract_address_7: '',
-        lp_contract_address_8: '',
-        lp_contract_address_9: '',
-        lp_contract_address_10: '',
-        platform_contract_address: '',
-        platform_deposit_balance: '',
-        platform_yield: '',
-        platform_total_balance: '',
-        title: '',
-        title_ko: '',
-        summary: '',
-        summary_ko: '',
-        description: '',
-        description_ko: '',
-        official_website: '',
-        official_email: '',
-        logo_image: '',
-        docs: '',
-        blog: '',
-        medium: '',
-        telegram: '',
-        twitter: '',
-        github: '',
-        meta: '',
-        discord: '',
-        reg_id: '',
-      },
-
       // seqFileMst: '' // 파일 마스터 SEQ
       confirmGoBack: false, // goBack 확인창
-
       truncateTitle: 10,
       truncateDescription: 200,
-      
-
       ////////////////////////
       nickname: '',
-      representativeSns: '',
+      // representativeSns: '',
       email: '',
       instargram: '',
       twitter: '',
@@ -1165,8 +1118,8 @@ export default defineComponent({
         uid: this.getUid,
         seq: this.projectSeq,
         nickname: this.nickname,
-        status_cd: '10',      // 등록중
-        representative_sns_id: this.representativeSns,
+        status_cd: '10', // 등록중
+        // representative_sns_id: this.representativeSns,
         email: this.email,
         instargram: this.instargram,
         twitter: this.twitter,
@@ -1222,8 +1175,8 @@ export default defineComponent({
         uid: this.getUid,
         seq: this.projectSeq,
         nickname: this.nickname,
-        status_cd: '10',      // 등록중
-        representative_sns_id: this.representativeSns,
+        status_cd: '10', // 등록중
+        // representative_sns_id: this.representativeSns,
         email: this.email,
         instargram: this.instargram,
         twitter: this.twitter,
