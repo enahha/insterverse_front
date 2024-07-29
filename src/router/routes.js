@@ -141,12 +141,13 @@ const routes = [
     path: '/project',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/project/SelectType.vue') },
+      // { path: '', component: () => import('src/pages/project/SelectType.vue') },
+      { path: '', component: () => import('pages/project/RegisterProject.vue') },
       { path: 'selectPlatform', component: () => import('src/pages/project/SelectPlatform.vue') },
       { path: 'instagramList', component: () => import('pages/project/InstagramList.vue') },
       { path: 'youtubeList', component: () => import('pages/project/YoutubeList.vue') },
       { path: 'myProjectList', component: () => import('pages/project/MyProjectList.vue') },
-      { path: 'registerProject', component: () => import('pages/project/RegisterProject.vue') },
+      // { path: 'registerProject', component: () => import('pages/project/RegisterProject.vue') },
       { path: 'registerProjectInstagram', component: () => import('pages/project/RegisterProjectInstagram.vue') },
       { path: 'modifyProject', component: () => import('pages/project/ModifyProject.vue') },
     ]
