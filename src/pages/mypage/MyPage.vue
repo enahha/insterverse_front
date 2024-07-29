@@ -44,7 +44,7 @@
                   <td>
                     <q-btn
                         :label="$t('change')"
-                        @click="modifyUser"
+                        @click="modifyUser(this.nickname, null, null)"
                         style="background-color: #90B2D8; color: white "
                       />
                   </td>
@@ -63,7 +63,7 @@
                   <td>
                     <q-btn
                       :label="$t('change')"
-                      @click="modifyUser"
+                      @click="modifyUser(null, this.pwd, this.pwdCheck)"
                       style="background-color: #90B2D8; color: white "
                     />
                   </td>
@@ -218,9 +218,9 @@
           <div class="underline"></div>
 
           <!-- 프로젝트 댓글 리스트 -->
-          <q-pull-to-refresh @refresh="refresher">
+          <q-pull-to-refresh @refresh="refresherMyComment">
             <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
-              <div v-for="item in projectCommentList" :key="item.seq">
+              <div v-for="item in myCommentList" :key="item.seq">
 
                 <div :style="`padding-left: ${ item.group_layer * 20 }px`" v-if="item.visible_child" :class="`${ item.group_layer === 0 ? 'bg-white' : 'bg-grey-2'}`">
                   <div class="row q-pt-md">
@@ -370,9 +370,12 @@ export default defineComponent({
       pageSize: 100,
       lastPageNum: 1, // 마지막 페이지
       projectList: [],
-      projectCommentList: [],
+      myCommentList: [],
+      myReply: '', // 입력 답글
+      myReplyLength: 0,
       noDataFlag: false,
       refresherDone: '',
+      refresherMyCommentDone: '',
 
       bankOption: [
         {
@@ -460,9 +463,11 @@ export default defineComponent({
     this.selectUser()
 
     this.selectListMax()
+    this.selectMyCommentListMax()
   },
   mounted: function () {
     this.refresher(null)
+    this.refresherMyComment(null)
   },
   methods: {
     // 계정 조회
@@ -571,7 +576,7 @@ export default defineComponent({
         this.keyword = ''
       }
       this.$axios.get('/api/project/selectProjectListLastPageNum',
-        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+        {params: {uid: this.getUid, regId: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -588,7 +593,7 @@ export default defineComponent({
         this.$store.dispatch('setKeyword', this.keyword)
       }
       this.$axios.get('/api/project/selectProjectList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+        {params: {uid: this.getUid, regId: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)
@@ -612,6 +617,266 @@ export default defineComponent({
           if (done) {
             done()
           }
+        })
+    },
+    refresherMyComment (done) {
+      this.selectListMax()
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise the refresh message
+      //        will continue to be displayed
+      // make some Ajax call then call done()
+      this.myCommentList = []
+      this.refresherMyCommentDone = done // load가 끝나면 로딩메세지 종료
+      this.$refs.infiniteScroll.reset() // index 초기화
+      this.$refs.infiniteScroll.resume() // stop에서 다시 재생
+      // this.$refs.infiniteScroll.load() // loadMore로 검색
+      this.loadMoreMyComment(1, done)
+    },
+    loadMoreMyComment(index, done) {
+      // index - called for nth time
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise your loading message
+      //        will continue to be displayed. Has optional boolean
+      //        parameter that invokes stop() when true
+      // console.log('index: ' + index)
+      // make some Ajax call then call done()
+      // this.pageNum = index
+      setTimeout(() => {
+        // alert(index)
+        // console.log('loadMore called index: ' + index)
+        if (index <= this.lastPageNum) {
+          this.selectMyCommentList(index, done)
+          if (index === this.lastPageNum) {
+            this.$refs.infiniteScroll.stop()
+          }
+
+          // refresher 로딩메세지 처리
+          if (this.refresherMyCommentDone != null && this.refresherMyCommentDone !== '') {
+            this.refresherMyCommentDone() // 로딩메세지 종료
+            this.refresherMyCommentDone = '' // 로딩메세지 초기화
+          }
+        }
+      }, 500)
+    },
+    // 토근 댓글 리스트 마지막 페이지 조회
+    selectMyCommentListMax() {
+      this.$axios.get('/api/projectcomment/selectMyProjectCommentListLastPageNum',
+        {params: {uid: this.getUid, pageSize: this.pageSize}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.lastPageNum = result.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    // 프로젝트 댓글 리스트 조회
+    selectMyCommentList(idx, done) {
+      this.$axios.get('/api/projectcomment/selectMyProjectCommentList',
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          if (idx === 1) { // 첫번째 load인 경우
+            this.myCommentList = [] // 리스트 초기화
+          }
+          this.myCommentList = this.myCommentList.concat(result.data)
+
+          console.log('this.myCommentList +++++++++')
+          console.log(this.myCommentList)
+
+          // 데이터 없음 표시 설정
+          if (!this.myCommentList || this.myCommentList.length < 1) {
+            this.noDataFlag = true
+          } else {
+            this.noDataFlag = false
+          }
+          if (done) {
+            done()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if (done) {
+            done()
+          }
+        })
+    },
+        // 나의 댓글 수정 모달 표시
+        modifyComment(item) {
+      this.modifyTargetSeq = item.seq
+      this.modifyCommentValue = item.contents
+      this.confirmModifyCommentModal = true
+
+    },
+    // 나의 댓글 수정
+    doModifyCommennt() {
+      this.$q.loading.show() // 로딩 표시 시작
+      const params = {
+        uid: this.getUid,
+        seq: this.modifyTargetSeq,
+        contents: this.modifyCommentValue,
+      }
+      this.$axios.post('/api/projectcomment/updateProjectComment', params)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.modifyTargetSeq = ''
+            this.$noti(this.$q, this.$t('modify_comment_success'))
+
+            // 목록 새로고침
+            this.refresher(null)
+          } else {
+            this.$noti(this.$q, this.$t('modify_comment_failed'))
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
+    },
+    // 답글 등록
+    showReplyInput(item) {
+      // console.log(item.visible_reply_input)
+
+      // 1. 입력값 초기화
+      this.myReply = ''
+
+      // 2. 열린 입력창 모두 닫음
+      for (let i = 0; i < this.myCommentList.length; i++) {
+        const commentItem = this.myCommentList[i]
+        // 현재 아이템 외 전부 닫기
+        if (commentItem.seq !== item.seq) {
+          commentItem.visible_reply_input = false
+
+          // 해당 child 표시하기
+          if (commentItem.seq_parent1 === item.seq_parent1 && item.group_layer === 0) {
+            commentItem.visible_child = !item.visible_reply_input
+          }
+        }
+      }
+
+      // 3. 선택한 입력창 표시
+      item.visible_reply_input = !item.visible_reply_input
+    },
+
+    // 좋아요/싫어요
+    likeIt (item, likeCd) {
+      // 로그인 여부 체크, 로그인 모달 표시
+      if (!this.getUid) {
+        this.$refs.refWalletModal.show()
+        return
+      }
+
+      // like_cd Y:좋아요 N:싫어요 null:중립
+      // 1. 화면 조작
+      if (likeCd === 'YES') { // 좋아요인 경우
+        if (item.like_cd === 'Y') { // 이전상태 좋아요일 경우
+          item.like_cd = null // 중립으로 설정
+          item.like_cnt = Number(item.like_cnt) - 1
+        } else {
+          if (item.like_cd === 'N') { // 이전상태 싫어요일 경우
+            item.dislike_cnt = Number(item.dislike_cnt) - 1
+          }
+          item.like_cd = 'Y' // 좋아요로 설정
+          item.like_cnt = Number(item.like_cnt) + 1
+        }
+      } else { // 싫어요인 경우
+        if (item.like_cd === 'N') { // 이전상태 싫어요일 경우
+          item.like_cd = null // 중립으로 설정
+          item.dislike_cnt = Number(item.dislike_cnt) - 1
+        } else {
+          if (item.like_cd === 'Y') { // 이전상태 좋아요일 경우
+            item.like_cnt = Number(item.like_cnt) - 1
+          }
+          item.like_cd = 'N' // 싫어요로 설정
+          item.dislike_cnt = Number(item.dislike_cnt) + 1
+        }
+      }
+
+      // 2. 좋아요 테이블 저장
+      const params = {
+        uid: this.getUid,
+        project_comment_seq: item.seq,
+        like_cd: item.like_cd,
+      }
+      this.$axios.post('/api/projectcomment/mergeProjectCommentLike', params)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          // this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            // this.$noti(this.$q, this.$t('modify_comment_success'))
+          } else {
+            // this.$noti(this.$q, this.$t('modify_comment_failed'))
+          }
+        })
+        .catch((err) => {
+          // this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
+    },
+        // 답글 글자수 카운트
+        countMyReplyLength() {
+      this.myReplyLength = this.myReply.length
+    },
+    // 답글 등록
+    insertProjectCommentReply(item) {
+      // console.log('insertProjectComment')
+
+      // 로그인 여부 체크, 로그인 모달 표시
+      if (!this.getUid) {
+        this.$refs.refWalletModal.show()
+        return
+      }
+
+      // 내용 유무 체크
+      if (!this.myReply) {
+        this.$noti(this.$q, this.$t('enter_the_reply'))
+        return
+      }
+
+      // 글자수 체크
+      if (this.myReply.length > 300) {
+        this.$noti(this.$q, this.$t('validation_failed_comment_max_length'))
+        return
+      }
+
+      this.$q.loading.show() // 로딩 표시 시작
+      const params = {
+        uid: this.getUid,
+        project_seq: this.projectSeq,
+        seq_parent1: item.seq_parent1,
+        seq_parent2: item.seq_parent2,
+        seq_parent3: item.seq_parent3,
+        seq_parent4: item.seq_parent4,
+        seq_parent5: item.seq_parent5,
+        group_order: item.group_order, // 답글의 대상 값을 넘겨서 이 값보다 큰 GROUP_ORDER 들은 + 1 씩 UPDATE 처리
+        group_layer: item.group_layer + 1,
+        contents: this.myReply,
+      }
+      this.$axios.post('/api/projectcomment/insertProjectCommentReply', params)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.myReply = ''
+            this.$noti(this.$q, this.$t('register_comment_success'))
+
+            // 목록 새로고침
+            this.refresher(null)
+          } else {
+            this.$noti(this.$q, this.$t('register_comment_failed'))
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
         })
     },
     ///////////////////////////////////////////////////////////////////////////
@@ -698,14 +963,27 @@ export default defineComponent({
       // }
       return result
     },
-    // 회원정보 수정 처리 시작
-    async modifyUser() {
-      // Field validation check
-      if(!this.validate()) {
-        // this.$noti(this.$q, this.$t('validation_failed'))
+    modifyUserPre(nickname, pwd, pwdCheck) {
+      // 비밀번호 변경시
+      if(nickname == null) {
+        this.modifyUser(nickname, pwd, pwdCheck)
         return
       }
-      if(!this.checkField()) {
+      // 닉네임 변경시
+      if(pwd == null && pwdCheck == null) {
+        this.modifyUser(nickname, pwd, pwdCheck)
+        return
+      }
+    },
+    // 회원정보 수정 처리 시작
+    async modifyUser(nickname, pwd, pwdCheck) {
+      // Field validation check
+      // if(!this.validate()) {
+      //   // this.$noti(this.$q, this.$t('validation_failed'))
+      //   return
+      // }
+
+      if(!this.checkField(pwd, pwdCheck)) {
         // this.$noti(this.$q, this.$t('validation_failed'))
         return
       }
@@ -717,22 +995,21 @@ export default defineComponent({
       }
 
       // 회원정보 수정
-      this.doModifyUser()
+      this.doModifyUser(nickname, pwd, pwdCheck)
     },
     // 회원정보 수정
-    async doModifyUser() {
+    async doModifyUser(nickname, pwd, pwdCheck) {
       // 1. 회원정보 수정 처리 - token, token_description, token_contract_verify
       let encPwd = ''
-      if (this.pwd) {
-        encPwd = sha512(this.pwd)
+      if (pwd) {
+        encPwd = sha512(pwd)
       } else {
         encPwd = null
       }
       const params = {
         uid: this.getUid,
-        wallet_address: this.wallet_address,
         pwd: encPwd,
-        nickname: this.nickname,
+        nickname: nickname,
       }
 
       this.$q.loading.show() // 로딩 표시 시작
@@ -744,7 +1021,7 @@ export default defineComponent({
           if (result.data && result.data.resultCd === 'SUCCESS') {
             // console.log(result.data)
             this.$noti(this.$q, this.$t('modify_user_success'))
-            this.clclearField()
+            this.clearField()
           } else {
             this.$noti(this.$q, this.$t('modify_user_failed'))
           }
@@ -755,7 +1032,7 @@ export default defineComponent({
           this.$noti(this.$q, err)
         })
     },
-    checkField() {
+    checkField(pwd, pwdCheck) {
       // ID 항목 체크
       // if (!this.checkInput(this.userVo.uid, 'ID')) {
       //   return false
@@ -779,20 +1056,20 @@ export default defineComponent({
       // }
 
       // 비밀번호 변경이 아닐 시
-      if(!this.pwd) {
+      if(!pwd) {
         return true
       }
 
       // 비밀번호 항목 자릿수 체크
-      if (!this.checkInputLength(this.pwd, this.$t('pwd_upper'), 6, 'short')) {
+      if (!this.checkInputLength(pwd, this.$t('pwd_upper'), 6, 'short')) {
         return false
       }
       // 비밀번호 확인 항목 자릿수 체크
-      if (!this.checkInputLength(this.pwdCheck, this.$t('pwd_check_upper'), 6, 'short')) {
+      if (!this.checkInputLength(pwdCheck, this.$t('pwd_check_upper'), 6, 'short')) {
         return false
       }
       // 비밀번호 일치 확인
-      if (this.pwd !== this.pwdCheck) {
+      if (pwd !== pwdCheck) {
         this.$noti(this.$q, this.$t('pwd_not_match'))
         return false
       }
@@ -879,13 +1156,13 @@ export default defineComponent({
       // }
     },
     clearField() {
-      nickname= ''
-      pwd= ''
-      pwdCheck= ''
-      bankType= null
-      bankAccount= ''
-      walletTyoe= null
-      walletAddress= ''
+      this.nickname= ''
+      this.pwd= ''
+      this.pwdCheck= ''
+      this.bankType= null
+      this.bankAccount= ''
+      this.walletTyoe= null
+      this.walletAddress= ''
     },
     goBack() {
       // goBack 확인창 표시

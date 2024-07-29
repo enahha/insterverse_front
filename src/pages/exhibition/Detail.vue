@@ -925,6 +925,9 @@ export default defineComponent({
       return this.$store.getters.getNickname
     },
   },
+  mounted: function () {
+    this.refresher(null)
+  },
   created: function () {
     // 화면 리사이즈 이벤트 핸들러
     window.addEventListener("resize", this.resizeEventHandler)
@@ -1001,16 +1004,6 @@ export default defineComponent({
     // 답글 글자수 카운트
     countMyReplyLength() {
       this.myReplyLength = this.myReply.length
-    },
-    // 조회수 + 1
-    updateProjectView() {
-      // 로그인 여부 체크
-      if (!this.getUid) {
-        // this.$refs.refWalletModal.show()
-        return
-      }
-      
-
     },
     // 답글 등록
     insertProjectCommentReply(item) {
