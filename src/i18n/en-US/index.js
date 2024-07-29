@@ -1004,6 +1004,7 @@ export default {
   menu_project_register: 'Register Exhibition',
   menu_project_selection_description: 'Please choose how to register your Exhibition.',
   menu_project_register_description: 'Register exhibition information.',
+  menu_media_register: 'Register Artwork',
   menu_import: 'Import',
   menu_import_description: 'Import from another platform.',
   menu_import_instagram: 'Import from Instagram',

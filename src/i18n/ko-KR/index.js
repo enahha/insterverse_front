@@ -1003,6 +1003,7 @@ export default {
   menu_project_register: '전시하기',
   menu_project_selection_description: '전시회 등록 방법을 선택해주세요.',
   menu_project_register_description: '전시회 정보를 등록합니다.',
+  menu_media_register: '작품 등록하기',
   menu_import: '가져오기',
   menu_import_description: '다른 플랫폼에서 가져오기.',
   menu_import_instagram: '인스타그램에서 가져오기',

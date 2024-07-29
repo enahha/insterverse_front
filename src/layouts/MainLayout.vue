@@ -91,7 +91,7 @@
         /> -->
 
         <!-- mypage -->
-        <div v-if="getNickname">
+        <div v-if="getUid">
         <q-btn
           label="마이페이지"
           @click="goMypage"
@@ -102,7 +102,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- local login icorn -->
-        <div v-if="getNickname">
+        <div v-if="getUid">
           <q-btn label="logout" @click="logout" style="background-color: #90B2D8;"/>
         </div>
         <q-btn
@@ -368,7 +368,7 @@
             </q-item-section>
           </q-item>
 
-          <!-- PROJECT LIST -->
+          <!-- 2. Project List -->
           <q-item clickable to="/exhibition">
             <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
@@ -379,14 +379,25 @@
             </q-item-section>
           </q-item>
 
-          <!-- PROJECT RESISTER -->
-          <q-item clickable to="/project">
+          <!-- 3. Register Project -->
+          <q-item clickable @click="goIfLoggedIn('/project')">
             <q-item-section avatar class="q-pt-md">
               <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" />
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ $t('menu_project_register') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <!-- 4. Register Media -->
+          <q-item clickable to="/media">
+            <q-item-section avatar class="q-pt-md">
+              <q-icon name="image" style="width: 20px; height: 20px;" />
+              <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_media_register') }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -1283,7 +1294,7 @@ export default defineComponent({
       }
     },
     callbackLogin(userVo) {
-      // console.log('callbackLogin!!!')
+      console.log('callbackLogin!!!')
       this.$store.dispatch('setUid', userVo.uid)
       this.$store.dispatch('setAdcd', userVo.adcd)
       this.$store.dispatch('setName', userVo.name)
@@ -1361,6 +1372,16 @@ export default defineComponent({
     copyValueFail(e) {
       // console.log(e)
       this.$noti(this.$q, this.$t('copy_failed'))
+    },
+    goIfLoggedIn(targetPath) {
+      if (!this.getUid) {
+        // 로그인
+        this.showLoginModal()
+        return
+      }
+
+      // 로그인 완료인 경우
+      this.$router.push(targetPath)
     },
   },
 })

@@ -83,15 +83,6 @@ const routes = [
       { path: '', component: () => import('src/pages/exhibition/Detail.vue') },
     ]
   },
-  // vote info
-  {
-    path: '/v',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('src/pages/vote/VoteDetail.vue') },
-    ]
-  },
-
   {
     path: '/app',
     component: () => import('layouts/EmptyLayout.vue'),
@@ -142,6 +133,7 @@ const routes = [
     path: '/media',
     component: () => import('layouts/MainLayout.vue'),
     children: [
+      { path: '', component: () => import('src/pages/media/registerMedia.vue') },
       { path: 'registerMedia', component: () => import('src/pages/media/registerMedia.vue') },
     ]
   },
@@ -186,18 +178,6 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/import/Import.vue') },
       { path: 'importInstagram', component: () => import('pages/import/ImportInstagram.vue') },
-    ]
-  },
-  {
-    path: '/vote',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: 'voteList', component: () => import('pages/vote/VoteList.vue') },
-      { path: 'myVoteList', component: () => import('pages/vote/MyVoteList.vue') },
-      { path: 'registerVote', component: () => import('pages/vote/RegisterVote.vue') },
-      { path: 'modifyVote', component: () => import('pages/vote/ModifyVote.vue') },
-      { path: 'voteDetail', component: () => import('pages/vote/VoteDetail.vue') },
-      { path: 'voteWithdraw', component: () => import('pages/vote/VoteWithdraw.vue') },
     ]
   },
   {
