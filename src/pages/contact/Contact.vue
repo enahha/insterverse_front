@@ -61,7 +61,7 @@
                 <div class="register-btn">
                   <q-btn
                     :label="$t('contact_register')"
-                    @click="goTabBack"
+                    @click="register"
                     style="background-color: #90B2D8; color: white; width: 25%;"
                   />
                 </div>
@@ -79,11 +79,11 @@
           <div class="underline"></div>
 
           <div class="row srch-wrap">
-            <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" clearable outlined />
+            <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable borderless />
             &nbsp;&nbsp;
-            <q-btn v-if="isAdmin" @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" />
-
-            <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outlined />
+            <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
+            &nbsp;&nbsp;
+            <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
           </div>
 
           <!-- 공지사항 리스트 -->
@@ -174,6 +174,9 @@ export default defineComponent({
     getUid () {
       return this.$store.getters.getUid
     },
+    getNickname () {
+      return this.$store.getters.getNickname
+    },
     getWalletType () {
       return this.$store.getters.getWalletType
     },
@@ -188,9 +191,23 @@ export default defineComponent({
     },
   },
   created: function () {
+    const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+    const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+    if (nickname && uid) {
+      this.$store.dispatch('setNickname', nickname)
+      this.$store.dispatch('setUid', uid)
+    }
+    
     this.selectListMax()
   },
-  mounted: function () {},
+  watch: {
+    getNickname(newNickname) {
+      this.nickname = newNickname;
+    }
+  },
+  mounted: function () {
+    this.nickname = this.getNickname
+  },
   methods: {
 // 검색
     async search() {
@@ -352,22 +369,22 @@ export default defineComponent({
     // 등록 처리 시작
     async register() {
       // Field validation check
-      if(!this.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed'))
-        return
-      }
+      // if(!this.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed'))
+      //   return
+      // }
 
       // 로그인 여부 체크, 로그인 모달 표시
-      if (!this.getUid) {
-        this.$refs.refWalletModal.show()
-        return
-      }
+      // if (!this.getUid) {
+      //   this.$refs.refWalletModal.show()
+      //   return
+      // }
 
       // check mainnet
-      if (this.mainnetObj.value !== 'KLAYTN') {
-        this.$noti(this.$q, this.$t('unsupported_mainnet'))
-        return
-      }
+      // if (this.mainnetObj.value !== 'KLAYTN') {
+      //   this.$noti(this.$q, this.$t('unsupported_mainnet'))
+      //   return
+      // }
 
       // 등록
       this.doRegister()
@@ -377,42 +394,12 @@ export default defineComponent({
       // 1. 등록
       const params = {
         uid: this.getUid,
-        seq: this.projectSeq,
-        mainnet: this.mainnetObj.value,
-        type: this.projectTypeObj.value,
-        wallet_address: this.projectWalletAddress,
-        token_contract_address: this.projectTokenContractAddress,
-        lp_contract_address_1: this.projectLpContractAddress1,
-        lp_contract_address_2: this.projectLpContractAddress2,
-        lp_contract_address_3: this.projectLpContractAddress3,
-        lp_contract_address_4: this.projectLpContractAddress4,
-        lp_contract_address_5: this.projectLpContractAddress5,
-        lp_contract_address_6: this.projectLpContractAddress6,
-        lp_contract_address_7: this.projectLpContractAddress7,
-        lp_contract_address_8: this.projectLpContractAddress8,
-        lp_contract_address_9: this.projectLpContractAddress9,
-        lp_contract_address_10: this.projectLpContractAddress10,
-        title: this.projectTitle,
-        title_ko: this.projectTitleKo,
-        summary: this.projectSummary,
-        summary_ko: this.projectSummaryKo,
-        description: this.projectDescription,
-        description_ko: this.projectDescriptionKo,
-        official_website: this.projectOfficialWebsite,
-        official_email: this.projectOfficialEmail,
-        logo_image: this.projectLogoImage,
-        docs: this.projectDocs,
-        blog: this.projectBlog,
-        medium: this.projectMedium,
-        telegram: this.projectTelegram,
-        twitter: this.projectTwitter,
-        github: this.projectGithub,
-        meta: this.projectMeta,
-        discord: this.projectDiscord,
-        // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
+        nickname: this.nickname,
+        email: this.email,
+        contents: this.contents
       }
       this.$q.loading.show() // 로딩 표시 시작
-      this.$axios.post('/api/project/insertProject', params)
+      this.$axios.post('/api/inquiry/insertInquiry', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.$q.loading.hide() // 로딩 표시 종료
@@ -420,9 +407,12 @@ export default defineComponent({
             // console.log(result.data)
             this.$noti(this.$q, this.$t('register_success'))
 
-            // 페이지 이동
-            // 나의 프로젝트 리스트 화면
-            this.$router.push('/project/myProjectList')
+            this.nickname= ''
+            this.email= ''
+            this.contants= ''
+
+            // 페이지 이동 x
+            // this.$router.go(0)
 
             // <!-- 관리자 수정용 -->
             // this.$router.push('/project/newList')

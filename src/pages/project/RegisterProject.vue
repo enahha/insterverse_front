@@ -616,13 +616,12 @@
           <div class="underline"></div>
 
 
-          <div class="row srch-wrap" style="width: 100%;">
+          <!-- <div class="row srch-wrap" style="width: 100%;">
             <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable borderless />
             &nbsp;&nbsp;
-            <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
             &nbsp;&nbsp;
             <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
-          </div>
+          </div> -->
 
           <div style="width: 100%; display: flex; justify-content: flex-end">
             <q-btn
@@ -687,7 +686,7 @@
             />
             <q-btn
               :label="$t('next')"
-              @click="goTabNext"
+              @click="goTabNextPreview"
               style="background-color: #90B2D8; color: white "
             />
           </div>
@@ -702,7 +701,7 @@
         <div class="row tab-panel-4">
           <q-btn
             size="lg"
-            @click="updateProjectStatus"
+            @click="updateProjectStatusCd"
             :label="$t('register_project')"
             class="exhibit-btn"
           />
@@ -799,35 +798,47 @@ export default defineComponent({
         //   value: 'POLYGON',
         // },
       ],
-      projectTokenContractAddress: '',
-      projectLpContractAddress1: '',
-      projectLpContractAddress2: '',
-      projectLpContractAddress3: '',
-      projectLpContractAddress4: '',
-      projectLpContractAddress5: '',
-      projectLpContractAddress6: '',
-      projectLpContractAddress7: '',
-      projectLpContractAddress8: '',
-      projectLpContractAddress9: '',
-      projectLpContractAddress10: '',
-      projectWalletAddress: '',
-      projectTitle: '',
-      projectTitleKo: '',
-      projectSummary: '',
-      projectSummaryKo: '',
-      // projectDescription: '',
-      projectDescriptionKo: '',
-      projectOfficialWebsite: '',
-      projectOfficialEmail: '',
-      projectLogoImage: '',
-      projectDocs: '',
-      projectBlog: '',
-      projectMedium: '',
-      projectTelegram: '',
-      projectTwitter: '',
-      projectGithub: '',
-      projectMeta: '',
-      projectDiscord: '',
+      // preview
+      projectVo: {
+        seq: '',
+        mainnet: '',
+        type: '',
+        wallet_address: '',
+        token_contract_address: '',
+        lp_contract_address_1: '',
+        lp_contract_address_2: '',
+        lp_contract_address_3: '',
+        lp_contract_address_4: '',
+        lp_contract_address_5: '',
+        lp_contract_address_6: '',
+        lp_contract_address_7: '',
+        lp_contract_address_8: '',
+        lp_contract_address_9: '',
+        lp_contract_address_10: '',
+        platform_contract_address: '',
+        platform_deposit_balance: '',
+        platform_yield: '',
+        platform_total_balance: '',
+        title: '',
+        title_ko: '',
+        summary: '',
+        summary_ko: '',
+        description: '',
+        description_ko: '',
+        official_website: '',
+        official_email: '',
+        logo_image: '',
+        docs: '',
+        blog: '',
+        medium: '',
+        telegram: '',
+        twitter: '',
+        github: '',
+        meta: '',
+        discord: '',
+        reg_id: '',
+      },
+
       // seqFileMst: '' // 파일 마스터 SEQ
       confirmGoBack: false, // goBack 확인창
 
@@ -920,6 +931,12 @@ export default defineComponent({
     goTabBack() {
       const currentTab = parseInt(this.tab)
       this.tab = (currentTab - 1).toString()
+    },
+    goTabNextPreview() {
+      this.$router.push({ path: '/project/registerProject', query: { seq: this.projectSeq, tab: 4 }})
+      // 미리보기를 위한 프로젝트, 미디어 정보 조회
+      const currentTab = parseInt(this.tab)
+      this.tab = (currentTab + 1).toString()
     },
     truncateText(text, maxLength) {
       if (text.length <= maxLength) {
@@ -1258,15 +1275,15 @@ export default defineComponent({
           this.$noti(this.$q, err)
         })
     },
-    async updateProjectStatus() {
+    async updateProjectStatusCd() {
       // 1. 프로젝트 수정 처리
       const params = {
         uid: this.getUid,
         seq: this.projectSeq,
-        status_cd: '99',      // 등록
+        status_cd: '30',      // 정보 등록 완료(결제 완료)
       }
       this.$q.loading.show() // 로딩 표시 시작
-      this.$axios.post('/api/project/updateProjectStatus', params)
+      this.$axios.post('/api/project/updateProjectStatusCd', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.$q.loading.hide() // 로딩 표시 종료

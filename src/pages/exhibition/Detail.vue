@@ -920,13 +920,23 @@ export default defineComponent({
     },
     getUid () {
       return this.$store.getters.getUid
-    }
+    },
+    getNickname () {
+      return this.$store.getters.getNickname
+    },
   },
   created: function () {
     // 화면 리사이즈 이벤트 핸들러
     window.addEventListener("resize", this.resizeEventHandler)
     if (document.body.offsetWidth < 1024) {
       this.smallSize = true
+    }
+
+    const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+    const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+    if (nickname && uid) {
+      this.$store.dispatch('setNickname', nickname)
+      this.$store.dispatch('setUid', uid)
     }
 
     // 탭 파라미터 존재시, 해당 탭 표시
@@ -948,9 +958,12 @@ export default defineComponent({
       this.popupYn = this.$route.query.p
     }
 
-
     // 키 설정
     this.projectSeq = this.$route.query.s
+
+    // 조회수 + 1
+
+
     // 프로젝트 정보 조회
     this.selectProject()
 
@@ -988,6 +1001,16 @@ export default defineComponent({
     // 답글 글자수 카운트
     countMyReplyLength() {
       this.myReplyLength = this.myReply.length
+    },
+    // 조회수 + 1
+    updateProjectView() {
+      // 로그인 여부 체크
+      if (!this.getUid) {
+        // this.$refs.refWalletModal.show()
+        return
+      }
+      
+
     },
     // 답글 등록
     insertProjectCommentReply(item) {
@@ -1192,17 +1215,17 @@ export default defineComponent({
             // console.log(result.data)
             this.projectVo = result.data
 
-            if (this.projectVo.mainnet === 'KLAYTN') {
-              this.symbol = 'KLAY'
-            } else if (this.projectVo.mainnet === 'ETHEREUM') {
-              this.symbol = 'ETH'
-            } else {
-              // TODO: 체인 확장시 대응 필요
-              this.symbol = 'KLAY'
-            }
+            // if (this.projectVo.mainnet === 'KLAYTN') {
+            //   this.symbol = 'KLAY'
+            // } else if (this.projectVo.mainnet === 'ETHEREUM') {
+            //   this.symbol = 'ETH'
+            // } else {
+            //   // TODO: 체인 확장시 대응 필요
+            //   this.symbol = 'KLAY'
+            // }
 
             // platform contract balance 조회
-            this.selectPlatformContractBalance()
+            // this.selectPlatformContractBalance()
           } else {
             this.$noti(this.$q, this.$t('request_data_failed'))
           }

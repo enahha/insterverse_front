@@ -71,7 +71,7 @@
         height="400px"
       >
         <q-carousel-slide
-          v-for="(group, index) in groupedItems" 
+          v-for="(group, index) in groupedItemsAsView" 
           :key="index"
           :name="index.toString()"
         >
@@ -80,7 +80,7 @@
               <q-item clickable @click="goDetail(item.seq)">
                 <q-item-section avatar>
                   <q-avatar>
-                    <img v-if="item.logo_image" :src="item.logo_image" />
+                    <img v-if="item.postar_url" :src="item.postar_url" />
                     <q-icon v-else name="rocket_launch" size="md" />
                   </q-avatar>
                 </q-item-section>
@@ -124,7 +124,7 @@
         height="400px"
       >
         <q-carousel-slide
-          v-for="(group, index) in groupedItems" 
+          v-for="(group, index) in groupedItemsAsRegTime" 
           :key="index"
           :name="index.toString()"
         >
@@ -133,7 +133,7 @@
               <q-item clickable @click="goDetail(item.seq)">
                 <q-item-section avatar>
                   <q-avatar>
-                    <img v-if="item.logo_image" :src="item.logo_image" />
+                    <img v-if="item.postar_url" :src="item.postar_url" />
                     <q-icon v-else name="rocket_launch" size="md" />
                   </q-avatar>
                 </q-item-section>
@@ -303,7 +303,8 @@ export default defineComponent({
       refresherDone: '',
       pageSize: 100,
       lastPageNum: 1, // 마지막 페이지
-      projectList: [],
+      projectListAsView: [],
+      projectListAsRegTime: [],
       noDataFlag: false,
       keyword: '', // 검색키워드
       benneSlide: '0',
@@ -341,11 +342,19 @@ export default defineComponent({
     getKeyword () {
       return this.$store.getters.getKeyword
     },
-    groupedItems() {
+    groupedItemsAsView() {
       const chunkSize = 4 // Number of items per slide
       const groups = []
-      for (let i = 0; i < this.projectList.length; i += chunkSize) {
-        groups.push(this.projectList.slice(i, i + chunkSize))
+      for (let i = 0; i < this.projectListAsView.length; i += chunkSize) {
+        groups.push(this.projectListAsView.slice(i, i + chunkSize))
+      }
+      return groups
+    },
+    groupedItemsAsRegTime() {
+      const chunkSize = 4 // Number of items per slide
+      const groups = []
+      for (let i = 0; i < this.projectListAsRegTime.length; i += chunkSize) {
+        groups.push(this.projectListAsRegTime.slice(i, i + chunkSize))
       }
       return groups
     }
@@ -378,6 +387,7 @@ export default defineComponent({
     // this.selectListMax()
 
     this.selectProjectListAsView()
+    this.selectProjectListAsRegTime()
 
   },
   destroy: function () {
@@ -533,21 +543,22 @@ export default defineComponent({
           }
         })
     },
+    // 인기순위순 조회
     selectProjectListAsView() {
       this.$axios.get('/api/project/selectProjectListAsView', {params: {limit: 12}})
       .then((result) => {
           console.log(result.data)
-          this.projectList = result.data
+          this.projectListAsView = result.data
         })
     },
-    selectProjectListAsNew() {
-      this.$axios.get('/api/project/selectProjectListAsView', {params: {limit: 12}})
+    // 등록일자순 조회
+    selectProjectListAsRegTime() {
+      this.$axios.get('/api/project/selectProjectListAsRegTime', {params: {limit: 12}})
       .then((result) => {
           console.log(result.data)
-          this.projectList = result.data
+          this.projectListAsRegTime = result.data
         })
     },
-
     // 토큰 등록으로 이동
     goRegisterToken() {
       this.$router.push('/token/register')

@@ -40,11 +40,11 @@
               <tr>
                 <div class="input-group q-pt-lg">
                   <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('user_nickname') }}<span class="text-red"> *</span></span></td>
-                  <td class="labal-input"><q-input v-model="exhibitionType" :disable="true" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/></td>
+                  <td class="labal-input"><q-input v-model="nickname" ref="nickname" clearable tabindex="1"/></td>
                   <td>
                     <q-btn
                         :label="$t('change')"
-                        @click="showExhibitionTypeModal"
+                        @click="modifyUser"
                         style="background-color: #90B2D8; color: white "
                       />
                   </td>
@@ -52,18 +52,18 @@
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('user_pwd') }}<span class="text-red"> *</span></span></td>
-                  <td class="labal-input"><q-input v-model="subtitle" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1" /></td>
+                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('pwd_upper') }}<span class="text-red"> *</span></span></td>
+                  <td class="labal-input"><q-input v-model="pwd" ref="pwd"  type="password" clearable tabindex="1" /></td>
                 </div>
               </tr>
               <tr>
                 <div class="input-group q-pt-lg">
-                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('change_pwd') }}<span class="text-red"> *</span></span></td>
-                  <td class="labal-input"><q-input v-model="exhibitionType" :disable="true" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/></td>
+                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('pwd_check_upper') }}<span class="text-red"> *</span></span></td>
+                  <td class="labal-input"><q-input v-model="pwdCheck" ref="pwdCheck"  type="password" clearable tabindex="1"/></td>
                   <td>
                     <q-btn
                       :label="$t('change')"
-                      @click="showExhibitionTypeModal"
+                      @click="modifyUser"
                       style="background-color: #90B2D8; color: white "
                     />
                   </td>
@@ -78,7 +78,7 @@
                   <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_account') }}<span class="text-red"> *</span></span></td>
                   <td class="labal-input">
                     <q-select
-                      v-model="selectedBank"
+                      v-model="bankType"
                       :options="bankOption"
                       option-label="label"
                       option-value="value"
@@ -86,7 +86,24 @@
                       outlined
                       dense
                     />
-                    <q-input v-model="exhibitionType" :disable="true" ref="subtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/>
+                    <q-input v-model="bankAccount" ref="bankAccount" :label="$t('menu_mypage_bank_account')" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/>
+                  </td>
+                </div>
+              </tr>
+              <tr>
+                <div class="input-group q-pt-lg">
+                  <td class="labal"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_wallet') }}<span class="text-red"> *</span></span></td>
+                  <td class="labal-input">
+                    <q-select
+                      v-model="walletTyoe"
+                      :options="walletOption"
+                      option-label="label"
+                      option-value="value"
+                      :label="$t('menu_mypage_wallet_type')"
+                      outlined
+                      dense
+                    />
+                    <q-input v-model="walletAddress" ref="walletAddress" :label="$t('menu_mypage_wallet_address')" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable tabindex="1"/>
                   </td>
                 </div>
               </tr>
@@ -94,7 +111,7 @@
                 <td class="bank-change_btn">
                   <q-btn
                     :label="$t('save')"
-                    @click="showExhibitionTypeModal"
+                    @click="modifyUser"
                     style="background-color: #0C2C69; color: white "
                   />
                 </td>
@@ -340,40 +357,14 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '2',   // 나의 전시가 먼저 안나오면 에러남,,, 왜인지 모르겠음,,,
-      // uid: '',
-      wallet_address: '',
+      tab: '2',   // 나의 전시탭이 먼저 안나오면 에러남,,, 왜인지 모르겠음,,,
+      nickname: '',
       pwd: '',
       pwdCheck: '',
-      // auth_key: '',
-      nickname: '',
-      profile_image: '',
-      // reg_name: '',
-      name: '',
-      mobile_no: '',
-      // ucode: '',
-      // birth: '',
-      // gender: '',
-      // nation: '',
-      // tel_no: '',
-      // thumbnail: '',
-      // introduce: '',
-      // push_agree_yn: '',
-      // adcd: '',
-      id_card_image: '',
-      home_address: '',
-      home_address_image: '',
-      business_registration_no: '',
-      business_license_image: '',
-      company_address: '',
-      company_address_image: '',
-      company_tel_no: '',
-      // reg_id: '',
-      // reg_time: '',
-      // mod_id: '',
-      // mod_time: '',
-      // del_id: '',
-      // del_time: '',
+      bankType: null,
+      bankAccount: '',
+      walletTyoe: null,
+      walletAddress: '',
       confirmGoBack: false, // goBack 확인창
 
       pageSize: 100,
@@ -383,20 +374,29 @@ export default defineComponent({
       noDataFlag: false,
       refresherDone: '',
 
-      selectedBank: null,
       bankOption: [
         {
           label: '우리은행',
-          value: '우리',
+          value: '1',
         },
         {
           label: '국민은행',
-          value: '국민',
+          value: '2',
         },
         {
           label: '기업은행',
-          value: '기업',
+          value: '3',
         }
+      ],
+      walletOption: [
+        {
+          label: '메타마스트',
+          value: '1',
+        },
+        {
+          label: '팬텀',
+          value: '2',
+        },
       ],
 
 
@@ -426,6 +426,21 @@ export default defineComponent({
     getUid () {
       return this.$store.getters.getUid
     },
+    getNickname () {
+      return this.$store.getters.getNickname
+    },
+    getWalletType () {
+      return this.$store.getters.getWalletType
+    },
+    getWalletAddress () {
+      return this.$store.getters.getWalletAddress
+    },
+    isAdmin () {
+      return this.$store.getters.getAdcd === this.$adminCode
+    },
+    qDate() {
+      return date
+    },
   },
   created: function () {
     // 키 설정
@@ -433,6 +448,13 @@ export default defineComponent({
 
     // user_profile_image preview reg_name
     // this.reg_name = this.getUid.split('@')[0]
+
+    const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+    const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+    if (nickname && uid) {
+      this.$store.dispatch('setNickname', nickname)
+      this.$store.dispatch('setUid', uid)
+    }
 
     // 계정 정보 조회
     this.selectUser()
@@ -445,6 +467,13 @@ export default defineComponent({
   methods: {
     // 계정 조회
     selectUser() {
+      // 로그인 여부 체크, 로그인 모달 표시
+      if (!this.getUid) {
+        // this.$refs.refWalletModal.show()
+        this.$router.push('/')
+        return
+      }
+
       const param = {
         uid: this.getUid,
       }
@@ -622,57 +651,61 @@ export default defineComponent({
     validate() {
       let result = true
       // 지갑주소 유효성 체크
-      if (!this.checkAddress(this.wallet_address)) {
-        this.$noti(this.$q, this.$t('validation_failed_check_wallet_address'))
-        result = false
-      }
-      if (!this.$refs.pwd.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_pwd'))
-        result = false
-      }
-      if (!this.$refs.pwdCheck.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_pwd_check'))
-        result = false
-      }
-      // 비밀번호 일치 확인
-      if (this.pwd !== this.pwdCheck) {
-        this.$noti(this.$q, this.$t('pwd_not_match'))
-        result = false
-      }
-      if (!this.$refs.nickname.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_nickname'))
-        result = false
-      }
-      if (!this.$refs.name.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_name'))
-        result = false
-      }
-      if (!this.$refs.mobile_no.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_mobile_no'))
-        result = false
-      }
-      if (!this.$refs.home_address.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_home_address'))
-        result = false
-      }
-      if (!this.$refs.business_registration_no.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_business_registration_no'))
-        result = false
-      }
-      if (!this.$refs.company_address.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_company_address'))
-        result = false
-      }
-      if (!this.$refs.company_tel_no.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_company_tel_no'))
-        result = false
-      }
+      // if (!this.checkAddress(this.wallet_address)) {
+      //   this.$noti(this.$q, this.$t('validation_failed_check_wallet_address'))
+      //   result = false
+      // }
+      // if (!this.$refs.pwd.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_pwd'))
+      //   result = false
+      // }
+      // if (!this.$refs.pwdCheck.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_pwd_check'))
+      //   result = false
+      // }
+      // // 비밀번호 일치 확인
+      // if (this.pwd !== this.pwdCheck) {
+      //   this.$noti(this.$q, this.$t('pwd_not_match'))
+      //   result = false
+      // }
+      // if (!this.$refs.nickname.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_nickname'))
+      //   result = false
+      // }
+      // if (!this.$refs.name.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_name'))
+      //   result = false
+      // }
+      // if (!this.$refs.mobile_no.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_mobile_no'))
+      //   result = false
+      // }
+      // if (!this.$refs.home_address.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_home_address'))
+      //   result = false
+      // }
+      // if (!this.$refs.business_registration_no.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_business_registration_no'))
+      //   result = false
+      // }
+      // if (!this.$refs.company_address.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_company_address'))
+      //   result = false
+      // }
+      // if (!this.$refs.company_tel_no.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed_company_tel_no'))
+      //   result = false
+      // }
       return result
     },
     // 회원정보 수정 처리 시작
     async modifyUser() {
       // Field validation check
       if(!this.validate()) {
+        // this.$noti(this.$q, this.$t('validation_failed'))
+        return
+      }
+      if(!this.checkField()) {
         // this.$noti(this.$q, this.$t('validation_failed'))
         return
       }
@@ -700,17 +733,6 @@ export default defineComponent({
         wallet_address: this.wallet_address,
         pwd: encPwd,
         nickname: this.nickname,
-        profile_image: this.profile_image,
-        name: this.name,
-        mobile_no: this.mobile_no,
-        id_card_image: this.id_card_image,
-        home_address: this.home_address,
-        home_address_image: this.home_address_image,
-        business_registration_no: this.business_registration_no,
-        business_license_image: this.business_license_image,
-        company_address: this.company_address,
-        company_address_image: this.company_address_image,
-        company_tel_no: this.company_tel_no,
       }
 
       this.$q.loading.show() // 로딩 표시 시작
@@ -722,6 +744,7 @@ export default defineComponent({
           if (result.data && result.data.resultCd === 'SUCCESS') {
             // console.log(result.data)
             this.$noti(this.$q, this.$t('modify_user_success'))
+            this.clclearField()
           } else {
             this.$noti(this.$q, this.$t('modify_user_failed'))
           }
@@ -731,6 +754,73 @@ export default defineComponent({
           console.log(err)
           this.$noti(this.$q, err)
         })
+    },
+    checkField() {
+      // ID 항목 체크
+      // if (!this.checkInput(this.userVo.uid, 'ID')) {
+      //   return false
+      // }
+      // if (!this.checkInputLength(this.userVo.uid, this.$t('ID'), 50, 'long')) {
+      //   return false
+      // }
+
+      // ID 이메일 형식 체크
+      // if (!this.checkEmail(this.userVo.uid)) {
+      //   this.$noti(this.$q, this.$t('id_must_be_email'))
+      //   return false
+      // }
+      // // 비밀번호 항목 체크
+      // if (!this.checkInput(this.userVo.pwd, this.$t('pwd_upper'))) {
+      //   return false
+      // }
+      // // 비밀번호 확인 항목 체크
+      // if (!this.checkInput(this.pwdCheck, this.$t('pwd_check_upper'))) {
+      //   return false
+      // }
+
+      // 비밀번호 변경이 아닐 시
+      if(!this.pwd) {
+        return true
+      }
+
+      // 비밀번호 항목 자릿수 체크
+      if (!this.checkInputLength(this.pwd, this.$t('pwd_upper'), 6, 'short')) {
+        return false
+      }
+      // 비밀번호 확인 항목 자릿수 체크
+      if (!this.checkInputLength(this.pwdCheck, this.$t('pwd_check_upper'), 6, 'short')) {
+        return false
+      }
+      // 비밀번호 일치 확인
+      if (this.pwd !== this.pwdCheck) {
+        this.$noti(this.$q, this.$t('pwd_not_match'))
+        return false
+      }
+      return true
+    },
+    checkInputLength(field, fieldName, length, compareCd) {
+      if (!field) {
+        this.$noti(this.$q, fieldName + this.$t('is_required'))
+        return false
+      } else {
+        if (compareCd === 'short') {
+          if (field.length < length) {
+            this.$noti(this.$q, fieldName + this.$t('must_be_longer_than') + ' ' + length)
+            return false
+          }
+        } else if (compareCd === 'long') {
+          if (field.length > length) {
+            this.$noti(this.$q, fieldName + this.$t('must_be_shorter_than') + ' ' + length)
+            return false
+          }
+        } else if (compareCd === 'equal') {
+          if (field.length !== length) {
+            this.$noti(this.$q, fieldName + this.$t('must_be_equal') + ' ' + length)
+            return false
+          }
+        }
+        return true
+      }
     },
     // 파일 업로드 필터
     filterFiles (files) {
@@ -787,6 +877,15 @@ export default defineComponent({
       // } else {
       //   return false
       // }
+    },
+    clearField() {
+      nickname= ''
+      pwd= ''
+      pwdCheck= ''
+      bankType= null
+      bankAccount= ''
+      walletTyoe= null
+      walletAddress= ''
     },
     goBack() {
       // goBack 확인창 표시

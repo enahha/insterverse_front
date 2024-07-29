@@ -9,11 +9,11 @@
     </div> -->
 
     <div class="row srch-wrap">
-      <q-input v-model="keyword" @keyup="onKeyup" type="search" color="primary" style="width: 190px;" clearable outlined />
+      <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable borderless />
       &nbsp;&nbsp;
-      <q-btn v-if="isAdmin" @click="goRegister" icon="add" color="primary" size="lg" style="width: 80px;" />
-
-      <q-btn @click="search" icon="search" color="primary" size="lg" style="width: 80px;" outlined />
+      <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
+      &nbsp;&nbsp;
+      <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
     </div>
 
     <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
@@ -21,19 +21,20 @@
     </q-page-scroller> -->
 
     <!-- 공지사항 리스트 -->
-    <q-pull-to-refresh @refresh="refresher" class="notice-list">
-      <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
+    <q-pull-to-refresh @refresh="refresher">
+    <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
 
-        <div v-for="item in noticeList" :key="item.seq" @click="showDetail(item.seq)" style="cursor: pointer;z-index: 1;">
+        <div v-for="(item, index) in noticeList" :key="item.seq" @click="showDetail(item.seq)" style="cursor: pointer;z-index: 1;">
           <q-item clickable>
             <q-item-section>
               <div class="list-item">
-                <q-item-label v-if="locale === 'ko-KR'" class="col-9 text-weight-bold">{{ item.title_ko }}</q-item-label>
+                <q-item-label v-if="locale === 'ko-KR'" class="col-9 text-weight-bold"><span style="padding-right: 30px;">{{ index + 1 }}</span>{{ item.title_ko }}</q-item-label>
                 <q-item-label v-else class="col-9 text-weight-bold">{{ item.title }}</q-item-label>
                 <q-item-label class="col-3 text-right">{{ qDate.formatDate(item.reg_time, 'YYYY-MM-DD HH:mm') }}</q-item-label>
               </div>
             </q-item-section>
           </q-item>
+          <hr> <!-- 구분선 -->
         </div>
         <template v-slot:loading>
           <div class="row justify-center q-my-md">
@@ -70,31 +71,25 @@ export default defineComponent({
   },
   data () {
     return {
+      uid: '',
+      keyword: '',
       refresherDone: '',
-      pageSize: 20,
-      lastPageNum: 1, // 마지막 페이지
-      noticeList: [],
+      pageSize: 50,
+      lastPageNum: 2, // 마지막 페이지
       noDataFlag: false,
-      keyword: '', // 검색키워드
+      noticeList: [],
     }
   },
   components: {
   },
   watch: {
-    getUid (newValue) {
-      // console.log('newValue: : ' + newValue)
-      // this.loadMore(1, null)
-      this.refresher(null)
-      // if (!newValue) {
-      //   this.$router.push('/')
-      // } else {
-      //   this.loadMore(1, null)
-      // }
-    },
   },
   computed: {
     getUid () {
       return this.$store.getters.getUid
+    },
+    getNickname () {
+      return this.$store.getters.getNickname
     },
     isAdmin () {
       return this.$store.getters.getAdcd === this.$adminCode
@@ -104,9 +99,18 @@ export default defineComponent({
     },
   },
   created: function () {
+    const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+    const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+    if (nickname && uid) {
+      this.$store.dispatch('setNickname', nickname)
+      this.$store.dispatch('setUid', uid)
+    }
+
     this.selectListMax()
+
   },
   mounted: function () {
+    this.refresher(null)
   },
   methods: {
     // 검색
@@ -136,6 +140,8 @@ export default defineComponent({
       this.$refs.infiniteScroll.reset() // index 초기화
       this.$refs.infiniteScroll.resume() // stop에서 다시 재생
       // this.$refs.infiniteScroll.load() // loadMore로 검색
+      console.log("refresher--2")
+
       this.loadMore(1, done)
     },
     loadMore(index, done) {
@@ -164,8 +170,9 @@ export default defineComponent({
         }
       }, 500)
     },
-    // 공지사항 마지막 페이지 조회
+    // 작품 마지막 페이지 조회
     selectListMax() {
+      console.log("selectListMax--1")
       // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
       if (!this.keyword) {
         this.keyword = ''
@@ -180,8 +187,10 @@ export default defineComponent({
           console.log(err)
         })
     },
-    // 공지사항 리스트 조회
+    // 작품 리스트 조회
     selectList(idx, done) {
+      console.log("selectList--1")
+      
       if (!this.keyword) {
         this.keyword = ''
       }

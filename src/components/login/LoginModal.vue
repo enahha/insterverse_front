@@ -515,8 +515,8 @@ export default {
         // uid: 'ayd1029@gmail.com',
         // pwd: 'ayd801029',
         nickname: '',
-        uid: '',
-        pwd: '',
+        uid: 'dmsdk921@gmail.com',
+        pwd: 'star0401!',
         pwd2: '',
         code: '',
         ucode: '1', // 1:일반회원, 2:카카오회원

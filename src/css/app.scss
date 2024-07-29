@@ -1966,7 +1966,8 @@ textarea {
     }
     .notice-list {
         .list-item {
-          flex-direction: column;
+            flex-direction: column;
+            border-bottom: 1px solid #000;
             .q-item__label {
                 width: 100% !important;
                 text-align: left !important;

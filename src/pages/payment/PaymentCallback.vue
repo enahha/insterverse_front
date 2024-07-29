@@ -76,14 +76,14 @@ export default defineComponent({
         console.log(e)
       }
 
-      if (this.payCode === this.$PAY_CODE_CREATE_TOKEN) { // 'CREATE_TOKEN' 결제코드가 토큰 생성인 경우
+      if (this.payCode === this.$PAY_CODE_REGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG_EEEEEXXXXXX) { // 'CREATE_TOKEN' 결제코드가 토큰 생성인 경우
         // 1. 결제 완료 상태로 변경
         const params = {
           uid: this.getUid,
           seq: this.key,
           create_order_id: this.orderId,
         }
-        this.$axios.post('/api/token/updateTokenCreateStatusCdPaid', params)
+        this.$axios.post('/api/project/updateProjectStatusCd', params)          // 결제완료로 바꿔줌!!
           .then((result) => {
             // console.log(result.data)
             if (result && result.data && result.data.resultCd === 'SUCCESS') {
