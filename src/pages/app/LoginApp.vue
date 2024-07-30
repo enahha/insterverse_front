@@ -684,7 +684,7 @@ export default {
       const vo = {
         nickname: nickname
       }
-      const result = await this.$axios.post('/api/login/checkNicknameDuplicate', vo)
+      const result = await this.$axios.post(this.$apiServer + '/api/login/checkNicknameDuplicate', vo)
       if (result.data && result.data.resultCd === 'SUCCESS') {
         return true
       } else if (result.data.resultCd === 'FAIL') {
