@@ -8,6 +8,7 @@ export default {
 
   exhibition_enter: 'ENTER',
 
+  manage: 'Manage',
   register: 'Register',
   modify: 'Modify',
   delete: 'Delete',
@@ -1173,8 +1174,9 @@ export default {
   project_official_website: 'Official Website',
   project_official_email: 'E-mail',
   project_poster_image: 'Poster image',
-  project_artist_description: "Artist",
-  project_art_upload: 'Artwork',
+  project_artist: "Artist",
+  project_artwork: 'Artworks',
+  my_artworks: 'My Artworks',
   project_preview: 'Preview',
   project_docs: 'Docs',
   project_blog: 'Blog',
@@ -1232,8 +1234,8 @@ export default {
   artist_sns_id: 'SNS Id',
   artist_link: 'Link',
 
-  // add art work
-  media: 'Art work',
+  // add artwork
+  media: 'Artwork',
   media_order_number: 'Oder number',
   media_title: 'Title',
   media_subtitle: 'Subtitle',

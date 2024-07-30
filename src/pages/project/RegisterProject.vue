@@ -12,9 +12,9 @@
       align="justify"
       inline-label
     >
-      <q-tab name="1">{{ $t('project_artist_description') }}</q-tab>
-      <q-tab name="2">{{ $t('project_description') }}</q-tab>
-      <q-tab name="3">{{ $t('project_art_upload') }}</q-tab>
+      <q-tab name="1">{{ $t('project_artwork') }}</q-tab>
+      <q-tab name="2">{{ $t('project_artist') }}</q-tab>
+      <q-tab name="3">{{ $t('project_description') }}</q-tab>
       <q-tab name="4">{{ $t('project_preview') }}</q-tab>
     </q-tabs>
 
@@ -25,9 +25,104 @@
 
     <q-tab-panels v-model="tab">
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <!-- 작가 정보 패널 -->
+      <!-- 1.작품 업로드 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="1" style="word-break: break-word;">
+
+        <div class="tab-panel-3 q-pt-lg">
+          <span>{{ $t('my_artworks') }}</span>
+          <div class="underline"></div>
+
+
+          <!-- <div class="row srch-wrap" style="width: 100%;">
+            <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable outlined borderless />
+            &nbsp;&nbsp;
+            &nbsp;&nbsp;
+            <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
+          </div> -->
+
+          <!-- <div style="width: 100%; display: flex; justify-content: flex-end">
+            <q-btn
+              @click="goAddWork"
+              round
+              dense
+              icon="add"
+              size="3em"
+              text-color="white"
+              style="background-color: #E1D2BB; font-size: large; margin: 10px;"
+            />
+          </div> -->
+
+          <div style="width: 100%; display: flex; justify-content: flex-end">
+            <q-btn
+                :label="$t('manage')"
+                @click="goAddWork"
+                style="background-color: #0C2C69; color: white; min-width: 100px; "
+              />
+          </div>
+
+          <q-pull-to-refresh @refresh="refresher">
+            <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll" style="background-color: #FEFEFE;">
+              
+              <div class="media-table-wrapper text-center q-pt-lg">
+                <div class="table-scroll-wrapper">
+                  <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>{{ $t('media') }}</th>
+                        <th>{{ $t('media_title') }}</th>
+                        <th>{{ $t('media_price') }}</th>
+                        <th>{{ $t('media_description') }}</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, index) in mediaList" :key="index">
+                          <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
+                          <td>{{ item.seq }}</td>
+                          <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
+                          <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
+
+                          <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
+                          <td style="width: 150px;" v-else><span>-</span></td>
+
+                          <td>{{ truncateText(item.description, truncateDescription) }}</td>
+                          <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                  <q-spinner-dots color="primary" size="40px" />
+                </div>
+              </template>
+
+            </q-infinite-scroll>
+          </q-pull-to-refresh>
+
+          <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+            <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
+            <q-btn
+              :label="$t('go_next')"
+              @click="goTabNext"
+              style="background-color: #90B2D8; color: white "
+            />
+          </div>
+
+        </div>
+      </q-tab-panel>
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 2. 작가 정보 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="2" style="word-break: break-word;">
+
         <div class="tab-panel-1 q-pt-lg">
           <span>{{ $t('artist_basic_information') }}</span>
           <div class="underline"></div>
@@ -176,21 +271,26 @@
             />
           </div> -->
           
-          <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
+          <div style="display: flex; justify-content: space-between; padding-top: 30px;">
             <q-btn
-              :label="$t('next')"
+              :label="$t('go_back')"
+              @click="goTabBack"
+              style="background-color: #90B2D8; color: white "
+            />
+            <q-btn
+              :label="$t('go_next')"
               @click="goTabNext"
               style="background-color: #90B2D8; color: white "
             />
           </div>
 
-
         </div>
       </q-tab-panel>
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <!-- 2. 전시정보 패널 -->
+      <!-- 3. 전시정보 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <q-tab-panel name="2" style="word-break: break-word;">
+      <q-tab-panel name="3">
+
         <div class="tab-panel-2 q-pt-lg">
           <span>{{ $t('project_basic_information') }}</span>
           <div class="underline"></div>
@@ -534,98 +634,11 @@
               style="background-color: #90B2D8; color: white "
             />
             <q-btn
-              :label="$t('next')"
+              :label="$t('go_next')"
               @click="goTabNext"
               style="background-color: #90B2D8; color: white "
             />
           </div>
-
-        </div>
-      </q-tab-panel>
-      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <!-- 3. 작품 업로드 패널 -->
-      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <q-tab-panel name="3">
-        <div class="tab-panel-3 q-pt-lg">
-          <span>{{ $t('project_art_upload') }}</span>
-          <div class="underline"></div>
-
-
-          <!-- <div class="row srch-wrap" style="width: 100%;">
-            <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable outlined borderless />
-            &nbsp;&nbsp;
-            &nbsp;&nbsp;
-            <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
-          </div> -->
-
-          <div style="width: 100%; display: flex; justify-content: flex-end">
-            <q-btn
-              @click="goAddWork"
-              round
-              dense
-              icon="add"
-              size="3em"
-              text-color="white"
-              style="background-color: #E1D2BB; font-size: large; margin: 10px;"
-            />
-          </div>
-
-          <q-pull-to-refresh @refresh="refresher">
-          <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll" style="background-color: #FEFEFE;">
-            
-            <div class="media-table-wrapper text-center q-pt-lg">
-              <div class="table-scroll-wrapper">
-                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>{{ $t('media') }}</th>
-                      <th>{{ $t('media_title') }}</th>
-                      <th>{{ $t('media_price') }}</th>
-                      <th>{{ $t('media_description') }}</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in mediaList" :key="index">
-                        <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                        <td>{{ item.seq }}</td>
-                        <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
-                        <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
-
-                        <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
-                        <td style="width: 150px;" v-else><span>-</span></td>
-
-                        <td>{{ truncateText(item.description, truncateDescription) }}</td>
-                        <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-          <template v-slot:loading>
-            <div class="row justify-center q-my-md">
-              <q-spinner-dots color="primary" size="40px" />
-            </div>
-          </template>
-
-          </q-infinite-scroll>
-          </q-pull-to-refresh>
-
-          <div style="display: flex; justify-content: space-between; padding-top: 100px;">
-            <q-btn
-              :label="$t('go_back')"
-              @click="goTabBack"
-              style="background-color: #90B2D8; color: white "
-            />
-            <q-btn
-              :label="$t('next')"
-              @click="goTabNextPreview"
-              style="background-color: #90B2D8; color: white "
-            />
-          </div>
-
 
         </div>
       </q-tab-panel>
@@ -764,7 +777,7 @@ export default defineComponent({
       refresherDone: '',
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
-      noDataFlag: false,
+      noDataFlag: true, // 나의 작품 데이터 없음 플래그
       mediaList: []
     }
   },

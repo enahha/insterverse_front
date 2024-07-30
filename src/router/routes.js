@@ -139,8 +139,8 @@ const routes = [
     path: '/media',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/media/registerMedia.vue') },
-      { path: 'registerMedia', component: () => import('src/pages/media/registerMedia.vue') },
+      { path: '', component: () => import('src/pages/media/MyMediaList.vue') },
+      { path: 'registerMedia', component: () => import('src/pages/media/RegisterMedia.vue') },
     ]
   },
   {

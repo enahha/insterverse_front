@@ -8,6 +8,7 @@ export default {
 
   exhibition_enter: '입장하기',
 
+  manage: '관리',
   register: '등록',
   modify: '수정',
   delete: '삭제',
@@ -1178,8 +1179,9 @@ export default {
   project_official_website: '공식 웹사이트',
   project_official_email: '이메일',
   project_poster_image: '포스터 이미지',
-  project_artist_description: "작가 소개",
-  project_art_upload: '작품 업로드',
+  project_artist: '작가 소개',
+  project_artwork: '작품 선택',
+  my_artworks: '나의 작품',
   project_preview: '미리보기',
   project_docs: 'Docs',
   project_blog: 'Blog',
@@ -1237,13 +1239,13 @@ export default {
   artist_sns_id: 'SNS 아이디',
   artist_link: '링크',
 
-  // add art work
+  // add artwork
   media: '작품',
   media_order_number: '작품번호',
   media_title: '작품명',
   media_subtitle: '부제 및 설명글',
   media_sale: '판매여부',
-  media_price: '가격(원화)',
+  media_price: '가격',
   media_created: '제작연도',
   media_size: '작품크기',
   media_materials: '사용재료',
