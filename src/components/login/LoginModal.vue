@@ -37,7 +37,7 @@
             <div class="col-12 text-center">
               <div class="">
                 <font v-if="loginCd === 1" size="5" class="text-grey-7"><b>Login</b></font>
-                <font v-if="loginCd === 2 || loginCd === 3" size="5" class="text-grey-7"><b>Singin</b></font>
+                <font v-if="loginCd === 2 || loginCd === 3" size="5" class="text-grey-7"><b>Sign up</b></font>
                 <font v-if="loginCd === 4 || loginCd === 5" size="5" class="text-grey-7"><b>Change Password</b></font>
               </div>
             </div>
@@ -515,8 +515,8 @@ export default {
         // uid: 'ayd1029@gmail.com',
         // pwd: 'ayd801029',
         nickname: '',
-        uid: 'dmsdk921@gmail.com',
-        pwd: 'star0401!',
+        uid: '',
+        pwd: '',
         pwd2: '',
         code: '',
         ucode: '1', // 1:일반회원, 2:카카오회원
@@ -567,6 +567,12 @@ export default {
         return
       }
 
+      // nickname 중복 체크
+      const resultNickname = await this.checkNicknameDuplicate(this.userVo.nickname)
+      if (resultNickname === false) {
+        return
+      }
+
       // 2. 아이디 중복 체크
       const result = await this.checkIdDuplicate(this.userVo.uid)
       if (result === false) {
@@ -604,6 +610,19 @@ export default {
     },
 
     checkField() {
+      // nickname 항목 체크
+      if (!this.checkInputLength(this.userVo.nickname, this.$t('nickname'), 3, 'short')) {
+        return false
+      }
+      if (!this.checkInputLength(this.userVo.nickname, this.$t('nickname'), 5, 'long')) {
+        return false
+      }
+      // nickname 형식 체크
+      if (!this.checkNickname(this.userVo.nickname)) {
+        this.$noti(this.$q, this.$t('nickname_must_be'))
+        return false
+      }
+
       // ID 항목 체크
       // if (!this.checkInput(this.userVo.uid, 'ID')) {
       //   return false
@@ -641,80 +660,74 @@ export default {
       return true
     },
 
-    // 아이디 중복 체크
-    checkIdDuplicate(emailAddress) {
+    
+    // nickname 중복 체크
+    async checkNicknameDuplicate(nickname) {
       const vo = {
-        uid: emailAddress
+        nickname: nickname
       }
-      this.loading = true
-      this.$axios.post('/api/login/checkIdDuplicate', vo)
-        .then((result) => {
-          this.loading = false
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            return true
-          } else if (result.data.resultCd === 'FAIL') {
-            this.$noti(this.$q, this.$t('id_already_in_use'))
-            return false            
-          } else {
-            this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
-            return false
-          }
-        })
-        .catch((err) => {
-          this.loading = false
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
+      const result = await this.$axios.post('/api/login/checkNicknameDuplicate', vo)
+      if (result.data && result.data.resultCd === 'SUCCESS') {
+        return true
+      } else if (result.data.resultCd === 'FAIL') {
+        this.$noti(this.$q, this.$t('nickname_already_in_use'))
+        return false
+      } else {
+        this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
+        return false
+      }
+    },
+
+    // 아이디 중복 체크
+    async checkIdDuplicate(id) {
+      const vo = {
+        uid: id
+      }
+      const result = await this.$axios.post('/api/login/checkIdDuplicate', vo)
+      if (result.data && result.data.resultCd === 'SUCCESS') {
+        return true
+      } else if (result.data.resultCd === 'FAIL') {
+        this.$noti(this.$q, this.$t('id_already_in_use'))
+        return false
+      } else {
+        this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
+        return false
+      }
     },
 
     // 아이디 존재 체크
-    checkIdExist(emailAddress) {
+    async checkIdExist(id) {
       const vo = {
-        uid: emailAddress
+        uid: id
       }
-      this.loading = true
-      this.$axios.post('/api/login/checkIdExist', vo)
-        .then((result) => {
-          this.loading = false
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            return true
-          } else if (result.data.resultCd === 'FAIL') {
-            this.$noti(this.$q, this.$t('not_exist_id'))
-            return false            
-          } else {
-            this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
-            return false
-          }
-        })
-        .catch((err) => {
-          this.loading = false
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
+      const result = await this.$axios.post('/api/login/checkIdExist', vo)
+      if (result.data && result.data.resultCd === 'SUCCESS') {
+        // console.log(result.data)
+        return true
+      } else if (result.data.resultCd === 'FAIL') {
+        this.$noti(this.$q, this.$t('not_exist_id'))
+        return false
+      } else {
+        this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
+        return false
+      }
     },
 
     // 메일 보내기
-    sendMailCode(emailAddress) {
+    async sendMailCode(emailAddress) {
       const vo = {
         uid: emailAddress
       }
       this.loading = true
-      this.$axios.post('/api/login/sendMailCode', vo)
-        .then((result) => {
-          this.loading = false
-          // console.log(JSON.stringify(result.data))
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            // 메일전송 성공 메세지
-            this.$noti(this.$q, this.$t('mail_sent'))
-          } else {
-            this.$noti(this.$q, result.data.resultMsg)
-          }
-        })
-        .catch((err) => {
-          this.loading = false
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
+      const result = await this.$axios.post(this.$apiServer + '/api/login/sendMailCode', vo)
+      this.loading = false
+      // console.log(JSON.stringify(result.data))
+      if (result.data && result.data.resultCd === 'SUCCESS') {
+        // 메일전송 성공 메세지
+        this.$noti(this.$q, this.$t('mail_sent'))
+      } else {
+        this.$noti(this.$q, result.data.resultMsg)
+      }
     },
 
     checkInput(field, fieldName) {
@@ -748,6 +761,10 @@ export default {
         }
         return true
       }
+    },
+    checkNickname(param) {
+      let regNickname = /^[a-zA-Z0-9_]{3,}$/
+      return regNickname.test(param)
     },
     checkEmail(param) {
       let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,10}$/

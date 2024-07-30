@@ -596,6 +596,12 @@ export default {
         return
       }
 
+      // nickname 중복 체크
+      const resultNickname = await this.checkNicknameDuplicate(this.userVo.nickname)
+      if (resultNickname === false) {
+        return
+      }
+
       // 2. 아이디 중복 체크
       const result = await this.checkIdDuplicate(this.userVo.uid)
       if (result === false) {
@@ -627,6 +633,19 @@ export default {
     },
 
     checkField() {
+      // nickname 항목 체크
+      if (!this.checkInputLength(this.userVo.nickname, this.$t('nickname'), 3, 'short')) {
+        return false
+      }
+      if (!this.checkInputLength(this.userVo.nickname, this.$t('nickname'), 5, 'long')) {
+        return false
+      }
+      // nickname 형식 체크
+      if (!this.checkNickname(this.userVo.nickname)) {
+        this.$noti(this.$q, this.$t('nickname_must_be'))
+        return false
+      }
+
       // ID 항목 체크
       if (!this.checkInput(this.userVo.uid, 'ID')) {
         return false
@@ -658,6 +677,23 @@ export default {
         return false
       }
       return true
+    },
+
+    // nickname 중복 체크
+    async checkNicknameDuplicate(nickname) {
+      const vo = {
+        nickname: nickname
+      }
+      const result = await this.$axios.post('/api/login/checkNicknameDuplicate', vo)
+      if (result.data && result.data.resultCd === 'SUCCESS') {
+        return true
+      } else if (result.data.resultCd === 'FAIL') {
+        this.$noti(this.$q, this.$t('nickname_already_in_use'))
+        return false
+      } else {
+        this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
+        return false
+      }
     },
 
     // 아이디 중복 체크
@@ -746,6 +782,10 @@ export default {
         }
         return true
       }
+    },
+    checkNickname(param) {
+      let regNickname = /^[a-zA-Z0-9_]{3,}$/
+      return regNickname.test(param)
     },
     checkEmail(param) {
       let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,10}$/
