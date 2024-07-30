@@ -190,6 +190,7 @@ const routes = [
       { path: 'adminMyList', component: () => import('pages/admin/AdminMyList.vue') },
       { path: 'adminDescription', component: () => import('pages/admin/AdminDescription.vue') },
       { path: 'adminManageToken', component: () => import('src/pages/admin/AdminManageToken.vue') },
+      { path: 'adminMediaSale', component: () => import('src/pages/admin/AdminMediaSale.vue') },
     ]
   },
   {

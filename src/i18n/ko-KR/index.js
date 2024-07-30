@@ -581,6 +581,10 @@ export default {
   score: '점수',
   apply_date: '신청일시',
 
+  // mediaSale
+  market: '마켓',
+  payment_currency: '결제 통화',
+
   // whitelist detail
   whitelist_base_information: '기본 정보',
   whitelist_applied_yn: '신청여부',
@@ -1111,6 +1115,7 @@ export default {
   // menu_holder_list_description: '추후 DAO 화면으로 업데이트 됩니다.',
   menu_admin_user_list: '사용자 목록',
   menu_admin_user_list_description: '사용자 목록입니다.',
+  menu_admin_media_sale: '작품 판매 관리',
 
   // payment
   buyer_name: '성명',

@@ -581,6 +581,10 @@ export default {
   score: 'Score',
   apply_date: 'Apply Date',
 
+  // mediaSale
+  market: 'Market',
+  payment_currency: 'Currency',
+
   // whitelist detail
   whitelist_base_information: 'Information',
   whitelist_applied_yn: 'Applied',
@@ -1110,6 +1114,7 @@ export default {
   // menu_holder_list_description: 'Will be updated to the DAO page.',
   menu_admin_user_list: 'User List',
   menu_admin_user_list_description: 'User List is displayed.',
+  menu_admin_media_sale: 'Product sales management',
   
   // payment
   buyer_name: 'Name',

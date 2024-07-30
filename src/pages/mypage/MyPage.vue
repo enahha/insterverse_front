@@ -443,12 +443,12 @@ export default defineComponent({
       ],
       walletOption: [
         {
-          label: '메타마스트',
-          value: '메타마스트',
+          label: '메타마스크',
+          value: 'metamask',
         },
         {
           label: '팬텀',
-          value: '팬텀',
+          value: 'phantom',
         },
       ],
 
@@ -548,7 +548,7 @@ export default defineComponent({
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           if (result.data) {
-            // console.log(result.data)
+            console.log(result.data)
             this.walletAddress = result.data.wallet_address
             if (!this.walletAddress) {
               this.walletAddress = this.$store.getters.getWalletAddress
@@ -1077,6 +1077,12 @@ export default defineComponent({
       //   return
       // }
 
+      // nickname 중복 체크
+      const resultNickname = await this.checkNicknameDuplicate(nickname)
+      if (resultNickname === false) {
+        return
+      }
+
       if(!this.checkField(pwd, pwdCheck)) {
         // this.$noti(this.$q, this.$t('validation_failed'))
         return
@@ -1191,6 +1197,22 @@ export default defineComponent({
           }
         }
         return true
+      }
+    },
+    // nickname 중복 체크
+    async checkNicknameDuplicate(nickname) {
+      const vo = {
+        nickname: nickname
+      }
+      const result = await this.$axios.post('/api/login/checkNicknameDuplicate', vo)
+      if (result.data && result.data.resultCd === 'SUCCESS') {
+        return true
+      } else if (result.data.resultCd === 'FAIL') {
+        this.$noti(this.$q, this.$t('nickname_already_in_use'))
+        return false
+      } else {
+        this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
+        return false
       }
     },
     ModifyUserAccount() {
