@@ -42,8 +42,8 @@
                 <div class="row list-item">
                   <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
                   <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
-                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
-                  <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
+                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateText(item.summary_ko,truncateSubtitle) }}</q-item-label>
+                  <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label>
                 </div>
               </q-item-section>
             </q-item>
@@ -86,6 +86,11 @@ export default defineComponent({
       locale,
     }
   },
+  beforeUnmount() {
+    // truncateText중 null일 때 mount오류 발생(?????)하여 추가
+    // 컴포넌트가 언마운트될 때 vnode가 null인지 확인하고, null일 경우 해당 로직을 실행하지 않도록함
+    if (!this.$vnode) return
+  },
   data () {
     return {
       refresherDone: '',
@@ -94,6 +99,7 @@ export default defineComponent({
       projectList: [],
       noDataFlag: false,
       keyword: '', // 검색키워드
+      truncateSubtitle: 50,
     }
   },
   components: {
@@ -131,6 +137,16 @@ export default defineComponent({
     this.refresher(null)
   },
   methods: {
+    truncateText(text, maxLength) {
+      if (!text) {
+        return ''
+      }
+
+      if (text.length <= maxLength) {
+        return text
+      }
+      return text.substring(0, maxLength) + '...'
+    },
     // 검색
     async search() {
       await this.selectListMax()

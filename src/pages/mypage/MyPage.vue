@@ -95,7 +95,7 @@
                   <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_wallet') }}<span class="text-red"> *</span></span></td>
                   <td class="label-input">
                     <q-select
-                      v-model="walletTyoe"
+                      v-model="walletType"
                       :options="walletOption"
                       option-label="label"
                       option-value="value"
@@ -110,8 +110,15 @@
               <tr>
                 <td class="bank-change_btn">
                   <q-btn
+                    v-if="bankAccount == null && walletAddress == null"
                     :label="$t('save')"
-                    @click="modifyUser"
+                    @click="ModifyUserAccount"
+                    style="background-color: #0C2C69; color: white "
+                  />
+                  <q-btn
+                    v-else
+                    :label="$t('modify')"
+                    @click="ModifyUserAccount"
                     style="background-color: #0C2C69; color: white "
                   />
                 </td>
@@ -142,8 +149,8 @@
                     <div class="row list-item">
                       <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
                       <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
-                      <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label>
-                      <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label>
+                      <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateText(item.summary_ko,truncateSubtitle) }}</q-item-label>
+                      <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label>
                     </div>
                   </q-item-section>
                 </q-item>
@@ -213,92 +220,95 @@
       <!-- 4. 피드백 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="4" style="word-break: break-word;">
-        <div class="tab-panel-4 q-pt-lg">
-          <span>{{ $t('menu_mypage_feedback_info') }}</span>
-          <div class="underline"></div>
+        <span style="font-size: 23px; font-weight: bold;">{{ $t('menu_mypage_feedback_info') }}</span>
+        <div class="underline"></div>
+        <div class="col-12 justify-center comment-wrap q-pb-xs tab-panel-4">
 
-          <!-- 프로젝트 댓글 리스트 -->
-          <q-pull-to-refresh @refresh="refresherMyComment">
-            <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
-              <div v-for="item in myCommentList" :key="item.seq">
+            <!-- 프로젝트 댓글 리스트 -->
+            <q-pull-to-refresh @refresh="refresherMyComment">
+              <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
+                <div v-for="item in myCommentList" :key="item.seq">
 
-                <div :style="`padding-left: ${ item.group_layer * 20 }px`" v-if="item.visible_child" :class="`${ item.group_layer === 0 ? 'bg-white' : 'bg-grey-2'}`">
-                  <div class="row q-pt-md">
-                    <div class="col-8">
-                      <table border="0" cellpadding="0" sellspacing="0" width="100%">
-                        <tr>
-                          <td rowspan="2" width="60" class="flex-bottom">
-                            <q-avatar>
-                              <!-- <img src="https://cdn.quasar.dev/img/avatar7.jpg"> -->
-                              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-                            </q-avatar>
-                          </td>
-                          <td><span class="text-body2">{{ item.reg_name }}</span></td>
-                        </tr>
-                        <tr>
-                          <td><span class="text-caption text-grey-7">{{ item.reg_time }}</span></td>
-                        </tr>
-                      </table>
+                  <div :style="`padding-left: ${ item.group_layer * 20 }px`" v-if="item.visible_child" :class="`${ item.group_layer === 0 ? 'bg-white' : 'bg-grey-2'}`">
+                    <div class="row q-pt-md">
+                      <div class="col-8">
+                        <table border="0" cellpadding="0" sellspacing="0" width="100%">
+                          <tr>
+                            <td rowspan="2" width="60" class="flex-bottom">
+                              <q-avatar>
+                                <!-- <img src="https://cdn.quasar.dev/img/avatar7.jpg"> -->
+                                <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                              </q-avatar>
+                            </td>
+                            <td><span class="text-body2">{{ item.reg_name }}</span></td>
+                          </tr>
+                          <tr>
+                            <td><span class="text-caption text-grey-7">{{ item.reg_time }}</span></td>
+                          </tr>
+                        </table>
+                        <div>
+                          <span class="text-body2" style="padding: 60px;">{{ item.project_title }}</span>
+                        </div>
+                      </div>
+                      <div v-if="getUid && getUid === item.reg_id" class="col-4 text-right q-pt-md">
+                        <!-- <span style="cursor: pointer;" @click="modifyComment(item)">{{ $t('modify') }}</span> -->
+                        <q-btn icon="edit" @click="modifyComment(item)" flat dense />
+                        &nbsp;&nbsp;
+                        <!-- <span style="cursor: pointer;" @click="deleteComment(item.seq)">{{ $t('delete') }}</span> -->
+                        <q-btn icon="delete" @click="deleteComment(item.seq)" flat dense />
+                        &nbsp;&nbsp;
+                      </div>
                     </div>
-                    <div v-if="getUid && getUid === item.reg_id" class="col-4 text-right q-pt-md">
-                      <!-- <span style="cursor: pointer;" @click="modifyComment(item)">{{ $t('modify') }}</span> -->
-                      <q-btn icon="edit" @click="modifyComment(item)" flat dense />
-                      &nbsp;&nbsp;
-                      <!-- <span style="cursor: pointer;" @click="deleteComment(item.seq)">{{ $t('delete') }}</span> -->
-                      <q-btn icon="delete" @click="deleteComment(item.seq)" flat dense />
-                      &nbsp;&nbsp;
+                    <div class="row q-pt-sm" style="word-break: break-word;">
+                      <div class="col-12 text-body1">{{ item.contents }}</div>
                     </div>
-                  </div>
-                  <div class="row q-pt-sm" style="word-break: break-word;">
-                    <div class="col-12 text-body1">{{ item.contents }}</div>
-                  </div>
-                  <div class="row q-pt-sm q-pb-sm">
-                    <div class="col-4">
-                      <span style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">{{ $t('register_reply') }}</span>
-                      <span v-if="item.group_layer === 0" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt1 }})</span>
-                      <span v-if="item.group_layer === 1" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt2 }})</span>
-                      <span v-if="item.group_layer === 2" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt3 }})</span>
-                      <span v-if="item.group_layer === 3" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt4 }})</span>
-                      <span v-if="item.group_layer === 4" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt5 }})</span>
-                      <span v-else></span>
-                    </div>
-                    <!-- <div class="col-4"></div> -->
-                    <div class="col-8 text-right">
-                      <q-btn v-if="item.like_cd === 'Y'" icon="thumb_up_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
-                      <q-btn v-else icon="thumb_up_off_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
-                      &nbsp;{{ item.like_cnt }}
-                      &nbsp;&nbsp;
-                      <q-btn v-if="item.like_cd === 'N'" icon="thumb_down_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
-                      <q-btn v-else icon="thumb_down_off_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
-                      &nbsp;{{ item.dislike_cnt }}
-                      &nbsp;&nbsp;
-                      <!-- ### {{ item.group_order }} ### {{ item.group_layer }} -->
-                    </div>
-                  </div>
-
-                  <div v-if="item.visible_reply_input" class="row q-pt-sm q-pb-sm">
-                    <div class="col-12">
-                      <q-input v-model="myReply" type="textarea" :placeholder="$t('enter_the_reply')" rows="2" outlined @keyup="countMyReplyLength" />
+                    <div class="row q-pt-sm q-pb-sm">
+                      <div class="col-4">
+                        <span style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">{{ $t('register_reply') }}</span>
+                        <span v-if="item.group_layer === 0" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt1 }})</span>
+                        <span v-if="item.group_layer === 1" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt2 }})</span>
+                        <span v-if="item.group_layer === 2" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt3 }})</span>
+                        <span v-if="item.group_layer === 3" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt4 }})</span>
+                        <span v-if="item.group_layer === 4" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt5 }})</span>
+                        <span v-else></span>
+                      </div>
+                      <!-- <div class="col-4"></div> -->
+                      <div class="col-8 text-right">
+                        <q-btn v-if="item.like_cd === 'Y'" icon="thumb_up_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
+                        <q-btn v-else icon="thumb_up_off_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
+                        &nbsp;{{ item.like_cnt }}
+                        &nbsp;&nbsp;
+                        <q-btn v-if="item.like_cd === 'N'" icon="thumb_down_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
+                        <q-btn v-else icon="thumb_down_off_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
+                        &nbsp;{{ item.dislike_cnt }}
+                        &nbsp;&nbsp;
+                        <!-- ### {{ item.group_order }} ### {{ item.group_layer }} -->
+                      </div>
                     </div>
 
-                    <div class="col-6 text-left q-pt-sm">
-                      &nbsp;&nbsp;&nbsp;{{ myReplyLength }} / 300
+                    <div v-if="item.visible_reply_input" class="row q-pt-sm q-pb-sm">
+                      <div class="col-12">
+                        <q-input v-model="myReply" type="textarea" :placeholder="$t('enter_the_reply')" rows="2" outlined @keyup="countMyReplyLength" />
+                      </div>
+
+                      <div class="col-6 text-left q-pt-sm">
+                        &nbsp;&nbsp;&nbsp;{{ myReplyLength }} / 300
+                      </div>
+                      <div class="col-6 text-right q-pt-sm">
+                        <q-btn size="md" color="black" style="height: 36px;" @click="insertProjectCommentReply(item)" outline>{{ $t('register') }}</q-btn>
+                      </div>
                     </div>
-                    <div class="col-6 text-right q-pt-sm">
-                      <q-btn size="md" color="black" style="height: 36px;" @click="insertProjectCommentReply(item)" outline>{{ $t('register') }}</q-btn>
-                    </div>
+
                   </div>
 
                 </div>
-
-              </div>
-              <template v-slot:loading>
-                <div class="row justify-center q-my-md">
-                  <q-spinner-dots color="primary" size="40px" />
-                </div>
-              </template>
-            </q-infinite-scroll>
-          </q-pull-to-refresh>
+                <template v-slot:loading>
+                  <div class="row justify-center q-my-md">
+                    <q-spinner-dots color="primary" size="40px" />
+                  </div>
+                </template>
+              </q-infinite-scroll>
+            </q-pull-to-refresh>
 
           <!-- place QPageScroller at end of page -->
           <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
@@ -322,9 +332,34 @@
     </div>
 
   </q-page>
-  
-  <WalletModal ref="refWalletModal" />
 
+  <q-dialog v-model="confirmDeleteCommentModal">
+    <q-card>
+      <q-card-section class="row items-center" style="min-width: 200px;">
+        <q-icon name="warning" color="primary" size="md" />
+        <span class="q-ml-sm">{{ $t('confirm_delete') }}</span>
+      </q-card-section>
+
+      <q-card-actions align="around">
+        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+        <q-btn flat style="width: 45%;" :label="$t('delete')" color="black" v-close-popup @click="doDeleteCommennt" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="confirmModifyCommentModal">
+    <q-card>
+      <q-card-section class="row items-center" style="min-width: 200px;">
+        <q-input v-model="modifyCommentValue" type="textarea" :placeholder="$t('enter_the_comment')" rows="7" outlined />
+      </q-card-section>
+
+      <q-card-actions align="around">
+        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+        <q-btn flat style="width: 45%;" :label="$t('modify')" color="black" v-close-popup @click="doModifyCommennt" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  
   <q-dialog v-model="confirmGoBack">
     <q-card>
       <q-card-section class="row items-center" style="min-width: 200px;">
@@ -339,6 +374,8 @@
     </q-card>
   </q-dialog>
 
+  <MediaDetailModal ref="refMediaDetailModal" />
+  <WalletModal ref="refWalletModal" />
 </template>
 
 <script>
@@ -346,6 +383,7 @@ import { sha512 } from 'js-sha512'
 import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n'
 import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
+import Modify from '../notice/Modify.vue';
 
 export default defineComponent({
   name: 'Mypage',
@@ -355,6 +393,11 @@ export default defineComponent({
       locale,
     }
   },
+  beforeUnmount() {
+    // truncateText중 null일 때 mount오류 발생(?????)하여 추가
+    // 컴포넌트가 언마운트될 때 vnode가 null인지 확인하고, null일 경우 해당 로직을 실행하지 않도록함
+    if (!this.$vnode) return
+  },
   data () {
     return {
       tab: '2',   // 나의 전시탭이 먼저 안나오면 에러남,,, 왜인지 모르겠음,,,
@@ -363,9 +406,10 @@ export default defineComponent({
       pwdCheck: '',
       bankType: null,
       bankAccount: '',
-      walletTyoe: null,
+      walletType: null,
       walletAddress: '',
       confirmGoBack: false, // goBack 확인창
+      truncateSubtitle: 50,
 
       pageSize: 100,
       lastPageNum: 1, // 마지막 페이지
@@ -376,29 +420,35 @@ export default defineComponent({
       noDataFlag: false,
       refresherDone: '',
       refresherMyCommentDone: '',
+      confirmDeleteCommentModal: false, // 나의 댓글 삭제 모달
+      deleteTargetSeq: '', // 삭제 대상 댓글 seq
+      confirmModifyCommentModal: false, // 나의 댓글 수정 모달
+      modifyTargetSeq: '', // 수정 대상 댓글 seq
+      modifyCommentValue: '', // 수정 대상 댓글 내용
+      confirmDeleteProject: false, // 프로젝트 삭제 모달
 
       bankOption: [
         {
           label: '우리은행',
-          value: '1',
+          value: '우리은행',
         },
         {
           label: '국민은행',
-          value: '2',
+          value: '국민은행',
         },
         {
           label: '기업은행',
-          value: '3',
+          value: '기업은행',
         }
       ],
       walletOption: [
         {
           label: '메타마스트',
-          value: '1',
+          value: '메타마스트',
         },
         {
           label: '팬텀',
-          value: '2',
+          value: '팬텀',
         },
       ],
 
@@ -470,6 +520,16 @@ export default defineComponent({
     this.refresherMyComment(null)
   },
   methods: {
+    truncateText(text, maxLength) {
+      if (!text) {
+        return ''
+      }
+
+      if (text.length <= maxLength) {
+        return text
+      }
+      return text.substring(0, maxLength) + '...'
+    },
     // 계정 조회
     selectUser() {
       // 로그인 여부 체크, 로그인 모달 표시
@@ -489,10 +549,13 @@ export default defineComponent({
           // console.log(JSON.stringify(result.data))
           if (result.data) {
             // console.log(result.data)
-            this.wallet_address = result.data.wallet_address
-            if (!this.wallet_address) {
-              this.wallet_address = this.$store.getters.getWalletAddress
+            this.walletAddress = result.data.wallet_address
+            if (!this.walletAddress) {
+              this.walletAddress = this.$store.getters.getWalletAddress
             }
+            this.walletType = result.data.wallet_type
+            this.bankAccount = result.data.bank_account
+            this.bankType = result.data.bank_type
             // this.nickname = result.data.nickname
             this.profile_image = result.data.profile_image
             // this.reg_name = result.data.reg_name
@@ -681,9 +744,6 @@ export default defineComponent({
           }
           this.myCommentList = this.myCommentList.concat(result.data)
 
-          console.log('this.myCommentList +++++++++')
-          console.log(this.myCommentList)
-
           // 데이터 없음 표시 설정
           if (!this.myCommentList || this.myCommentList.length < 1) {
             this.noDataFlag = true
@@ -701,8 +761,42 @@ export default defineComponent({
           }
         })
     },
-        // 나의 댓글 수정 모달 표시
-        modifyComment(item) {
+    // 나의 댓글 삭제 모달 표시
+    deleteComment(commentSeq) {
+      this.deleteTargetSeq = commentSeq
+      this.confirmDeleteCommentModal = true
+    },
+    // 나의 댓글 삭제
+    doDeleteCommennt() {
+      // console.log('insertProjectComment')
+      this.$q.loading.show() // 로딩 표시 시작
+      const params = {
+        uid: this.getUid,
+        seq: this.deleteTargetSeq,
+      }
+      this.$axios.post('/api/projectcomment/deleteProjectComment', params)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.deleteTargetSeq = ''
+            this.$noti(this.$q, this.$t('delete_comment_success'))
+
+            // 목록 새로고침
+            this.refresherMyComment(null)
+          } else {
+            this.$noti(this.$q, this.$t('delete_comment_failed'))
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
+    },
+    // 나의 댓글 수정 모달 표시
+    modifyComment(item) {
       this.modifyTargetSeq = item.seq
       this.modifyCommentValue = item.contents
       this.confirmModifyCommentModal = true
@@ -726,7 +820,7 @@ export default defineComponent({
             this.$noti(this.$q, this.$t('modify_comment_success'))
 
             // 목록 새로고침
-            this.refresher(null)
+            this.refresherMyComment(null)
           } else {
             this.$noti(this.$q, this.$t('modify_comment_failed'))
           }
@@ -995,10 +1089,10 @@ export default defineComponent({
       }
 
       // 회원정보 수정
-      this.doModifyUser(nickname, pwd, pwdCheck)
+      this.doModifyUser(nickname, pwd)
     },
     // 회원정보 수정
-    async doModifyUser(nickname, pwd, pwdCheck) {
+    async doModifyUser(nickname, pwd) {
       // 1. 회원정보 수정 처리 - token, token_description, token_contract_verify
       let encPwd = ''
       if (pwd) {
@@ -1098,6 +1192,35 @@ export default defineComponent({
         }
         return true
       }
+    },
+    ModifyUserAccount() {
+      const params = {
+        uid: this.getUid,
+        wallet_address: this.walletAddress,
+        wallet_type: this.walletType ? this.walletType.value : '',
+        bank_type: this.bankType ? this.bankType.value : '',
+        bank_account: this.bankAccount
+      }
+
+      this.$q.loading.show() // 로딩 표시 시작
+
+      this.$axios.post('/api/user/updateUserAccount', params)
+        .then((result) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.$noti(this.$q, this.$t('modify_user_success'))
+            this.selectUser()
+          } else {
+            this.$noti(this.$q, this.$t('modify_user_failed'))
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
     },
     // 파일 업로드 필터
     filterFiles (files) {
