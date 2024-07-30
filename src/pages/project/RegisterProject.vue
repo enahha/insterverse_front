@@ -805,6 +805,8 @@ export default defineComponent({
     // 팀 지갑주소에 사용자 지갑주소 디폴트 설정
     // this.projectWalletAddress = this.getWalletAddress
 
+    this.nickname = nickname ? nickname : ''
+
     // 미디어 리스트 조회
     this.selectListMax()
   },

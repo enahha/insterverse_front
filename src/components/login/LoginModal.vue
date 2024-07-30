@@ -1146,7 +1146,7 @@ export default {
       this.$axios.post('/api/login/doLogin', this.userVo)
         .then((result) => {
           this.loading = false
-          if (result.data && result.data.resultCd === 'SUCCESS') { // 카카오 로그인 실패시
+          if (result.data && result.data.resultCd === 'SUCCESS') {
             // this.doLogin(result.data)
             // console.log(result.data)
             // this.$noti(this.$q, this.$t('로그인 성공'))
@@ -1182,8 +1182,6 @@ export default {
           console.log(err)
           this.$noti(this.$q, err)
         })
-
-
     },
     onKeyUpEmailCode() {
       if (this.userVo.code && this.userVo.code.length == 6) {

@@ -1133,7 +1133,7 @@ export default {
       this.$axios.post('/api/login/doLogin', this.userVo)
         .then((result) => {
           this.loading = false
-          if (result.data && result.data.resultCd === 'SUCCESS') { // 카카오 로그인 실패시
+          if (result.data && result.data.resultCd === 'SUCCESS') {
             // this.doLogin(result.data)
             // console.log(result.data)
             // this.$noti(this.$q, this.$t('로그인 성공'))
@@ -1151,8 +1151,8 @@ export default {
             localStorage.setItem('AUTH_KEY', result.data.auth_key, 365)
             localStorage.setItem('ADCD', result.data.adcd, 365)
 
-            // 부모창의 콜백함수 호출
-            this.$emit('callback-login', result.data)
+            // // 부모창의 콜백함수 호출
+            // this.$emit('callback-login', result.data)
             
             // // 팝업 닫기
             // this.close()
@@ -1173,8 +1173,6 @@ export default {
           console.log(err)
           this.$noti(this.$q, err)
         })
-
-
     },
     onKeyUpEmailCode() {
       if (this.userVo.code && this.userVo.code.length == 6) {
