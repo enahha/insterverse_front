@@ -1,0 +1,323 @@
+<template>
+  <q-page class="page-1200 q-pa-md project-reg-wrap">
+    <div class="row title">
+      <div class="col-12 doc-heading">
+        <div class="title-sec">{{ $t('my_artworks') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Artworks</span></div>
+      </div>
+    </div>
+
+    <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
+      <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
+    </q-page-scroller> -->
+
+
+    <div class="tab-panel-3 q-pt-lg">
+
+      <div style="width: 100%; display: flex; justify-content: flex-end">
+        <q-btn
+            :label="$t('add')"
+            @click="goAdd"
+            style="background-color: #0C2C69; color: white; min-width: 100px; "
+          />
+      </div>
+
+      <q-pull-to-refresh @refresh="refresher">
+        <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll" style="background-color: #FEFEFE;">
+          
+          <div class="media-table-wrapper text-center q-pt-lg">
+            <div class="table-scroll-wrapper">
+              <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>{{ $t('media') }}</th>
+                    <th>{{ $t('media_title') }}</th>
+                    <th>{{ $t('media_price') }}</th>
+                    <th>{{ $t('media_description') }}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, index) in mediaList" :key="index">
+                    <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
+                    <td>{{ item.seq }}</td>
+                    <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
+                    <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
+
+                    <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
+                    <td style="width: 150px;" v-else><span>-</span></td>
+
+                    <td>{{ truncateText(item.description, truncateDescription) }}</td>
+                    <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+
+        </q-infinite-scroll>
+      </q-pull-to-refresh>
+
+      <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+        <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+      </div>
+
+    </div>
+
+  </q-page>
+
+  <q-dialog v-model="confirmGoBack">
+    <q-card>
+      <q-card-section class="row items-center" style="min-width: 200px;">
+        <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
+        <q-icon name="warning" color="primary" size="md" />
+        <span class="q-ml-sm">{{ $t('confirm_go_back') }}</span>
+      </q-card-section>
+      <q-separator />
+      <q-card-actions align="around">
+        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+        <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+</template>
+
+<script>
+import { defineComponent } from 'vue';
+import { useI18n } from 'vue-i18n'
+import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
+
+export default defineComponent({
+  name: 'RegisterProject',
+  setup () {
+    const { locale } = useI18n({ useScope: 'global' })
+    return {
+      locale,
+    }
+  },
+  data () {
+    return {
+      confirmGoBack: false, // goBack 확인창
+      keyword: '',
+      refresherDone: '',
+      pageSize: 50,
+      lastPageNum: 1, // 마지막 페이지
+      noDataFlag: true, // 나의 작품 데이터 없음 플래그
+      mediaList: []
+    }
+  },
+  components: {
+  },
+  computed: {
+    getUid () {
+      return this.$store.getters.getUid
+    },
+    getNickname () {
+      return this.$store.getters.getNickname
+    },
+    getWalletType () {
+      return this.$store.getters.getWalletType
+    },
+    getWalletAddress () {
+      return this.$store.getters.getWalletAddress
+    },
+  },
+  created: function () {
+
+    this.checkLogin()
+
+    // 미디어 리스트 조회
+    this.selectListMax()
+  },
+  // watch: {
+  //   getNickname(newNickname) {
+  //     this.nickname = newNickname;
+  //   }
+  // },
+  mounted: function () {
+  },
+  methods: {
+    checkLogin() {
+      // 로그인 되어있지 않으면 로그인페이지로 이동, 로그인 후 돌아올 path 설정
+      if(!this.getUid) {
+        this.$router.push({ path: '/login', query: { redirectPath: this.$route.path }})
+      }
+    },
+    callbackLogin(userVo) {
+      // console.log('callbackLogin!!!')
+      this.$store.dispatch('setUid', userVo.uid)
+      this.$store.dispatch('setAdcd', userVo.adcd)
+      this.$store.dispatch('setName', userVo.name)
+      this.$store.dispatch('setNickname', userVo.nickname)
+      this.$store.dispatch('setProfileImage', userVo.profile_image)
+      this.$store.dispatch('setWalletType', userVo.wallet_type)
+      this.$store.dispatch('setWalletAddress', userVo.wallet_address)
+      this.$store.dispatch('setMobileNo', userVo.mobile_no)
+    },
+    async search() {
+      await this.selectListMax()
+      await this.refresher(null)
+    },
+    // 검색어 입력창 키업 이벤트
+    onKeyup (event) {
+      if (event.key === 'Enter') { // 엔터일 경우 검색
+        this.search()
+      }
+    },
+    refresher (done) {
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise the refresh message
+      //        will continue to be displayed
+      // make some Ajax call then call done()
+      this.mediaList = []
+      this.refresherDone = done // load가 끝나면 로딩메세지 종료
+      this.$refs.infiniteScroll.reset() // index 초기화
+      this.$refs.infiniteScroll.resume() // stop에서 다시 재생
+      // this.$refs.infiniteScroll.load() // loadMore로 검색
+      this.loadMore(1, done)
+    },
+    loadMore(index, done) {
+      // index - called for nth time
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise your loading message
+      //        will continue to be displayed. Has optional boolean
+      //        parameter that invokes stop() when true
+      // console.log('index: ' + index)
+      // make some Ajax call then call done()
+      // this.pageNum = index
+      setTimeout(() => {
+        // alert(index)
+        // console.log('loadMore called index: ' + index)
+        if (index <= this.lastPageNum) {
+          this.selectList(index, done)
+          if (index === this.lastPageNum) {
+            this.$refs.infiniteScroll.stop()
+          }
+
+          // refresher 로딩메세지 처리
+          if (this.refresherDone != null && this.refresherDone !== '') {
+            this.refresherDone() // 로딩메세지 종료
+            this.refresherDone = '' // 로딩메세지 초기화
+          }
+        }
+      }, 500)
+    },
+    // 작품 마지막 페이지 조회
+    selectListMax() {
+      // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
+      if (!this.keyword) {
+        this.keyword = ''
+      }
+      this.$axios.get('/api/media/selectMyMediaListLastPageNum',
+        {params: {uid: this.getUid, exhibition_seq: this.projectSeq, pageSize: this.pageSize, keyword: this.keyword}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.lastPageNum = result.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    // 작품 리스트 조회
+    selectList(idx, done) {
+      if (!this.keyword) {
+        this.keyword = ''
+      }
+      this.$axios.get('/api/media/selectMyMediaList',
+        {params: {uid: this.getUid, exhibition_seq: this.projectSeq, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          // console.log(result.data)
+          if (idx === 1) { // 첫번째 load인 경우
+            this.mediaList = [] // 리스트 초기화
+          }
+          this.mediaList = this.mediaList.concat(result.data)
+
+          // 데이터 없음 표시 설정
+          if (!this.mediaList || this.mediaList.length < 1) {
+            this.noDataFlag = true
+          } else {
+            this.noDataFlag = false
+          }
+          if (done) {
+            done()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if (done) {
+            done()
+          }
+        })
+    },
+    async updateProjectStatusCd() {
+      // 1. 프로젝트 수정 처리
+      const params = {
+        uid: this.getUid,
+        seq: this.projectSeq,
+        status_cd: '30',      // 정보 등록 완료(결제 완료)
+      }
+      this.$q.loading.show() // 로딩 표시 시작
+      this.$axios.post('/api/project/updateProjectStatusCd', params)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.$noti(this.$q, this.$t('modify_success'))
+
+            // // 페이지 이동
+            // this.$router.go(-1)
+            // if (this.$route.query.fromAdmin === 'Y') {
+            //   // 나의 프로젝트 리스트 화면 - admin
+            //   this.$router.push('/admin/adminMyList')
+            // } else {
+            //   // 나의 프로젝트 리스트 화면
+            //   this.$router.push('/project/myList')
+            // }
+            // <!-- 관리자 수정용 -->
+            // this.$router.push('/project/newList')
+          } else {
+            this.$noti(this.$q, this.$t('modify_failed'))
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
+
+    },
+    goAdd() {
+      this.$router.push('/media/registerMedia')
+    },
+    goBack() {
+      // this.$router.go(-1)
+
+      // goBack 확인창 표시
+      this.confirmGoBack = true
+    },
+    doGoBack() {
+      // 페이지 이동
+      this.$router.go(-1)
+      // if (this.$route.query.fromAdmin === 'Y') {
+      //   // 나의 프로젝트 리스트 화면 - admin
+      //   this.$router.push('/admin/adminMyList')
+      // } else {
+      //   // 나의 프로젝트 리스트 화면
+      //   this.$router.push('/project/projectList')
+      // }
+    }
+  }
+})
+</script>
+
+<style scoped>
+</style>

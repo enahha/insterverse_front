@@ -43,7 +43,7 @@
 
           <!-- <div style="width: 100%; display: flex; justify-content: flex-end">
             <q-btn
-              @click="goAddWork"
+              @click="goMyMediaList"
               round
               dense
               icon="add"
@@ -56,7 +56,7 @@
           <div style="width: 100%; display: flex; justify-content: flex-end">
             <q-btn
                 :label="$t('manage')"
-                @click="goAddWork"
+                @click="goMyMediaList"
                 style="background-color: #0C2C69; color: white; min-width: 100px; "
               />
           </div>
@@ -79,16 +79,16 @@
                     </thead>
                     <tbody>
                       <tr v-for="(item, index) in mediaList" :key="index">
-                          <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                          <td>{{ item.seq }}</td>
-                          <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
-                          <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
+                        <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
+                        <td>{{ item.seq }}</td>
+                        <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
+                        <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
 
-                          <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
-                          <td style="width: 150px;" v-else><span>-</span></td>
+                        <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
+                        <td style="width: 150px;" v-else><span>-</span></td>
 
-                          <td>{{ truncateText(item.description, truncateDescription) }}</td>
-                          <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
+                        <td>{{ truncateText(item.description, truncateDescription) }}</td>
+                        <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
                       </tr>
                     </tbody>
                   </table>
@@ -777,7 +777,7 @@ export default defineComponent({
       refresherDone: '',
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
-      noDataFlag: true, // 나의 작품 데이터 없음 플래그
+      noDataFlag: false, // 나의 작품 데이터 없음 플래그
       mediaList: []
     }
   },
@@ -876,8 +876,9 @@ export default defineComponent({
       this.$store.dispatch('setWalletAddress', userVo.wallet_address)
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
     },
-    goAddWork() {
-      this.$router.push({ path: '/media/registerMedia', query: { seq: this.projectSeq }})
+    goMyMediaList() {
+      // this.$router.push({ path: '/media/registerMedia', query: { seq: this.projectSeq }})
+      this.$router.push('/media')
     },
     async search() {
       await this.selectListMax()
