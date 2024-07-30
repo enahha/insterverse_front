@@ -1181,7 +1181,7 @@ export default {
   project_discord: 'Discord',
   project_instargram: 'Instagram',
   project_date_hint: 'If the end date is not specified, it will be on display indefinitely',
-  project_banner_hint: 'Size (1920*360)',
+  project_banner_hint: 'Size : 1920 * 360 (recommended)',
   project_name_hint: 'e.g. : KlaySwap Protocol',
   project_symbol_hint: 'e.g. : KSP',
   project_decimals_hint: 'Decimal digit',

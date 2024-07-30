@@ -1186,7 +1186,7 @@ export default {
   project_discord: '디스코드',
   project_instargram: '인스타그램',
   project_date_hint: '종료일 미지정 시 무기한 전시로 전환됩니다.',
-  project_banner_hint: '크기 (1920*360 권장)',
+  project_banner_hint: '크기 : 1920 * 360 (권장)',
   project_name_hint: 'Project Name. 예시 : KlaySwap Protocol',
   project_symbol_hint: 'Project Symbol. 예시 : KSP',
   project_decimals_hint: 'Decimals. 소수점 자릿수',

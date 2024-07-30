@@ -32,50 +32,48 @@
           <span>{{ $t('artist_basic_information') }}</span>
           <div class="underline"></div>
 
-          <div class="q-pt-md" style="margin-left: 1%;">
-            <div class="q-pt-md">
-              <span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span>
-            </div>
-            <div style="max-width: 600px;">
-              <q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
-            </div>
-
-            <div class="q-pt-md">
-              <span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span>
-            </div>
-            <div style="max-width: 600px;">
-              <q-input v-model="email" ref="refEmail" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
-            </div>
-
-            <div class="q-pt-md">
-              <span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span>
-            </div>
-            <div style="max-width: 600px;">
-              <q-input v-model="instargram" ref="refInstargram" placeholder="ex) https://www.instagram.com/banana123" clearable outlined tabindex="1" />
-            </div>
-
-            <div class="q-pt-lg">
-              <span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span>
-            </div>
-            <div style="max-width: 600px;">
-              <q-input v-model="twitter" ref="refTwitter" placeholder="ex) https://x.com/banana123" clearable outlined tabindex="1" />
-            </div>
-
-            <div class="q-pt-lg">
-              <span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span>
-            </div>
-            <div style="max-width: 600px;">
-              <q-input v-model="discord" ref="refDiscord" placeholder="ex) https://discord.gg/banana123" clearable outlined tabindex="1" />
-            </div>
-
-            <div class="q-pt-lg">
-              <span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span>
-            </div>
-            <div style="max-width: 600px;">
-              <q-input v-model="telegram" ref="refTelegram" placeholder="ex) https://t.me/banana123" clearable outlined tabindex="1" />
-            </div>
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span>
           </div>
-          <br><br><br><br><br>
+          <div style="max-width: 600px;">
+            <q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-md">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="email" ref="refEmail" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-md">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="instargram" ref="refInstargram" placeholder="ex) https://www.instagram.com/banana123" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="twitter" ref="refTwitter" placeholder="ex) https://x.com/banana123" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="discord" ref="refDiscord" placeholder="ex) https://discord.gg/banana123" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="telegram" ref="refTelegram" placeholder="ex) https://t.me/banana123" clearable outlined tabindex="1" />
+          </div>
+          <br><br><br>
 
 
           <span>{{ $t('artist_details') }}</span>
@@ -178,7 +176,7 @@
             />
           </div> -->
           
-          <div style="display: flex; justify-content: flex-end; padding-top: 100px;">
+          <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
             <q-btn
               :label="$t('next')"
               @click="goTabNext"
@@ -197,205 +195,151 @@
           <span>{{ $t('project_basic_information') }}</span>
           <div class="underline"></div>
 
-          
-          <div style="margin-left: 5%;">
-            <table style="width: 800px;">
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span></td>
-                    <td class="label-input"><q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" /></td>
-                </div>
-              </tr>
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_name') }} (Korean)<span class="text-red"> *</span></span></td>
-                    <td class="label-input"><q-input v-model="titleKo" ref="refTitleKo" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" /></td>
-                </div>
-              </tr>
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_symbol') }}</span>
-                      <q-icon name="help" size="xs">
-                        <q-tooltip>
-                          {{ $t('project_symbol_hint') }}
-                        </q-tooltip>
-                      </q-icon>
-                      <span class="text-red"> *</span>
-                    </td>
-                    <td class="label-input"><q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" /></td>
-                </div>
-              </tr>
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_subtitle') }}<span class="text-red"> *</span></span></td>
-                    <td class="label-input"><q-input v-model="subtitle" ref="refSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable outlined tabindex="1" /></td>
-                </div>
-              </tr>
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_type') }}<span class="text-red"> *</span></span></td>
-                    <td class="label-input"><q-input v-model="exhibitionName" :disable="true" ref="refExhibitionName" :rules="[required, val => minLength(val, 1), val => maxLength(val, 300)]" clearable outlined tabindex="1"/></td>
-                    <td>
-                      <q-btn
-                          :label="$t('choice')"
-                          @click="showExhibitionTypeModal"
-                          style="background-color: #90B2D8; color: white "
-                        />
-                    </td>
-                </div>
-              </tr>
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label">
-                      <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_banner') }}<span class="text-red"> *</span></span>
-                      <span class="text-grey">
-                        &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-                      </span>
-                    </td>
-                    <td class="label-input">
-                      <div class="row justify-center q-pb-md">
-                        <div class="col-12">
-                          <q-uploader
-                            field-name="file"
-                            ref="uploaderObj"
-                            url="/api/common/uploadImage"
-                            hide-upload-btn
-                            color="grey-3"
-                            text-color="black"
-                            :multiple="false"
-                            accept="image/*"
-                            :filter="filterFiles"
-                            max-files="1"
-                            :auto-upload="true"
-                            tabindex="9"
-                            @uploaded="fileUploadedBanner"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-12 text-red text-bold">
-                        {{ $t('project_banner_hint') }}
-                      </div>
-                    </td>
-                </div>
-              </tr>
-
-              <tr>
-                <div class="input-group q-pt-lg">
-                  <td class="label">
-                    <span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_day') }}</span>
-                  </td>
-                  <td class="label-input" style="">
-                    <!-- 전시 시작일 -->
-                    <div class="" style="max-width: 300px;">
-                      <q-input v-model="startTime" :label="$t('start_time')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
-                        <template v-slot:prepend>
-                          <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-date v-model="startTime" mask="YYYY-MM-DD HH:mm">
-                                <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="Close" color="primary" flat />
-                                </div>
-                              </q-date>
-                            </q-popup-proxy>
-                          </q-icon>
-                        </template>
-                        <template v-slot:append>
-                          <q-icon name="access_time" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-time v-model="startTime" mask="YYYY-MM-DD HH:mm" format24h>
-                                <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="Close" color="primary" flat />
-                                </div>
-                              </q-time>
-                            </q-popup-proxy>
-                          </q-icon>
-                        </template>
-                      </q-input>
-                    </div>
-                    <!-- 전시 종료일 -->
-                    <div class="" style="max-width: 300px;">
-                      <q-input v-model="endTime" :label="$t('end_time')" ref="refEndTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
-                        <template v-slot:prepend>
-                          <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-date v-model="endTime" mask="YYYY-MM-DD HH:mm">
-                                <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="Close" color="primary" flat />
-                                </div>
-                              </q-date>
-                            </q-popup-proxy>
-                          </q-icon>
-                        </template>
-                        <template v-slot:append>
-                          <q-icon name="access_time" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                              <q-time v-model="endTime" mask="YYYY-MM-DD HH:mm" format24h>
-                                <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="Close" color="primary" flat />
-                                </div>
-                              </q-time>
-                            </q-popup-proxy>
-                          </q-icon>
-                        </template>
-                      </q-input>
-                      <div class="col-12 text-red text-bold">
-                        {{ $t('project_date_hint') }}
-                      </div>
-                    </div>
-                  </td>
-                </div>
-              </tr>
-
-
-              <tr>
-                <div class="input-group q-pt-lg">
-                    <td class="label">
-                      <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_poster_image') }}<span class="text-red"> *</span></span>
-                      <span class="text-grey">
-                        &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-                      </span>
-                    </td>
-                    <td class="label-input">
-                      <div class="row justify-center q-pb-md">
-                        <div class="col-12">
-                          <q-uploader
-                            field-name="file"
-                            ref="uploaderObj"
-                            url="/api/common/uploadImage"
-                            hide-upload-btn
-                            color="grey-3"
-                            text-color="black"
-                            :multiple="false"
-                            accept="image/*"
-                            :filter="filterFiles"
-                            max-files="1"
-                            :auto-upload="true"
-                            tabindex="9"
-                            @uploaded="fileUploadedPoster"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-12 text-red text-bold">
-                        {{ $t('square_image_only') }}
-                      </div>
-                      <!-- <div class="row justify-center">
-                        <div class="col-12">
-                            <span class="text-weight-bold text-subtitle1">※ {{ $t('whitelist_preview_main_image') }}</span>
-                        </div>
-                        </div>
-                        <div class="row justify-center q-pb-xs">
-                        <div class="col-12">
-                            <img v-if="posterImage" :src="posterImage" style="width: 100%;">
-                            <span v-else>{{ $t('no_image') }}</span>
-                        </div>
-                      </div> -->
-                    </td>
-                </div>
-              </tr>
-            </table>
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
           </div>
 
-          <br><br><br><br><br>
+          <div class="q-pt-md">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_symbol') }}</span>
+            <q-icon name="help" size="xs">
+              <q-tooltip>
+                {{ $t('project_symbol_hint') }}
+              </q-tooltip>
+            </q-icon>
+            <span class="text-red"> *</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-md">
+            <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_banner') }}<span class="text-red"> *</span></span>
+            <span class="text-grey">
+              &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
+            </span>
+          </div>
+          <div style="max-width: 600px;">
+            <div class="row justify-center q-pb-md">
+              <div class="col-12">
+                <q-uploader
+                  field-name="file"
+                  ref="uploaderObj"
+                  url="/api/common/uploadImage"
+                  hide-upload-btn
+                  color="grey-3"
+                  text-color="black"
+                  :multiple="false"
+                  accept="image/*"
+                  :filter="filterFiles"
+                  max-files="1"
+                  :auto-upload="true"
+                  tabindex="9"
+                  @uploaded="fileUploadedBanner"
+                />
+              </div>
+            </div>
+            <div class="col-12 text-red text-bold">
+              {{ $t('project_banner_hint') }}
+            </div>
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_day') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <!-- 전시 시작일 -->
+            <div class="" style="max-width: 300px;">
+              <q-input v-model="startTime" :label="$t('start_time')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+                <template v-slot:prepend>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date v-model="startTime" mask="YYYY-MM-DD HH:mm">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+                <template v-slot:append>
+                  <q-icon name="access_time" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-time v-model="startTime" mask="YYYY-MM-DD HH:mm" format24h>
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                      </q-time>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <!-- 전시 종료일 -->
+            <div class="q-pt-md" style="max-width: 300px;">
+              <q-input v-model="endTime" :label="$t('end_time')" ref="refEndTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+                <template v-slot:prepend>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date v-model="endTime" mask="YYYY-MM-DD HH:mm">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+                <template v-slot:append>
+                  <q-icon name="access_time" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-time v-model="endTime" mask="YYYY-MM-DD HH:mm" format24h>
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                      </q-time>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+              <div class="col-12 text-red text-bold q-pt-xs">
+                {{ $t('project_date_hint') }}
+              </div>
+            </div>
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('project_poster_image') }}<span class="text-red"> *</span></span>
+            <span class="text-grey">
+              &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
+            </span>
+          </div>
+          <div style="max-width: 600px;">
+            <div class="row justify-center q-pb-md">
+              <div class="col-12">
+                <q-uploader
+                  field-name="file"
+                  ref="uploaderObj"
+                  url="/api/common/uploadImage"
+                  hide-upload-btn
+                  color="grey-3"
+                  text-color="black"
+                  :multiple="false"
+                  accept="image/*"
+                  :filter="filterFiles"
+                  max-files="1"
+                  :auto-upload="true"
+                  tabindex="9"
+                  @uploaded="fileUploadedPoster"
+                />
+              </div>
+            </div>
+            <div class="col-12 text-red text-bold">
+              {{ $t('square_image_only') }}
+            </div>
+          </div>
+          <br><br><br>
 
           <div class="row justify-center q-pt-lg">
             <div class="col-12">
@@ -485,7 +429,6 @@
               />
             </div>
           </div>
-          <br><br>
 
           <div class="row justify-center q-pt-lg">
             <div class="col-12">
@@ -584,7 +527,7 @@
             />
           </div> -->
           
-          <div style="display: flex; justify-content: space-between; padding-top: 100px;">
+          <div style="display: flex; justify-content: space-between; padding-top: 30px;">
             <q-btn
               :label="$t('go_back')"
               @click="goTabBack"
@@ -596,10 +539,6 @@
               style="background-color: #90B2D8; color: white "
             />
           </div>
-
-
-
-
 
         </div>
       </q-tab-panel>
