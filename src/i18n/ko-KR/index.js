@@ -1188,7 +1188,7 @@ export default {
   project_date_hint: '종료일 미지정 시 무기한 전시로 전환됩니다.',
   project_banner_hint: '크기 : 1920 * 360 (권장)',
   project_name_hint: 'Project Name. 예시 : KlaySwap Protocol',
-  project_symbol_hint: 'Project Symbol. 예시 : KSP',
+  project_symbol_hint: 'NFT 컬렉션 심볼. 예시 : BAYC',
   project_decimals_hint: 'Decimals. 소수점 자릿수',
   project_initial_supply_hint: 'Initial Supply. 프로젝트 초기 발행개수',
   wallet_address_hint: '프로젝트 생성 후 입금 받을 지갑 주소',

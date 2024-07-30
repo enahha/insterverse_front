@@ -203,16 +203,16 @@
           </div>
 
           <div class="q-pt-md">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_symbol') }}</span>
-            <q-icon name="help" size="xs">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_symbol') }}</span>&nbsp;
+            <span class="text-weight-bold text-subtitle1 text-red"> * </span>
+            <q-icon name="help" size="sm">
               <q-tooltip>
                 {{ $t('project_symbol_hint') }}
               </q-tooltip>
             </q-icon>
-            <span class="text-red"> *</span>
-          </div>
-          <div style="max-width: 600px;">
-            <q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+            <div style="max-width: 600px;">
+              <q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+            </div>
           </div>
 
           <div class="q-pt-md">
