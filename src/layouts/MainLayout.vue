@@ -1297,7 +1297,7 @@ export default defineComponent({
         localStorage.setItem('AUTH_KEY', '')
         localStorage.setItem('ADCD', '')
 
-        // this.$router.push('/')
+        this.$router.push('/')
       } else {
         this.$noti(this.$q, this.$t('logout_failed'))
       }
