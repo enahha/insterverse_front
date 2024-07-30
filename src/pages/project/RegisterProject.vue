@@ -799,9 +799,11 @@ export default defineComponent({
     if (this.$route.query.tab) {
       this.tab = this.$route.query.tab
     }
+
+    this.checkLogin()
     
     // 팀 지갑주소에 사용자 지갑주소 디폴트 설정
-    this.projectWalletAddress = this.getWalletAddress
+    // this.projectWalletAddress = this.getWalletAddress
 
     // 미디어 리스트 조회
     this.selectListMax()
@@ -815,6 +817,12 @@ export default defineComponent({
     this.nickname = this.getNickname
   },
   methods: {
+    checkLogin() {
+      // 로그인 되어있지 않으면 로그인페이지로 이동, 로그인 후 돌아올 path 설정
+      if(!this.getUid) {
+        this.$router.push({ path: '/login', query: { redirectPath: this.$route.path }})
+      }
+    },
     goTabNext() {
       this.register()   // 등록
       const currentTab = parseInt(this.tab)

@@ -1,16 +1,6 @@
 <template>
-  <!-- <q-dialog v-model="loginModal" style="min-width: 365px; min-height: 365px; max-width: 500px;"> -->
-  <!-- <q-dialog v-model="loginModal" persistent style="background-image: url(images/star1.jpg)" transition-hide="rotate"> -->
-  <q-dialog v-model="loginModal" persistent>
-    <q-card style="width: 100%;">
-      <q-toolbar>
-        <!-- <q-avatar>
-          <q-img src="images/logo-128x128.png" style="width: 24px;" />
-        </q-avatar> -->
-        <q-toolbar-title><span class="text-weight-bold text-center"></span></q-toolbar-title>
-        <q-btn flat round dense icon="close" v-close-popup icon-right="true" @click="close" />
-      </q-toolbar>
-
+  <q-page class="flex flex-center">
+    <div style="width: 100%; max-width: 600px;">
       <table border="0" width="75%" align="center">
         <!-- <tr>
           <td colspan="3">
@@ -478,12 +468,9 @@
         </tr>
       </table>
 
-    </q-card>
-  </q-dialog>
-  <TermsModal ref="refTermsModal" />
-  <PrivacyModal ref="refPrivacyModal" />
+    </div>
+  </q-page>
 </template>
-
 <style>
 .text-kakao {
   color: #ffffff;
@@ -502,8 +489,9 @@ export default {
   // name: 'mystore',
   data () {
     return {
+      redirectPath: '/',
       // loginModal: $store.state.loginModal,
-      loginModal: false,
+      // loginModal: false,
       loggingInFlag: false,
       loginCd: 1, // 1: 로그인
       loading: false,
@@ -528,11 +516,10 @@ export default {
       privacyAgreed: false,
     }
   },
-  // created: function () {
-  //   if (this.$store.state.device === 'P') {
-  //     this.layoutWidth = '280px'
-  //   }
-  // },
+  created: function () {
+    // 로그인 후 이동할 path 설정
+    this.redirectPath = this.$route.query.redirectPath
+  },
   watch: {
     agreeAll(newVal) {
       this.termsAgreed = newVal
@@ -555,10 +542,10 @@ export default {
 
   },
   methods: {
-    async show () {
-      this.loading = false
-      this.loginModal = true
-    },
+    // async show () {
+    //   this.loading = false
+    //   this.loginModal = true
+    // },
     async goCheckEmailCode() {
       // 1. 필드 체크
       if(!this.checkField()) {
@@ -1167,8 +1154,12 @@ export default {
             // 부모창의 콜백함수 호출
             this.$emit('callback-login', result.data)
             
-            // 팝업 닫기
-            this.close()
+            // // 팝업 닫기
+            // this.close()
+
+            // 홈으로 이동
+            this.$router.replace(this.redirectPath)
+
           } else if (result.data.resultCd === 'NO_ID') {
             this.$noti(this.$q, this.$t('not_exist_id'))
           } else if (result.data.resultCd === 'WRONG_PWD') {
@@ -1213,11 +1204,11 @@ export default {
     showPrivacy() {
       this.$refs.refPrivacyModal.show()
     },
-    close () {
-      this.loginModal = false
-      this.clearField()
-      this.loginCd = 1 // 로그인 코드 초기화
-    }
+    // close () {
+    //   this.loginModal = false
+    //   this.clearField()
+    //   this.loginCd = 1 // 로그인 코드 초기화
+    // }
   }
 }
 </script>
