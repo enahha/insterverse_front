@@ -991,7 +991,7 @@ export default defineComponent({
     // }
 
     // // 계정 정보 조회
-    // this.selectUser()
+    this.selectUser(uid)
 
     // 화면 크기에 따른 좌측 메뉴 스크롤 DIV 의 Height 설정
     this.onResize()
@@ -1161,9 +1161,14 @@ export default defineComponent({
         })
     },
     // 계정 조회
-    selectUser() {
+    selectUser(userId) {
+
+      if (!userId) {
+        return
+      }
+
       const param = {
-        uid: this.getUid,
+        uid: userId,
       }
 
       // 계정 조회
@@ -1292,7 +1297,7 @@ export default defineComponent({
         localStorage.setItem('AUTH_KEY', '')
         localStorage.setItem('ADCD', '')
 
-        // this.$router.push('/')
+        this.$router.push('/')
       } else {
         this.$noti(this.$q, this.$t('logout_failed'))
       }
@@ -1309,7 +1314,7 @@ export default defineComponent({
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
 
       // 계정 정보 조회
-      // this.selectUser()
+      // this.selectUser(userVo.uid)
     },
     callbackWallet(walletVo) {
       // console.log('callbackWallet in MainLayout')

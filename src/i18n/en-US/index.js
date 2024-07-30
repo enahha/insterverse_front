@@ -1147,7 +1147,7 @@ export default {
 
   // project register
   project_type: 'Project Type',
-  project_name: 'Name of the exhibition',
+  project_name: 'Exhibition Name',
   project_symbol: 'NFT Symbol',
   project_decimals: 'Decimals',
   project_initial_supply: 'Initial Supply',
@@ -1188,7 +1188,7 @@ export default {
   project_date_hint: 'If the end date is not specified, it will be on display indefinitely',
   project_banner_hint: 'Size : 1920 * 360 (recommended)',
   project_name_hint: 'e.g. : KlaySwap Protocol',
-  project_symbol_hint: 'e.g. : KSP',
+  project_symbol_hint: 'NFT Collection Symbol. e.g. : BAYC',
   project_decimals_hint: 'Decimal digit',
   project_initial_supply_hint: 'The initial supply number of projects',
   wallet_address_hint: 'Wallet address for deposit',

@@ -1,7 +1,13 @@
 
 const routes = [
   // Index.vue created 에서 APP 이면 /app 으로, WEB 이면 /web 으로 이동
-
+  {
+    path: '/login',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/login/Login.vue') },
+    ]
+  },
   {
     path: '/payment',
     component: () => import('layouts/MainLayout.vue'),
