@@ -19,7 +19,7 @@
 
         <div class="row justify-center">
             <div class="col-12">
-                <span class="text-weight-bold text-subtitle1">{{ $t('market') }}<span class="text-red"> *</span></span>
+                <span class="text-weight-bold text-subtitle1">{{ $t('market') }}</span>
             </div>
             </div>
             <div class="row justify-center q-pb-md">
@@ -47,7 +47,7 @@
 
         <div class="row justify-center">
             <div class="col-12">
-                <span class="text-weight-bold text-subtitle1">{{ $t('payment_currency') }}<span class="text-red"> *</span></span>
+                <span class="text-weight-bold text-subtitle1">{{ $t('payment_currency') }}</span>
             </div>
             </div>
             <div class="row justify-center q-pb-md">
@@ -141,7 +141,7 @@
 
         <!-- 사용자 리스트 -->
         <q-pull-to-refresh @refresh="refresher">
-        <q-infinite-scroll @load="loadMore" :offset="500" ref="infiniteScroll">
+        <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
 
             <div v-for="item in mediaSaleList" :key="item.seq" style="cursor: pointer;z-index: 1; padding: 10px;">
             <q-separator />
@@ -155,6 +155,7 @@
 
                 <q-item-section>
                 <div class="row">
+                    <q-item-label class="col-12"><div class="end"><q-icon name="delete_forever" size="sm" @click="deleteMediaSale(item.seq)"/></div></q-item-label>
                     <q-item-label class="col-12"><span class=" text-weight-bold">market : </span>{{ item.market_name }}</q-item-label>
                     <q-item-label class="col-12"><span class=" text-weight-bold">Colletion address : </span>{{ item.colletion_address }}</q-item-label>
                     <q-item-label class="col-12"><span class=" text-weight-bold">NFT ID : </span>{{ item.nft_id }}</q-item-label>
@@ -172,9 +173,7 @@
             <!-- <div v-if="isAdmin" class="text-right">
                 <q-btn @click="goSetDescription(item.seq)" size="sm" label="Modify" />
             </div> -->
-            <div style="display: flex; justify-content: flex-end;">
-                <q-icon name="delete_forever" size="sm" @click="deleteMediaSale(item.seq)"/>
-            </div>
+            <div class="end">{{ item.reg_time }}</div>
             </div>
             <q-separator />
 
@@ -200,36 +199,6 @@
 </q-page>
 <LoginModal ref="refLoginModal" @callback-login="callbackLogin" />
 <NoticeDetailModal ref="refNoticeDetailModal" @callback-detail="callbackDetail" />
-
-<q-dialog v-model="confirmAdd">
-    <q-card>
-    <q-card-section class="row items-center" style="min-width: 200px;">
-        <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
-        <q-icon name="warning" color="primary" size="md" />
-        <span class="q-ml-sm">Really Add?</span>
-    </q-card-section>
-    <q-separator />
-    <q-card-actions align="around">
-        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
-        <q-btn flat style="width: 45%;" :label="$t('YES')" color="black" v-close-popup @click="doAddTotalSupply" />
-    </q-card-actions>
-    </q-card>
-</q-dialog>
-
-<q-dialog v-model="confirmBurn">
-    <q-card>
-    <q-card-section class="row items-center" style="min-width: 200px;">
-        <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
-        <q-icon name="warning" color="primary" size="md" />
-        <span class="q-ml-sm">Really Burn?</span>
-    </q-card-section>
-    <q-separator />
-    <q-card-actions align="around">
-        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
-        <q-btn flat style="width: 45%;" :label="$t('YES')" color="black" v-close-popup @click="doBurnToken" />
-    </q-card-actions>
-    </q-card>
-</q-dialog>
 
 <q-dialog v-model="confirmDelete">
     <q-card>
