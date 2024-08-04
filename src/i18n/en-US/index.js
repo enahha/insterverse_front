@@ -1223,8 +1223,7 @@ export default {
   project_guide_2_2: 'Decials 1, Initial Supply 100 - 10 in your wallet',
   project_guide_2_2: 'Decials 2, Initial Supply 100 - 1 in your wallet',
 
-  add_art_work: 'Add work',
-
+  
   // artist description
   artist_basic_information: 'Artist Basic Information',
   artist_details: 'Artist Details',
@@ -1233,10 +1232,11 @@ export default {
   artist_representative_sns: 'Representative SNS Id',
   artist_sns_id: 'SNS Id',
   artist_link: 'Link',
-
+  
   // add artwork
+  add_artwork: 'Add Artwork',
   media: 'Artwork',
-  media_order_number: 'Oder number',
+  media_order_number: 'Order No.',
   media_title: 'Title',
   media_subtitle: 'Subtitle',
   media_price: 'Price',
@@ -1244,7 +1244,7 @@ export default {
   media_sale: 'Sale',
   media_created: 'Created',
   media_size: 'Size',
-  media_image: 'Image',
+  media_image: 'Artwork',
   media_preview_image: 'Preview image',
   media_materials: 'Materials',
   media_description: 'Description',

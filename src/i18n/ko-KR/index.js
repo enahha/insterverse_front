@@ -1228,7 +1228,7 @@ export default {
   project_guide_2_2: '소수점 자릿수 1, 초기 발행개수 100 - 지갑에 10개로 표시',
   project_guide_2_2: '소수점 자릿수 2, 초기 발행개수 100 - 지갑에 1개로 표시',
 
-  add_art_work: '작품 추가',
+  add_artwork: '작품 추가',
 
   // artist description
   artist_basic_information: '작가 기본 정보',
@@ -1249,7 +1249,7 @@ export default {
   media_created: '제작연도',
   media_size: '작품크기',
   media_materials: '사용재료',
-  media_image: '작품 이미지',
+  media_image: '작품 업로드',
   media_preview_image: '작품 이미지 미리보기',
   media_description: '작품 설명글',
   media_order_number_hibt: '(순서 편집 가능)',
