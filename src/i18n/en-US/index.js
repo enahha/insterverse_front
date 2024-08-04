@@ -1245,7 +1245,7 @@ export default {
   media_created: 'Created',
   media_size: 'Size',
   media_image: 'Artwork',
-  media_preview_image: 'Preview image',
+  media_preview: 'Preview',
   media_materials: 'Materials',
   media_description: 'Description',
 

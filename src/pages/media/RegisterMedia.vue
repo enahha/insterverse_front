@@ -14,18 +14,29 @@
         
         <!-- 반응형 div 1-->
         <div class="responsive-container q-mr-md q-pb-lg">
-          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
               <td>
                 <!-- 작품 미리보기 -->
-                <span class="text-weight-bold text-subtitle1">※ {{ $t('media_preview_image') }}</span>
+                <span class="text-weight-bold text-subtitle1">※ {{ $t('media_preview') }}</span>
               </td>
             </tr>
             <tr>
-              <td>
+              <td v-if="smallSize" align="center" style="height: 300px; background-color: #f3f3f3;">
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
-                  <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px; background-color: #f3f3f3;">
+                  <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
+                    <img :src="mediaUrl" style="width: 100%;">
+                  </div>
+                  <div v-else class="col-12" style="width: 100%; min-width: 300px;">
+                    <span>{{ $t('no_image') }}</span>
+                  </div>
+                </div>
+              </td>
+              <td v-else align="center" style="height: 40vh; background-color: #f3f3f3;">
+                <!-- 작품 미리보기 -->
+                <div class="row justify-center">
+                  <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
                     <img :src="mediaUrl" style="width: 100%;">
                   </div>
                   <div v-else class="col-12" style="width: 100%; min-width: 300px;">
@@ -261,7 +272,6 @@ export default defineComponent({
     return {
       smallSize: false,
       projectSeq: '', // route parameter seq
-      /////
       mediaOrderNumber: '1',
       mediaTitle: 'room',
       mediaSubtitle: 'black and white',
@@ -272,7 +282,8 @@ export default defineComponent({
       mediaDescription: 'happy room',
       forSale: true,
       mediaUrl: '',
-      // mediaUrl: 'https://beastar.io/logo/logo_star.png',
+      // mediaUrl: 'https://beastar.io/images/platform.png',
+      // mediaUrl: 'https://beastar.io/images/og_image.png',
       mediaType: 'image',
       truncateTitle: 10,
       truncateDescription: 200,

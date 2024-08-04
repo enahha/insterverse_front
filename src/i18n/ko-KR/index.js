@@ -1250,7 +1250,7 @@ export default {
   media_size: '작품크기',
   media_materials: '사용재료',
   media_image: '작품 업로드',
-  media_preview_image: '작품 이미지 미리보기',
+  media_preview: '작품 미리보기',
   media_description: '작품 설명글',
   media_order_number_hibt: '(순서 편집 가능)',
 
