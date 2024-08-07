@@ -42,7 +42,7 @@
         <q-input v-model="nftId" label="■ NFT ID" standout clearable />
         <br />
 
-        <q-input v-model="colletionAddress" label="■ Collection address" standout clearable />
+        <q-input v-model="contractAddress" label="■ Contract address" standout clearable />
         <br />
 
         <div class="row justify-center">
@@ -157,7 +157,7 @@
                 <div class="row">
                     <q-item-label class="col-12"><div class="end"><q-icon name="delete_forever" size="sm" @click="deleteMediaSale(item.seq)"/></div></q-item-label>
                     <q-item-label class="col-12"><span class=" text-weight-bold">market : </span>{{ item.market_name }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">Colletion address : </span>{{ item.colletion_address }}</q-item-label>
+                    <q-item-label class="col-12"><span class=" text-weight-bold">Colletion address : </span>{{ item.contract_address }}</q-item-label>
                     <q-item-label class="col-12"><span class=" text-weight-bold">NFT ID : </span>{{ item.nft_id }}</q-item-label>
                     <q-item-label class="col-12"><span class=" text-weight-bold">Currency : </span>{{ item.payment_currency }}</q-item-label>
                     <q-item-label class="col-12"><span class=" text-weight-bold">Sale price : </span>{{ item.sale_price }}</q-item-label>
@@ -198,7 +198,6 @@
 
 </q-page>
 <LoginModal ref="refLoginModal" @callback-login="callbackLogin" />
-<NoticeDetailModal ref="refNoticeDetailModal" @callback-detail="callbackDetail" />
 
 <q-dialog v-model="confirmDelete">
     <q-card>
@@ -238,7 +237,7 @@ data () {
 
         salePrice: '',
         nftId: '',
-        colletionAddress: '',
+        contractAddress: '',
         settleIn: '',
         settleInDate: '',
         settleOut: '',
@@ -511,7 +510,7 @@ methods: {
         market_name: this.marketType.name,
         sale_price: this.salePrice,
         payment_currency: this.currencyType.value,
-        colletion_address: this.colletionAddress,
+        contract_address: this.contractAddress,
         nft_id: this.nftId,
         settle_in: this.settleIn,
         settle_in_date: this.settleInDate,
@@ -525,12 +524,12 @@ methods: {
           if (result.data && result.data.resultCd === 'SUCCESS') {
             // console.log(result.data)
             this.$noti(this.$q, this.$t('register_notice_success'))
+            
+            // 리스트 재조회
+            this.selectListMax()
           } else {
             this.$noti(this.$q, this.$t('register_notice_failed'))
           }
-
-          // 2. 페이지 이동
-          this.$router.push('/admin/adminMediaSale')
         })
         .catch((err) => {
           this.$q.loading.hide() // 로딩 표시 종료
@@ -556,6 +555,9 @@ methods: {
         //   this.$q.loading.hide() // 로딩 표시 종료
           if (result.data && result.data.resultCd === 'SUCCESS') {
             this.$noti(this.$q, this.$t('delete_success'))
+            
+            // 리스트 재조회
+            this.selectListMax()
           } else {
             this.$noti(this.$q, this.$t('delete_failed'))
             this.$noti(this.$q, result.data.resultMsg)

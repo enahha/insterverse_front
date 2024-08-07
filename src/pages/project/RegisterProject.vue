@@ -1204,22 +1204,21 @@ export default defineComponent({
           // console.log(JSON.stringify(result.data))
           this.$q.loading.hide() // 로딩 표시 종료
           if (result.data && result.data.resultCd === 'SUCCESS') {
-            // console.log(result.data)
-            this.$noti(this.$q, this.$t('modify_success'))
+
+            this.$axios.get('/api/project/mintKlaytnNft', {params: {seq: this.projectSeq}})
 
             // // 페이지 이동
-            // this.$router.go(-1)
-            // if (this.$route.query.fromAdmin === 'Y') {
-            //   // 나의 프로젝트 리스트 화면 - admin
-            //   this.$router.push('/admin/adminMyList')
-            // } else {
-            //   // 나의 프로젝트 리스트 화면
-            //   this.$router.push('/project/myList')
-            // }
+            if (this.$route.query.fromAdmin === 'Y') {
+              // 나의 프로젝트 리스트 화면 - admin
+              this.$router.push('/admin/adminMyList')
+            } else {
+              // 나의 프로젝트 리스트 화면
+              this.$router.push('/project/myList')
+            }
             // <!-- 관리자 수정용 -->
             // this.$router.push('/project/newList')
           } else {
-            this.$noti(this.$q, this.$t('modify_failed'))
+            this.$noti(this.$q, this.$t('register_project_failed'))
           }
         })
         .catch((err) => {
@@ -1227,6 +1226,8 @@ export default defineComponent({
           console.log(err)
           this.$noti(this.$q, err)
         })
+    },
+    async createcolletion() {
 
     },
     // 파일 업로드 필터

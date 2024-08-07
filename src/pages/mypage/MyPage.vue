@@ -191,29 +191,46 @@
           <div class="sales-detail q-pt-lg">
             <div class="title">{{ $t('menu_mypage_sales_detail') }}</div>
             <div class="underline"></div>
+          </div>  
 
-            <div class="sale-info">
-            <div v-for="item in mediaList" :key="item.seq">
-              <q-item clickable @click="goDetail(item.seq)">
-                <q-item-section avatar>
-                  <q-avatar square>
-                    <img v-if="item.url" :src="item.url">
-                    <q-icon v-else name="rocket_launch" size="md" />
-                  </q-avatar>
-                </q-item-section>
+          <!-- 나의 작품 판매 리스트 -->
+          <q-pull-to-refresh @refresh="refresherMyMediaSale" class="project-list">
+            <q-infinite-scroll @load="loadMoreMyMediaSale" :offset="0" ref="infiniteScroll">
 
-                <q-item-section>
-                  <div class="row list-item">
-                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title }}</q-item-label>
-                    <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
-                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.price }}</q-item-label>
-                    <q-item-label v-else class="col-12">{{ item.price }}</q-item-label>
-                  </div>
-                </q-item-section>
-              </q-item>
-            </div>
-            </div>
-          </div>     
+              <div v-for="item in myMediaSaleList" :key="item.seq">
+                <q-item clickable @click="goMediaDetail(item.seq)">
+                  <q-item-section avatar>
+                    <q-avatar square>
+                      <img v-if="item.my_media_url" :src="item.my_media_url">
+                      <q-icon v-else name="rocket_launch" size="md" />
+                    </q-avatar>
+                  </q-item-section>
+
+                  <q-item-section>
+                    <div class="row list-item">
+                      <q-item-label class="col-12">{{ item.my_media_title }}</q-item-label>
+                      <q-item-label class="col-12">{{ truncateText(item.my_media_subtitle,truncateSubtitle) }}</q-item-label>
+                    </div>
+                  </q-item-section>
+                </q-item>
+
+                <!-- 관리자 수정용 -->
+                <!-- <div v-if="isAdmin" class="text-right">
+                  <q-btn @click="goSetDescription(item.seq)" size="sm" label="Modify" />
+                </div> -->
+              </div>
+              <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                  <q-spinner-dots color="primary" size="40px" />
+                </div>
+              </template>
+            </q-infinite-scroll>
+          </q-pull-to-refresh>
+
+          <div v-if="noDataFlag" class="row justify-center">
+            <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+          </div>
+
         </div>
       </q-tab-panel>
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
@@ -400,7 +417,7 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '2',   // 나의 전시탭이 먼저 안나오면 에러남,,, 왜인지 모르겠음,,,
+      tab: '3',
       nickname: '',
       pwd: '',
       pwdCheck: '',
@@ -414,12 +431,18 @@ export default defineComponent({
       pageSize: 100,
       lastPageNum: 1, // 마지막 페이지
       projectList: [],
-      myCommentList: [],
       myReply: '', // 입력 답글
       myReplyLength: 0,
       noDataFlag: false,
       refresherDone: '',
+      myCommentList: [],
+      lastPageNumMyComment: 1, // 마지막 페이지
       refresherMyCommentDone: '',
+      noDataFlagMyComment: false,
+      myMediaSaleList: [],
+      lastPageNumMyMediaSale: 1, // 마지막 페이지
+      refresherMyMediaSaleDone: '',
+      noDataFlagMyMediaSale: false,
       confirmDeleteCommentModal: false, // 나의 댓글 삭제 모달
       deleteTargetSeq: '', // 삭제 대상 댓글 seq
       confirmModifyCommentModal: false, // 나의 댓글 수정 모달
@@ -451,14 +474,6 @@ export default defineComponent({
           value: 'phantom',
         },
       ],
-
-
-      mediaList: [
-        { seq: 1, url: 'https://picsum.photos/300', title: '무제', price: 1000, description: '2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재 2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재2021년 아르코미술관 기획초대전은 작가 정재' },
-        { seq: 2, url: 'https://picsum.photos/500', title: '숲에서 이리저리 돌아다니다 그린 그림', price: 0, description: '2021년 아르코미술관 기획초대전은 작가 정재...' },
-        { seq: 3, url: 'https://picsum.photos/1000', title: '해변', price: 12000, description: '2021년 아르코미술관 기획초대전은 작가 정재...' }
-      ]
-
     }
   },
   components: {
@@ -468,6 +483,8 @@ export default defineComponent({
       // console.log('newValue: : ' + newValue)
       // this.loadMore(1, null)
       this.refresher(null)
+      this.refresherMyComment(null)
+      this.refresherMyMediaSale(null)
       // if (!newValue) {
       //   this.$router.push('/')
       // } else {
@@ -514,6 +531,7 @@ export default defineComponent({
 
     this.selectListMax()
     this.selectMyCommentListMax()
+    this.selectMyMediaSalListMax()
   },
   mounted: function () {
     this.refresher(null)
@@ -593,6 +611,10 @@ export default defineComponent({
       this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
       // this.$refs.refTokenDetailModal.tokenSeq = seq
       // this.$refs.refTokenDetailModal.show()
+    },
+    goMediaDetail(seq) {
+      this.$refs.refMediaDetailModal.myMediaVo.seq = seq
+      this.$refs.refMediaDetailModal.show()
     },
     refresher (done) {
       // done - Function to call when you made all necessary updates.
@@ -707,15 +729,15 @@ export default defineComponent({
       setTimeout(() => {
         // alert(index)
         // console.log('loadMore called index: ' + index)
-        if (index <= this.lastPageNum) {
+        if (index <= this.lastPageNumMyComment) {
           this.selectMyCommentList(index, done)
-          if (index === this.lastPageNum) {
+          if (index === this.lastPageNumMyComment) {
             this.$refs.infiniteScroll.stop()
           }
 
           // refresher 로딩메세지 처리
           if (this.refresherMyCommentDone != null && this.refresherMyCommentDone !== '') {
-            this.refresherMyCommentDone() // 로딩메세지 종료
+            this.refresherMyComment() // 로딩메세지 종료
             this.refresherMyCommentDone = '' // 로딩메세지 초기화
           }
         }
@@ -727,7 +749,7 @@ export default defineComponent({
         {params: {uid: this.getUid, pageSize: this.pageSize}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
-          this.lastPageNum = result.data
+          this.lastPageNumMyComment = result.data
         })
         .catch((err) => {
           console.log(err)
@@ -746,9 +768,88 @@ export default defineComponent({
 
           // 데이터 없음 표시 설정
           if (!this.myCommentList || this.myCommentList.length < 1) {
-            this.noDataFlag = true
+            this.noDataFlagMyComment = true
           } else {
-            this.noDataFlag = false
+            this.noDataFlagMyComment = false
+          }
+          if (done) {
+            done()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if (done) {
+            done()
+          }
+        })
+    },
+    refresherMyMediaSale (done) {
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise the refresh message
+      //        will continue to be displayed
+      // make some Ajax call then call done()
+      this.myMediaSaleList = []
+      this.refresherMyMediaSaleDone = done // load가 끝나면 로딩메세지 종료
+      this.$refs.infiniteScroll.reset() // index 초기화
+      this.$refs.infiniteScroll.resume() // stop에서 다시 재생
+      // this.$refs.infiniteScroll.load() // loadMore로 검색
+      this.loadMoreMyMediaSale(1, done)
+    },
+    loadMoreMyMediaSale (index, done) {
+      // index - called for nth time
+      // done - Function to call when you made all necessary updates.
+      //        DO NOT forget to call it otherwise your loading message
+      //        will continue to be displayed. Has optional boolean
+      //        parameter that invokes stop() when true
+      // console.log('index: ' + index)
+      // make some Ajax call then call done()
+      // this.pageNum = index
+      setTimeout(() => {
+        // alert(index)
+        // console.log('loadMore called index: ' + index)
+        if (index <= this.lastPageNumMyMediaSale) {
+          this.selectMyMediaSaleList(index, done)
+          if (index === this.lastPageNumMyMediaSale) {
+            this.$refs.infiniteScroll.stop()
+          }
+
+          // refresher 로딩메세지 처리
+          if (this.refresherDoneMyMediaSale != null && this.refresherDoneMyMediaSale !== '') {
+            this.refresherMyMediaSale() // 로딩메세지 종료
+            this.refresherDoneMyMediaSale = '' // 로딩메세지 초기화
+          }
+        }
+      }, 500)
+    },
+    // 신규 토큰 리스트 마지막 페이지 조회
+    selectMyMediaSalListMax() {
+      this.$axios.get('/api/mediaSale/selectMyMediaSaleListLastPageNum',
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: ''}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.lastPageNum = result.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    // 신규 토큰 리스트 조회
+    selectMyMediaSaleList(idx, done) {
+      this.$axios.get('/api/mediaSale/selectMyMediaSaleList',
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: ''}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          // console.log(result.data)
+          if (idx === 1) { // 첫번째 load인 경우
+            this.myMediaSaleList = [] // 리스트 초기화
+          }
+          this.myMediaSaleList = this.myMediaSaleList.concat(result.data)
+
+          // 데이터 없음 표시 설정
+          if (!this.myMediaSaleList || this.myMediaSaleList.length < 1) {
+            this.noDataFlagMyMediaSale = true
+          } else {
+            this.noDataFlagMyMediaSale = false
           }
           if (done) {
             done()

@@ -1102,83 +1102,6 @@ textarea {
                 font-size: 30px;
             }
         }
-        .sale-info {
-            display: -ms-inline-flexbox;
-            display: -webkit-inline-flex;
-            display: inline-flex;
-            -webkit-flex-wrap: wrap;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-            -webkit-align-items: flex-start;
-            -ms-flex-align: start;
-            align-items: flex-start;
-            width: 100%;
-            > div {
-                width: calc((100% - 90px) / 3);
-                // margin: 15px 15px;
-                margin: 15px 0 0 15px;
-                border-radius: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                background: rgba(255, 255, 255, 0.05);
-                // padding: 25px 25px;
-                overflow: hidden;
-                transition: transform .3s ease,border-color .3s ease,box-shadow .3s ease;
-                // min-height: 195px;
-                min-height: 175px;
-                height: 100%;
-            }
-            .q-item {
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-justify-content: center;
-                -ms-flex-pack: center;
-                justify-content: center;
-                // -webkit-align-items: center;
-                // -ms-flex-align: center;
-                // align-items: center;
-                -webkit-flex-direction: column;
-                -ms-flex-direction: column;
-                flex-direction: column;
-                // padding: 0 0;
-                padding: 25px 15px;
-                width: 100%;
-                overflow: hidden;
-            }
-            + .q-item {
-            }
-            .q-item__section--side {
-                padding-right: 0;
-                margin: 0 auto 15px;
-                > .q-avatar {
-                    font-size: 250px;
-                }
-            }
-            .q-item__section--avatar {
-                min-width: 50px;
-            }
-            .q-avatar {
-                // border-radius: 5%;
-            }
-            .q-item__label {
-                width: 100%;
-                font-size: 15px;
-                margin-bottom: 20px;
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-justify-content: center;
-                -ms-flex-pack: center;
-                justify-content: center;
-                + .q-item__label {
-                    font-size: 13px;
-                    opacity: 0.9;
-                    margin-top: 5px;
-                    font-weight: 300;
-                    margin-bottom: 0;
-                }
-            }
-        }
     }
 
 }
@@ -1591,7 +1514,7 @@ textarea {
         width: 500px;
     }
   
-    .dimensions {
+    .size {
         font-size: 1rem;
         color: grey;
     }
