@@ -688,6 +688,7 @@ export default {
 
   image_reset: 'Reset',
   no_image: 'No Image',
+  no_artwork: 'No Artwork',
 
   // join
   send_email_code: 'Send Code',
@@ -1236,6 +1237,7 @@ export default {
   // add artwork
   add_artwork: 'Add Artwork',
   media: 'Artwork',
+  media_url: 'Media URL',
   media_order_number: 'Order No.',
   media_title: 'Title',
   media_subtitle: 'Subtitle',

@@ -194,9 +194,6 @@ export default defineComponent({
               || file_extension === 'webm'
               || file_extension === 'ogv'
               || file_extension === 'asx'
-              || file_extension === 'mp4'
-              || file_extension === 'mp4'
-              || file_extension === 'mp4'
             ) {
               this.mintingImageList[i].isVideoNft = true
             } else {

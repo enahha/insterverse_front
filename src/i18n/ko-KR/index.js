@@ -688,6 +688,7 @@ export default {
 
   image_reset: '리셋',
   no_image: '이미지 없음',
+  no_artwork: '작품 없음',
 
   // join
   send_email_code: '확인코드 전송',
@@ -1241,6 +1242,7 @@ export default {
 
   // add artwork
   media: '작품',
+  media_url: '작품 URL',
   media_order_number: '작품번호',
   media_title: '작품명',
   media_subtitle: '부제 및 설명글',

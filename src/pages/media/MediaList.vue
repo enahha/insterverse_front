@@ -22,17 +22,17 @@
       </div>
 
       <q-pull-to-refresh @refresh="refresher">
-        <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll" style="background-color: #FEFEFE;">
+        <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll" style="background-color: #FEFEFE;">
           
           <div class="media-table-wrapper text-center q-pt-lg">
             <div class="table-scroll-wrapper">
               <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
                 <thead>
                   <tr>
-                    <th></th>
+                    <th>{{ $t('media_order_number') }}</th>
                     <th>{{ $t('media') }}</th>
                     <th>{{ $t('media_title') }}</th>
-                    <th>{{ $t('media_price') }}</th>
+                    <th>{{ $t('media_price') }} (USD)</th>
                     <th>{{ $t('media_description') }}</th>
                     <th></th>
                   </tr>
@@ -40,15 +40,18 @@
                 <tbody>
                   <tr v-for="(item, index) in mediaList" :key="index">
                     <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                    <td>{{ item.seq }}</td>
-                    <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
-                    <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
-
-                    <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
-                    <td style="width: 150px;" v-else><span>-</span></td>
-
-                    <td>{{ truncateText(item.description, truncateDescription) }}</td>
-                    <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
+                    <td @click="showDetail(item)" style="width: 70px; cursor: pointer;">{{ item.order_no }}</td>
+                    <td @click="showDetail(item)" style="width: 140px; cursor: pointer;" v-if="item.type == 'video'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
+                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
+                    <td @click="showDetail(item)" style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
+                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-if="item.price != 0">{{ Number(item.price).toLocaleString() }}</td>
+                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><span>-</span></td>
+                    <td @click="showDetail(item)" style="width: 300px; cursor: pointer;">{{ truncateText(item.description, 20) }}</td>
+                    <td style="width: 100px;">
+                      <q-icon name="edit" size="md" />
+                      &nbsp;&nbsp;&nbsp;
+                      <q-icon name="delete_forever" size="md" />
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -87,6 +90,8 @@
     </q-card>
   </q-dialog>
 
+  <MediaDetailModal ref="refMediaDetailModal" />
+
 </template>
 
 <script>
@@ -109,7 +114,7 @@ export default defineComponent({
       refresherDone: '',
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
-      noDataFlag: true, // 나의 작품 데이터 없음 플래그
+      noDataFlag: false, // 나의 작품 데이터 없음 플래그
       mediaList: []
     }
   },
@@ -144,6 +149,21 @@ export default defineComponent({
   mounted: function () {
   },
   methods: {
+    showDetail(item) {
+      console.log(item)
+      this.$refs.refMediaDetailModal.myMediaVo = item
+      this.$refs.refMediaDetailModal.show()
+    },
+    truncateText(text, maxLength) {
+      if (!text) {
+        return ''
+      }
+
+      if (text.length <= maxLength) {
+        return text
+      }
+      return text.substring(0, maxLength) + '...'
+    },
     checkLogin() {
       // 로그인 되어있지 않으면 로그인페이지로 이동, 로그인 후 돌아올 path 설정
       if(!this.getUid) {
@@ -215,8 +235,8 @@ export default defineComponent({
       if (!this.keyword) {
         this.keyword = ''
       }
-      this.$axios.get('/api/media/selectMyMediaListLastPageNum',
-        {params: {uid: this.getUid, exhibition_seq: this.projectSeq, pageSize: this.pageSize, keyword: this.keyword}})
+      this.$axios.get('/api/mymedia/selectMyMediaListLastPageNum',
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -230,8 +250,8 @@ export default defineComponent({
       if (!this.keyword) {
         this.keyword = ''
       }
-      this.$axios.get('/api/media/selectMyMediaList',
-        {params: {uid: this.getUid, exhibition_seq: this.projectSeq, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+      this.$axios.get('/api/mymedia/selectMyMediaList',
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)

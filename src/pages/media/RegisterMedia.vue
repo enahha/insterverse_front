@@ -26,10 +26,11 @@
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
                   <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
-                    <img :src="mediaUrl" style="width: 100%;">
+                    <video v-if="mediaType == 'video'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
+                    <img v-else :src="mediaUrl" style="width: 100%;">
                   </div>
                   <div v-else class="col-12" style="width: 100%; min-width: 300px;">
-                    <span>{{ $t('no_image') }}</span>
+                    <span>{{ $t('no_artwork') }}</span>
                   </div>
                 </div>
               </td>
@@ -37,10 +38,11 @@
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
                   <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
-                    <img :src="mediaUrl" style="width: 100%;">
+                    <video v-if="mediaType == 'video'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
+                    <img v-else :src="mediaUrl" style="width: 100%;">
                   </div>
                   <div v-else class="col-12" style="width: 100%; min-width: 300px;">
-                    <span>{{ $t('no_image') }}</span>
+                    <span>{{ $t('no_artwork') }}</span>
                   </div>
                 </div>
               </td>
@@ -54,9 +56,24 @@
           <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
               <td>
+                <!-- 작품 URL -->
+                <div class="row">
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_url') }}</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="">
+                  <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 500)]" clearable outlined tabindex="1" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <!-- 작품 업로드 -->
                 <div class="row">
-                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_image') }}<span class="text-red"> *</span></span>
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_image') }}</span>
                   <span class="text-grey">
                     &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
                   </span>
@@ -74,7 +91,7 @@
                     color="grey-3"
                     text-color="black"
                     :multiple="false"
-                    accept="image/*"
+                    accept="image/*,video/*"
                     :filter="filterFiles"
                     max-files="1"
                     :auto-upload="true"
@@ -87,22 +104,22 @@
             </tr>
             <tr>
               <td>
-                <div class="q-pt-lg">
-                  <q-input v-model="mediaOrderNumber" :label="$t('media_order_number')" ref="mediaOrderNumber" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                <div class="q-pt-xl">
+                  <q-input v-model="mediaOrderNumber" :label="$t('media_order_number')" ref="refMediaOrderNumber" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
             <tr>
               <td>
                 <div class="q-pt-lg">
-                  <q-input v-model="mediaTitle" :label="$t('media_title')" ref="mediaTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaTitle" :label="$t('media_title')" ref="refMediaTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
             <tr>
               <td>
                 <div class="q-pt-lg">
-                  <q-input v-model="mediaSubtitle" :label="$t('media_subtitle')" ref="mediaSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaSubtitle" :label="$t('media_subtitle')" ref="refMediaSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -111,21 +128,21 @@
                 <div class="q-pt-lg row">
                   <q-checkbox
                     left-label
-                    v-model="forSale"
+                    v-model="mediaForSale"
                     :label = "$t('media_sale')"
                     checked-icon="task_alt"
                     unchecked-icon="highlight_off"
                   />
-                  <q-input v-model="mediaPrice" :disabled="!forSale" :label="$t('media_price')" ref="mediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
+                  <q-input v-model="mediaPrice" :disabled="!mediaForSale" :label="$t('media_price')" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
                 </div>
               </td>
             </tr>
             <tr>
               <td>
                 <div class="q-pt-lg row">
-                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaCreated" :label="$t('media_created')" ref="mediaCreated" clearable outlined tabindex="1" />
-                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaSize" :label="$t('media_size')" ref="mediaSize" clearable outlined tabindex="1" />
-                  <q-input class="q-mb-xs" style="width: 200px;" v-model="mediaMaterials" :label="$t('media_materials')" ref="mediaMaterials" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaCreatedAt" :label="$t('media_created')" ref="refMediaCreated" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaSize" :label="$t('media_size')" ref="refMediaSize" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs" style="width: 200px;" v-model="mediaMaterials" :label="$t('media_materials')" ref="refMediaMaterials" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -159,16 +176,7 @@
                 label: $q.lang.editor.formatting,
                 icon: $q.iconSet.editor.formatting,
                 list: 'no-icons',
-                options: [
-                  'p',
-                  'h1',
-                  'h2',
-                  'h3',
-                  'h4',
-                  'h5',
-                  'h6',
-                  'code'
-                ]
+                options: ['p','h1','h2','h3','h4','h5','h6','code']
               },
               {
                 label: $q.lang.editor.fontSize,
@@ -176,32 +184,14 @@
                 fixedLabel: true,
                 fixedIcon: true,
                 list: 'no-icons',
-                options: [
-                  'size-1',
-                  'size-2',
-                  'size-3',
-                  'size-4',
-                  'size-5',
-                  'size-6',
-                  'size-7'
-                ]
+                options: ['size-1','size-2','size-3','size-4','size-5','size-6','size-7']
               },
               {
                 label: $q.lang.editor.defaultFont,
                 icon: $q.iconSet.editor.font,
                 fixedIcon: true,
                 list: 'no-icons',
-                options: [
-                  'default_font',
-                  'arial',
-                  'arial_black',
-                  'comic_sans',
-                  'courier_new',
-                  'impact',
-                  'lucida_grande',
-                  'times_new_roman',
-                  'verdana'
-                ]
+                options: ['default_font','arial','arial_black','comic_sans','courier_new','impact','lucida_grande','times_new_roman','verdana']
               },
               'removeFormat'
             ],
@@ -228,7 +218,7 @@
     <div style="display: flex; justify-content: space-between">
       <q-btn
         :label="$t('go_back')"
-        @click="goTabBack"
+        @click="goBack"
         style="background-color: #90B2D8; color: white "
       />
       <q-btn
@@ -243,7 +233,8 @@
     </div>
   </q-page>
 
-  <WalletModal ref="refWalletModal" />
+  <!-- <WalletModal ref="refWalletModal" /> -->
+  <LoginModal ref="refLoginModal" @callback-login="callbackLogin" />
 
   <q-dialog v-model="confirmGoBack">
     <q-card>
@@ -271,20 +262,21 @@ export default defineComponent({
   data () {
     return {
       smallSize: false,
+      confirmGoBack: false,
       projectSeq: '', // route parameter seq
       mediaOrderNumber: '1',
       mediaTitle: 'room',
       mediaSubtitle: 'black and white',
       mediaPrice: '1122',
-      mediaCreated: '2019/09/09',
+      mediaCreatedAt: '2019/09/09',
       mediaSize: '500*500',
       mediaMaterials: 'digtal',
       mediaDescription: 'happy room',
-      forSale: true,
+      mediaForSale: true,
       mediaUrl: '',
       // mediaUrl: 'https://beastar.io/images/platform.png',
       // mediaUrl: 'https://beastar.io/images/og_image.png',
-      mediaType: 'image',
+      mediaType: 'image', // 파일 업로드시 fileUploadedMedia 함수에서 image or video로 자동 설정
       truncateTitle: 10,
       truncateDescription: 200,
     }
@@ -329,6 +321,37 @@ export default defineComponent({
   },
   mounted: function () {},
   methods: {
+    // 미디어 URL 변경 이벤트 - mediaType 설정
+    // q-uploader를 통해서 파일 업로드시에는 이 처리가 실행되지 않음
+    mediaUrlChanged() {
+      // console.log(this.mediaUrl)
+      // alert(this.mediaUrl)
+      const splitedUrl = this.mediaUrl.split('.')
+      // for (let i = 0; i < splitedUrl.length; i++) {
+      //   const obj = splitedUrl[i]
+      //   console.log('i: ' + i + ' , obj: ' + obj)
+      // }
+      // console.log('value: ' + splitedUrl[splitedUrl.length-1])
+      const file_extension = splitedUrl[splitedUrl.length-1]
+      if (
+        file_extension === 'mp4'
+        || file_extension === 'avi'
+        || file_extension === 'wmv'
+        || file_extension === 'mpg'
+        || file_extension === 'mpeg'
+        || file_extension === 'mov'
+        || file_extension === 'm4v'
+        || file_extension === 'avif'
+        || file_extension === 'ogm'
+        || file_extension === 'webm'
+        || file_extension === 'ogv'
+        || file_extension === 'asx'
+      ) {
+        this.mediaType = 'video'
+      } else {
+        this.mediaType = 'image'
+      }
+    },
     resizeEventHandler() {
       // console.log('resizeEventHandler')
       // console.log(document.body.offsetWidth)
@@ -391,51 +414,45 @@ export default defineComponent({
     ///////////////////////////////////////////////////////////////////////////
     validate() {
       let result = true
-      if (!this.$refs.mediaOrderNumber.validate()) {
+      if (!this.$refs.refMediaOrderNumber.validate()) {
         result = false
       }
-      if (!this.$refs.mediaTitle.validate()) {
+      if (!this.$refs.refMediaTitle.validate()) {
         result = false
       }
-      if (!this.$refs.mediaSubtitle.validate()) {
+      if (!this.$refs.refMediaSubtitle.validate()) {
         result = false
       }
-      if (!this.$refs.mediaPrice.validate()) {
+      if (!this.$refs.refMediaPrice.validate()) {
         result = false
       }
-      if (!this.$refs.mediaCreated.validate()) {
+      if (!this.$refs.refMediaCreated.validate()) {
         result = false
       }
-      if (!this.$refs.mediaSize.validate()) {
+      if (!this.$refs.refMediaSize.validate()) {
         result = false
       }
-      if (!this.$refs.mediaMaterials.validate()) {
+      if (!this.$refs.refMediaMaterials.validate()) {
         result = false
       }
-      if (!this.$refs.mediaDescription.validate()) {
-        result = false
-      }
+      // if (!this.$refs.refMediaDescription.validate()) {
+      //   result = false
+      // }
       return result
     },
     // 등록 처리 시작
     async register() {
       // Field validation check
-      // if(!this.validate()) {
-      //     this.$noti(this.$q, this.$t('validation_failed'))
-      //     return
-      // }
+      if(!this.validate()) {
+          this.$noti(this.$q, this.$t('validation_failed'))
+          return
+      }
 
       // 로그인 여부 체크, 로그인 모달 표시
-      // if (!this.getUid) {
-      //     this.$refs.refWalletModal.show()
-      //     return
-      // }
-
-      // check mainnet
-      // if (this.mainnetObj.value !== 'KLAYTN') {
-      // this.$noti(this.$q, this.$t('unsupported_mainnet'))
-      // return
-      // }
+      if (!this.getUid) {
+          this.$refs.refLoginModal.show()
+          return
+      }
 
       // 등록
       this.doRegister()
@@ -445,21 +462,21 @@ export default defineComponent({
       // 1. 등록
       const params = {
         uid: this.getUid,
-        seq: this.projectSeq,
-        projectSeq: this.projectSeq,
         type: this.mediaType,
         url: this.mediaUrl,
         order_no: this.mediaOrderNumber,
         title: this.mediaTitle,
         subtitle: this.mediaSubtitle,
         description: this.mediaDescription,
-        sale_yn: this.forSale? 'Y':'N',
+        sale_yn: this.mediaForSale ? 'Y':'N',
         price: this.mediaPrice,
+        created_at: this.mediaCreatedAt,
         size: this.mediaSize,
         materials: this.mediaMaterials,
+        reg_id: this.getUid,
       }
       this.$q.loading.show() // 로딩 표시 시작
-      this.$axios.post('/api/media/insertMedia', params)
+      this.$axios.post('/api/mymedia/insertMyMedia', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.$q.loading.hide() // 로딩 표시 종료
@@ -468,11 +485,7 @@ export default defineComponent({
             this.$noti(this.$q, this.$t('register_success'))
 
             // 페이지 이동
-            // 나의 프로젝트 리스트 화면
-            this.$router.push({ path: '/project/registerProject', query: { seq: this.projectSeq, tab: 3 }})
-
-            // <!-- 관리자 수정용 -->
-            // this.$router.push('/project/newList')
+            this.$router.push('/media') // 나의 작품 리스트
           } else {
             this.$noti(this.$q, this.$t('register_failed'))
           }
@@ -485,12 +498,13 @@ export default defineComponent({
     },
     // 파일 업로드 필터
     filterFiles (files) {
-      const MAX_FILE_SIZE = 2 * 1024 * 1024
+      // const MAX_FILE_SIZE = 2 * 1024 * 1024
+      const MAX_FILE_SIZE = 10 * 1024 * 1024
       // this.$store.state.UPLOAD_FILE_SIZE_LIMIT * 1024 * 1024 // = 4M
       // returns an Array containing allowed files
       return files.filter((file) => {
         if (file.size > MAX_FILE_SIZE) {
-          this.$noti(this.$q, this.$t('file_size_exceeded'))
+          this.$noti(this.$q, this.$t('user_file_size_exceeded')) // 파일 최대 사이즈 : 10MB
         }
         return file.size <= MAX_FILE_SIZE
       })
@@ -499,12 +513,18 @@ export default defineComponent({
       // 이미지 업로드가 완료되면 호출되는 메소드
       // let fileName = file.name
       // let fileSize = file.size
-      // let fileType = file.type
+      let fileType = file.type
       let fileNameNew = file.xhr.responseText
       // console.log('fileName: ' + fileName)
       // console.log('fileSize: ' + fileSize)
       // console.log('fileType: ' + fileType)
       console.log('fileNameNew: ' + fileNameNew)
+      // console.log(file)
+      // console.log(file.files[0].type)
+      // console.log(file.files[0].type.split('/')[0])
+
+      // 미디어 타입 설정
+      this.mediaType = file.files[0].type.split('/')[0] // image or video
 
       this.mediaUrl = fileNameNew // 작품 이미지 설정
       // this.$refs.uploaderObj.reset()

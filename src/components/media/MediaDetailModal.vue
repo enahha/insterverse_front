@@ -1,30 +1,32 @@
 <template>
-  <q-dialog v-model="MediaDetailModal" persistent>
-    <q-card class="media-detail-wrap" style="width: auto; max-width: 1000vw;">
-    <div class="content row no-wrap items-start">
-      <div class="image-container col-4">
-        <!-- <div style="width: 600px; height: 600px;"> -->
-          <img :src="myMediaVo.url" alt="Artwork" class="image">
-      </div>
-      <div class="details col-8 q-px-md">
-        <q-btn icon="close" flat round dense @click="close" class="close-btn" />
-        <q-card-section>
-          <div class="title text-h6 q-mb-xs">{{ myMediaVo.title }}</div>
-          <div class="subtitle text-subtitle1 text-grey">{{ myMediaVo.subtitle }}</div>
-          <div class="info q-mt-md">
-            <div class="size text-subtitle2">{{ myMediaVo.created_at }} &nbsp;&bull;&nbsp; {{ myMediaVo.size }} &nbsp;&bull;&nbsp; {{ myMediaVo.material }}</div>
-          </div>
+  <q-dialog v-model="MediaDetailModal" :maximized="maximized">
+
+    <!-- TODO: 반응형으로 좌우 나눠서 개발해야 함 -->
+    <div class="col" style="max-width: 1200px; word-break: break-all;">
+      <q-card>
+        <q-btn class="" flat round dense icon="close" color="black" v-close-popup icon-right="true" @click="close" />
+        <q-card-section horizontal>
+
+          <q-card-section class="col-6 flex flex-center">
+            <video v-if="myMediaVo.type == 'video'" :src="myMediaVo.url" controls autoplay loop muted style="width: 100%;"></video>
+            <q-img v-else :src="myMediaVo.url" />
+          </q-card-section>
+
+          <!-- <img class="col-6" :src="myMediaVo.image" /> -->
+          <q-card-section>
+            <div class="text-h6 q-mb-xs">{{ myMediaVo.title }}</div>
+            <div class="text-subtitle1 text-grey">{{ myMediaVo.subtitle }}</div>
+            <div v-if="myMediaVo.sale_yn == 'Y'" class="price text-h6">{{ myMediaVo.price }}</div>
+            <div class="q-mt-md q-mb-sm">
+              <div class="text-subtitle2">{{ myMediaVo.year }} &nbsp;&bull;&nbsp; {{ myMediaVo.dimensions }} &nbsp;&bull;&nbsp; {{ myMediaVo.material }}</div>
+            </div>
+            <!-- <q-separator /> -->
+            <div class="q-pa-sm" style="border: 1px solid;" v-html="myMediaVo.description" />
+          </q-card-section>
         </q-card-section>
-        <div class="price-action q-mt-md">
-          <div class="price text-h6">{{ myMediaVo.price }}</div>
-          <q-btn color="primary" label="구매하기" @click="buy" />
-        </div>
-        <div class="info q-mt-md">
-            <div class="description text-subtitle1 q-mt-sm">{{ myMediaVo.description }}</div>
-          </div>
-      </div>
+      </q-card>
     </div>
-  </q-card>
+
   </q-dialog>
 </template>
 
@@ -36,63 +38,30 @@ export default {
   data () {
     return {
       MediaDetailModal: false,
+      maximized: false,
       // exhibitionTypeList: [],
-      myMediaVo: 
-        {
-          seq: '',
-          type: '',
-          url: '',
-          title: '',
-          subtitle: '',
-          price: '',
-          created_at: '',
-          size: '',
-          material: '',
-          description: ''
-        },
-      
-    }
-  },
-  computed: {
-    getUid () {
-      return this.$store.getters.getUid
-    },
-    getNickname () {
-      return this.$store.getters.getNickname
-    },
-    getWalletType () {
-      return this.$store.getters.getWalletType
-    },
-    getWalletAddress () {
-      return this.$store.getters.getWalletAddress
-    },
-    isAdmin () {
-      return this.$store.getters.getAdcd === this.$adminCode
-    },
-    qDate() {
-      return date
-    },
-  },
-  created: function () {
-    // 키 설정
-    // this.uid = this.$route.query.seq
-
-    // user_profile_image preview reg_name
-    // this.reg_name = this.getUid.split('@')[0]
-
-    const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
-    const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
-    if (nickname && uid) {
-      this.$store.dispatch('setNickname', nickname)
-      this.$store.dispatch('setUid', uid)
+      myMediaVo: {
+        image: 'https://picsum.photos/1000',
+        title: '트랜스휴먼',
+        subtitle: '트랜스휴먼9 (부제)',
+        price: '150,000',
+        year: '1998/02/03',
+        dimensions: '1668 x 1668',
+        material: '디지털',
+        description: '2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...'
+      },
     }
   },
   methods: {
     async show() {
+      if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || this.$q.platform.is.mobile) {
+        // 디바이스가 모바일인 경우
+        this.maximized = true
+      } else {
+        // 디바이스가 데스크탑인 경우
+        this.maximized = false
+      }
       this.MediaDetailModal = true
-      console.log("++++++++++++++++++++++++++++++")
-      console.log(this.myMediaVo.seq)
-      this.selectMedia()
     },
     close() {
       this.MediaDetailModal = false
@@ -116,33 +85,10 @@ export default {
 
       return result;
     },
-    selectMedia() {
-      const param = {
-        uid: this.getUid,
-        seq: this.myMediaVo.seq,
-      }
-
-      // 공지사항 조회
-      this.$axios.get('/api/myMedia/selectMyMedia', { params: { ...param }})
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          if (result.data) {
-            // console.log(result.data)
-
-            // 데이터 설정
-            this.myMediaVo = result.data
-          } else {
-            this.$noti(this.$q, this.$t('request_data_failed'))
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
   }
 }
 </script>
 
 <style scoped>
 </style>
-  
+    
