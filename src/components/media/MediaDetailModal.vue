@@ -1,30 +1,66 @@
 <template>
   <q-dialog v-model="MediaDetailModal" :maximized="maximized">
+    <div class="flex flex-center" style="max-width: 1200px; word-break: break-all;">
 
-    <!-- TODO: 반응형으로 좌우 나눠서 개발해야 함 -->
-    <div class="col" style="max-width: 1200px; word-break: break-all;">
-      <q-card>
-        <q-btn class="" flat round dense icon="close" color="black" v-close-popup icon-right="true" @click="close" />
-        <q-card-section horizontal>
+      <div class="row">
 
-          <q-card-section class="col-6 flex flex-center">
-            <video v-if="myMediaVo.type == 'video'" :src="myMediaVo.url" controls autoplay loop muted style="width: 100%;"></video>
-            <q-img v-else :src="myMediaVo.url" />
-          </q-card-section>
+        <q-toolbar class="bg-white">
+          <q-toolbar-title><span class="text-weight-bold text-center"></span></q-toolbar-title>
+          <q-btn flat round dense icon="close" v-close-popup icon-right="true" @click="close" />
+        </q-toolbar>
+        
+        <!-- 반응형 div 1-->
+        <div class="bg-white q-pl-lg q-pr-lg q-pb-lg" style="max-width: 600px; word-break: break-all;">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td>
+                <!-- 작품 보기 -->
+                <video v-if="myMediaVo.type == 'video'" :src="myMediaVo.url" controls autoplay loop muted style="width: 100%;"></video>
+                <img v-else :src="myMediaVo.url" class="responsive-container" />
+              </td>
+            </tr>
+          </table>
+        </div>
 
-          <!-- <img class="col-6" :src="myMediaVo.image" /> -->
-          <q-card-section>
-            <div class="text-h6 q-mb-xs">{{ myMediaVo.title }}</div>
-            <div class="text-subtitle1 text-grey">{{ myMediaVo.subtitle }}</div>
-            <div v-if="myMediaVo.sale_yn == 'Y'" class="price text-h6">{{ myMediaVo.price }}</div>
-            <div class="q-mt-md q-mb-sm">
-              <div class="text-subtitle2">{{ myMediaVo.year }} &nbsp;&bull;&nbsp; {{ myMediaVo.dimensions }} &nbsp;&bull;&nbsp; {{ myMediaVo.material }}</div>
-            </div>
-            <!-- <q-separator /> -->
-            <div class="q-pa-sm" style="border: 1px solid;" v-html="myMediaVo.description" />
-          </q-card-section>
-        </q-card-section>
-      </q-card>
+        <!-- 반응형 div 2 -->
+        <div class="bg-white q-pl-lg q-pr-lg q-pb-lg responsive-container" style="max-width: 600px; word-break: break-all;">
+          <!-- 작품 항목 -->
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td colspan="2">
+                <div class="text-h5 q-mb-xs">{{ myMediaVo.title }}</div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="text-h6 text-grey">{{ myMediaVo.subtitle }}</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+              </td>
+              <td width="100" align="center">
+                <div v-if="myMediaVo.sale_yn == 'Y'" class="text-subtitle1">$ {{ Number(myMediaVo.price).toLocaleString() }}</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="q-mt-md q-mb-sm">
+                  <div class="text-subtitle2">{{ myMediaVo.created_at }} &nbsp;&bull;&nbsp; {{ myMediaVo.size }} &nbsp;&bull;&nbsp; {{ myMediaVo.materials }}</div>
+                </div>
+              </td>
+              <td align="center">
+                <q-btn v-if="myMediaVo.sale_yn == 'Y'" :label="$t('buy')" @click="openUrl(myMediaVo.url)" style="background-color: #90B2D8; color: white; width: 100%;" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="q-mt-sm q-pr-sm q-pl-sm q-pb-sm" style="border: 1px solid; height: 28vh; overflow-y: auto;" v-html="myMediaVo.description" />
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
 
   </q-dialog>
@@ -54,6 +90,7 @@ export default {
   },
   methods: {
     async show() {
+      console.log(this.$q.platform.is)
       if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || this.$q.platform.is.mobile) {
         // 디바이스가 모바일인 경우
         this.maximized = true
@@ -85,10 +122,30 @@ export default {
 
       return result;
     },
+    openUrl(url) {
+      // cordova인 경우 IframeModal 표시
+      // if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit') {
+      //   this.$refs.refIframeModal.url = url
+      //   this.$refs.refIframeModal.show()
+      // } else {
+
+      // 테스트
+      url = 'https://opensea.io/kr/assets/klaytn/0x4e3f3a3dba12cec714cba0508a1bab8ead85af31/37706'
+      window.open(url, '_system')
+      
+      // }
+    },
   }
 }
 </script>
 
 <style scoped>
+.responsive-container {
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .responsive-container {
+    width: 600px;
+  }
+}
 </style>
-    
