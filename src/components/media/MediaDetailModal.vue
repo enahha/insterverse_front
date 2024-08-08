@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="MediaDetailModal" :maximized="maximized">
-    <div class="flex flex-center" style="max-width: 1200px; word-break: break-all;">
+    <div class="flex flex-center bg-white" style="max-width: 1200px; word-break: break-all;">
 
       <div class="row">
 
@@ -132,7 +132,7 @@ export default {
       // 테스트
       url = 'https://opensea.io/kr/assets/klaytn/0x4e3f3a3dba12cec714cba0508a1bab8ead85af31/37706'
       window.open(url, '_system')
-      
+
       // }
     },
   }
