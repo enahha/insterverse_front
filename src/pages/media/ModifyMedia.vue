@@ -258,7 +258,7 @@ import { defineComponent } from 'vue';
 import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
 
 export default defineComponent({
-  name: 'RegisterMedia',
+  name: 'ModifyMedia',
   data () {
     return {
       smallSize: false,

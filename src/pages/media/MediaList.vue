@@ -44,13 +44,17 @@
                     <td @click="showDetail(item)" style="width: 140px; cursor: pointer;" v-if="item.type == 'video'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
                     <td @click="showDetail(item)" style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
-                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-if="item.price != 0">{{ Number(item.price).toLocaleString() }}</td>
+                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-if="item.price > 0">{{ Number(item.price).toLocaleString() }}</td>
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><span>-</span></td>
                     <td @click="showDetail(item)" style="width: 300px; cursor: pointer;">{{ truncateText(item.description, 20) }}</td>
                     <td style="width: 100px;">
-                      <q-icon name="edit" size="md" />
+                      <q-icon name="edit" size="md" @click="goEdit(item.seq)">
+                        <q-tooltip>{{ $t('edit') }}</q-tooltip>
+                      </q-icon>
                       &nbsp;&nbsp;&nbsp;
-                      <q-icon name="delete_forever" size="md" />
+                      <q-icon name="delete_forever" size="md" @click="deleteMyMedia(item.seq)">
+                        <q-tooltip>{{ $t('delete') }}</q-tooltip>
+                      </q-icon>
                     </td>
                   </tr>
                 </tbody>
@@ -75,17 +79,17 @@
 
   </q-page>
 
-  <q-dialog v-model="confirmGoBack">
+  <q-dialog v-model="confirmDelete">
     <q-card>
       <q-card-section class="row items-center" style="min-width: 200px;">
         <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
         <q-icon name="warning" color="primary" size="md" />
-        <span class="q-ml-sm">{{ $t('confirm_go_back') }}</span>
+        <span class="q-ml-sm">{{ $t('confirm_delete') }}</span>
       </q-card-section>
-      <q-separator />
+
       <q-card-actions align="around">
         <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
-        <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" />
+        <q-btn flat style="width: 45%;" :label="$t('delete')" color="black" v-close-popup @click="doDeleteMyMedia" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -109,13 +113,14 @@ export default defineComponent({
   },
   data () {
     return {
-      confirmGoBack: false, // goBack 확인창
+      confirmDelete: false, // delete 확인창
       keyword: '',
       refresherDone: '',
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
-      mediaList: []
+      mediaList: [],
+      deleteSeq: '',
     }
   },
   components: {
@@ -135,7 +140,7 @@ export default defineComponent({
     },
   },
   created: function () {
-
+    // 로그인 체크
     this.checkLogin()
 
     // 미디어 리스트 조회
@@ -146,13 +151,47 @@ export default defineComponent({
   //     this.nickname = newNickname;
   //   }
   // },
-  mounted: function () {
-  },
+  mounted: function () {},
   methods: {
     showDetail(item) {
       console.log(item)
       this.$refs.refMediaDetailModal.myMediaVo = item
       this.$refs.refMediaDetailModal.show()
+    },
+    goEdit(seq) {
+      this.$router.push({ path: '/media/modifyMedia', query: { seq: seq }})
+    },
+    deleteMyMedia(seq) {
+      // 삭제 확인창 표시
+      this.deleteSeq = seq
+      this.confirmDelete = true
+    },
+    // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
+    doDeleteMyMedia(seq) {
+      this.$q.loading.show() // 로딩 표시 시작
+      const param = {
+        uid: this.getUid,
+        seq: this.deleteSeq,
+      }
+      this.$axios.post('/api/mymedia/deleteMyMedia', param)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            this.$noti(this.$q, this.$t('delete_success'))
+            
+            // 리스트 재조회
+            this.search()
+          } else {
+            this.$noti(this.$q, this.$t('delete_failed'))
+            this.$noti(this.$q, result.data.resultMsg)
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
     },
     truncateText(text, maxLength) {
       if (!text) {
