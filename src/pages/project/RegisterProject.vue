@@ -1196,7 +1196,7 @@ export default defineComponent({
       const params = {
         uid: this.getUid,
         seq: this.projectSeq,
-        status_cd: '30',      // 정보 등록 완료(결제 완료)
+        status_cd: this.$PROJECT_STATUS_CD_PAID,      // 정보 등록 완료(결제 완료)
       }
       this.$q.loading.show() // 로딩 표시 시작
       this.$axios.post('/api/project/updateProjectStatusCd', params)

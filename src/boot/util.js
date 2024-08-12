@@ -50,6 +50,13 @@ export default boot(({ app }) => {
   app.config.globalProperties.$instagramClientId = '681042560396956'
   app.config.globalProperties.$instagramLoginRedirectUri = 'https://instarverse.com/api/login/instagramLoginRedirectUri'
   
+  // 프로젝트 상태 코드
+  app.config.globalProperties.$PROJECT_STATUS_CD_REGISTERED = '10'
+  app.config.globalProperties.$PROJECT_STATUS_CD_PAID = '20'
+  app.config.globalProperties.$PROJECT_STATUS_CD_CONTRACT = '30'
+  app.config.globalProperties.$PROJECT_STATUS_CD_MINT = '40'
+  app.config.globalProperties.$PROJECT_STATUS_CD_CONFIRMED = '50'
+  app.config.globalProperties.$PROJECT_STATUS_CD_DELETE = '99'
 
   // 결제 관련 상수
   // app.config.globalProperties.$CREATE_TOKEN_CD_PAID = '11' // 토큰 생성 상태 코드 - 결제완료

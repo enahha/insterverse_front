@@ -2,7 +2,7 @@
 <q-page class="q-pa-md page-1200">
     <div class="row justify-center page-tit">
         <div class="col-12 doc-heading doc-h2">
-            {{ $t('menu_admin_media_sale') }}
+            {{ $t('menu_admin_collection_request') }}
         </div>
         </div>
 
@@ -17,124 +17,6 @@
             </div>
         </div>
 
-        <div class="row justify-center">
-            <div class="col-12">
-                <span class="text-weight-bold text-subtitle1">{{ $t('market') }}</span>
-            </div>
-            </div>
-            <div class="row justify-center q-pb-md">
-            <div class="col-12">
-                <q-select
-                    v-model="marketType"
-                    :options="marketOption"
-                    option-label="label"
-                    option-value="value"
-                    :label="$t('Market')"
-                    outlined
-                    dense
-                />
-            </div>
-        </div>
-
-        <q-input v-model="salePrice" label="■ Sale price" standout clearable />
-        <br />
-
-        <q-input v-model="nftId" label="■ NFT ID" standout clearable />
-        <br />
-
-        <q-input v-model="contractAddress" label="■ Contract address" standout clearable />
-        <br />
-
-        <div class="row justify-center">
-            <div class="col-12">
-                <span class="text-weight-bold text-subtitle1">{{ $t('payment_currency') }}</span>
-            </div>
-            </div>
-            <div class="row justify-center q-pb-md">
-            <div class="col-12">
-                <q-select
-                    v-model="currencyType"
-                    :options="currencyOption"
-                    option-label="label"
-                    option-value="value"
-                    :label="$t('payment_currency')"
-                    outlined
-                    dense
-                />
-            </div>
-        </div>
-
-
-
-        <q-input v-model="settleIn" label="■ Settle in" standout clearable />
-        <br />
-
-        <div>
-            <q-input v-model="settleInDate" :label="$t('settle in date')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
-            <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-date v-model="settleInDate" mask="YYYY-MM-DD HH:mm">
-                    <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                    </q-date>
-                </q-popup-proxy>
-                </q-icon>
-            </template>
-            <template v-slot:append>
-                <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-time v-model="settleInDate" mask="YYYY-MM-DD HH:mm" format24h>
-                    <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                    </q-time>
-                </q-popup-proxy>
-                </q-icon>
-            </template>
-            </q-input>
-        </div>
-
-        <q-input v-model="settleOut" label="■ Settle out" standout clearable />
-        <br />
-        
-        <div>
-            <q-input v-model="settleOutDate" :label="$t('settle out date')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
-            <template v-slot:prepend>
-                <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-date v-model="settleOutDate" mask="YYYY-MM-DD HH:mm">
-                    <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                    </q-date>
-                </q-popup-proxy>
-                </q-icon>
-            </template>
-            <template v-slot:append>
-                <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-time v-model="settleOutDate" mask="YYYY-MM-DD HH:mm" format24h>
-                    <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                    </q-time>
-                </q-popup-proxy>
-                </q-icon>
-            </template>
-            </q-input>
-        </div>
-
-        <div class="row justify-center q-pt-lg">
-        <div class="col-12 text-center">
-            <q-btn class="btn" color="grey-1" text-color="black" size="lg" @click="register" style="width: 100%;" no-caps tabindex="2">
-            <b>Register</b>
-            </q-btn>
-        </div>
-        </div>
-
-    
         <!-- 하단 공간 확보 -->
         <div class="row justify-center q-pa-xl" >
         </div>
@@ -143,28 +25,15 @@
         <q-pull-to-refresh @refresh="refresher">
         <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
 
-            <div v-for="item in mediaSaleList" :key="item.seq" style="cursor: pointer;z-index: 1; padding: 10px;">
+            <div v-for="item in projectCollectionList" :key="item.seq" style="cursor: pointer;z-index: 1; padding: 10px;">
             <q-separator />
             <q-item>
-                <q-item-section avatar>
-                <!-- <q-avatar>
-                    <img v-if="item.profile_image" :src="item.profile_image">
-                    <q-icon v-else name="account_circle" size="md" />
-                </q-avatar> -->
-                </q-item-section>
-
-                <q-item-section>
+                <q-item-section clickable @click="goDetail(item.seq)">
                 <div class="row">
-                    <q-item-label class="col-12"><div class="end"><q-icon name="delete_forever" size="sm" @click="deleteMediaSale(item.seq)"/></div></q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">market : </span>{{ item.market_name }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">Colletion address : </span>{{ item.contract_address }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">NFT ID : </span>{{ item.nft_id }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">Currency : </span>{{ item.payment_currency }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">Sale price : </span>{{ item.sale_price }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">Settle in : </span>{{ item.settle_in }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">Settle in date : </span>{{ item.settle_in_date }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">Settle out : </span>{{ item.settle_out }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">Settle out date : </span>{{ item.settle_out_date }}</q-item-label>
+                    <!-- <q-item-label class="col-12"><div class="end"><q-icon name="delete_forever" size="sm" @click="delete(item.seq)"/></div></q-item-label> -->
+                    <q-item-label class="col-12"><span class=" text-weight-bold">title : </span>{{ item.title }}</q-item-label>
+                    <q-item-label class="col-12"><span class=" text-weight-bold">description : </span>{{ item.description }}</q-item-label>
+                    <q-item-label class="col-12"><span class=" text-weight-bold">summary : </span>{{ item.summary }}</q-item-label>
                 </div>
                 </q-item-section>
             </q-item>
@@ -198,6 +67,7 @@
 
 </q-page>
 <LoginModal ref="refLoginModal" @callback-login="callbackLogin" />
+<CollectionRequestInfoModal ref="refCollectionRequestInfoModal"  @callback-modify="callbackModify"/>
 
 <q-dialog v-model="confirmDelete">
     <q-card>
@@ -231,36 +101,9 @@ data () {
         refresherDone: '',
         pageSize: 100,
         lastPageNum: 1, // 마지막 페이지
-        mediaSaleList: [],
+        projectCollectionList: [],
         noDataFlag: false,
         keyword: '', // 검색키워드
-
-        salePrice: '',
-        nftId: '',
-        contractAddress: '',
-        settleIn: '',
-        settleInDate: '',
-        settleOut: '',
-        settleOutDate: '',
-        marketType: null,
-        currencyType: null,
-        marketOption: [
-            {
-            label: '메직에덴',
-            value: 'magicaden',
-            },
-            {
-            label: '오픈씨',
-            value: 'open sea',
-            },
-        ],
-        currencyOption: [
-            {
-            label: 'USDT',
-            value: 'USDT',
-            },
-        ],
-
     }
 },
 components: {
@@ -294,42 +137,23 @@ methods: {
     addTotalSupply() {
         this.confirmAdd = true
     },
-    doAddTotalSupply() {
-        const params = {
-            seq: this.addTokenSeq, // KSTAR_SEQ = 153
-            wallet_address: this.walletAddress, // token owner wallet address
-            // wallet_address: '0xd6AC741d0060b89AD93Ff4c9578B4373DEd77A6D', // HALF
-            add_total_supply_amount: this.totalSupply,
-        }
-        this.$q.loading.show() // 로딩 표시
-        this.$axios.post('/api/token/addTotalSupplyToken', params)
-            .then((result) => {
-            // console.log(JSON.stringify(result.data))
-            this.$q.loading.hide() // 로딩 표시 종료
-            if (result.data && result.data.resultCd === 'SUCCESS') {
-                // console.log(result.data)
-                this.$noti(this.$q, this.$t('test_success'))
-            } else {
-                this.$noti(this.$q, this.$t('test_failed'))
-                this.$noti(this.$q, result.data.resultMsg)
-            }
-            })
-            .catch((err) => {
-            this.$q.loading.hide() // 로딩 표시 종료
-            console.log(err)
-            this.$noti(this.$q, err)
-        })
+    goDetail(seq) {
+      this.$refs.refCollectionRequestInfoModal.projectVo.seq = seq
+      this.$refs.refCollectionRequestInfoModal.show()
+    },
+    callbackModify() {
+      this.refresher(null)
     },
     callbackLogin(userVo) {
-    // console.log('callbackLogin!!!')
-    this.$store.dispatch('setUid', userVo.uid)
-    this.$store.dispatch('setAdcd', userVo.adcd)
-    this.$store.dispatch('setName', userVo.name)
-    this.$store.dispatch('setNickname', userVo.nickname)
-    this.$store.dispatch('setProfileImage', userVo.profile_image)
-    this.$store.dispatch('setWalletType', userVo.wallet_type)
-    this.$store.dispatch('setWalletAddress', userVo.wallet_address)
-    this.$store.dispatch('setMobileNo', userVo.mobile_no)
+      // console.log('callbackLogin!!!')
+      this.$store.dispatch('setUid', userVo.uid)
+      this.$store.dispatch('setAdcd', userVo.adcd)
+      this.$store.dispatch('setName', userVo.name)
+      this.$store.dispatch('setNickname', userVo.nickname)
+      this.$store.dispatch('setProfileImage', userVo.profile_image)
+      this.$store.dispatch('setWalletType', userVo.wallet_type)
+      this.$store.dispatch('setWalletAddress', userVo.wallet_address)
+      this.$store.dispatch('setMobileNo', userVo.mobile_no)
     },
     // 검색어 입력창 키업 이벤트
     onKeyup (event) {
@@ -351,7 +175,7 @@ methods: {
       //        DO NOT forget to call it otherwise the refresh message
       //        will continue to be displayed
       // make some Ajax call then call done()
-      this.mediaSaleList = []
+      this.projectCollectionList = []
       this.refresherDone = done // load가 끝나면 로딩메세지 종료
       this.$refs.infiniteScroll.reset() // index 초기화
       this.$refs.infiniteScroll.resume() // stop에서 다시 재생
@@ -384,14 +208,14 @@ methods: {
         }
       }, 500)
     },
-    // 신규 토큰 리스트 마지막 페이지 조회
+    // 컬렉션 등록 요청 리스트 마지막 페이지 조회
     selectListMax() {
       // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
       if (!this.keyword) {
         this.keyword = ''
       }
-      this.$axios.get('/api/mediaSale/selectMediaSaleListLastPageNum',
-        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+      this.$axios.get('/api/project/selectProjectListLastPageNum',
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_MINT}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -400,25 +224,25 @@ methods: {
           console.log(err)
         })
     },
-    // 신규 토큰 리스트 조회
+    // 컬렉션 등록 요청 리스트 조회
     selectList(idx, done) {
       if (!this.keyword) {
         this.keyword = ''
         // 키워드 설정
         this.$store.dispatch('setKeyword', this.keyword)
       }
-      this.$axios.get('/api/mediaSale/selectMediaSaleList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+      this.$axios.get('/api/project/selectProjectList',
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_MINT}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)
           if (idx === 1) { // 첫번째 load인 경우
-            this.mediaSaleList = [] // 리스트 초기화
+            this.projectCollectionList = [] // 리스트 초기화
           }
-          this.mediaSaleList = this.mediaSaleList.concat(result.data)
+          this.projectCollectionList = this.projectCollectionList.concat(result.data)
 
           // 데이터 없음 표시 설정
-          if (!this.mediaSaleList || this.mediaSaleList.length < 1) {
+          if (!this.projectCollectionList || this.projectCollectionList.length < 1) {
             this.noDataFlag = true
           } else {
             this.noDataFlag = false

@@ -327,7 +327,7 @@ export default defineComponent({
         this.keyword = ''
       }
       this.$axios.get('/api/project/selectProjectListLastPageNum',
-        {params: {uid: this.getUid, regId: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+        {params: {uid: this.getUid, regId: this.getUid, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_PAID}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -344,7 +344,7 @@ export default defineComponent({
         this.$store.dispatch('setKeyword', this.keyword)
       }
       this.$axios.get('/api/project/selectProjectList',
-        {params: {uid: this.getUid, regId: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+        {params: {uid: this.getUid, regId: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_PAID}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)
