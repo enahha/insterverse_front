@@ -16,6 +16,8 @@ import HolderListModal from 'components/vote/HolderListModal'
 import ExhibitionTypeModal from 'components/exhibition/ExhibitionTypeModal'
 import MediaDetailModal from 'components/media/MediaDetailModal'
 import FaqDetailModal from 'components/faq/FaqDetailModal'
+import SettleOutHistoryModal from 'components/settlement/SettleOutHistoryModal'
+import MediaSaleModifyModal from 'components/admin/MediaSaleModifyModal'
 
 export default boot(({ app }) => {
   app.component('LoginModal', LoginModal) // 로그인
@@ -34,4 +36,6 @@ export default boot(({ app }) => {
   app.component('ExhibitionTypeModal', ExhibitionTypeModal) // 전시관 목록 모달
   app.component('MediaDetailModal', MediaDetailModal) // 작품 상세 모달
   app.component('FaqDetailModal', FaqDetailModal) // 작품 상세 모달
+  app.component('SettleOutHistoryModal', SettleOutHistoryModal) // 정산 내역 조회 모달
+  app.component('MediaSaleModifyModal', MediaSaleModifyModal) // 출금 등록 모달
 })

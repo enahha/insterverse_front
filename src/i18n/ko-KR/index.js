@@ -1118,6 +1118,8 @@ export default {
   menu_admin_user_list: '사용자 목록',
   menu_admin_user_list_description: '사용자 목록입니다.',
   menu_admin_media_sale: '작품 판매 관리',
+  menu_admin_collection_request: '컬렉션 등록 관리',
+
 
   // payment
   buyer_name: '성명',
@@ -1302,6 +1304,9 @@ export default {
   burn_project: '소각',
   mint_project_amount: '추가발행량',
   burn_project_amount: '소각량',
+
+  // 정산 내역 리스트
+  settle_out_list: '정산 내역',
 
   // // request verification
   // loading_message_request_verification: '계약 검증을 신청중입니다...',

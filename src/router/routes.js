@@ -110,7 +110,10 @@ const routes = [
     path: '/mypage',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/mypage/MyPage.vue') },
+      { path: 'MyExhibition', component: () => import('src/pages/mypage/MyPageExhibition.vue') },
+      { path: 'MyFeedback', component: () => import('src/pages/mypage/MyPageFeedback.vue') },
+      { path: 'MyPrivacy', component: () => import('src/pages/mypage/MyPagePrivacy.vue') },
+      { path: 'MySale', component: () => import('src/pages/mypage/MyPageSale.vue') },
     ]
   },
   {
@@ -197,7 +200,9 @@ const routes = [
       { path: 'adminMyList', component: () => import('pages/admin/AdminMyList.vue') },
       { path: 'adminDescription', component: () => import('pages/admin/AdminDescription.vue') },
       { path: 'adminManageToken', component: () => import('src/pages/admin/AdminManageToken.vue') },
-      { path: 'adminMediaSale', component: () => import('src/pages/admin/AdminMediaSale.vue') },
+      { path: 'adminMediaSale', component: () => import('src/pages/admin/AdminMediaSaleList.vue') },
+      { path: 'adminMediaSaleRegister', component: () => import('src/pages/admin/AdminMediaSaleRegister.vue') },
+      { path: 'adminCollectionRequest', component: () => import('src/pages/admin/AdminCollectionRequestList.vue') },
     ]
   },
   {

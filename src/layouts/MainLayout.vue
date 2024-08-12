@@ -401,6 +401,50 @@
             </q-item-section>
           </q-item>
 
+          <!-- 5. My page(내 정조) -->
+          <q-item v-if="getUid" clickable to="/mypage/MyPrivacy">
+            <q-item-section avatar class="q-pt-md">
+              <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
+              <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_mypage_privacy') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <!-- 5. My page(내 전시회) -->
+          <q-item v-if="getUid" clickable to="/mypage/MyExhibition">
+            <q-item-section avatar class="q-pt-md">
+              <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
+              <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_mypage_my_exhibition') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <!-- 5. My page(판매내역) -->
+          <q-item v-if="getUid" clickable to="/mypage/MySale">
+            <q-item-section avatar class="q-pt-md">
+              <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
+              <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_mypage_sales_detail') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <!-- 5. My page(피드백) -->
+          <q-item v-if="getUid" clickable to="/mypage/MyFeedback">
+            <q-item-section avatar class="q-pt-md">
+              <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
+              <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('menu_mypage_feedback') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
           <!-- IMPORT -->
           <!--
           <q-item clickable to="/project/projectSelectionSns">
@@ -575,6 +619,26 @@
               </q-item-section>
               <q-item-section>
                 <q-item-label>[A] {{ $t('menu_admin_maintenance') }}</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <!-- ADMIN MEDIA SALE LIST -->
+            <q-item clickable to="/admin/adminMediaSale">
+              <q-item-section avatar class="q-pt-md">
+                <q-icon name="settings" style="width: 20px; height: 20px;" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>[A] {{ $t('menu_admin_media_sale') }}</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <!-- ADMIN COLLECTION REQEST LIST -->
+            <q-item clickable to="/admin/adminCollectionRequest">
+              <q-item-section avatar class="q-pt-md">
+                <q-icon name="settings" style="width: 20px; height: 20px;" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>[A] {{ $t('menu_admin_collection_request') }}</q-item-label>
               </q-item-section>
             </q-item>
 

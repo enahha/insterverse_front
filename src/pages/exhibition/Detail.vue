@@ -79,7 +79,7 @@
               <td style="display: flex; flex-direction: column; align-items: end; padding-right: 25%;">
                 <!-- <q-btn :label="$t('edit')" @click="goModify" style="background-color: #90B2D8; width: 100px; margin: 10px;"/> -->
                 <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 3%;"/>
-                <q-btn label="MediaDetailModal" @click="showMediaDetailModal" size="20px" style="background-color: #E1D2BB; width: 180px; margin-top: 3%;"/>
+                <!-- <q-btn label="MediaDetailModal" @click="showMediaDetailModal" size="20px" style="background-color: #E1D2BB; width: 180px; margin-top: 3%;"/> -->
               </td>
             </tr>
           </table>
@@ -97,9 +97,12 @@
       align="justify"
       inline-label
     >
-      <q-tab name="i" icon="info">&nbsp;&nbsp;{{ $t('information') }}</q-tab>
+      <q-tab name="i" icon="">&nbsp;&nbsp;{{ $t('information') }}</q-tab>
+      <q-tab name="l" icon="">&nbsp;&nbsp;{{ $t('link') }}</q-tab>
+      <q-tab name="c" icon="">&nbsp;&nbsp;{{ $t('comment') }}</q-tab>
+      <!-- <q-tab name="i" icon="info">&nbsp;&nbsp;{{ $t('information') }}</q-tab>
       <q-tab name="l" icon="link">&nbsp;&nbsp;{{ $t('link') }}</q-tab>
-      <q-tab name="c" icon="chat">&nbsp;&nbsp;{{ $t('comment') }}</q-tab>
+      <q-tab name="c" icon="chat">&nbsp;&nbsp;{{ $t('comment') }}</q-tab> -->
     </q-tabs>
 
 

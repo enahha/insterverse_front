@@ -206,7 +206,7 @@ export default defineComponent({
       this.$router.go(-1)
     },
     goTest() {
-      const token = 'IGQWRPMmZAHUWF1cElKSmcybV9XRldQOWNVTGxSX1FjSTFXTV94ejdwVGZAQNHJaWWZAxcHhNNml4ZAFZAuM2ZApemJjNEJoa0hBcE04M2k2Tmd3enJLRTQwa1VKLTNRMHNzeGd0ai1nLUJTd1NKd1J2RlVxcjh1eGx6eDgZD'
+      const token = 'IGQWRPaU1hN0ZA5NThvaVJSNkZASaERyR2NIMk5tRmRtdVU4cncxR0dwREJIYWJVVzVYUTVNa3ltMHdwNHdxTU5WblEzVUE0b3NYYklPaERSbDlOamFVOE9oZAkZAmWWhQM0pIODJ6SVNCdTRpVmtFai1lMlczb21EdWMZD'
       const userId = '6935614096530715'
       this.$router.push('/project/registerProjectInstagram' + '?token=' + token + '&userId=' + userId)
     },

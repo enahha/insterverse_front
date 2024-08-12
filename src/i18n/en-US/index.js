@@ -1116,8 +1116,10 @@ export default {
   // menu_holder_list_description: 'Will be updated to the DAO page.',
   menu_admin_user_list: 'User List',
   menu_admin_user_list_description: 'User List is displayed.',
-  menu_admin_media_sale: 'Product sales management',
-  
+  menu_admin_media_sale: 'Product sales',
+  menu_admin_media_sale_register: 'Product sales register',
+  menu_admin_collection_request: 'Collection request',
+
   // payment
   buyer_name: 'Name',
   buyer_tel: 'Mobile No.',
@@ -1286,6 +1288,10 @@ export default {
   burn_project: 'Burn',
   mint_project_amount: 'Mint Amount',
   burn_project_amount: 'Burn Amount',
+
+  // 정산 내역 리스트
+  settle_out_list: 'Settlement History',
+
 
   // // request verification
   // loading_message_request_verification: 'Requesting for contract verification...',
