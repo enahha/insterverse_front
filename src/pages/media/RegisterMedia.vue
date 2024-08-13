@@ -26,7 +26,7 @@
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
                   <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
-                    <video v-if="mediaType == 'video'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
+                    <video v-if="mediaType == 'VIDEO'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
                     <img v-else :src="mediaUrl" style="width: 100%;">
                   </div>
                   <div v-else class="col-12" style="width: 100%; min-width: 300px;">
@@ -38,7 +38,7 @@
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
                   <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
-                    <video v-if="mediaType == 'video'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
+                    <video v-if="mediaType == 'VIDEO'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
                     <img v-else :src="mediaUrl" style="width: 100%;">
                   </div>
                   <div v-else class="col-12" style="width: 100%; min-width: 300px;">
@@ -276,7 +276,7 @@ export default defineComponent({
       mediaUrl: '',
       // mediaUrl: 'https://beastar.io/images/platform.png',
       // mediaUrl: 'https://beastar.io/images/og_image.png',
-      mediaType: 'image', // 파일 업로드시 fileUploadedMedia 함수에서 image or video로 자동 설정
+      mediaType: 'IMAGE', // 파일 업로드시 fileUploadedMedia 함수에서 image or video로 자동 설정
       truncateTitle: 10,
       truncateDescription: 200,
     }
@@ -347,9 +347,9 @@ export default defineComponent({
         || file_extension === 'ogv'
         || file_extension === 'asx'
       ) {
-        this.mediaType = 'video'
+        this.mediaType = 'VIDEO'
       } else {
-        this.mediaType = 'image'
+        this.mediaType = 'IMAGE'
       }
     },
     resizeEventHandler() {

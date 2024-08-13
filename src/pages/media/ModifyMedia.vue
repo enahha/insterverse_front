@@ -26,7 +26,7 @@
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
                   <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
-                    <video v-if="mediaType == 'video'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
+                    <video v-if="mediaType == 'VIDEO'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
                     <img v-else :src="mediaUrl" style="width: 100%;">
                   </div>
                   <div v-else class="col-12" style="width: 100%; min-width: 300px;">
@@ -38,7 +38,7 @@
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
                   <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
-                    <video v-if="mediaType == 'video'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
+                    <video v-if="mediaType == 'VIDEO'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
                     <img v-else :src="mediaUrl" style="width: 100%;">
                   </div>
                   <div v-else class="col-12" style="width: 100%; min-width: 300px;">

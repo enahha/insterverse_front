@@ -12,10 +12,10 @@
       align="justify"
       inline-label
     >
-      <q-tab name="1">{{ $t('project_artwork') }}</q-tab>
-      <q-tab name="2">{{ $t('project_artist') }}</q-tab>
-      <q-tab name="3">{{ $t('project_description') }}</q-tab>
-      <q-tab name="4">{{ $t('project_preview') }}</q-tab>
+      <q-tab name="1" :disable="true">{{ $t('project_artwork') }}</q-tab>
+      <q-tab name="2" :disable="true">{{ $t('project_artist') }}</q-tab>
+      <q-tab name="3" :disable="true">{{ $t('project_description') }}</q-tab>
+      <q-tab name="4" :disable="true">{{ $t('project_preview') }}</q-tab>
     </q-tabs>
 
     <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
@@ -123,6 +123,11 @@
           </div>
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
+            <q-btn
+              label="insertMediaList"
+              @click="insertMediaList"
+              style="background-color: #90B2D8; color: white "
+            />
             <q-btn
               :label="$t('go_next')"
               @click="goTabNext"
@@ -662,13 +667,22 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="4">
         <div class="row tab-panel-4">
-          <q-btn
-            size="lg"
-            @click="updateProjectStatusCd"
-            :label="$t('register_project')"
-            class="exhibit-btn"
-          />
+          <div>
+            <q-btn
+              size="lg"
+              @click="updateProjectStatusCd"
+              :label="$t('register_project')"
+              class="exhibit-btn"
+            />
+          </div>
 
+          <div>
+            <q-btn
+              :label="$t('go_back')"
+              @click="goTabBack"
+              style="background-color: #90B2D8; color: white "
+            />
+          </div>
         </div>
       </q-tab-panel>
     </q-tab-panels>
@@ -870,7 +884,12 @@ export default defineComponent({
       }
     },
     goTabNext() {
-      this.register()   // 등록
+      if (this.tab == '1') {
+
+      } else {
+        console.log("register")
+        this.interimRegister()   // 등록
+      }
       const currentTab = parseInt(this.tab)
       this.tab = (currentTab + 1).toString()
     },
@@ -1110,7 +1129,7 @@ export default defineComponent({
     },
 
     // 등록 처리 시작
-    async register() {
+    async interimRegister() {
       // Field validation check
       if(!this.validate()) {
         this.$noti(this.$q, this.$t('validation_failed'))
@@ -1139,6 +1158,7 @@ export default defineComponent({
     },
     // 등록
     async doRegister() {
+      console.log("doRegister")
       // insert / update 구분용
       this.methodsExecuted = true
       // 1. 등록
@@ -1165,7 +1185,6 @@ export default defineComponent({
         end_time: this.end_time,
         description: this.projectDescription,
         production_background: this.projectBackground,
-        collection_status_cd: '10'
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
       // this.$q.loading.show() // 로딩 표시 시작
@@ -1198,6 +1217,7 @@ export default defineComponent({
     },
     // 프로젝트 수정
     async doModifyProject() {
+      console.log("doModifyProject")
       // 1. 프로젝트 수정 처리
       const params = {
         uid: this.getUid,
@@ -1222,7 +1242,6 @@ export default defineComponent({
         end_time: this.end_time,
         description: this.projectDescription,
         production_background: this.projectBackground,
-        collection_status_cd: '10',
         mod_id: this.getUid
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
@@ -1256,6 +1275,10 @@ export default defineComponent({
           this.$noti(this.$q, err)
         })
     },
+    async Register() {
+
+
+    },
     async updateProjectStatusCd() {
       // 1. 프로젝트 수정 처리
       const params = {
@@ -1263,7 +1286,6 @@ export default defineComponent({
         seq: this.projectSeq,
         status_cd: this.$PROJECT_STATUS_CD_PAID,      // 정보 등록 완료(결제 완료)
       }
-      this.$q.loading.show() // 로딩 표시 시작
       this.$axios.post('/api/project/updateProjectStatusCd', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
@@ -1287,12 +1309,44 @@ export default defineComponent({
           }
         })
         .catch((err) => {
-          this.$q.loading.hide() // 로딩 표시 종료
           console.log(err)
           this.$noti(this.$q, err)
         })
     },
-    async createcolletion() {
+    async insertMediaList() {
+      // 선택된 미디어 항목을 필터링
+      const selectedMedia = this.mediaList.filter(item => item.selected)
+      
+      if (selectedMedia.length === 0) {
+        console.log("선택된 항목x")
+        return
+      }
+
+      // project_seq 추가
+      selectedMedia.forEach(item => {
+        item.project_seq = this.projectSeq
+      })
+
+      // this.$q.loading.show()
+      this.$axios.post('/api/media/insertMediaList', selectedMedia)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.$noti(this.$q, this.$t('register_success'))
+
+            // 페이지 이동
+            this.$router.push('/media') // 나의 작품 리스트
+          } else {
+            this.$noti(this.$q, this.$t('register_failed'))
+          }
+        })
+        .catch((err) => {
+          // this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
 
     },
     // 파일 업로드 필터

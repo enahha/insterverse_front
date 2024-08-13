@@ -419,10 +419,16 @@ export default defineComponent({
     insertMyMedia() {
       const selectedItems = this.postList.filter(item => item.selected)
       
+      if (selectedItems.length === 0) {
+        console.log("선택된 항목x")
+        return
+      }
+
       // uid 추가
       selectedItems.forEach(item => {
         item.uid = this.getUid
       })
+      
       // 1. 등록
       this.$q.loading.show() // 로딩 표시 시작
       this.$axios.post('/api/mymedia/insertMyMediaList', selectedItems)
