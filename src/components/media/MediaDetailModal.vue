@@ -15,7 +15,7 @@
             <tr>
               <td>
                 <!-- 작품 보기 -->
-                <video v-if="myMediaVo.type == 'video'" :src="myMediaVo.url" controls autoplay loop muted style="width: 100%;"></video>
+                <video v-if="myMediaVo.type == 'VIDEO'" :src="myMediaVo.url" controls autoplay loop muted style="width: 100%;"></video>
                 <img v-else :src="myMediaVo.url" class="responsive-container" />
               </td>
             </tr>
@@ -41,6 +41,7 @@
               </td>
               <td width="100" align="center">
                 <div v-if="myMediaVo.sale_yn == 'Y'" class="text-subtitle1">$ {{ Number(myMediaVo.price).toLocaleString() }}</div>
+                <div v-else class="text-subtitle1">N/A</div>
               </td>
             </tr>
             <tr>
@@ -50,12 +51,22 @@
                 </div>
               </td>
               <td align="center">
-                <q-btn v-if="myMediaVo.sale_yn == 'Y'" :label="$t('buy')" @click="openUrl(myMediaVo.url)" style="background-color: #90B2D8; color: white; width: 100%;" />
+                <q-btn 
+                  :label="$t('buy')" 
+                  @click="openUrl(myMediaVo.url)" 
+                  :style="{
+                    'background-color': myMediaVo.sale_yn == 'N' ? '#cdd3d6' : '#90B2D8', 
+                    'color': 'white', 
+                    'width': '100%'
+                  }"
+                  :disabled="myMediaVo.sale_yn == 'N'"
+                />
               </td>
             </tr>
             <tr>
               <td colspan="2">
-                <div class="q-mt-sm q-pr-sm q-pl-sm q-pb-sm" style="border: 1px solid; height: 28vh; overflow-y: auto;" v-html="myMediaVo.description" />
+                <!-- <div class="q-mt-sm q-pr-sm q-pl-sm q-pb-sm" style="border: 1px solid; height: 28vh; overflow-y: auto;" v-html="myMediaVo.description" /> -->
+                <div class="q-mt-sm q-pr-sm q-pl-sm q-pb-sm" style="height: 28vh; overflow-y: auto;" v-html="myMediaVo.description" />
               </td>
             </tr>
           </table>
@@ -77,14 +88,16 @@ export default {
       maximized: false,
       // exhibitionTypeList: [],
       myMediaVo: {
-        image: 'https://picsum.photos/1000',
-        title: '트랜스휴먼',
-        subtitle: '트랜스휴먼9 (부제)',
-        price: '150,000',
-        year: '1998/02/03',
-        dimensions: '1668 x 1668',
-        material: '디지털',
-        description: '2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...2021년 아르코미술관 기획초대전은 작가 정재철 (1959-2020)의 작고 1주기전으로 마련한다...'
+        url: '',
+        title: '',
+        subtitle: '',
+        type: '',
+        sale_yn: '',
+        price: '',
+        created_at: '',
+        size: '',
+        materials: '',
+        description: ''
       },
     }
   },

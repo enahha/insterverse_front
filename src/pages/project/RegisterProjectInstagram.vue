@@ -137,6 +137,13 @@
           {{ $t('go_back') }}
         </span>
       </div>
+      <div style="width: 100%; display: flex; justify-content: flex-end">
+        <q-btn
+            :label="$t('register')"
+            @click="insertMyMedia"
+            style="background-color: #0C2C69; color: white; min-width: 100px; "
+          />
+      </div>
     </div>
 
     <!-- 하단 공간 확보 -->
@@ -373,7 +380,7 @@ export default defineComponent({
 
       const resultMediaList = await this.$axios.get(this.nextPageUrl)
       if (resultMediaList.data) {
-        console.log(resultMediaList.data)
+        // console.log(resultMediaList.data)
         // this.postList = this.postList.concat(resultMediaList.data.data)
         let newPostList = await this.getChildrenAddedPostList(resultMediaList.data.data)
         this.postList = this.postList.concat(newPostList)
@@ -407,6 +414,36 @@ export default defineComponent({
     // 로그인 후 포스트 리스트 가져오기
     async importPostList() {
       console.log(123)
+    },
+    // 선택된 아이템을 my_media 테이블에 입력
+    insertMyMedia() {
+      const selectedItems = this.postList.filter(item => item.selected)
+      
+      // uid 추가
+      selectedItems.forEach(item => {
+        item.uid = this.getUid
+      })
+      // 1. 등록
+      this.$q.loading.show() // 로딩 표시 시작
+      this.$axios.post('/api/mymedia/insertMyMediaList', selectedItems)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            // console.log(result.data)
+            this.$noti(this.$q, this.$t('register_success'))
+
+            // 페이지 이동
+            this.$router.push('/media') // 나의 작품 리스트
+          } else {
+            this.$noti(this.$q, this.$t('register_failed'))
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
     },
     // async refresher() {
     //   this.postList = []

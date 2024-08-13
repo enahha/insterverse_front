@@ -13,8 +13,13 @@
 
     <div class="tab-panel-3 q-pt-lg">
 
-      <div style="width: 100%; display: flex; justify-content: flex-end">
+      <div style="width: 100%; display: flex; justify-content: flex-end; gap: 20px;">
         <q-btn
+            :label="$t('import')"
+            @click="goImport"
+            style="background-color: #0C2C69; color: white; min-width: 100px;"
+          />
+          <q-btn
             :label="$t('add')"
             @click="goAdd"
             style="background-color: #0C2C69; color: white; min-width: 100px; "
@@ -29,7 +34,8 @@
               <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
                 <thead>
                   <tr>
-                    <th>{{ $t('media_order_number') }}</th>
+                    <!-- <th>{{ $t('media_order_number') }}</th> -->
+                    <th>No.</th>
                     <th>{{ $t('media') }}</th>
                     <th>{{ $t('media_title') }}</th>
                     <th>{{ $t('media_price') }} (USD)</th>
@@ -40,8 +46,8 @@
                 <tbody>
                   <tr v-for="(item, index) in mediaList" :key="index">
                     <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                    <td @click="showDetail(item)" style="width: 70px; cursor: pointer;">{{ item.order_no }}</td>
-                    <td @click="showDetail(item)" style="width: 140px; cursor: pointer;" v-if="item.type == 'video'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
+                    <td @click="showDetail(item)" style="width: 70px; cursor: pointer;">{{ ++index }}</td>
+                    <td @click="showDetail(item)" style="width: 140px; cursor: pointer;" v-if="item.type == 'VIDEO'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
                     <td @click="showDetail(item)" style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-if="item.price > 0">{{ Number(item.price).toLocaleString() }}</td>
@@ -74,7 +80,10 @@
       <div v-if="noDataFlag" class="row justify-center q-pt-lg">
         <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
       </div>
+    </div>
 
+    <!-- 하단 공간 확보 -->
+    <div class="row justify-center q-pa-xl">
     </div>
 
   </q-page>
@@ -356,6 +365,9 @@ export default defineComponent({
     },
     goAdd() {
       this.$router.push('/media/registerMedia')
+    },
+    goImport() {
+      this.$router.push('/project/selectPlatform')
     },
     goBack() {
       // this.$router.go(-1)

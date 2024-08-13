@@ -49,7 +49,6 @@
     display: flex;
     justify-content: center;
 }
-
 body, font {
     font-family: 'Noto Sans KR', 'Montserrat', 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -1264,6 +1263,9 @@ textarea {
     width: 10%;
     height: 5px;
     background-color: black;
+}
+.selected-row {
+background-color: #dddacf;
 }
 //프로젝트등록
 .project-reg-wrap {

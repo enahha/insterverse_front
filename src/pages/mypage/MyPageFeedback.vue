@@ -8,13 +8,13 @@
         </div>
     </div>
 
-    <span style="font-size: 23px; font-weight: bold;">{{ $t('menu_mypage_feedback_info') }}</span>
-    <div class="underline"></div>
+    <!-- <span style="font-size: 23px; font-weight: bold;">{{ $t('menu_mypage_feedback_info') }}</span>
+    <div class="underline"></div> -->
     <div class="col-12 justify-center comment-wrap q-pb-xs tab-panel-4">
 
     <!-- 프로젝트 댓글 리스트 -->
     <q-pull-to-refresh @refresh="refresherMyComment">
-      <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
+      <q-infinite-scroll @load="loadMoreMyComment" :offset="100" ref="infiniteScroll">
         <div v-for="item in myCommentList" :key="item.seq">
 
           <div :style="`padding-left: ${ item.group_layer * 20 }px`" v-if="item.visible_child" :class="`${ item.group_layer === 0 ? 'bg-white' : 'bg-grey-2'}`">

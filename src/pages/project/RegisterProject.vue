@@ -28,7 +28,7 @@
       <!-- 1.작품 업로드 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="1" style="word-break: break-word;">
-
+        <keep-alive>
         <div class="tab-panel-3 q-pt-lg">
           <span>{{ $t('my_artworks') }}</span>
           <div class="underline"></div>
@@ -62,47 +62,61 @@
           </div>
 
           <q-pull-to-refresh @refresh="refresher">
-            <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll" style="background-color: #FEFEFE;">
-              
-              <div class="media-table-wrapper text-center q-pt-lg">
-                <div class="table-scroll-wrapper">
-                  <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>{{ $t('media') }}</th>
-                        <th>{{ $t('media_title') }}</th>
-                        <th>{{ $t('media_price') }}</th>
-                        <th>{{ $t('media_description') }}</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(item, index) in mediaList" :key="index">
-                        <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                        <td>{{ item.seq }}</td>
-                        <td><q-img :src="item.url" style="width: 300px; height: auto;" /></td>
-                        <td style="width: 150px;"> {{ truncateText(item.title, truncateTitle) }}</td>
-
-                        <td style="width: 150px;" v-if="item.price != 0">{{ (item.price).toLocaleString() }} <span>KRW</span></td>
-                        <td style="width: 150px;" v-else><span>-</span></td>
-
-                        <td>{{ truncateText(item.description, truncateDescription) }}</td>
-                        <td><q-icon name="delete_forever" size="sm" /> <q-icon name="edit" size="sm" /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+          <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll" style="background-color: #FEFEFE;">
+            
+            <div class="media-table-wrapper text-center q-pt-lg">
+              <div class="table-scroll-wrapper">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <!-- <th>{{ $t('media_order_number') }}</th> -->
+                      <th>No.</th>
+                      <th>{{ $t('media') }}</th>
+                      <th>{{ $t('media_title') }}</th>
+                      <th>{{ $t('media_price') }} (USD)</th>
+                      <th>{{ $t('media_description') }}</th>
+                      <!-- <th></th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr 
+                      v-for="(item, index) in mediaList" 
+                      :key="index" 
+                      @click="toggleSelect(item)" 
+                      :class="{'selected-row': item.selected}" 
+                      style="cursor: pointer;"
+                    >
+                      <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
+                      <td style="width: 70px; cursor: pointer;">{{ ++index }}</td>
+                      <td style="width: 140px; cursor: pointer;" v-if="item.type == 'VIDEO'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
+                      <td style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
+                      <td style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
+                      <td style="width: 100px; cursor: pointer;" v-if="item.price > 0">{{ Number(item.price).toLocaleString() }}</td>
+                      <td style="width: 100px; cursor: pointer;" v-else><span>-</span></td>
+                      <td style="width: 300px; cursor: pointer;">{{ truncateText(item.description, 20) }}</td>
+                      <!-- <td style="width: 100px;">
+                        <q-icon name="edit" size="md" @click="goEdit(item.seq)">
+                          <q-tooltip>{{ $t('edit') }}</q-tooltip>
+                        </q-icon>
+                        &nbsp;&nbsp;&nbsp;
+                        <q-icon name="delete_forever" size="md" @click="deleteMyMedia(item.seq)">
+                          <q-tooltip>{{ $t('delete') }}</q-tooltip>
+                        </q-icon>
+                      </td> -->
+                    </tr>
+                  </tbody>
+                </table>
               </div>
+            </div>
 
-              <template v-slot:loading>
-                <div class="row justify-center q-my-md">
-                  <q-spinner-dots color="primary" size="40px" />
-                </div>
-              </template>
+            <template v-slot:loading>
+              <div class="row justify-center q-my-md">
+                <q-spinner-dots color="primary" size="40px" />
+              </div>
+            </template>
 
-            </q-infinite-scroll>
-          </q-pull-to-refresh>
+          </q-infinite-scroll>
+        </q-pull-to-refresh>
 
           <div v-if="noDataFlag" class="row justify-center q-pt-lg">
             <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
@@ -117,6 +131,7 @@
           </div>
 
         </div>
+      </keep-alive>
       </q-tab-panel>
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <!-- 2. 작가 정보 패널 -->
@@ -663,6 +678,7 @@
 
   <WalletModal ref="refWalletModal" />
   <ExhibitionTypeModal ref="refExhibitionTypeModal" @callback-register="setexhibitionName"/>
+  <MediaDetailModal ref="refMediaDetailModal" />
 
   <q-dialog v-model="confirmGoBack">
     <q-card>
@@ -682,9 +698,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
+import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js'
 
 export default defineComponent({
   name: 'RegisterProject',
@@ -778,7 +794,8 @@ export default defineComponent({
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
-      mediaList: []
+      mediaList: [],
+      selectedState: {},
     }
   },
   components: {
@@ -808,6 +825,14 @@ export default defineComponent({
       this.$store.dispatch('setUid', uid)
     }
 
+    // 이전에 선택된 상태를 불러옵니다.
+    const savedState = JSON.parse(localStorage.getItem('mediaSelectionState'))
+    if (savedState) {
+      this.selectedState = savedState
+      console.log("this.selectedState")
+      console.log(this.selectedState)
+    }
+
     // 미디어 등록 후 tab 설정
     if (this.$route.query.tab) {
       this.tab = this.$route.query.tab
@@ -825,11 +850,17 @@ export default defineComponent({
   },
   watch: {
     getNickname(newNickname) {
-      this.nickname = newNickname;
-    }
+      this.nickname = newNickname
+    },
   },
   mounted: function () {
     this.nickname = this.getNickname
+  },
+  beforeUnmount() { 
+    // 페이지를 나갈 시 미디어 리스트 선택사항 삭제
+    localStorage.removeItem('mediaSelectionState')
+    this.selectedState = {}
+    this.mediaList = []
   },
   methods: {
     checkLogin() {
@@ -853,12 +884,6 @@ export default defineComponent({
       const currentTab = parseInt(this.tab)
       this.tab = (currentTab + 1).toString()
     },
-    truncateText(text, maxLength) {
-      if (text.length <= maxLength) {
-        return text
-      }
-      return text.substring(0, maxLength) + '...'
-    },
     showExhibitionTypeModal() {
       this.$refs.refExhibitionTypeModal.show()
     },
@@ -875,6 +900,27 @@ export default defineComponent({
       this.$store.dispatch('setWalletType', userVo.wallet_type)
       this.$store.dispatch('setWalletAddress', userVo.wallet_address)
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
+    },
+    toggleSelect(item) {
+      item.selected = !item.selected
+      this.saveSelectionState()
+    },
+    saveSelectionState() {
+      // 현재 선택 상태를 저장
+      this.mediaList.forEach(item => {
+        this.selectedState[item.seq] = item.selected // seq를 key로 사용하여 저장
+      })
+      localStorage.setItem('mediaSelectionState', JSON.stringify(this.selectedState))
+    },
+    async applySelectionState() {
+      // 저장된 선택 상태 적용
+      this.mediaList.forEach(item => {
+        if (this.selectedState.hasOwnProperty(item.seq)) {
+          item.selected = this.selectedState[item.seq]
+        } else {
+          item.selected = false // 이전에 선택되지 않은 항목은 false로 설정
+        }
+      })
     },
     goMyMediaList() {
       // this.$router.push({ path: '/media/registerMedia', query: { seq: this.projectSeq }})
@@ -895,6 +941,7 @@ export default defineComponent({
       //        DO NOT forget to call it otherwise the refresh message
       //        will continue to be displayed
       // make some Ajax call then call done()
+      this.saveSelectionState() // 새로고침 전에 선택 상태 저장
       this.mediaList = []
       this.refresherDone = done // load가 끝나면 로딩메세지 종료
       this.$refs.infiniteScroll.reset() // index 초기화
@@ -934,8 +981,8 @@ export default defineComponent({
       if (!this.keyword) {
         this.keyword = ''
       }
-      this.$axios.get('/api/media/selectMediaListLastPageNum',
-        {params: {uid: this.getUid, exhibition_seq: this.projectSeq, pageSize: this.pageSize, keyword: this.keyword}})
+      this.$axios.get('/api/mymedia/selectMyMediaListLastPageNum',
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -945,19 +992,22 @@ export default defineComponent({
         })
     },
     // 작품 리스트 조회
-    selectList(idx, done) {
+    async selectList(idx, done) {
       if (!this.keyword) {
         this.keyword = ''
       }
-      this.$axios.get('/api/media/selectMediaList',
-        {params: {uid: this.getUid, exhibition_seq: this.projectSeq, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
-        .then((result) => {
+      this.$axios.get('/api/mymedia/selectMyMediaList',
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+        .then(async (result) => {
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)
           if (idx === 1) { // 첫번째 load인 경우
             this.mediaList = [] // 리스트 초기화
           }
           this.mediaList = this.mediaList.concat(result.data)
+
+          // 선택 상태 적용
+          await this.applySelectionState()
 
           // 데이터 없음 표시 설정
           if (!this.mediaList || this.mediaList.length < 1) {
@@ -976,38 +1026,53 @@ export default defineComponent({
           }
         })
     },
+    truncateText(text, maxLength) {
+      if (!text) {
+        return ''
+      }
+
+      if (text.length <= maxLength) {
+        return text
+      }
+      return text.substring(0, maxLength) + '...'
+    },
+    showDetail(item) {
+      console.log(item)
+      this.$refs.refMediaDetailModal.myMediaVo = item
+      this.$refs.refMediaDetailModal.show()
+    },
     ///////////////////////////////////////////////////////////////////////////
     // validation
     ///////////////////////////////////////////////////////////////////////////
     required(val) {
       const message = this.$t('validation_required')
-      return required(val, message);
+      return required(val, message)
     },
     requiredNumber(val) {
       const message = this.$t('validation_required')
-      return required(val, message);
+      return required(val, message)
     },
     minLength(val, length) {
       if (!val) {
         return true
       }
       const message = this.$t('validation_min_length') + ': ' + length
-      return minLength(val, message, length);
+      return minLength(val, message, length)
     },
     maxLength(val, length) {
       if (!val) {
         return true
       }
       const message = this.$t('validation_max_length') + ': ' + length
-      return maxLength(val, message, length);
+      return maxLength(val, message, length)
     },
     minValue(val, value) {
       const message = this.$t('validation_min_value') + ': ' + value
-      return minValue(val, message, value);
+      return minValue(val, message, value)
     },
     maxValue(val, value) {
       const message = this.$t('validation_max_value') + ': ' + value
-      return maxValue(val, message, value);
+      return maxValue(val, message, value)
     },
     ///////////////////////////////////////////////////////////////////////////
     validate() {

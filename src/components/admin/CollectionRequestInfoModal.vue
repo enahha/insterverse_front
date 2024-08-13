@@ -36,23 +36,25 @@
                 </div>
             </q-card-section>
             <q-card-section>
-                <q-item-section>
-                    <span class="text-weight-bold text-subtitle1">Nft info</span>
-                    <div style="margin-top: 50px;">
-                        <div v-for="item in mediaList" :key="item.seq" style="cursor: pointer;z-index: 1;">
-                        <q-item>
-                            <q-item-section>
-                            <div class="row">
-                                <q-item-label class="col-12"><span class=" text-weight-bold">Nft title : </span>{{ item.title }}</q-item-label>
-                                <q-item-label class="col-12"><span class=" text-weight-bold">Nft id : </span>{{ item.nft_id }}</q-item-label>
-                                <q-item-label class="col-12"><span class=" text-weight-bold">Nft price : </span>{{ item.price }}</q-item-label>
-                            </div>
-                            </q-item-section>
-                        </q-item>
-                        <hr> <!-- 구분선 -->
+                <span class="text-weight-bold text-subtitle1">Nft info</span>
+                <div class="row" v-for="item in mediaList" :key="item.seq" style="cursor: pointer;z-index: 1;">
+                    <q-item>
+                        <q-item-section>
+                            <q-item-label class="col-12" v-if="item.type == 'video'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></q-item-label>
+                            <q-item-label class="col-12" v-else><q-img :src="item.url" style="width: 100px;" /></q-item-label>
+                        </q-item-section>
+                    </q-item>
+                    <q-item>
+                        <q-item-section>
+                        <div class="row">
+                            <q-item-label class="col-12"><span class=" text-weight-bold">Nft title : </span>{{ item.title }}</q-item-label>
+                            <q-item-label class="col-12"><span class=" text-weight-bold">Nft id : </span>{{ item.nft_id }}</q-item-label>
+                            <q-item-label class="col-12"><span class=" text-weight-bold">Nft price : </span>{{ item.price }}</q-item-label>
                         </div>
-                    </div>
-                </q-item-section>
+                        </q-item-section>
+                    </q-item>
+                    <hr> <!-- 구분선 -->
+                </div>
             </q-card-section>
             <q-card-section>
                 <div class="col-12">
