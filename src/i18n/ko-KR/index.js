@@ -80,6 +80,7 @@ export default {
   start_time_hint: '달력 클릭 후 시계 클릭, UTC 기준.',
   end_time: '종료 일시',
   end_time_hint: '달력 클릭 후 시계 클릭, UTC 기준.',
+  indefinite: '무기한',
   validation_failed_vote_title: '[제목 (English)] 항목을 확인해주세요.',
   validation_failed_vote_title_ko: '[제목 (Korean)] 항목을 확인해주세요.',
   validation_failed_vote_description: '[상세 내용 (English)] 항목을 확인해주세요.',

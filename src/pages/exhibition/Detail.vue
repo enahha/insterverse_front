@@ -128,7 +128,6 @@
         <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_subtitle') }}</span>
-
           </div>
         </div>
         <div class="row justify-center q-pb-md q-pl-xs">

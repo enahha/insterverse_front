@@ -13,8 +13,8 @@
       inline-label
     >
       <q-tab name="1" :disable="true">{{ $t('project_artwork') }}</q-tab>
-      <q-tab name="2" :disable="true">{{ $t('project_artist') }}</q-tab>
-      <q-tab name="3" :disable="true">{{ $t('project_description') }}</q-tab>
+      <q-tab name="2" :disable="true">{{ $t('project_description') }}</q-tab>
+      <q-tab name="3" :disable="true">{{ $t('project_artist') }}</q-tab>
       <q-tab name="4" :disable="true">{{ $t('project_preview') }}</q-tab>
     </q-tabs>
 
@@ -87,7 +87,7 @@
                       style="cursor: pointer;"
                     >
                       <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                      <td style="width: 70px; cursor: pointer;">{{ ++index }}</td>
+                      <td style="width: 70px; cursor: pointer;">{{ item.order_no }}</td>
                       <td style="width: 140px; cursor: pointer;" v-if="item.type == 'VIDEO'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
                       <td style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
                       <td style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
@@ -124,11 +124,6 @@
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
             <q-btn
-              label="insertMediaList"
-              @click="insertMediaList"
-              style="background-color: #90B2D8; color: white "
-            />
-            <q-btn
               :label="$t('go_next')"
               @click="goTabNext"
               style="background-color: #90B2D8; color: white "
@@ -139,178 +134,9 @@
       </keep-alive>
       </q-tab-panel>
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <!-- 2. 작가 정보 패널 -->
+      <!-- 2. 전시소개 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <q-tab-panel name="2" style="word-break: break-word;">
-
-        <div class="tab-panel-1 q-pt-lg">
-          <span>{{ $t('artist_basic_information') }}</span>
-          <div class="underline"></div>
-
-          <div class="q-pt-lg">
-            <span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span>
-          </div>
-          <div style="max-width: 600px;">
-            <q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
-          </div>
-
-          <div class="q-pt-md">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span>
-          </div>
-          <div style="max-width: 600px;">
-            <q-input v-model="email" ref="refEmail" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
-          </div>
-
-          <div class="q-pt-md">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span>
-          </div>
-          <div style="max-width: 600px;">
-            <q-input v-model="instargram" ref="refInstargram" placeholder="ex) https://www.instagram.com/banana123" clearable outlined tabindex="1" />
-          </div>
-
-          <div class="q-pt-lg">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span>
-          </div>
-          <div style="max-width: 600px;">
-            <q-input v-model="twitter" ref="refTwitter" placeholder="ex) https://x.com/banana123" clearable outlined tabindex="1" />
-          </div>
-
-          <div class="q-pt-lg">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span>
-          </div>
-          <div style="max-width: 600px;">
-            <q-input v-model="discord" ref="refDiscord" placeholder="ex) https://discord.gg/banana123" clearable outlined tabindex="1" />
-          </div>
-
-          <div class="q-pt-lg">
-            <span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span>
-          </div>
-          <div style="max-width: 600px;">
-            <q-input v-model="telegram" ref="refTelegram" placeholder="ex) https://t.me/banana123" clearable outlined tabindex="1" />
-          </div>
-          <br><br><br>
-
-
-          <span>{{ $t('artist_details') }}</span>
-          <div class="underline"></div>
-
-          <div class="row justify-center q-pt-lg">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1">{{ $t('artist_career') }}<span class="text-red"> </span></span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-lg">
-            <div class="col-12  q-pb-lg">
-              <q-editor
-                v-model="artistDescription"
-                min-height="10rem"
-                autofocus
-                tabindex="5"
-                @keyup.enter.stop
-                toolbar-bg="grey-1"
-                :toolbar="[
-                  ['left', 'center', 'right', 'justify'],
-                  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-                  ['token', 'hr', 'link', 'custom_btn'],
-                  [
-                    {
-                      label: $q.lang.editor.formatting,
-                      icon: $q.iconSet.editor.formatting,
-                      list: 'no-icons',
-                      options: [
-                        'p',
-                        'h1',
-                        'h2',
-                        'h3',
-                        'h4',
-                        'h5',
-                        'h6',
-                        'code'
-                      ]
-                    },
-                    {
-                      label: $q.lang.editor.fontSize,
-                      icon: $q.iconSet.editor.fontSize,
-                      fixedLabel: true,
-                      fixedIcon: true,
-                      list: 'no-icons',
-                      options: [
-                        'size-1',
-                        'size-2',
-                        'size-3',
-                        'size-4',
-                        'size-5',
-                        'size-6',
-                        'size-7'
-                      ]
-                    },
-                    {
-                      label: $q.lang.editor.defaultFont,
-                      icon: $q.iconSet.editor.font,
-                      fixedIcon: true,
-                      list: 'no-icons',
-                      options: [
-                        'default_font',
-                        'arial',
-                        'arial_black',
-                        'comic_sans',
-                        'courier_new',
-                        'impact',
-                        'lucida_grande',
-                        'times_new_roman',
-                        'verdana'
-                      ]
-                    },
-                    'removeFormat'
-                  ],
-                  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
-
-                  ['undo', 'redo'],
-                  ['print', 'fullscreen'],
-                  ['viewsource']
-                ]"
-                :fonts="{
-                  arial: 'Arial',
-                  arial_black: 'Arial Black',
-                  comic_sans: 'Comic Sans MS',
-                  courier_new: 'Courier New',
-                  impact: 'Impact',
-                  lucida_grande: 'Lucida Grande',
-                  times_new_roman: 'Times New Roman',
-                  verdana: 'Verdana'
-                }"
-              />
-            </div>
-          </div>
-
-          <!-- <div style="display: flex; justify-content: flex-end;">
-            <q-btn
-              :label="$t('save')"
-              @click="register"
-              :style="{ backgroundColor: methodsExecuted ? 'black' : '#0C2C69', color: 'white', width: '10%' }"
-            />
-          </div> -->
-          
-          <div style="display: flex; justify-content: space-between; padding-top: 30px;">
-            <q-btn
-              :label="$t('go_back')"
-              @click="goTabBack"
-              style="background-color: #90B2D8; color: white "
-            />
-            <q-btn
-              :label="$t('go_next')"
-              @click="goTabNext"
-              style="background-color: #90B2D8; color: white "
-            />
-          </div>
-
-        </div>
-      </q-tab-panel>
-      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <!-- 3. 전시정보 패널 -->
-      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <q-tab-panel name="3">
-
+      <q-tab-panel name="2">
         <div class="tab-panel-2 q-pt-lg">
           <span>{{ $t('project_basic_information') }}</span>
           <div class="underline"></div>
@@ -663,25 +489,349 @@
         </div>
       </q-tab-panel>
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <!-- 4. 미리보기 및 등록 패널 -->
+      <!-- 3. 작가 정보 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <q-tab-panel name="4">
-        <div class="row tab-panel-4">
-          <div>
-            <q-btn
-              size="lg"
-              @click="updateProjectStatusCd"
-              :label="$t('register_project')"
-              class="exhibit-btn"
-            />
+      <q-tab-panel name="3" style="word-break: break-word;">
+
+        <div class="tab-panel-1 q-pt-lg">
+          <span>{{ $t('artist_basic_information') }}</span>
+          <div class="underline"></div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
           </div>
 
-          <div>
+          <div class="q-pt-md">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_official_email') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="email" ref="refEmail" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-md">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_instargram') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="instargram" ref="refInstargram" placeholder="ex) https://www.instagram.com/banana123" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_twitter') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="twitter" ref="refTwitter" placeholder="ex) https://x.com/banana123" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_discord') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="discord" ref="refDiscord" placeholder="ex) https://discord.gg/banana123" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_telegram') }}</span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="telegram" ref="refTelegram" placeholder="ex) https://t.me/banana123" clearable outlined tabindex="1" />
+          </div>
+          <br><br><br>
+
+
+          <span>{{ $t('artist_details') }}</span>
+          <div class="underline"></div>
+
+          <div class="row justify-center q-pt-lg">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1">{{ $t('artist_career') }}<span class="text-red"> </span></span>
+            </div>
+          </div>
+          <div class="row justify-center q-pb-lg">
+            <div class="col-12  q-pb-lg">
+              <q-editor
+                v-model="artistDescription"
+                min-height="10rem"
+                autofocus
+                tabindex="5"
+                @keyup.enter.stop
+                toolbar-bg="grey-1"
+                :toolbar="[
+                  ['left', 'center', 'right', 'justify'],
+                  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+                  ['token', 'hr', 'link', 'custom_btn'],
+                  [
+                    {
+                      label: $q.lang.editor.formatting,
+                      icon: $q.iconSet.editor.formatting,
+                      list: 'no-icons',
+                      options: [
+                        'p',
+                        'h1',
+                        'h2',
+                        'h3',
+                        'h4',
+                        'h5',
+                        'h6',
+                        'code'
+                      ]
+                    },
+                    {
+                      label: $q.lang.editor.fontSize,
+                      icon: $q.iconSet.editor.fontSize,
+                      fixedLabel: true,
+                      fixedIcon: true,
+                      list: 'no-icons',
+                      options: [
+                        'size-1',
+                        'size-2',
+                        'size-3',
+                        'size-4',
+                        'size-5',
+                        'size-6',
+                        'size-7'
+                      ]
+                    },
+                    {
+                      label: $q.lang.editor.defaultFont,
+                      icon: $q.iconSet.editor.font,
+                      fixedIcon: true,
+                      list: 'no-icons',
+                      options: [
+                        'default_font',
+                        'arial',
+                        'arial_black',
+                        'comic_sans',
+                        'courier_new',
+                        'impact',
+                        'lucida_grande',
+                        'times_new_roman',
+                        'verdana'
+                      ]
+                    },
+                    'removeFormat'
+                  ],
+                  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+
+                  ['undo', 'redo'],
+                  ['print', 'fullscreen'],
+                  ['viewsource']
+                ]"
+                :fonts="{
+                  arial: 'Arial',
+                  arial_black: 'Arial Black',
+                  comic_sans: 'Comic Sans MS',
+                  courier_new: 'Courier New',
+                  impact: 'Impact',
+                  lucida_grande: 'Lucida Grande',
+                  times_new_roman: 'Times New Roman',
+                  verdana: 'Verdana'
+                }"
+              />
+            </div>
+          </div>
+
+          <!-- <div style="display: flex; justify-content: flex-end;">
+            <q-btn
+              :label="$t('save')"
+              @click="register"
+              :style="{ backgroundColor: methodsExecuted ? 'black' : '#0C2C69', color: 'white', width: '10%' }"
+            />
+          </div> -->
+          
+          <div style="display: flex; justify-content: space-between; padding-top: 30px;">
             <q-btn
               :label="$t('go_back')"
               @click="goTabBack"
               style="background-color: #90B2D8; color: white "
             />
+            <q-btn
+              :label="$t('go_next')"
+              @click="goTabNext"
+              style="background-color: #90B2D8; color: white "
+            />
+          </div>
+
+        </div>
+      </q-tab-panel>
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 4. 미리보기 및 등록 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="4">
+        <div class="c">
+          <span>{{ $t('project_basic_information') }}</span>
+          <div class="underline" style="margin-bottom: 20px;"></div>
+
+          <div class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
+            </div>
+          </div>
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ title }}
+            </div>
+          </div>
+          <div class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_symbol') }}</span>
+            </div>
+          </div>
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ symbol }}
+            </div>
+          </div>
+          <div class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('start_time') }}</span>
+            </div>
+          </div>
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ startTime }}
+            </div>
+          </div>
+          <div class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('end_time') }}</span>
+            </div>
+          </div>
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ endTime ? endTime : $t('indefinite') }}
+            </div>
+          </div>
+          <div v-if="projectDescription" class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_description') }}</span>
+            </div>
+          </div>
+          <div v-if="projectDescription" class="q-pb-md q-pl-xs">
+            <div class="row justify-center q-pb-md q-pl-xs t-stit">
+              <div class="col-12" v-html="projectDescription" />
+            </div>
+          </div>
+          <div v-if="projectBackground" class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_background') }}</span>
+            </div>
+          </div>
+          <div v-if="projectBackground" class="q-pb-md q-pl-xs">
+            <div class="row justify-center q-pb-md q-pl-xs t-stit">
+              <div class="col-12" v-html="projectBackground" />
+            </div>
+          </div>
+
+          <div class="project-list row">
+          <div v-for="item in selectedMediaList" :key="item.seq">
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar square v-if="item.type == 'VIDEO'">
+                  <video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
+                </q-avatar>
+                <q-avatar square v-else>
+                  <img v-if="item.url" :src="item.url">
+                  <q-icon v-else name="rocket_launch" size="md" />
+                </q-avatar>
+              </q-item-section>
+            </q-item>
+          </div>
+        </div>
+
+          <span>{{ $t('artist_basic_information') }}</span>
+          <div class="underline" style="margin-bottom: 20px;"></div>
+
+          <div class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_nickname') }}</span>
+            </div>
+          </div>
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ nickname }}
+            </div>
+          </div>
+          <div class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_official_email') }}</span>
+            </div>
+          </div>
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ email }}
+            </div>
+          </div>
+          <div v-if="instargram" class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_instargram') }}</span>
+            </div>
+          </div>
+          <div v-if="instargram" class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ instargram }}
+            </div>
+          </div>
+          <div v-if="twitter" class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_twitter') }}</span>
+            </div>
+          </div>
+          <div v-if="twitter" class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ twitter }}
+            </div>
+          </div>
+          <div v-if="discord" class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_discord') }}</span>
+            </div>
+          </div>
+          <div v-if="discord" class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ discord }}
+            </div>
+          </div>
+          <div v-if="telegram" class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_telegram') }}</span>
+            </div>
+          </div>
+          <div v-if="telegram" class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ telegram }}
+            </div>
+          </div>
+          <div v-if="artistDescription" class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_details') }}</span>
+            </div>
+          </div>
+          <div v-if="artistDescription" class="q-pb-md q-pl-xs">
+            <div class="row justify-center q-pb-md q-pl-xs t-stit">
+              <div class="col-12" v-html="artistDescription" />
+            </div>
+          </div>
+
+          <div class="center q-pb-md">
+            <q-btn
+              size="lg"
+              @click="register"
+              :label="$t('register_project')"
+              class="exhibit-btn"
+            />
+          </div>
+          <div class="center">
+            <q-btn flat round dense @click="goTabBack">
+              <q-icon name="keyboard_double_arrow_left" size='xl' />
+            </q-btn>
+            <!-- <q-btn
+              :label="$t('go_back')"
+              @click="goTabBack"
+              style="background-color: #90B2D8; color: white "
+            /> -->
           </div>
         </div>
       </q-tab-panel>
@@ -728,6 +878,7 @@ export default defineComponent({
     return {
       tab: '1',
       projectSeq: '', // route parameter seq
+      mainnet: 'KLAYTN',
       mainnetObj: {
         label: 'Klaytn',
         value: 'KLAYTN',
@@ -784,23 +935,23 @@ export default defineComponent({
       ////////////////////////
       nickname: '',
       // representativeSns: '',
-      email: '',
+      email: 'email@gmail.com',
       instargram: '',
       twitter: '',
       discord: '',
       telegram: '',
-      artistDescription: '',
-      title: '',
+      artistDescription: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">작가 소개입니다</span>',
+      title: '테스트',
       titleKo: '',
-      symbol: '',
-      subtitle: '',
+      symbol: 'TEST',
+      subtitle: '부제',
       exhibitionName: '',
-      bannerImage: '',
-      posterImage: '',
-      startTime: '',
+      bannerImage: 'http://43.201.176.43:8000/uploaded/20240819/20240819_1308_53_011_9a8103.png',
+      posterImage: 'http://43.201.176.43:8000/uploaded/20240819/20240819_1308_53_011_9a8103.png',
+      startTime: '2024-08-01 00:00',
       endTime: '',
-      projectDescription: '',
-      projectBackground: '',
+      projectDescription: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">전시 소개입니다</span>',
+      projectBackground: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">전시 제작 배경입니다</span>',
 
       methodsExecuted: false,
       keyword: '',
@@ -810,6 +961,58 @@ export default defineComponent({
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
       mediaList: [],
       selectedState: {},
+      // selectedMediaList: [
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      //   {
+      //     seq: 1,
+      //     type: 'IMAGE',
+      //     url: 'https://picsum.photos/500',
+      //   },
+      // ]
     }
   },
   components: {
@@ -826,6 +1029,9 @@ export default defineComponent({
     },
     getWalletAddress () {
       return this.$store.getters.getWalletAddress
+    },
+    selectedMediaList() {
+      return this.mediaList.filter(item => item.selected);
     },
   },
   created: function () {
@@ -885,11 +1091,12 @@ export default defineComponent({
     },
     goTabNext() {
       if (this.tab == '1') {
-
       } else {
         console.log("register")
-        this.interimRegister()   // 등록
+        this.branchInsertUpdate()   // 등록
       }
+
+      // 다음 탭으로
       const currentTab = parseInt(this.tab)
       this.tab = (currentTab + 1).toString()
     },
@@ -1127,9 +1334,8 @@ export default defineComponent({
       // }
       return result
     },
-
     // 등록 처리 시작
-    async interimRegister() {
+    async branchInsertUpdate() {
       // Field validation check
       if(!this.validate()) {
         this.$noti(this.$q, this.$t('validation_failed'))
@@ -1154,10 +1360,10 @@ export default defineComponent({
         return
       }
 
-      this.doRegister()
+      this.doInsertProject()
     },
     // 등록
-    async doRegister() {
+    async doInsertProject() {
       console.log("doRegister")
       // insert / update 구분용
       this.methodsExecuted = true
@@ -1185,6 +1391,7 @@ export default defineComponent({
         end_time: this.end_time,
         description: this.projectDescription,
         production_background: this.projectBackground,
+        mainnet: this.mainnet,
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
       // this.$q.loading.show() // 로딩 표시 시작
@@ -1242,7 +1449,8 @@ export default defineComponent({
         end_time: this.end_time,
         description: this.projectDescription,
         production_background: this.projectBackground,
-        mod_id: this.getUid
+        mod_id: this.getUid,
+        mainnet: this.mainnet,
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
       this.$q.loading.show() // 로딩 표시 시작
@@ -1275,9 +1483,12 @@ export default defineComponent({
           this.$noti(this.$q, err)
         })
     },
-    async Register() {
+    async register() {
+      // 미디어 리스트 등록
+      this.insertMediaList()
 
-
+      // 프로젝트 status_cd변경
+      this.updateProjectStatusCd()
     },
     async updateProjectStatusCd() {
       // 1. 프로젝트 수정 처리
@@ -1286,32 +1497,23 @@ export default defineComponent({
         seq: this.projectSeq,
         status_cd: this.$PROJECT_STATUS_CD_PAID,      // 정보 등록 완료(결제 완료)
       }
-      this.$axios.post('/api/project/updateProjectStatusCd', params)
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
-          if (result.data && result.data.resultCd === 'SUCCESS') {
+      try {
+        const result = await this.$axios.post('/api/project/updateProjectStatusCd', params)
+        console.log(JSON.stringify(result.data))
 
-            this.$axios.get('/api/project/mintKlaytnNft', {params: {seq: this.projectSeq}})
+        if (result.data && result.data.resultCd === 'SUCCESS') {
+          console.log('SUCCESS')
+          
+          // mintKlaytnNft API 호출을 대기
+          await this.$axios.get('/api/project/mintKlaytnNft', { params: { seq: this.projectSeq } })
 
-            // // 페이지 이동
-            if (this.$route.query.fromAdmin === 'Y') {
-              // 나의 프로젝트 리스트 화면 - admin
-              this.$router.push('/admin/adminMyList')
-            } else {
-              // 나의 프로젝트 리스트 화면
-              this.$router.push('/project/myList')
-            }
-            // <!-- 관리자 수정용 -->
-            // this.$router.push('/project/newList')
-          } else {
-            this.$noti(this.$q, this.$t('register_project_failed'))
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
+          // 나의 프로젝트 리스트 화면으로 이동
+          this.$router.push('/mypage/MyExhibition')
+        }
+      } catch (err) {
+        console.log(err)
+        this.$noti(this.$q, err)
+      }
     },
     async insertMediaList() {
       // 선택된 미디어 항목을 필터링
@@ -1336,8 +1538,8 @@ export default defineComponent({
             // console.log(result.data)
             this.$noti(this.$q, this.$t('register_success'))
 
-            // 페이지 이동
-            this.$router.push('/media') // 나의 작품 리스트
+            // // 페이지 이동
+            // this.$router.push('/media') // 나의 작품 리스트
           } else {
             this.$noti(this.$q, this.$t('register_failed'))
           }

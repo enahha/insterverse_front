@@ -24,8 +24,7 @@
 
               <q-item-section>
                 <div class="row list-item">
-                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
-                  <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
+                  <q-item-label class="col-12">{{ item.title }}</q-item-label>
                   <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateText(item.summary_ko,truncateSubtitle) }}</q-item-label>
                   <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label>
                 </div>
@@ -56,7 +55,7 @@
 
   </q-page>
 
-  <q-dialog v-model="confirmDeleteCommentModal">
+  <!-- <q-dialog v-model="confirmDeleteCommentModal">
     <q-card>
       <q-card-section class="row items-center" style="min-width: 200px;">
         <q-icon name="warning" color="primary" size="md" />
@@ -86,7 +85,6 @@
   <q-dialog v-model="confirmGoBack">
     <q-card>
       <q-card-section class="row items-center" style="min-width: 200px;">
-        <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
         <q-icon name="warning" color="primary" size="md" />
         <span class="q-ml-sm">{{ $t('confirm_go_back') }}</span>
       </q-card-section>
@@ -95,7 +93,7 @@
         <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" />
       </q-card-actions>
     </q-card>
-  </q-dialog>
+  </q-dialog> -->
 
   <MediaDetailModal ref="refMediaDetailModal" />
   <WalletModal ref="refWalletModal" />

@@ -1335,14 +1335,21 @@ background-color: #e7e6de9c;
         }
     }
     .tab-panel-4 {
-        max-width: 100%;
-        display: flex;
-        justify-content: center;
+        // max-width: 100%;
+        // display: flex;
+        // justify-content: center;
         .exhibit-btn {
+            margin-top: 100px;
             width: 250px;
             background-color: #90B2D8;
             color: white;
         }
+    }
+    .exhibit-btn {
+        margin-top: 100px;
+        width: 250px;
+        background-color: #90B2D8;
+        color: white;
     }
     .title-sec {
         background: url("/images/background_top.png");
@@ -1550,6 +1557,16 @@ background-color: #e7e6de9c;
     .price {
         font-size: 1.5rem;
         margin-bottom: 1rem;
+    }
+}
+.introduction {
+    .subtitle { 
+        font-size: 30px;
+        color: #000;
+
+    }
+    .interval-between {
+        padding-top: 150px;
     }
 }
 //공지사항등록

@@ -80,6 +80,7 @@ export default {
   start_time_hint: 'Click calendar and then click clock, by UTC.',
   end_time: 'End Date',
   end_time_hint: 'Click calendar and then click clock, by UTC.',
+  indefinite: 'indefinite',
   validation_failed_vote_title: 'Please check the field [Title (English)].',
   validation_failed_vote_title_ko: 'Please check the field [Title (Korean)].',
   validation_failed_vote_description: 'Please check the field [Description (English)].',
