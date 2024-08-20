@@ -1559,16 +1559,94 @@ background-color: #e7e6de9c;
         margin-bottom: 1rem;
     }
 }
+// about us 
 .introduction {
-    .subtitle { 
-        font-size: 30px;
-        color: #000;
+    .image-container {
+      height: 500px;
+    }
+  
+    .main-image {
+      width: 100%;
+      height: 500px;
+      margin: -60px auto;
+    }
+  
+    .title-row {
+      display: flex;
+      align-items: center;
+    }
+  
+    .underline {
+      margin-right: 10px;
+    }
+  
+    .subtitle {
+      font-weight: bold;
+      font-size: 30px; /* 예시로 추가한 스타일 */
+      color: #000;     /* 예시로 추가한 스타일 */
+    }
+  
+    .content-text {
+      width: 70%;
+      text-align: left;
+      font-size: 18px;
+    }
 
+    .content-block {
+        width: 35% !important;
+        text-align: center !important;
     }
+  
     .interval-between {
-        padding-top: 150px;
+      padding-top: 150px;
     }
-}
+  
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .gallery-list {
+      width: 72%;
+      text-align: left;
+    }
+  
+    .gallery-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+  
+    .gallery-image {
+      width: 550px;
+      height: 300px;
+      object-fit: cover;
+      margin-right: 50px;
+      border-radius: 8px;
+    }
+  
+    .gallery-description {
+      width: 50%;
+      text-align: left;
+    }
+  
+    .gallery-button {
+      display: inline-block;
+      background-color: #90B2D8;
+      border: none;
+      padding: 10px 40px;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  
+    .explore-section {
+      
+    }
+  }
+  
 //공지사항등록
 //공지사항수정
 .notice-reg-wrap,
@@ -2029,4 +2107,69 @@ background-color: #e7e6de9c;
             }
         }
     }
+    .introduction {
+        .image-container {
+          height: 300px;
+        }
+    
+        .main-image {
+          height: 300px;
+          margin: -50px auto;
+        }
+    
+        .subtitle {
+          font-size: 24px;
+        }
+    
+        .content-text {
+          width: 90%;
+          font-size: 16px;
+        }
+
+        .content-block {
+            width: 100% !important;
+            text-align: center !important;
+        }
+    
+        .interval-between {
+          padding-top: 80px;
+        }
+    
+        .gallery-list {
+          width: 90%;
+          ul {
+            padding: 0;
+          }
+        }
+    
+        .gallery-item {
+          flex-direction: column;
+          margin-bottom: 100px;
+        }
+    
+        .gallery-image {
+          width: 100%;
+          height: auto;
+          margin-right: 0;
+          margin-bottom: 20px;
+        }
+    
+        .gallery-description {
+          width: 100%;
+          text-align: center;
+        }
+    
+        .gallery-button {
+          padding: 10px 20px;
+        }
+    
+        .center {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .mobile-margin {
+            margin-top: 50px;
+        }
+      }
 }
