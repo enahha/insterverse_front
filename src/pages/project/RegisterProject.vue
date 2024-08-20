@@ -2,7 +2,7 @@
   <q-page class="page-1200 q-pa-md project-reg-wrap">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec">{{ $t('menu_project_register') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Exhibition</span></div>
+        <div class="title-sec">{{ $t('menu_project_register') }}</div>
       </div>
     </div>
 
@@ -80,7 +80,7 @@
                   </thead>
                   <tbody>
                     <tr 
-                      v-for="(item, index) in mediaList" 
+                      v-for="(item, index) in myMediaList" 
                       :key="index" 
                       @click="toggleSelect(item)" 
                       :class="{'selected-row': item.selected}" 
@@ -146,6 +146,13 @@
           </div>
           <div style="max-width: 600px;">
             <q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+          </div>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_subtitle') }}<span class="text-red"> *</span></span>
+          </div>
+          <div style="max-width: 600px;">
+            <q-input v-model="subtitle" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
           </div>
 
           <div class="q-pt-md">
@@ -726,7 +733,7 @@
           </div>
 
           <div class="project-list row">
-          <div v-for="item in selectedMediaList" :key="item.seq">
+          <div v-for="item in selectedmyMediaList" :key="item.seq">
             <q-item>
               <q-item-section avatar>
                 <q-avatar square v-if="item.type == 'VIDEO'">
@@ -959,9 +966,9 @@ export default defineComponent({
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
-      mediaList: [],
+      myMediaList: [],
       selectedState: {},
-      // selectedMediaList: [
+      // selectedmyMediaList: [
       //   {
       //     seq: 1,
       //     type: 'IMAGE',
@@ -1030,8 +1037,8 @@ export default defineComponent({
     getWalletAddress () {
       return this.$store.getters.getWalletAddress
     },
-    selectedMediaList() {
-      return this.mediaList.filter(item => item.selected);
+    selectedmyMediaList() {
+      return this.myMediaList.filter(item => item.selected);
     },
   },
   created: function () {
@@ -1080,7 +1087,7 @@ export default defineComponent({
     // 페이지를 나갈 시 미디어 리스트 선택사항 삭제
     localStorage.removeItem('mediaSelectionState')
     this.selectedState = {}
-    this.mediaList = []
+    this.myMediaList = []
   },
   methods: {
     checkLogin() {
@@ -1133,14 +1140,14 @@ export default defineComponent({
     },
     saveSelectionState() {
       // 현재 선택 상태를 저장
-      this.mediaList.forEach(item => {
+      this.myMediaList.forEach(item => {
         this.selectedState[item.seq] = item.selected // seq를 key로 사용하여 저장
       })
       localStorage.setItem('mediaSelectionState', JSON.stringify(this.selectedState))
     },
     async applySelectionState() {
       // 저장된 선택 상태 적용
-      this.mediaList.forEach(item => {
+      this.myMediaList.forEach(item => {
         if (this.selectedState.hasOwnProperty(item.seq)) {
           item.selected = this.selectedState[item.seq]
         } else {
@@ -1168,7 +1175,7 @@ export default defineComponent({
       //        will continue to be displayed
       // make some Ajax call then call done()
       this.saveSelectionState() // 새로고침 전에 선택 상태 저장
-      this.mediaList = []
+      this.myMediaList = []
       this.refresherDone = done // load가 끝나면 로딩메세지 종료
       this.$refs.infiniteScroll.reset() // index 초기화
       this.$refs.infiniteScroll.resume() // stop에서 다시 재생
@@ -1228,15 +1235,15 @@ export default defineComponent({
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)
           if (idx === 1) { // 첫번째 load인 경우
-            this.mediaList = [] // 리스트 초기화
+            this.myMediaList = [] // 리스트 초기화
           }
-          this.mediaList = this.mediaList.concat(result.data)
+          this.myMediaList = this.myMediaList.concat(result.data)
 
           // 선택 상태 적용
           await this.applySelectionState()
 
           // 데이터 없음 표시 설정
-          if (!this.mediaList || this.mediaList.length < 1) {
+          if (!this.myMediaList || this.myMediaList.length < 1) {
             this.noDataFlag = true
           } else {
             this.noDataFlag = false
@@ -1485,7 +1492,7 @@ export default defineComponent({
     },
     async register() {
       // 미디어 리스트 등록
-      this.insertMediaList()
+      this.insertmyMediaList()
 
       // 프로젝트 status_cd변경
       this.updateProjectStatusCd()
@@ -1515,9 +1522,9 @@ export default defineComponent({
         this.$noti(this.$q, err)
       }
     },
-    async insertMediaList() {
+    async insertmyMediaList() {
       // 선택된 미디어 항목을 필터링
-      const selectedMedia = this.mediaList.filter(item => item.selected)
+      const selectedMedia = this.myMediaList.filter(item => item.selected)
       
       if (selectedMedia.length === 0) {
         console.log("선택된 항목x")

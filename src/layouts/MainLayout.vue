@@ -91,13 +91,13 @@
         /> -->
 
         <!-- mypage -->
-        <div v-if="getUid">
+        <!-- <div v-if="getUid">
         <q-btn
           label="마이페이지"
           @click="goMypage"
           style="background-color: #FEFEFE; color: black"
         />
-        </div>
+        </div> -->
 
         &nbsp;&nbsp;&nbsp;&nbsp;
 

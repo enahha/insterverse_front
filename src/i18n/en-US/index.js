@@ -1226,7 +1226,7 @@ export default {
   project_guide_2_1: 'Decials 0, Initial Supply 100 - 100 in your wallet',
   project_guide_2_2: 'Decials 1, Initial Supply 100 - 10 in your wallet',
   project_guide_2_2: 'Decials 2, Initial Supply 100 - 1 in your wallet',
-
+  project_nft_info: 'NFT Information',
   
   // artist description
   artist_basic_information: 'Artist Basic Information',

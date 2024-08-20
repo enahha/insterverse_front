@@ -65,7 +65,7 @@
             <tr>
               <td>
                 <div class="">
-                  <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 500)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 1000)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -105,7 +105,7 @@
             <tr>
               <td>
                 <div class="q-pt-xl">
-                  <q-input v-model="mediaOrderNumber" :label="$t('media_order_number')" ref="refMediaOrderNumber" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaOrderNumber" :label="$t('media_order_number')" ref="refMediaOrderNumber" :rules="[required]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -133,15 +133,16 @@
                     checked-icon="task_alt"
                     unchecked-icon="highlight_off"
                   />
-                  <q-input v-model="mediaPrice" :disabled="!mediaForSale" :label="$t('media_price')" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
+                  <q-input v-if="mediaForSale" v-model="mediaPrice" :label="$t('media_price')" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
+                  <q-input v-else v-model="mediaPrice" :readonly="true" :label="$t('media_price')" ref="refMediaPrice" clearable outlined tabindex="1" style="width: 200px;"/>
                 </div>
               </td>
             </tr>
             <tr>
               <td>
                 <div class="q-pt-lg row">
-                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaCreatedAt" :label="$t('media_created')" ref="refMediaCreated" clearable outlined tabindex="1" />
-                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaSize" :label="$t('media_size')" ref="refMediaSize" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaCreatedAt" :label="$t('media_created') + ' ex) 2024'" ref="refMediaCreated" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaSize" :label="$t('media_size')+ ' ex) 500*500'" ref="refMediaSize" clearable outlined tabindex="1" />
                   <q-input class="q-mb-xs" style="width: 200px;" v-model="mediaMaterials" :label="$t('media_materials')" ref="refMediaMaterials" clearable outlined tabindex="1" />
                 </div>
               </td>
@@ -263,12 +264,12 @@ export default defineComponent({
     return {
       smallSize: false,
       confirmGoBack: false,
-      projectSeq: '', // route parameter seq
+      mediaSeq: '', // route parameter seq
       mediaOrderNumber: '1',
       mediaTitle: 'room',
       mediaSubtitle: 'black and white',
       mediaPrice: '1122',
-      mediaCreatedAt: '2019/09/09',
+      mediaCreatedAt: '2019',
       mediaSize: '500*500',
       mediaMaterials: 'digtal',
       mediaDescription: 'happy room',
@@ -301,7 +302,7 @@ export default defineComponent({
   },
   created: function () {
     // 키 설정
-    this.projectSeq = this.$route.query.seq
+    this.mediaSeq = this.$route.query.seq
 
     const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
     const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
@@ -318,6 +319,9 @@ export default defineComponent({
       if (document.body.offsetWidth < 1024) {
       this.smallSize = true
     }
+
+    // 나의 미디어 정보 조회
+    this.selectMyMedia()
   },
   mounted: function () {},
   methods: {
@@ -377,6 +381,36 @@ export default defineComponent({
         return text
       }
       return text.substring(0, maxLength) + '...'
+    },
+    selectMyMedia() {
+      const param = {
+        uid: this.getUid,
+        seq: this.mediaSeq,
+      }
+      this.$axios.get('/api/mymedia/selectMyMedia', { params: { ...param }})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          if (result.data) {
+            console.log(result.data)
+            this.mediaOrderNumber = result.data.order_no
+            this.mediaTitle = result.data.title
+            this.mediaSubtitle = result.data.subtitle
+            this.mediaPrice = result.data.price
+            this.mediaCreatedAt = result.data.created_at
+            this.mediaSize = result.data.size
+            this.mediaMaterials = result.data.materials
+            this.mediaDescription = result.data.description
+            this.mediaForSale = result.data.sale_yn === 'Y' // 'Y'일경우 true
+            this.mediaUrl = result.data.url
+            this.mediaType = result.data.type
+          } else {
+            this.$noti(this.$q, this.$t('request_data_failed'))
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
     },
     ///////////////////////////////////////////////////////////////////////////
     // validation
@@ -462,6 +496,7 @@ export default defineComponent({
       // 1. 등록
       const params = {
         uid: this.getUid,
+        seq: this.mediaSeq,
         type: this.mediaType,
         url: this.mediaUrl,
         order_no: this.mediaOrderNumber,
@@ -475,7 +510,7 @@ export default defineComponent({
         materials: this.mediaMaterials,
       }
       this.$q.loading.show() // 로딩 표시 시작
-      this.$axios.post('/api/mymedia/insertMyMedia', params)
+      this.$axios.post('/api/mymedia/updateMyMedia', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.$q.loading.hide() // 로딩 표시 종료

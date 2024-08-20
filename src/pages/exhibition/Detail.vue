@@ -25,10 +25,10 @@
                   <td width="100%">
                     <div class="q-pl-sm title" style="word-break: break-word; font-size: 50px;">
                       <div style="font-weight: bold;">
-                        {{ projectVo.title_ko }}
-                      </div>
-                      <div class="col-12" style="word-break: break-word; font-size: 30px;">
                         {{ projectVo.title }}
+                      </div>
+                      <div class="col-12" style="word-break: break-word; font-size: 25px;">
+                        {{ projectVo.subtitle }}
                       </div>
                     </div>
                   </td>
@@ -111,20 +111,146 @@
       <!-- 정보 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="i" style="word-break: break-word;">
+
+      <div class="project-list row center" style="margin-bottom: 30px">
+        <div v-for="item in mediaList" :key="item.seq">
+          <q-item>
+            <q-item-section avatar @click="goMediaDetail(item)">
+              <q-avatar square v-if="item.type == 'VIDEO'">
+                <video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
+              </q-avatar>
+              <q-avatar square v-else>
+                <img v-if="item.url" :src="item.url">
+                <q-icon v-else name="rocket_launch" size="md" />
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+        </div>
+      </div>
+
+      <span>{{ $t('project_basic_information') }}</span>
+      <div class="underline" style="margin-bottom: 30px"></div>
+
+      <!-- <div class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.title }}
+        </div>
+      </div> -->
+      <div class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_symbol') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.symbol }}
+        </div>
+      </div>
+      <div class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('start_time') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.display_start_time }}
+        </div>
+      </div>
+      <div class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('end_time') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.display_end_time ? projectVo.display_end_time : $t('indefinite') }}
+        </div>
+      </div>
+      <div v-if="projectVo.description" class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_description') }}</span>
+        </div>
+      </div>
+      <div v-if="projectVo.description" class="q-pb-md q-pl-xs">
+        <div class="row justify-center q-pb-md q-pl-xs t-stit">
+          <div class="col-12" v-html="projectVo.description" />
+        </div>
+      </div>
+      <div v-if="projectVo.production_background" class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_background') }}</span>
+        </div>
+      </div>
+      <div v-if="projectVo.production_background" class="q-pb-md q-pl-xs">
+        <div class="row justify-center q-pb-md q-pl-xs t-stit">
+          <div class="col-12" v-html="projectVo.production_background" />
+        </div>
+      </div>
+
+      <span>{{ $t('artist_basic_information') }}</span>
+      <div class="underline" style="margin-bottom: 30px"></div>
+
+      <div class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_nickname') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.nickname }}
+        </div>
+      </div>
+      <div v-if="projectVo.artist_details" class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_details') }}</span>
+        </div>
+      </div>
+      <div v-if="projectVo.artist_details" class="q-pb-md q-pl-xs">
+        <div class="row justify-center q-pb-md q-pl-xs t-stit">
+          <div class="col-12" v-html="projectVo.artist_details" />
+        </div>
+      </div>
+
+      <span>{{ $t('project_nft_info') }}</span>
+      <div class="underline" style="margin-bottom: 30px"></div>
+
+      <div class="row justify-center">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('contract_address') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.contract_address }}
+        </div>
+      </div>
+
+      <div class="row justify-center" v-if="projectVo.collection_url">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('market_url') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.collection_url }}
+        </div>
+      </div>
+
         <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
-
           </div>
         </div>
         <div class="row justify-center q-pb-md q-pl-xs">
-          <div v-if="locale === 'ko-KR'" class="col-12 t-text">
-            {{ projectVo.title_ko }}
-          </div>
-          <div v-else class="col-12 t-text">
+          <div class="col-12 t-text">
             {{ projectVo.title }}
           </div>
-        </div> -->
+        </div>
         <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_subtitle') }}</span>
@@ -132,10 +258,10 @@
         </div>
         <div class="row justify-center q-pb-md q-pl-xs">
           <div v-if="locale === 'ko-KR'" class="col-12 t-text">
-            {{ projectVo.summary_ko }}
+            {{ projectVo.subtitle }}
           </div>
           <div v-else class="col-12 t-text">
-            {{ projectVo.summary }}
+            {{ projectVo.subtitle }}
           </div>
         </div>
         <div v-if="projectVo.description || projectVo.description_ko" class="row justify-center">
@@ -150,7 +276,7 @@
           <div v-else class="row justify-center q-pb-md q-pl-xs t-stit">
             <div class="col-12" v-html="projectVo.description" />
           </div>
-        </div>
+        </div> -->
 
         <!-- <div class="row justify-center">
           <div class="col-12">
@@ -164,7 +290,7 @@
           </div>
         </div> -->
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_type') }}</span>
 
@@ -174,7 +300,7 @@
           <div class="col-12">
             {{ projectVo.type }}
           </div>
-        </div>
+        </div> -->
 
         <!-- <div class="row justify-center">
           <div class="col-12">
@@ -188,7 +314,7 @@
           </div>
         </div> -->
 
-        <div class="row justify-center">
+        <!-- <div class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_token_contract_address') }}</span>
             <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.token_contract_address)">&nbsp;{{ $t('copy') }}</q-btn>
@@ -199,7 +325,7 @@
           <div class="col-12">
             <a @click="openUrl(scopeKlaytnUrl + 'account/' + projectVo.token_contract_address )" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.token_contract_address }}</a>
           </div>
-        </div>
+        </div> -->
 
         <!-- lp contract address 1 -->
         <!-- <div v-if="projectVo.lp_contract_address_1">
@@ -435,67 +561,68 @@
             <a @click="openUrl(scopeKlaytnUrl + 'project/' + projectVo.platform_contract_address)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.platform_contract_address }}</a>
           </div>
         </div> -->
-        <div v-if="projectVo.official_website" class="row justify-center">
-          <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_official_website') }}</span>
-            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.official_website)">&nbsp;{{ $t('copy') }}</q-btn>
-
-          </div>
-        </div>
-        <div v-if="projectVo.official_website" class="row justify-center q-pb-md q-pl-xs t-stit">
-          <div class="col-12">
-            <a @click="openUrl(projectVo.official_website)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.official_website }}</a>
-          </div>
-        </div>
-        <div v-if="projectVo.official_email" class="row justify-center">
+        <div v-if="projectVo.email" class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_official_email') }}</span>
-            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.official_email)">&nbsp;{{ $t('copy') }}</q-btn>
+            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.email)">&nbsp;{{ $t('copy') }}</q-btn>
 
           </div>
         </div>
-        <div v-if="projectVo.official_email" class="row justify-center q-pb-md q-pl-xs t-stit">
+        <div v-if="projectVo.email" class="row justify-center q-pb-md q-pl-xs t-stit">
           <div class="col-12">
-            <a class="text-weight-bold">{{ projectVo.official_email }}</a>
+            <a @click="openUrl(projectVo.email)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.email }}</a>
           </div>
         </div>
-        <div v-if="projectVo.docs" class="row justify-center">
+
+        <div v-if="projectVo.instargram" class="row justify-center">
           <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_docs') }}</span>
-            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.docs)">&nbsp;{{ $t('copy') }}</q-btn>
+            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_instargram') }}</span>
+            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.instargram)">&nbsp;{{ $t('copy') }}</q-btn>
 
           </div>
         </div>
-        <div v-if="projectVo.docs" class="row justify-center q-pb-md q-pl-xs t-stit">
+        <div v-if="projectVo.instargram" class="row justify-center q-pb-md q-pl-xs t-stit">
           <div class="col-12">
-            <a @click="openUrl(projectVo.docs)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.docs }}</a>
+            <a class="text-weight-bold">{{ projectVo.instargram }}</a>
           </div>
         </div>
-        <div v-if="projectVo.blog" class="row justify-center">
+        <div v-if="projectVo.twitter" class="row justify-center">
           <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_blog') }}</span>
-            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.blog)">&nbsp;{{ $t('copy') }}</q-btn>
+            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_twitter') }}</span>
+            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.twitter)">&nbsp;{{ $t('copy') }}</q-btn>
 
           </div>
         </div>
-        <div v-if="projectVo.blog" class="row justify-center q-pb-md q-pl-xs t-stit">
+        <div v-if="projectVo.twitter" class="row justify-center q-pb-md q-pl-xs t-stit">
           <div class="col-12">
-            <a @click="openUrl(projectVo.blog)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.blog }}</a>
+            <a @click="openUrl(projectVo.twitter)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.twitter }}</a>
           </div>
         </div>
-        <div v-if="projectVo.medium" class="row justify-center">
+        <div v-if="projectVo.discord" class="row justify-center">
           <div class="col-12">
-            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_medium') }}</span>
-            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.medium)">&nbsp;{{ $t('copy') }}</q-btn>
+            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_discord') }}</span>
+            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.discord)">&nbsp;{{ $t('copy') }}</q-btn>
 
           </div>
         </div>
-        <div v-if="projectVo.medium" class="row justify-center q-pb-md q-pl-xs t-stit">
+        <div v-if="projectVo.discord" class="row justify-center q-pb-md q-pl-xs t-stit">
           <div class="col-12">
-            <a @click="openUrl(projectVo.medium)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.medium }}</a>
+            <a @click="openUrl(projectVo.discord)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.discord }}</a>
           </div>
         </div>
         <div v-if="projectVo.telegram" class="row justify-center">
+          <div class="col-12">
+            <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_telegram') }}</span>
+            <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.telegram)">&nbsp;{{ $t('copy') }}</q-btn>
+
+          </div>
+        </div>
+        <div v-if="projectVo.telegram" class="row justify-center q-pb-md q-pl-xs t-stit">
+          <div class="col-12">
+            <a @click="openUrl(projectVo.telegram)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.telegram }}</a>
+          </div>
+        </div>
+        <!-- <div v-if="projectVo.telegram" class="row justify-center">
           <div class="col-12">
             <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_telegram') }}</span>
             <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.telegram)">&nbsp;{{ $t('copy') }}</q-btn>
@@ -554,7 +681,7 @@
           <div class="col-12">
             <a @click="openUrl(projectVo.discord)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.discord }}</a>
           </div>
-        </div>
+        </div> -->
       </q-tab-panel>
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <!-- 3. 댓글 패널 ※ infiniteScroll 이상동작으로 comment는 별도로 기술 -->
@@ -857,44 +984,30 @@ export default defineComponent({
       tab: 'i',
       symbol: '', // 통화 심볼
       projectVo: {
-        seq: '',
-        mainnet: '',
-        type: '',
-        wallet_address: '',
-        token_contract_address: '',
-        lp_contract_address_1: '',
-        lp_contract_address_2: '',
-        lp_contract_address_3: '',
-        lp_contract_address_4: '',
-        lp_contract_address_5: '',
-        lp_contract_address_6: '',
-        lp_contract_address_7: '',
-        lp_contract_address_8: '',
-        lp_contract_address_9: '',
-        lp_contract_address_10: '',
-        platform_contract_address: '',
-        platform_deposit_balance: '',
-        platform_yield: '',
-        platform_total_balance: '',
-        title: '',
-        title_ko: '',
-        summary: '',
-        summary_ko: '',
-        description: '',
-        description_ko: '',
-        official_website: '',
-        official_email: '',
-        logo_image: '',
-        docs: '',
-        blog: '',
-        medium: '',
-        telegram: '',
+        seq: 0,
+        nickname: '',
+        email: '',
+        instargram: '',
         twitter: '',
-        github: '',
-        meta: '',
         discord: '',
+        telegram: '',
+        artist_details: '',
+        title: '',
+        titleKo: '',
+        symbol: '',
+        subtitle: '',
+        exhibition_name: '',
+        banner_url: '',
+        postar_url: '',
+        display_start_time: '',
+        display_end_time: '',
+        description: '',
+        production_background: '',
+        contract_address: '',
+        collection_url: '',
         reg_id: '',
       },
+      mediaList: [],
       platformContractBalance: '0', // 컨트랙트 잔고
       scopeKlaytnUrl: this.$scopeDomainKlaytn,
       myContents: '', // 입력 댓글
@@ -974,6 +1087,9 @@ export default defineComponent({
 
     // 댓글 건수 조회
     this.selectListMax()
+
+    // 미디어 정보 조회
+    this.selectMediaList()
   },
   destroy: function () {
     window.removeEventListener("resize", this.resizeEventHandler)
@@ -1002,6 +1118,21 @@ export default defineComponent({
       this.$store.dispatch('setWalletType', userVo.wallet_type)
       this.$store.dispatch('setWalletAddress', userVo.wallet_address)
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
+    },
+    goMediaDetail(item) {
+      console.log(item)
+      this.$refs.refMediaDetailModal.myMediaVo = item
+      this.$refs.refMediaDetailModal.show()
+    },
+    selectMediaList() {
+      this.$axios.get('/api/media/selectMediaListByProjectSeq',
+        {params: {uid: this.getUid, projectSeq: this.projectSeq}})
+        .then((result) => {
+          this.mediaList = result.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     // 답글 글자수 카운트
     countMyReplyLength() {

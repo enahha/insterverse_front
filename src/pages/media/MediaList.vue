@@ -54,11 +54,11 @@
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><span>-</span></td>
                     <td @click="showDetail(item)" style="width: 300px; cursor: pointer;">{{ truncateText(item.description, 20) }}</td>
                     <td style="width: 100px;">
-                      <q-icon name="edit" size="md" @click="goEdit(item.seq)">
+                      <q-icon name="edit" size="sm" @click="goEdit(item.seq)">
                         <q-tooltip>{{ $t('edit') }}</q-tooltip>
                       </q-icon>
                       &nbsp;&nbsp;&nbsp;
-                      <q-icon name="delete_forever" size="md" @click="deleteMyMedia(item.seq)">
+                      <q-icon name="delete_forever" size="sm" @click="deleteMyMedia(item.seq)">
                         <q-tooltip>{{ $t('delete') }}</q-tooltip>
                       </q-icon>
                     </td>

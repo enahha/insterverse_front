@@ -1173,7 +1173,7 @@ export default {
   project_platform_total_balance: '펀드세이프 총잔고',
   project_total_balance: '프로젝트 총잔고',
   project_title: '프로젝트명',
-  project_subtitle: '부제',
+  project_subtitle: '부제목',
   project_description: '전시 소개',
   project_background: '전시 제작 배경',
   project_banner: '전시 배너',
@@ -1231,8 +1231,7 @@ export default {
   project_guide_2_1: '소수점 자릿수 0, 초기 발행개수 100 - 지갑에 100개로 표시',
   project_guide_2_2: '소수점 자릿수 1, 초기 발행개수 100 - 지갑에 10개로 표시',
   project_guide_2_2: '소수점 자릿수 2, 초기 발행개수 100 - 지갑에 1개로 표시',
-
-  add_artwork: '작품 추가',
+  project_nft_info: 'NFT 정보',
 
   // artist description
   artist_basic_information: '작가 기본 정보',
@@ -1244,6 +1243,7 @@ export default {
   artist_link: '링크',
 
   // add artwork
+  add_artwork: '작품 추가',
   media: '작품',
   media_url: '작품 URL',
   media_order_number: '작품번호',
@@ -1282,6 +1282,7 @@ export default {
   // my list
   copy: '복사',
   contract_address: '컨트랙트 주소',
+  market_url: '오픈마켓 주소',
   contract_transaxtion: '트랜잭션',
   contract_transfer : '트랜스퍼',
   contract_holder: '홀더',

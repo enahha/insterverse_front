@@ -53,7 +53,7 @@
               <td align="center">
                 <q-btn 
                   :label="$t('buy')" 
-                  @click="openUrl(myMediaVo.url)" 
+                  @click="openUrl(myMediaVo.nft_market_url)" 
                   :style="{
                     'background-color': myMediaVo.sale_yn == 'N' ? '#cdd3d6' : '#90B2D8', 
                     'color': 'white', 
@@ -97,7 +97,8 @@ export default {
         created_at: '',
         size: '',
         materials: '',
-        description: ''
+        description: '',
+        nft_market_url: '',
       },
     }
   },
