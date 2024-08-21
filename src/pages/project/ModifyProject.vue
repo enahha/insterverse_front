@@ -145,7 +145,7 @@
             <span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span>
           </div>
           <div style="max-width: 600px;">
-            <q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+            <q-input v-model="title" :disable="true" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
           </div>
 
           <div class="q-pt-lg">
@@ -164,7 +164,7 @@
               </q-tooltip>
             </q-icon>
             <div style="max-width: 600px;">
-              <q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+              <q-input v-model="symbol" :disable="true" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
             </div>
           </div>
 
@@ -826,6 +826,7 @@
             <q-btn
               size="lg"
               @click="register"
+              :disable="isButtonClicked"
               :label="$t('register_project')"
               class="exhibit-btn"
             />
@@ -942,25 +943,26 @@ export default defineComponent({
       ////////////////////////
       nickname: '',
       // representativeSns: '',
-      email: 'email@gmail.com',
+      email: '',
       instargram: '',
       twitter: '',
       discord: '',
       telegram: '',
-      artistDescription: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">작가 소개입니다</span>',
-      title: '테스트',
+      artistDescription: '',
+      title: '',
       titleKo: '',
-      symbol: 'TEST',
-      subtitle: '부제',
+      symbol: '',
+      subtitle: '',
       exhibitionName: '',
-      bannerImage: 'http://43.201.176.43:8000/uploaded/20240819/20240819_1308_53_011_9a8103.png',
-      posterImage: 'http://43.201.176.43:8000/uploaded/20240819/20240819_1308_53_011_9a8103.png',
-      startTime: '2024-08-01 00:00',
+      bannerImage: '',
+      posterImage: '',
+      startTime: '',
       endTime: '',
-      projectDescription: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">전시 소개입니다</span>',
-      projectBackground: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">전시 제작 배경입니다</span>',
+      projectDescription: '',
+      projectBackground: '',
 
-      methodsExecuted: true,
+      methodsExecuted: false,
+      isButtonClicked: false,
       keyword: '',
       refresherDone: '',
       pageSize: 50,
@@ -1072,10 +1074,10 @@ export default defineComponent({
     // 팀 지갑주소에 사용자 지갑주소 디폴트 설정
     // this.projectWalletAddress = this.getWalletAddress
 
-    this.nickname = nickname ? nickname : ''
+    // this.nickname = nickname ? nickname : ''
 
     // 프로젝트 조회
-
+    this.selectProject()
 
     // 미디어 리스트 조회
     this.selectListMax()
@@ -1175,9 +1177,11 @@ export default defineComponent({
       this.$router.push('/media')
     },
     async selectProject() {
-      this.$axios.get('/api/media/selectMediaListByProjectSeq',
-        {params: {uid: this.getUid, projectSeq: this.projectSeq}})
+      this.$axios.get('/api/project/selectProject',
+        {params: {uid: this.getUid, seq: this.projectSeq}})
         .then((result) => {
+          console.log("result.data.nickname")
+          console.log(result.data.nickname)
           this.nickname = result.data.nickname
           this.email = result.data.email
           this.instargram = result.data.instargram
@@ -1195,6 +1199,11 @@ export default defineComponent({
           this.endTime = result.data.display_end_time
           this.projectDescription = result.data.description
           this.projectBackground = result.data.production_background
+
+          console.log("selectProject this.bannerImage")
+          console.log(this.bannerImage)
+          console.log("selectProject this.posterImage")
+          console.log(this.posterImage)
         })
         .catch((err) => {
           console.log(err)
@@ -1422,7 +1431,10 @@ export default defineComponent({
     },
     // 프로젝트 수정
     async doModifyProject() {
-      console.log("doModifyProject")
+      console.log("doModifyProject ==================")
+      console.log("bannerImage : " + this.bannerImage)
+      console.log("posterImage : " + this.posterImage)
+
       // 1. 프로젝트 수정 처리
       const params = {
         uid: this.getUid,
@@ -1442,7 +1454,7 @@ export default defineComponent({
         subtitle: this.subtitle,
         exhibition_name: this.exhibitionName,
         banner_url: this.bannerImage,
-        poster_url: this.posterImage,
+        postar_url: this.posterImage,
         start_time: this.start_time,
         end_time: this.end_time,
         description: this.projectDescription,
@@ -1451,11 +1463,11 @@ export default defineComponent({
         mainnet: this.mainnet,
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
-      this.$q.loading.show() // 로딩 표시 시작
+      // this.$q.loading.show() // 로딩 표시 시작
       this.$axios.post('/api/project/updateProject', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
+          // this.$q.loading.hide() // 로딩 표시 종료
           if (result.data && result.data.resultCd === 'SUCCESS') {
             // console.log(result.data)
             this.$noti(this.$q, this.$t('modify_success'))
@@ -1482,8 +1494,9 @@ export default defineComponent({
         })
     },
     async register() {
-      // // 미디어 리스트 등록
-      // this.insertMediaList()
+      this.isButtonClicked = true
+      // 미디어 수정 혹은 등록
+      // this.processMediaLists()
 
       // 프로젝트 status_cd변경
       this.updateProjectStatusCd()
@@ -1496,13 +1509,17 @@ export default defineComponent({
         status_cd: this.$PROJECT_STATUS_CD_PAID,      // 정보 등록 완료(결제 완료)
       }
       try {
+        this.$q.loading.show() // 로딩 표시 시작
         const result = await this.$axios.post('/api/project/updateProjectStatusCd', params)
         console.log(JSON.stringify(result.data))
 
         if (result.data && result.data.resultCd === 'SUCCESS') {
           console.log('SUCCESS')
+          this.$q.loading.hide()  // 로딩 표시 종료
           
           // mintKlaytnNft API 호출을 대기
+          console.log('projectSeq   ==  ' + this.projectSeq)
+
           await this.$axios.get('/api/project/mintKlaytnNft', { params: { seq: this.projectSeq } })
 
           // 나의 프로젝트 리스트 화면으로 이동
@@ -1518,35 +1535,35 @@ export default defineComponent({
       try {
         // 현재 선택된 미디어 리스트 (MyMediaVo 리스트)
         const selectedMediaList = this.selectedMyMediaList
-        console.log('Selected Media List:')
-        console.table(selectedMediaList)
+        // console.log('Selected Media List:')
+        // console.table(selectedMediaList)
 
         // 기존 DB에 저장된 미디어 리스트
         const currentMediaList = this.originalMediaList
-        console.log('Current Media List:')
-        console.table(currentMediaList)
+        // console.log('Current Media List:')
+        // console.table(currentMediaList)
 
         // add 리스트 생성: 선택된 미디어 리스트에 있지만 기존 리스트에 없는 항목  - 새로운 항목
         const addList = selectedMediaList.filter(selected => {
           return !currentMediaList.some(media => media.my_media_seq === selected.seq)
         })
-        console.log('Add List:')
-        console.table(addList)
+        // console.log('Add List:')
+        // console.table(addList)
 
         // delete 리스트 생성: 기존 리스트에 있지만 선택된 리스트에 없는 항목 - 지워진 항목
         const deleteList = currentMediaList.filter(media => {
           return !selectedMediaList.some(selected => selected.seq === media.my_media_seq)
         })
-        console.log('deleteList List:')
-        console.table(deleteList)
+        // console.log('deleteList List:')
+        // console.table(deleteList)
 
         // restore 리스트 생성: 선택된 리스트에 있지만 기존 리스트에 있고, 해당 항목이 삭제된 상태인 경우
         const restoreList = currentMediaList.filter(media => {
           return selectedMediaList.some(selected => selected.seq === media.my_media_seq && media.del_yn === 'Y')
         })
-        console.log('Restore List:')
-        console.table(restoreList)
-        console.log('---------------')
+        // console.log('Restore List:')
+        // console.table(restoreList)
+        // console.log('---------------')
 
         // 각각의 리스트를 처리
         await this.insertMediaList(addList)

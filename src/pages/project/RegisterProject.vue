@@ -826,6 +826,7 @@
             <q-btn
               size="lg"
               @click="register"
+              :disable="isButtonClicked"
               :label="$t('register_project')"
               class="exhibit-btn"
             />
@@ -955,12 +956,13 @@ export default defineComponent({
       exhibitionName: '',
       bannerImage: 'http://43.201.176.43:8000/uploaded/20240819/20240819_1308_53_011_9a8103.png',
       posterImage: 'http://43.201.176.43:8000/uploaded/20240819/20240819_1308_53_011_9a8103.png',
-      startTime: '2024-08-01 00:00',
-      endTime: '',
+      startTime: null,
+      endTime: null,
       projectDescription: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">전시 소개입니다</span>',
       projectBackground: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">전시 제작 배경입니다</span>',
 
       methodsExecuted: false,
+      isButtonClicked: false,
       keyword: '',
       refresherDone: '',
       pageSize: 50,
@@ -1371,7 +1373,6 @@ export default defineComponent({
     },
     // 등록
     async doInsertProject() {
-      console.log("doRegister")
       // insert / update 구분용
       this.methodsExecuted = true
       // 1. 등록
@@ -1393,9 +1394,9 @@ export default defineComponent({
         subtitle: this.subtitle,
         exhibition_name: this.exhibitionName,
         banner_url: this.bannerImage,
-        poster_url: this.posterImage,
-        start_time: this.start_time,
-        end_time: this.end_time,
+        postar_url: this.posterImage,
+        display_start_time: this.startTime,
+        display_end_time: this.endTime,
         description: this.projectDescription,
         production_background: this.projectBackground,
         mainnet: this.mainnet,
@@ -1451,20 +1452,20 @@ export default defineComponent({
         subtitle: this.subtitle,
         exhibition_name: this.exhibitionName,
         banner_url: this.bannerImage,
-        poster_url: this.posterImage,
-        start_time: this.start_time,
-        end_time: this.end_time,
+        postar_url: this.posterImage,
+        display_start_time: this.startTime,
+        display_end_time: this.endTime,
         description: this.projectDescription,
         production_background: this.projectBackground,
         mod_id: this.getUid,
         mainnet: this.mainnet,
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
-      this.$q.loading.show() // 로딩 표시 시작
+      // this.$q.loading.show() // 로딩 표시 시작
       this.$axios.post('/api/project/updateProject', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
+          // this.$q.loading.hide() // 로딩 표시 종료
           if (result.data && result.data.resultCd === 'SUCCESS') {
             // console.log(result.data)
             this.$noti(this.$q, this.$t('modify_success'))
@@ -1491,6 +1492,8 @@ export default defineComponent({
         })
     },
     async register() {
+      this.isButtonClicked = true
+
       // 미디어 리스트 등록
       this.insertmyMediaList()
 
@@ -1505,11 +1508,13 @@ export default defineComponent({
         status_cd: this.$PROJECT_STATUS_CD_PAID,      // 정보 등록 완료(결제 완료)
       }
       try {
+        this.$q.loading.show() // 로딩 표시 시작
         const result = await this.$axios.post('/api/project/updateProjectStatusCd', params)
         console.log(JSON.stringify(result.data))
 
         if (result.data && result.data.resultCd === 'SUCCESS') {
           console.log('SUCCESS')
+          this.$q.loading.hide() // 로딩 표시 시작
           
           // mintKlaytnNft API 호출을 대기
           await this.$axios.get('/api/project/mintKlaytnNft', { params: { seq: this.projectSeq } })
@@ -1602,6 +1607,7 @@ export default defineComponent({
       console.log('fileNameNew: ' + fileNameNew)
 
       this.posterImage = fileNameNew // 프로젝트 로고 URL 설정
+      console.log(this.posterImage)
       // this.$refs.uploaderObj.reset()
     },
     goBack() {

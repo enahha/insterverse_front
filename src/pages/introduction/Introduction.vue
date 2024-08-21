@@ -40,7 +40,7 @@
           <div class="underline" style="margin-right: 10px;"></div>
           <span class="subtitle">Why Instarverse?</span>
         </div>
-        <div class="center interval-between" style="padding: 100px;">
+        <div class="center interval-between" style="padding: 50px;">
           <q-img src="images/instarverse_aboutus_1.png" class="mobile-margin" style="max-width: 900px; margin-right: 20px;" />
           <div class="content-block">
             <h4 style="font-weight: bold;">
@@ -54,7 +54,7 @@
           </div>
         </div>
 
-        <div class="center" style="background-color: #90B2D8; padding: 100px;">
+        <div class="center" style="background-color: #90B2D8; padding: 50px;">
           <div class="content-block">
             <h4 style="font-weight: bold; color: white;">
               창작자 수수료 수익
@@ -68,7 +68,7 @@
           <q-img src="images/instarverse_aboutus_2.png" class="mobile-margin" style="max-width: 900px; margin-right: 20px;" />
         </div>
 
-        <div class="center" style="padding: 100px;">
+        <div class="center" style="padding: 50px;">
           <q-img src="images/instarverse_aboutus_3.png" class="mobile-margin" style="max-width: 900px; margin-right: 20px;" />
           <div class="content-block">
             <h4 style="font-weight: bold;">
@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <div class="center" style="background-color: #0C2C69; padding: 100px;">
+        <div class="center" style="background-color: #0C2C69; padding: 50px;">
           <div class="content-block">
             <h4 style="font-weight: bold; color: white;">
               AI 도슨트와 자유로운 소통 
@@ -96,7 +96,7 @@
           <q-img src="images/instarverse_aboutus_4.png" class="mobile-margin" style="max-width: 900px; margin-right: 20px;" />
         </div>
 
-        <div class="center" style="padding: 100px;">
+        <div class="center" style="padding: 50px;">
           <q-img src="images/instarverse_aboutus_5.png" class="mobile-margin" style="max-width: 900px; margin-right: 20px;" />
           <div class="content-block">
             <h4 style="font-weight: bold;">
@@ -109,7 +109,7 @@
           </div>
         </div>
 
-        <div class="center" style="background-color: #90B2D8; padding: 100px;">
+        <div class="center" style="background-color: #90B2D8; padding: 50px;">
           <div class="content-block">
             <h4 style="font-weight: bold; color: white;">
               365일 연중무휴 포트폴리오  

@@ -1262,6 +1262,9 @@ export default {
   create_project_success: 'Project created.',
   create_project_failed: 'Create project failed',
   loading_message_create_project: 'Creating Project...',
+  Registering: 'Registering',
+  display: 'Display',
+  exhibit_ending: 'Exhibit End',
 
   // my list
   copy: 'COPY',

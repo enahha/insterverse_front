@@ -31,19 +31,25 @@
 
           <div v-for="item in projectList" :key="item.seq">
             <q-item clickable @click="goDetail(item.seq)">
-              <q-item-section avatar>
-                <q-avatar square>
+              <q-item-section style="padding-bottom: 20px;">
+                <!-- <q-avatar>
                   <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
-                </q-avatar>
+                </q-avatar> -->
+                <div style="width: 350px; height: 280px; display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; border-radius: 8px;">
+                  <img v-if="item.postar_url" :src="item.postar_url" style="width: 100%; height: 100%; object-fit: cover;">
+                  <q-icon v-else name="rocket_launch" size="md" />
+                </div>
               </q-item-section>
 
               <q-item-section>
                 <div class="row list-item">
-                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
+                  <q-item-label class="col-12">{{ item.title }}</q-item-label>
+                  <q-item-label class="col-12">{{ truncateText(item.subtitle,truncateSubtitle) }}</q-item-label>
+                  <!-- <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
                   <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
                   <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateText(item.summary_ko,truncateSubtitle) }}</q-item-label>
-                  <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label>
+                  <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label> -->
                 </div>
               </q-item-section>
             </q-item>

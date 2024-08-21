@@ -2,7 +2,8 @@
   <div class="row justify-center project-detail-header">
     <div class="col-12 q-pb-xs">
       <!-- 베너 이미지 db저장된 uri로 바꿔야 함. 임시 이미지 -->
-      <img src="images/main_exhibition.png" alt="Active Icon" style="width: 100%; height: 400px; margin: -60px auto;" />
+      <img v-if="projectVo.banner_url" :src="projectVo.banner_url" alt="Active Icon" style="width: 100%; height: 400px; object-fit: cover; margin: -60px auto;" />
+      <img v-else src="images/main_exhibition.png" alt="Active Icon" style="width: 100%; height: 400px; margin: -60px auto;" />
       <!-- 흰색 그라데이션 커버 이미지(고정) -->
 
 
@@ -23,8 +24,17 @@
                     </div>
                   </td> -->
                   <td width="100%">
-                    <div class="q-pl-sm title" style="word-break: break-word; font-size: 50px;">
-                      <div style="font-weight: bold;">
+                    <div class="q-pl-sm title" style="word-break: break-word;">
+                      <div v-if="projectVo.status_cd == '10'" style="font-size: 14px;">
+                        {{ $t('Registering') }}
+                      </div>
+                      <div v-if="isStart" style="font-size: 14px;">
+                        <q-icon name="radio_button_checked" color="red" style="padding-right: 5px;"/>{{ $t('display') }}
+                      </div>
+                      <div v-if="isEnd" style="font-size: 14px;">
+                        <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;"/>{{ $t('exhibit_ending') }}
+                      </div>
+                      <div style="font-weight: bold; font-size: 50px;">
                         {{ projectVo.title }}
                       </div>
                       <div class="col-12" style="word-break: break-word; font-size: 25px;">
@@ -42,6 +52,7 @@
             </div>
           </div>
         </div>
+        <!--<div class="q-pl-sm" style="padding-left: 15%; background-color: rgba(255, 255, 255, 0.3);">   반투명 흰색레이어 추가 -->
         <div class="q-pl-sm" style="padding-left: 15%;">
           <div class="row flex flex-center">
             <!-- <div v-if="popupYn !== 'y'"> -->
@@ -78,7 +89,7 @@
             <tr>
               <td style="display: flex; flex-direction: column; align-items: end; padding-right: 25%;">
                 <!-- <q-btn :label="$t('edit')" @click="goModify" style="background-color: #90B2D8; width: 100px; margin: 10px;"/> -->
-                <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 3%;"/>
+                <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" :disable="!isStart" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 3%;"/>
                 <!-- <q-btn label="MediaDetailModal" @click="showMediaDetailModal" size="20px" style="background-color: #E1D2BB; width: 180px; margin-top: 3%;"/> -->
               </td>
             </tr>
@@ -112,7 +123,7 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="i" style="word-break: break-word;">
 
-      <div class="project-list row center" style="margin-bottom: 30px">
+      <div class="project-list row" style="margin-bottom: 30px">
         <div v-for="item in mediaList" :key="item.seq">
           <q-item>
             <q-item-section avatar @click="goMediaDetail(item)">
@@ -985,6 +996,7 @@ export default defineComponent({
       symbol: '', // 통화 심볼
       projectVo: {
         seq: 0,
+        status_cd: '',
         nickname: '',
         email: '',
         instargram: '',
@@ -1025,6 +1037,8 @@ export default defineComponent({
       modifyTargetSeq: '', // 수정 대상 댓글 seq
       modifyCommentValue: '', // 수정 대상 댓글 내용
       confirmDeleteProject: false, // 프로젝트 삭제 모달
+      isStart: false,
+      isEnd: false,
     }
   },
   components: {
@@ -1334,24 +1348,31 @@ export default defineComponent({
         uid: this.getUid,
         seq: this.projectSeq,
       }
+
       this.$axios.get('/api/project/selectProject', { params: { ...param }})
         .then((result) => {
-          // console.log(JSON.stringify(result.data))
           if (result.data) {
-            // console.log(result.data)
             this.projectVo = result.data
 
-            // if (this.projectVo.mainnet === 'KLAYTN') {
-            //   this.symbol = 'KLAY'
-            // } else if (this.projectVo.mainnet === 'ETHEREUM') {
-            //   this.symbol = 'ETH'
-            // } else {
-            //   // TODO: 체인 확장시 대응 필요
-            //   this.symbol = 'KLAY'
-            // }
+            // 현재 시간
+            const now = new Date()
 
-            // platform contract balance 조회
-            // this.selectPlatformContractBalance()
+            // 시작 시간과 종료 시간
+            const startTime = new Date(result.data.display_start_time)
+            const endTime = result.data.display_end_time ? new Date(result.data.display_end_time) : null
+
+            // display_end_time이 null이거나 빈값이면
+            if (!endTime) {
+              // 현재 시간이 isStart를 경과하면 true
+              this.isStart = now >= startTime
+            } else {
+              // 오늘 날짜가 startTime과 endTime 사이에 있으면 true
+              this.isStart = now >= startTime && now <= endTime
+
+              // now가 endTime을 경과하면 isEnd는 true
+              this.isEnd = now > endTime
+            }
+
           } else {
             this.$noti(this.$q, this.$t('request_data_failed'))
           }

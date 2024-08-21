@@ -314,15 +314,11 @@ export default defineComponent({
       bannerImage: [
         {
           seq: 0,
-          src: 'images/main_exhibition.png',
+          src: 'images/instarverse_banner_2_3.png',
         },
         {
           seq: 1,
-          src: 'images/token_temp_image.png',
-        },
-        {
-          seq: 2,
-          src: 'images/og_image_vote.png',
+          src: 'images/instarverse_banner_2_2.png',
         },
       ]
     }

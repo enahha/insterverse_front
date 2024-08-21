@@ -25,12 +25,13 @@
               <q-item-section>
                 <div class="row list-item">
                   <q-item-label class="col-12">{{ item.title }}</q-item-label>
+                  <q-item-label class="col-12">{{ truncateText(item.subtitle,truncateSubtitle) }}</q-item-label>
+                  <!-- <q-item-label class="col-12">{{ item.title }}</q-item-label>
                   <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateText(item.summary_ko,truncateSubtitle) }}</q-item-label>
-                  <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label>
+                  <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label> -->
                 </div>
               </q-item-section>
             </q-item>
-
             <!-- 관리자 수정용 -->
             <!-- <div v-if="isAdmin" class="text-right">
               <q-btn @click="goSetDescription(item.seq)" size="sm" label="Modify" />
@@ -210,7 +211,23 @@ export default defineComponent({
       }
       return text.substring(0, maxLength) + '...'
     },
-    
+    checkIsStart(item) {
+      const now = new Date()
+      const startTime = new Date(item.display_start_time)
+      const endTime = item.display_end_time ? new Date(item.display_end_time) : null
+
+      if (!endTime || item.display_end_time === '') {
+        return now >= startTime
+      } else {
+        return now >= startTime && now <= endTime
+      }
+    },
+    checkIsEnd(item) {
+      const now = new Date()
+      const endTime = new Date(item.display_end_time)
+
+      return endTime && now > endTime
+    },
     // 계정 조회
     selectUser() {
       // 로그인 여부 체크, 로그인 모달 표시
@@ -325,7 +342,7 @@ export default defineComponent({
         this.keyword = ''
       }
       this.$axios.get('/api/project/selectProjectListLastPageNum',
-        {params: {uid: this.getUid, regId: this.getUid, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_PAID}})
+        {params: {uid: this.getUid, regId: this.getUid, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_REGISTERED}}) // 등록중
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -342,7 +359,7 @@ export default defineComponent({
         this.$store.dispatch('setKeyword', this.keyword)
       }
       this.$axios.get('/api/project/selectProjectList',
-        {params: {uid: this.getUid, regId: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_PAID}})
+        {params: {uid: this.getUid, regId: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_REGISTERED}})  // 등록중
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)

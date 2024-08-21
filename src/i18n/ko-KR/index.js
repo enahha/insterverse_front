@@ -1278,6 +1278,10 @@ export default {
   create_project_success: '프로젝트이 생성되었습니다.',
   create_project_failed: '프로젝트 생성 실패',
   loading_message_create_project: '프로젝트을 생성하고 있습니다...',
+  Registering: '등록 중',
+  display: '전시 중',
+  exhibit_ending: '전시 종료',
+
 
   // my list
   copy: '복사',
