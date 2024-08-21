@@ -1431,10 +1431,6 @@ export default defineComponent({
     },
     // 프로젝트 수정
     async doModifyProject() {
-      console.log("doModifyProject ==================")
-      console.log("bannerImage : " + this.bannerImage)
-      console.log("posterImage : " + this.posterImage)
-
       // 1. 프로젝트 수정 처리
       const params = {
         uid: this.getUid,
@@ -1455,8 +1451,8 @@ export default defineComponent({
         exhibition_name: this.exhibitionName,
         banner_url: this.bannerImage,
         postar_url: this.posterImage,
-        display_start_time: this.start_time,
-        display_end_time: this.end_time,
+        display_start_time: this.startTime,
+        display_end_time: this.endTime,
         description: this.projectDescription,
         production_background: this.projectBackground,
         mod_id: this.getUid,
@@ -1518,8 +1514,6 @@ export default defineComponent({
           this.$q.loading.hide()  // 로딩 표시 종료
           
           // mintKlaytnNft API 호출을 대기
-          console.log('projectSeq   ==  ' + this.projectSeq)
-
           await this.$axios.get('/api/project/mintKlaytnNft', { params: { seq: this.projectSeq } })
 
           // 나의 프로젝트 리스트 화면으로 이동
