@@ -87,8 +87,7 @@
 
                 <q-item-section>
                   <div class="row list-item">
-                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateString(item.title_ko) }}</q-item-label>
-                    <q-item-label v-else class="col-12">{{ truncateString(item.title) }}</q-item-label>
+                    <q-item-label class="col-12">{{ truncateString(item.title) }}</q-item-label>
                     <!-- <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label> -->
                     <!-- <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label> -->
                   </div>
@@ -140,8 +139,7 @@
 
                 <q-item-section>
                   <div class="row list-item">
-                    <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateString(item.title_ko) }}</q-item-label>
-                    <q-item-label v-else class="col-12">{{ truncateString(item.title) }}</q-item-label>
+                    <q-item-label class="col-12">{{ truncateString(item.title) }}</q-item-label>
                     <!-- <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.summary_ko }}</q-item-label> -->
                     <!-- <q-item-label v-else class="col-12">{{ item.summary }}</q-item-label> -->
                   </div>
