@@ -58,20 +58,19 @@
 
       <q-carousel
         class="view"
-        v-model="bestSlide"
+        v-model="newSlide"
         swipeable
         animated
         :autoplay="10000"
         control-color="black"
         infinite
         flat
-        navigation
         padding
-        arrows
         height="400px"
+        :arrows="!this.smallSize"
       >
         <q-carousel-slide
-          v-for="(group, index) in groupedItemsAsView" 
+          v-for="(group, index) in groupedItem" 
           :key="index"
           :name="index.toString()"
         >
@@ -117,13 +116,12 @@
         control-color="black"
         infinite
         flat
-        navigation
         padding
-        arrows
         height="400px"
+        :arrows="!this.smallSize"
       >
         <q-carousel-slide
-          v-for="(group, index) in groupedItemsAsRegTime" 
+          v-for="(group, index) in groupedItem" 
           :key="index"
           :name="index.toString()"
         >
@@ -131,7 +129,7 @@
             <div class="col" v-for="item in group" :key="item.seq">
               <q-item clickable @click="goDetail(item.seq)">
                 <q-item-section avatar>
-                  <q-avatar>
+                  <q-avatar square>
                     <img v-if="item.postar_url" :src="item.postar_url" />
                     <q-icon v-else name="rocket_launch" size="md" />
                   </q-avatar>
@@ -336,22 +334,20 @@ export default defineComponent({
     getKeyword () {
       return this.$store.getters.getKeyword
     },
-    groupedItemsAsView() {
-      const chunkSize = 4 // Number of items per slide
+    groupedItem() {
+     let chunkSize = 4 // Number of items per slide
+      if(this.smallSize){
+        console.log(this.smallSize)
+        chunkSize = 4
+      }
+   
       const groups = []
       for (let i = 0; i < this.projectListAsView.length; i += chunkSize) {
         groups.push(this.projectListAsView.slice(i, i + chunkSize))
       }
+      console.table(groups)
       return groups
     },
-    groupedItemsAsRegTime() {
-      const chunkSize = 4 // Number of items per slide
-      const groups = []
-      for (let i = 0; i < this.projectListAsRegTime.length; i += chunkSize) {
-        groups.push(this.projectListAsRegTime.slice(i, i + chunkSize))
-      }
-      return groups
-    }
   },
   created: function () {
     // // console.log(this.$q.platform.is.mobile)
@@ -494,7 +490,7 @@ export default defineComponent({
         this.keyword = ''
       }
       this.$axios.get('/api/project/selectProjectListLastPageNum',
-        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keywor, statusCd: this.$PROJECT_STATUS_CD_PAID}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -511,7 +507,7 @@ export default defineComponent({
         this.$store.dispatch('setKeyword', this.keyword)
       }
       this.$axios.get('/api/project/selectProjectList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, statusCd: this.$PROJECT_STATUS_CD_PAID}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           // console.log(result.data)

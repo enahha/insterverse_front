@@ -14,11 +14,11 @@
       </div> -->
 
       <div class="row srch-wrap">
-        <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" clearable borderless />
+        <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" borderless />
         &nbsp;&nbsp;
         <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
         &nbsp;&nbsp;
-        <q-btn @click="search" icon="search" size="lg" style="width: 80px;" flat  />
+        <q-btn @click="search" icon="search" size="lg" flat  />
       </div>
 
       <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
@@ -36,8 +36,10 @@
                   <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
                 </q-avatar> -->
-                <div style="width: 350px; height: 280px; display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; border-radius: 8px;">
-                  <img v-if="item.postar_url" :src="item.postar_url" style="width: 100%; height: 100%; object-fit: cover;">
+
+                <!-- 이거 스타일은 app.scss파일이 아닌 해당 파일 아래쪽에 위치해있음. (스타일이 안먹어서,,,) -->
+                <div class="image-container">
+                  <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
                 </div>
               </q-item-section>
@@ -45,7 +47,7 @@
               <q-item-section>
                 <div class="row list-item">
                   <q-item-label class="col-12">{{ item.title }}</q-item-label>
-                  <q-item-label class="col-12">{{ truncateText(item.subtitle,truncateSubtitle) }}</q-item-label>
+                  <q-item-label class="col-12">{{ item.nickname }}</q-item-label>
                   <!-- <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
                   <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
                   <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateText(item.summary_ko,truncateSubtitle) }}</q-item-label>
@@ -289,4 +291,21 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.image-container {
+    width: 350px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+@media (max-width: 1023px) {
+
+}
 </style>

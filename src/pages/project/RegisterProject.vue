@@ -175,7 +175,7 @@
             </span>
           </div>
           <div style="max-width: 600px;">
-            <div class="row justify-center q-pb-md">
+            <div class="row justify-center q-pb-xs">
               <div class="col-12">
                 <q-uploader
                   field-name="file"
@@ -194,7 +194,7 @@
                 />
               </div>
             </div>
-            <div class="col-12 text-red text-bold">
+            <div class="col-12 text-red text-bold worn-text">
               {{ $t('project_banner_hint') }}
             </div>
           </div>
@@ -231,7 +231,7 @@
               </q-input>
             </div>
             <!-- 전시 종료일 -->
-            <div class="q-pt-md" style="max-width: 300px;">
+            <div class="q-pt-xs" style="max-width: 300px;">
               <q-input v-model="endTime" :label="$t('end_time')" ref="refEndTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
@@ -256,7 +256,7 @@
                   </q-icon>
                 </template>
               </q-input>
-              <div class="col-12 text-red text-bold q-pt-xs">
+              <div class="col-12 text-red text-bold q-pt-xs worn-text">
                 {{ $t('project_date_hint') }}
               </div>
             </div>
@@ -269,7 +269,7 @@
             </span>
           </div>
           <div style="max-width: 600px;">
-            <div class="row justify-center q-pb-md">
+            <div class="row justify-center  q-pb-xs">
               <div class="col-12">
                 <q-uploader
                   field-name="file"
@@ -288,11 +288,37 @@
                 />
               </div>
             </div>
-            <div class="col-12 text-red text-bold">
+            <div class="col-12 text-red text-bold worn-text">
               {{ $t('square_image_only') }}
             </div>
           </div>
-          <br><br><br>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_tag') }}<span class="text-red"></span></span>
+          </div>
+          <div class="input-wrapper" style="max-width: 600px;">
+            <q-input
+                class="input-tag"
+                type="text"
+                v-model="hashState.hashtag"
+                @keyup.enter="onEnterKey"
+                :placeholder="hashState.hashArr.length < 5 ? '#태그 입력 (최대 5개)' : '최대 5개까지 입력'"
+                :disabled="hashState.hashArr.length >= 5"
+                clearable outlined tabindex="1"
+              />
+            <div class="hash-wrapper">
+              <div
+                class="hash-item"
+                v-for="(tag, index) in hashState.hashArr"
+                :key="index"
+                draggable="true"
+              >
+                <p># {{ tag }}</p>
+                <p class="hash-item-delete" @click="removeHashTag(index)">x</p>
+              </div>
+            </div>
+          </div>
+          <br><br>
 
           <div class="row justify-center q-pt-lg">
             <div class="col-12">
@@ -870,7 +896,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js'
 
@@ -884,7 +910,7 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '1',
+      tab: '2',
       projectSeq: '', // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
@@ -970,6 +996,10 @@ export default defineComponent({
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
       myMediaList: [],
       selectedState: {},
+      hashState: reactive({
+        hashtag: '',
+        hashArr: [],
+      }),
       // selectedmyMediaList: [
       //   {
       //     seq: 1,
@@ -1156,6 +1186,18 @@ export default defineComponent({
           item.selected = false // 이전에 선택되지 않은 항목은 false로 설정
         }
       })
+    },
+    onEnterKey() {
+      const trimmedTag = this.hashState.hashtag.trim()
+      if (trimmedTag && this.hashState.hashArr.length < 5) {
+        this.hashState.hashArr.push(trimmedTag)
+        this.hashState.hashtag = ''
+      }
+    },
+    removeHashTag(index) {
+      if (index >= 0 && index < this.hashState.hashArr.length) {
+        this.hashState.hashArr.splice(index, 1)
+      }
     },
     goMyMediaList() {
       // this.$router.push({ path: '/media/registerMedia', query: { seq: this.projectSeq }})
@@ -1375,6 +1417,12 @@ export default defineComponent({
     async doInsertProject() {
       // insert / update 구분용
       this.methodsExecuted = true
+      // 시작일을 입력하지 않으면 오늘 날짜와 시간으로 지정
+      if (this.startTime === null) {
+        const now = new Date().toISOString()
+        this.startTime = now.replace('T', ' ').split('.')[0]
+      }
+      console.log(this.hashState.hashArr)
       // 1. 등록
       const params = {
         uid: this.getUid,
@@ -1400,6 +1448,7 @@ export default defineComponent({
         description: this.projectDescription,
         production_background: this.projectBackground,
         mainnet: this.mainnet,
+        tag_list: this.hashState.hashArr,
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
       // this.$q.loading.show() // 로딩 표시 시작
@@ -1459,6 +1508,7 @@ export default defineComponent({
         production_background: this.projectBackground,
         mod_id: this.getUid,
         mainnet: this.mainnet,
+        tag_list: this.hashState.hashArr,
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
       // this.$q.loading.show() // 로딩 표시 시작

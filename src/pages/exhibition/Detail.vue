@@ -139,8 +139,8 @@
         </div>
       </div>
 
-      <span>{{ $t('project_basic_information') }}</span>
-      <div class="underline" style="margin-bottom: 30px"></div>
+      <!-- <span>{{ $t('project_information') }}</span>
+      <div class="underline" style="margin-bottom: 30px"></div> -->
 
       <!-- <div class="row justify-center">
         <div class="col-12">
@@ -152,6 +152,78 @@
           {{ projectVo.title }}
         </div>
       </div> -->
+
+
+      <div v-if="projectVo.description" class="row justify-center">
+        <div class="col-12 q-pb-md">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit" style="font-size: 20px;">{{ $t('project_description') }}</span>
+        </div>
+      </div>
+      <div v-if="projectVo.description" class="q-pb-md q-pl-xs">
+        <div class="row justify-center q-pb-md q-pl-xs t-stit">
+          <div class="col-12" v-html="projectVo.description" />
+        </div>
+      </div>
+      <div class="row justify-center q-pl-xs">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('start_time') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.display_start_time }}
+        </div>
+      </div>
+      <div class="row justify-center q-pl-xs">
+        <div class="col-12">
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('end_time') }}</span>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.display_end_time ? projectVo.display_end_time : $t('indefinite') }}
+        </div>
+      </div>
+
+      <!-- 하단 공간 확보 -->
+      <div class="row justify-center q-pa-xl">
+      </div>
+
+      <span>{{ $t('artist_basic_information') }}</span>
+      <div class="underline" style="margin-bottom: 30px"></div>
+      <div class="row justify-center q-pb-md q-pl-xs">
+        <div class="col-12 text-weight-bold" style="font-size: 50px;">
+          {{ projectVo.nickname }}
+        </div>
+        <div class="col-12" style="font-size: 20px;">
+          {{ projectVo.instargram }}
+        </div>
+      </div>
+      <div v-if="projectVo.artist_details" class="q-pb-md q-pl-xs">
+        <div class="row justify-center q-pb-md q-pl-xs t-stit">
+          <div class="col-12" v-html="projectVo.artist_details" />
+        </div>
+      </div>
+
+      <!-- 하단 공간 확보 -->
+      <div class="row justify-center q-pa-xl">
+      </div>
+
+      <span v-if="projectVo.production_background">{{ $t('project_background') }}</span>
+      <div v-if="projectVo.production_background" class="underline" style="margin-bottom: 30px"></div>
+      <div v-if="projectVo.production_background" class="q-pb-md q-pl-xs">
+        <div class="row justify-center q-pb-md q-pl-xs t-stit">
+          <div class="col-12" v-html="projectVo.production_background" />
+        </div>
+        <!-- 하단 공간 확보 -->
+        <div class="row justify-center q-pa-xl">
+        </div>
+      </div>xsax
+
+
+
+      <span>{{ $t('project_nft_info') }}</span>
+      <div class="underline" style="margin-bottom: 30px"></div>
       <div class="row justify-center">
         <div class="col-12">
           <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_symbol') }}</span>
@@ -164,74 +236,6 @@
       </div>
       <div class="row justify-center">
         <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('start_time') }}</span>
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md q-pl-xs">
-        <div class="col-12 t-text">
-          {{ projectVo.display_start_time }}
-        </div>
-      </div>
-      <div class="row justify-center">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('end_time') }}</span>
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md q-pl-xs">
-        <div class="col-12 t-text">
-          {{ projectVo.display_end_time ? projectVo.display_end_time : $t('indefinite') }}
-        </div>
-      </div>
-      <div v-if="projectVo.description" class="row justify-center">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_description') }}</span>
-        </div>
-      </div>
-      <div v-if="projectVo.description" class="q-pb-md q-pl-xs">
-        <div class="row justify-center q-pb-md q-pl-xs t-stit">
-          <div class="col-12" v-html="projectVo.description" />
-        </div>
-      </div>
-      <div v-if="projectVo.production_background" class="row justify-center">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_background') }}</span>
-        </div>
-      </div>
-      <div v-if="projectVo.production_background" class="q-pb-md q-pl-xs">
-        <div class="row justify-center q-pb-md q-pl-xs t-stit">
-          <div class="col-12" v-html="projectVo.production_background" />
-        </div>
-      </div>
-
-      <span>{{ $t('artist_basic_information') }}</span>
-      <div class="underline" style="margin-bottom: 30px"></div>
-
-      <div class="row justify-center">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_nickname') }}</span>
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md q-pl-xs">
-        <div class="col-12 t-text">
-          {{ projectVo.nickname }}
-        </div>
-      </div>
-      <div v-if="projectVo.artist_details" class="row justify-center">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_details') }}</span>
-        </div>
-      </div>
-      <div v-if="projectVo.artist_details" class="q-pb-md q-pl-xs">
-        <div class="row justify-center q-pb-md q-pl-xs t-stit">
-          <div class="col-12" v-html="projectVo.artist_details" />
-        </div>
-      </div>
-
-      <span>{{ $t('project_nft_info') }}</span>
-      <div class="underline" style="margin-bottom: 30px"></div>
-
-      <div class="row justify-center">
-        <div class="col-12">
           <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('contract_address') }}</span>
         </div>
       </div>
@@ -240,17 +244,19 @@
           {{ projectVo.contract_address }}
         </div>
       </div>
-
-      <div class="row justify-center" v-if="projectVo.collection_url">
+      <div v-if="projectVo.collection_url" class="row justify-center">
         <div class="col-12">
           <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('market_url') }}</span>
+          <q-btn icon="content_copy" color="grey-7" size="md" flat @click="copyValue(projectVo.collection_url)">&nbsp;{{ $t('copy') }}</q-btn>
+
         </div>
       </div>
-      <div class="row justify-center q-pb-md q-pl-xs">
-        <div class="col-12 t-text">
-          {{ projectVo.collection_url }}
+      <div v-if="projectVo.collection_url" class="row justify-center q-pb-md q-pl-xs t-stit">
+        <div class="col-12">
+          <a @click="openUrl(projectVo.collection_url)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.collection_url }}</a>
         </div>
       </div>
+      
 
         <!-- <div class="row justify-center">
           <div class="col-12">
@@ -550,6 +556,7 @@
           </div>
         </div> -->
 
+
         <!-- place QPageScroller at end of page -->
         <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
           <q-btn fab icon="keyboard_arrow_up" color="" />
@@ -581,7 +588,8 @@
         </div>
         <div v-if="projectVo.email" class="row justify-center q-pb-md q-pl-xs t-stit">
           <div class="col-12">
-            <a @click="openUrl(projectVo.email)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.email }}</a>
+            <!-- <a @click="openUrl(projectVo.email)" class="text-weight-bold" style="cursor: pointer;">{{ projectVo.email }}</a> -->
+            <a class="text-weight-bold" style="cursor: pointer;">{{ projectVo.email }}</a>
           </div>
         </div>
 
@@ -734,7 +742,8 @@
                       <td rowspan="2" width="60" class="flex-bottom">
                         <q-avatar>
                           <!-- <img src="https://cdn.quasar.dev/img/avatar7.jpg"> -->
-                          <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                          <!-- <img src="https://cdn.quasar.dev/img/boy-avatar.png"> -->
+                          <q-avatar color="primary" text-color="white" icon="person" size="40px"  />
                         </q-avatar>
                       </td>
                       <td><span class="text-body2">{{ item.reg_name }}</span></td>

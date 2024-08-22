@@ -2,12 +2,13 @@
     <footer>
       <div class="footer">
         <div class="footer-info">
+          <br /><br /><br /><br/><br /><br />
           <!-- links -->
-          <div class="text-h4 text-bold flex flex-center q-pt-xs">
+          <div class="text-h5 text-bold flex flex-center q-pt-xs">
             <span class="footer-title">INSTARVERSE</span>
-            <br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br /><br/>
           </div>
-          <br /><br /><br /><br /><br /><br /><br />
+          <br />
 
           <div class="text-caption flex flex-center q-pt-xs">
             <span class="text-white">ⓒ 2023 Star Inc. all rights reserved.</span>
@@ -16,7 +17,7 @@
           <!-- 사업자정보 -->
           <div class="text-caption flex flex-center">
             <div class="row">
-              <div class="col-12 q-pa-md text-white">
+              <div class="col-12 text-white">
                 {{ $t('company_name') }}
                 | {{ $t('company_representive') }} : {{ $t('company_representive_value') }}
                 | {{ $t('company_address') }} : {{ $t('company_address_value') }}
@@ -73,6 +74,22 @@ export default defineComponent({
 
 <style scoped>
 .footer-title {
-  color: #0C2C69;
+  margin: 100px;
+  padding-left: 50px;
+  color: #FEFEFE;
+}
+.text-caption{
+  padding-left: 50px;
+}
+
+@media (max-width: 1023px) {
+    .text-caption {
+        padding: 0;
+        font-size: 8px;
+        text-align: center;
+    }
+    .footer-title {
+      padding: 0;
+    }
 }
 </style>

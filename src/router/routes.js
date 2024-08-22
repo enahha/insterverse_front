@@ -69,6 +69,7 @@ const routes = [
     children: [
       { path: 'twitter', component: () => import('src/pages/test/TestTwitter.vue') },
       { path: 'ipfs', component: () => import('src/pages/test/TestIPFS.vue') },
+      { path: 'tag', component: () => import('src/pages/test/TestTag.vue') },
       // { path: 'home', component: () => import('pages/Index.vue') },
     ]
   },

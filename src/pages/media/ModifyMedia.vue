@@ -1,5 +1,5 @@
 <template>
-  <q-page class="page-1200 q-pa-md q-pa-md">
+  <q-page class="page-1200 q-pa-md q-pa-md reg-media">
     <div class="row title">
       <div class="col-12 doc-heading">
         <div class="title-sec">{{ $t('add_artwork') }}</div>
@@ -147,6 +147,36 @@
                 </div>
               </td>
             </tr>
+            <tr>
+              <td>
+                <div class="q-pt-lg">
+                  <span class="text-weight-bold text-subtitle1">{{ $t('project_tag') }}<span class="text-red"></span></span>
+                </div>
+                <div class="input-wrapper" style="max-width: 600px;">
+                  <q-input
+                      class="input-tag"
+                      type="text"
+                      v-model="hashState.hashtag"
+                      @keyup.enter="onEnterKey"
+                      :placeholder="hashState.hashArr.length < 5 ? '#태그 입력 (최대 5개)' : '최대 5개까지 입력'"
+                      :disabled="hashState.hashArr.length >= 5"
+                      clearable outlined tabindex="1"
+                    />
+                  <div class="hash-wrapper">
+                    <div
+                      class="hash-item"
+                      v-for="(tag, index) in hashState.hashArr"
+                      :key="index"
+                      draggable="true"
+                    >
+                      <p># {{ tag }}</p>
+                      <p class="hash-item-delete" @click="removeHashTag(index)">x</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <br><br>
           </table>
         </div>
       </div>
@@ -255,7 +285,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue'
 import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
 
 export default defineComponent({
@@ -280,6 +310,10 @@ export default defineComponent({
       mediaType: 'image', // 파일 업로드시 fileUploadedMedia 함수에서 image or video로 자동 설정
       truncateTitle: 10,
       truncateDescription: 200,
+      hashState: reactive({
+        hashtag: '',
+        hashArr: [],
+      }),
     }
   },
   components: {
@@ -403,6 +437,7 @@ export default defineComponent({
             this.mediaForSale = result.data.sale_yn === 'Y' // 'Y'일경우 true
             this.mediaUrl = result.data.url
             this.mediaType = result.data.type
+            this.hashState.hashArr = result.data.tag ? result.data.tag.split(',') : []
           } else {
             this.$noti(this.$q, this.$t('request_data_failed'))
           }
@@ -411,6 +446,18 @@ export default defineComponent({
           console.log(err)
         })
 
+    },
+    onEnterKey() {
+      const trimmedTag = this.hashState.hashtag.trim();
+      if (trimmedTag && this.hashState.hashArr.length < 5) {
+        this.hashState.hashArr.push(trimmedTag);
+        this.hashState.hashtag = '';
+      }
+    },
+    removeHashTag(index) {
+      if (index >= 0 && index < this.hashState.hashArr.length) {
+        this.hashState.hashArr.splice(index, 1);
+      }
     },
     ///////////////////////////////////////////////////////////////////////////
     // validation
@@ -493,6 +540,7 @@ export default defineComponent({
     },
     // 등록
     async doRegister() {
+      console.log("this.")
       // 1. 등록
       const params = {
         uid: this.getUid,
@@ -508,6 +556,7 @@ export default defineComponent({
         created_at: this.mediaCreatedAt,
         size: this.mediaSize,
         materials: this.mediaMaterials,
+        tag_list: this.hashState.hashArr,
       }
       this.$q.loading.show() // 로딩 표시 시작
       this.$axios.post('/api/mymedia/updateMyMedia', params)

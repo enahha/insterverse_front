@@ -292,7 +292,33 @@
               {{ $t('square_image_only') }}
             </div>
           </div>
-          <br><br><br>
+
+          <div class="q-pt-lg">
+            <span class="text-weight-bold text-subtitle1">{{ $t('project_tag') }}<span class="text-red"></span></span>
+          </div>
+          <div class="input-wrapper" style="max-width: 600px;">
+            <q-input
+                class="input-tag"
+                type="text"
+                v-model="hashState.hashtag"
+                @keyup.enter="onEnterKey"
+                :placeholder="hashState.hashArr.length < 5 ? '#태그 입력 (최대 5개)' : '최대 5개까지 입력'"
+                :disabled="hashState.hashArr.length >= 5"
+                clearable outlined tabindex="1"
+              />
+            <div class="hash-wrapper">
+              <div
+                class="hash-item"
+                v-for="(tag, index) in hashState.hashArr"
+                :key="index"
+                draggable="true"
+              >
+                <p># {{ tag }}</p>
+                <p class="hash-item-delete" @click="removeHashTag(index)">x</p>
+              </div>
+            </div>
+          </div>
+          <br><br>
 
           <div class="row justify-center q-pt-lg">
             <div class="col-12">
@@ -870,7 +896,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js'
 
@@ -884,7 +910,7 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '1',
+      tab: '2',
       projectSeq: '', // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
@@ -972,6 +998,10 @@ export default defineComponent({
       mediaList: [],
       originalMediaList: [],
       selectedState: {},
+      hashState: reactive({
+        hashtag: '',
+        hashArr: [],
+      }),
       // selectedMyMediaList: [
       //   {
       //     seq: 1,
@@ -1172,6 +1202,18 @@ export default defineComponent({
         }
       })
     },
+    onEnterKey() {
+      const trimmedTag = this.hashState.hashtag.trim();
+      if (trimmedTag && this.hashState.hashArr.length < 5) {
+        this.hashState.hashArr.push(trimmedTag);
+        this.hashState.hashtag = '';
+      }
+    },
+    removeHashTag(index) {
+      if (index >= 0 && index < this.hashState.hashArr.length) {
+        this.hashState.hashArr.splice(index, 1);
+      }
+    },
     goMyMediaList() {
       // this.$router.push({ path: '/media/registerMedia', query: { seq: this.projectSeq }})
       this.$router.push('/media')
@@ -1180,8 +1222,8 @@ export default defineComponent({
       this.$axios.get('/api/project/selectProject',
         {params: {uid: this.getUid, seq: this.projectSeq}})
         .then((result) => {
-          console.log("result.data.nickname")
-          console.log(result.data.nickname)
+          console.log("result.data.tag")
+          console.log(result.data.tag)
           this.nickname = result.data.nickname
           this.email = result.data.email
           this.instargram = result.data.instargram
@@ -1199,6 +1241,7 @@ export default defineComponent({
           this.endTime = result.data.display_end_time
           this.projectDescription = result.data.description
           this.projectBackground = result.data.production_background
+          this.hashState.hashArr = result.data.tag ? result.data.tag.split(',') : []
 
           console.log("selectProject this.bannerImage")
           console.log(this.bannerImage)
@@ -1457,6 +1500,7 @@ export default defineComponent({
         production_background: this.projectBackground,
         mod_id: this.getUid,
         mainnet: this.mainnet,
+        tag_list: this.hashState.hashArr,
         // nft_yn: 'Y', // NFT 프로젝트 여부 = 'Y'
       }
       // this.$q.loading.show() // 로딩 표시 시작

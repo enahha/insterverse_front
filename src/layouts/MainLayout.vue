@@ -270,6 +270,7 @@
       bordered
       class="bg-grey-3"
       show-if-above
+      style="background-color: #FEFEFE !important;"
     >
       <!-- <q-toolbar class="page-default text-left shadow-1">
         &nbsp;
@@ -359,7 +360,7 @@
           <q-item clickable to="/web">
             <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="home" style="width: 20px; height: 20px;" /> -->
-              <q-img src="icons/icon_aboutus_ex.png" width="40px" />
+              <q-img src="icons/instarverse_logo.png" width="40px" />
             </q-item-section>
             <q-item-section>
               <q-item-label>
@@ -372,7 +373,7 @@
           <q-item clickable to="/exhibition">
             <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
-              <q-img src="icons/icon_exhibition.png" width="20px" />
+              <!-- <q-img src="icons/icon_exhibition.png" width="20px" /> -->
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ $t('menu_project_list') }}</q-item-label>
@@ -383,7 +384,7 @@
           <q-item clickable to="/project">
             <q-item-section avatar class="q-pt-md">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
-              <q-img src="icons/icon_showcase_1.png" width="30px" />
+              <!-- <q-img src="icons/icon_showcase_1.png" width="30px" /> -->
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ $t('menu_project_register') }}</q-item-label>
@@ -393,7 +394,7 @@
           <!-- 4. Register Media -->
           <q-item clickable to="/media">
             <q-item-section avatar class="q-pt-md">
-              <q-icon name="image" style="width: 20px; height: 20px;" />
+              <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
             <q-item-section>

@@ -16,10 +16,14 @@
           <div v-for="item in projectList" :key="item.seq">
             <q-item clickable @click="goDetail(item.seq)">
               <q-item-section avatar>
-                <q-avatar square>
+                <!-- <q-avatar square>
                   <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
-                </q-avatar>
+                </q-avatar> -->
+                <div style="width: 350px; height: 280px; display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; border-radius: 8px;">
+                  <img v-if="item.postar_url" :src="item.postar_url" style="width: 100%; height: 100%; object-fit: cover;">
+                  <q-icon v-else name="rocket_launch" size="md" />
+                </div>
               </q-item-section>
 
               <q-item-section>

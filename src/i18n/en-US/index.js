@@ -1169,11 +1169,13 @@ export default {
   project_total_balance: 'Project Total Balance',
   project_title: 'Project Title',
   project_subtitle: 'Subtitle',
+  project_tag: 'Tag',
   project_description: 'Description',
   project_background: 'Production background',
   project_banner: 'Banner Image',
   project_exhibition_day: 'Exhibition day',
   project_basic_information: 'Basic information',
+  project_information: 'Exhibition information',
   project_exhibition_type: 'Exhibition type',
   project_official_website: 'Official Website',
   project_official_email: 'E-mail',
@@ -1229,7 +1231,7 @@ export default {
   project_nft_info: 'NFT Information',
   
   // artist description
-  artist_basic_information: 'Artist Basic Information',
+  artist_basic_information: 'Artist Information',
   artist_details: 'Artist Details',
   artist_career: 'Background and career',
   artist_nickname: 'Nickname',
@@ -1269,6 +1271,7 @@ export default {
   // my list
   copy: 'COPY',
   contract_address: 'Contract Address',
+  market_url: 'Open Market Address',
   contract_transaxtion: 'Transaction',
   contract_transfer : 'Transfer',
   contract_holder: 'Holder',

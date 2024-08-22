@@ -694,7 +694,7 @@ textarea {
             margin: 0 auto 15px;
             > .q-avatar {
                 font-size: 250px;
-                border-radius: 10px;
+                border-radius: 5px;
                 > img:hover {
                     box-shadow: 2px 7px 14px 1px rgb(70 70 70 / 26%);
                 }
@@ -702,6 +702,9 @@ textarea {
         }
         .q-item__section--avatar {
             min-width: 50px;
+        }
+        .q-carousel__navigation-inner {
+            width: 1000px;
         }
     }
     .list-item {
@@ -813,7 +816,7 @@ textarea {
         .q-item__label {
             width: 100%;
             font-size: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             display: -ms-flexbox;
             display: -webkit-flex;
             display: flex;
@@ -1273,6 +1276,9 @@ background-color: #e7e6de9c;
     // .page-sub-tit {
     //     margin-left: 10px;
     // }
+    .worn-text {
+        font-size: 12px;
+    }
     .tab-panel-1{
         max-width: 100%;
         > span {
@@ -1292,24 +1298,37 @@ background-color: #e7e6de9c;
         }
 
     }
-    // .tab-panel-2 {
-    //     max-width: 100%;
-    //     > span {
-    //         font-size: 23px;
-    //         font-weight: bold;
-    //     }
-    //     .label {
-    //         width: 30%;
-    //         text-align: start;
-    //         padding-left: 5%;
-    //     }
-    //     .label-input {
-    //         width: 1000px;
-    //     }
-    //     > input{
-    //         width: 50%;
-    //     }
-    // }
+    .tab-panel-2 {
+        .hash-wrapper {
+            height: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 5px;
+        }
+        .hash-item {
+            display: flex;
+            align-items: center;
+            background: #e7e7e7;
+            padding: 5px 10px;
+            margin-top: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            font-weight: bold;
+        }
+        .hash-item p {
+            margin: 3px;
+            font-size: 14px;
+            color: #333;
+        }
+        .hash-item-delete {
+            margin-left: 10px;
+            font-size: 14px;
+            color: #ff4d4d;
+            cursor: pointer;
+        }
+    }
     .tab-panel-3 {
         max-width: 100%;
         > span {
@@ -1468,6 +1487,37 @@ background-color: #e7e6de9c;
     table thead th { 
         border-bottom: solid 3px #000000; 
         padding: 10px 0;
+    }
+}
+.reg-media{
+    .hash-wrapper {
+        height: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px;
+    }
+    .hash-item {
+        display: flex;
+        align-items: center;
+        background: #e7e7e7;
+        padding: 5px 10px;
+        margin-top: 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        user-select: none;
+        font-weight: bold;
+    }
+    .hash-item p {
+        margin: 3px;
+        font-size: 14px;
+        color: #333;
+    }
+    .hash-item-delete {
+        margin-left: 10px;
+        font-size: 14px;
+        color: #ff4d4d;
+        cursor: pointer;
     }
 }
 // 작품 정보 디테일
@@ -1776,7 +1826,7 @@ background-color: #e7e6de9c;
                 color: #0C2C69 !important;
                 opacity: 1;
                 &:hover {
-                    background: #E1D2BB;
+                    background: #f4f7fb;
                     opacity: 1;
                 }
                 &.q-router-link--active,
@@ -1848,6 +1898,25 @@ background-color: #e7e6de9c;
         }
     }
     .main-list{
+        // 2개용 스타일
+        // .item-container {
+        //     display: flex;
+        //     flex-direction: row; /* 가로로 배치되도록 설정 */
+        //     overflow-x: auto; /* 가로 스크롤을 허용 */
+        //     gap: 16px;
+        //     width: 100%; /* 컨테이너가 전체 너비를 차지하도록 설정 */
+        // }
+        // .q-item {
+        //     padding: 0 0;
+        //     display: flex;
+        //     flex-direction: column;
+        //     align-items: center;
+        //     .q-item__section--side {
+        //         > .q-avatar {
+        //             font-size: 150px;
+        //         }
+        //     }
+        // }
         .item-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1860,7 +1929,7 @@ background-color: #e7e6de9c;
             align-items: center;
             .q-item__section--side {
                 > .q-avatar {
-                    font-size: 100px;
+                    font-size: 150px;
                 }
             }
         }
@@ -1871,8 +1940,8 @@ background-color: #e7e6de9c;
             > .part-1 {
                 font-size: 25px;
                 margin-left: 0px;
-                padding-left: 55px;
-                padding-bottom: 100px;
+                padding-left: 20px;
+                padding-bottom: 110px;
             }
         }
         .new-exhibition {
@@ -1880,8 +1949,8 @@ background-color: #e7e6de9c;
             align-items: center;
             > .part-1 {
                 font-size: 25px;
-                padding-left: 500px;
-                padding-bottom: 100px;
+                padding-left: 200px;
+                padding-bottom: 130px;
             }
         }
     }

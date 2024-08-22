@@ -1174,11 +1174,13 @@ export default {
   project_total_balance: '프로젝트 총잔고',
   project_title: '프로젝트명',
   project_subtitle: '부제목',
+  project_tag: '태그',
   project_description: '전시 소개',
   project_background: '전시 제작 배경',
   project_banner: '전시 배너',
   project_exhibition_day: '전시일',
   project_basic_information: '전시 기본 정보',
+  project_information: '전시 정보',
   project_exhibition_type: '전시관 타입',
   project_official_website: '공식 웹사이트',
   project_official_email: '이메일',
@@ -1234,7 +1236,7 @@ export default {
   project_nft_info: 'NFT 정보',
 
   // artist description
-  artist_basic_information: '작가 기본 정보',
+  artist_basic_information: '작가 정보',
   artist_details: '작가 세부 정보',
   artist_career: '세부 학력 및 경력',
   artist_nickname: '닉네임',

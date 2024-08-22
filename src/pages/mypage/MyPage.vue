@@ -254,7 +254,8 @@
                             <td rowspan="2" width="60" class="flex-bottom">
                               <q-avatar>
                                 <!-- <img src="https://cdn.quasar.dev/img/avatar7.jpg"> -->
-                                <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                                <!-- <img src="https://cdn.quasar.dev/img/boy-avatar.png"> -->
+                                <q-avatar color="primary" text-color="white" icon="person" size="40px"  />
                               </q-avatar>
                             </td>
                             <td><span class="text-body2">{{ item.reg_name }}</span></td>
