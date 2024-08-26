@@ -45,8 +45,7 @@
         <br />- 랄프 월도 에머슨 -
       </div> -->
 
-      <br />
-      <br />
+      <br /><br /><br /><br /><br /><br /><br /><br />
 
       <!-- 인기 전시 -->
       <div class="best-exhibition">
@@ -58,7 +57,7 @@
 
       <q-carousel
         class="view"
-        v-model="newSlide"
+        v-model="bestSlide"
         swipeable
         animated
         :autoplay="10000"
@@ -70,7 +69,7 @@
         :arrows="!this.smallSize"
       >
         <q-carousel-slide
-          v-for="(group, index) in groupedItem" 
+          v-for="(group, index) in groupedItemAsView" 
           :key="index"
           :name="index.toString()"
         >
@@ -121,7 +120,7 @@
         :arrows="!this.smallSize"
       >
         <q-carousel-slide
-          v-for="(group, index) in groupedItem" 
+          v-for="(group, index) in groupedItemAsNew" 
           :key="index"
           :name="index.toString()"
         >
@@ -300,7 +299,7 @@ export default defineComponent({
       pageSize: 100,
       lastPageNum: 1, // 마지막 페이지
       projectListAsView: [],
-      projectListAsRegTime: [],
+      projectListAsNew: [],
       noDataFlag: false,
       keyword: '', // 검색키워드
       benneSlide: '0',
@@ -334,7 +333,7 @@ export default defineComponent({
     getKeyword () {
       return this.$store.getters.getKeyword
     },
-    groupedItem() {
+    groupedItemAsView() {
      let chunkSize = 4 // Number of items per slide
       if(this.smallSize){
         console.log(this.smallSize)
@@ -344,6 +343,20 @@ export default defineComponent({
       const groups = []
       for (let i = 0; i < this.projectListAsView.length; i += chunkSize) {
         groups.push(this.projectListAsView.slice(i, i + chunkSize))
+      }
+      console.table(groups)
+      return groups
+    },
+    groupedItemAsNew() {
+     let chunkSize = 4 // Number of items per slide
+      if(this.smallSize){
+        console.log(this.smallSize)
+        chunkSize = 4
+      }
+   
+      const groups = []
+      for (let i = 0; i < this.projectListAsNew.length; i += chunkSize) {
+        groups.push(this.projectListAsNew.slice(i, i + chunkSize))
       }
       console.table(groups)
       return groups
@@ -377,7 +390,7 @@ export default defineComponent({
     // this.selectListMax()
 
     this.selectProjectListAsView()
-    this.selectProjectListAsRegTime()
+    this.selectprojectListAsNew()
 
   },
   destroy: function () {
@@ -542,11 +555,11 @@ export default defineComponent({
         })
     },
     // 등록일자순 조회
-    selectProjectListAsRegTime() {
+    selectprojectListAsNew() {
       this.$axios.get('/api/project/selectProjectListAsRegTime', {params: {limit: 12}})
       .then((result) => {
           console.log(result.data)
-          this.projectListAsRegTime = result.data
+          this.projectListAsNew = result.data
         })
     },
     // 토큰 등록으로 이동

@@ -133,8 +133,8 @@
                     checked-icon="task_alt"
                     unchecked-icon="highlight_off"
                   />
-                  <q-input v-if="mediaForSale" v-model="mediaPrice" :label="$t('media_price')" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
-                  <q-input v-else v-model="mediaPrice" :readonly="true" :label="$t('media_price')" ref="refMediaPrice" clearable outlined tabindex="1" style="width: 200px;"/>
+                  <q-input v-if="mediaForSale" v-model="mediaPrice" :label="$t('media_price') + '(USD)'" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
+                  <q-input v-else v-model="mediaPrice" :readonly="true" :label="$t('media_price') + '(USD)'" ref="refMediaPrice" clearable outlined tabindex="1" style="width: 200px;"/>
                 </div>
               </td>
             </tr>
@@ -295,19 +295,19 @@ export default defineComponent({
       smallSize: false,
       confirmGoBack: false,
       mediaSeq: '', // route parameter seq
-      mediaOrderNumber: '1',
-      mediaTitle: 'room',
-      mediaSubtitle: 'black and white',
-      mediaPrice: '1122',
-      mediaCreatedAt: '2019',
-      mediaSize: '500*500',
-      mediaMaterials: 'digtal',
-      mediaDescription: 'happy room',
+      mediaOrderNumber: '',
+      mediaTitle: '',
+      mediaSubtitle: '',
+      mediaPrice: '',
+      mediaCreatedAt: '',
+      mediaSize: '',
+      mediaMaterials: '',
+      mediaDescription: '',
       mediaForSale: true,
       mediaUrl: '',
       // mediaUrl: 'https://beastar.io/images/platform.png',
       // mediaUrl: 'https://beastar.io/images/og_image.png',
-      mediaType: 'image', // 파일 업로드시 fileUploadedMedia 함수에서 image or video로 자동 설정
+      mediaType: 'IMAGE', // 파일 업로드시 fileUploadedMedia 함수에서 image or video로 자동 설정
       truncateTitle: 10,
       truncateDescription: 200,
       hashState: reactive({
@@ -385,9 +385,9 @@ export default defineComponent({
         || file_extension === 'ogv'
         || file_extension === 'asx'
       ) {
-        this.mediaType = 'video'
+        this.mediaType = 'VIDEO'
       } else {
-        this.mediaType = 'image'
+        this.mediaType = 'IMAGE'
       }
     },
     resizeEventHandler() {

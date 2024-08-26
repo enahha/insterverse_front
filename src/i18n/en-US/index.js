@@ -1267,6 +1267,7 @@ export default {
   Registering: 'Registering',
   display: 'Display',
   exhibit_ending: 'Exhibit End',
+  exhibit_ready: 'Preparing',
 
   // my list
   copy: 'COPY',

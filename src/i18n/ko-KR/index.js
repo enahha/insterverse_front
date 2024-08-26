@@ -1283,6 +1283,7 @@ export default {
   Registering: '등록 중',
   display: '전시 중',
   exhibit_ending: '전시 종료',
+  exhibit_ready: '전시 준비중',
 
 
   // my list

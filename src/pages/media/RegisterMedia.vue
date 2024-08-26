@@ -133,7 +133,8 @@
                     checked-icon="task_alt"
                     unchecked-icon="highlight_off"
                   />
-                  <q-input v-model="mediaPrice" :disabled="!mediaForSale" :label="$t('media_price')" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
+                  <q-input v-if="mediaForSale" v-model="mediaPrice" :label="$t('media_price') + '(USD)'" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
+                  <q-input v-else v-model="mediaPrice" :readonly="true" :label="$t('media_price') + '(USD)'" ref="refMediaPrice" clearable outlined tabindex="1" style="width: 200px;"/>
                 </div>
               </td>
             </tr>
@@ -295,13 +296,13 @@ export default defineComponent({
       confirmGoBack: false,
       projectSeq: '', // route parameter seq
       mediaOrderNumber: '1',
-      mediaTitle: 'room',
-      mediaSubtitle: 'black and white',
-      mediaPrice: '1122',
+      mediaTitle: 'zena',
+      mediaSubtitle: '',
+      mediaPrice: '',
       mediaCreatedAt: '2019/09/09',
       mediaSize: '500*500',
       mediaMaterials: 'digtal',
-      mediaDescription: 'happy room',
+      mediaDescription: '',
       mediaForSale: true,
       mediaUrl: '',
       // mediaUrl: 'https://beastar.io/images/platform.png',

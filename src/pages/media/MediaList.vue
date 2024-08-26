@@ -2,7 +2,7 @@
   <q-page class="page-1200 q-pa-md project-reg-wrap">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec">{{ $t('my_artworks') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Artworks</span></div>
+        <div class="title-sec">{{ $t('my_artworks') }}</div>
       </div>
     </div>
 

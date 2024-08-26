@@ -30,6 +30,19 @@
                 <div class="row list-item">
                   <q-item-label class="col-12">{{ item.title }}</q-item-label>
                   <q-item-label class="col-12">{{ truncateText(item.subtitle,truncateSubtitle) }}</q-item-label>
+                  
+                  <q-item-label v-if="calculateStatus(item) === 'Registering'" style="font-size: 12px;">
+                    <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('Registering') }}
+                  </q-item-label>
+                  <q-item-label v-if="calculateStatus(item) === 'start'" style="font-size: 12px;">
+                    <q-icon name="radio_button_checked" color="red" style="padding-right: 5px;" />{{ $t('display') }}
+                  </q-item-label>
+                  <q-item-label v-if="calculateStatus(item) === 'end'" style="font-size: 12px;">
+                    <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('exhibit_ending') }}
+                  </q-item-label>
+                  <q-item-label v-if="calculateStatus(item) === 'ready'" style="font-size: 12px;">
+                    <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('exhibit_ready') }}
+                  </q-item-label>
                   <!-- <q-item-label class="col-12">{{ item.title }}</q-item-label>
                   <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateText(item.summary_ko,truncateSubtitle) }}</q-item-label>
                   <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label> -->
@@ -215,22 +228,31 @@ export default defineComponent({
       }
       return text.substring(0, maxLength) + '...'
     },
-    checkIsStart(item) {
+    calculateStatus(item) {
       const now = new Date()
       const startTime = new Date(item.display_start_time)
       const endTime = item.display_end_time ? new Date(item.display_end_time) : null
 
-      if (!endTime || item.display_end_time === '') {
-        return now >= startTime
-      } else {
-        return now >= startTime && now <= endTime
+      if (item.status_cd == "10") {
+        return 'Registering'
       }
-    },
-    checkIsEnd(item) {
-      const now = new Date()
-      const endTime = new Date(item.display_end_time)
 
-      return endTime && now > endTime
+      if (!endTime) {
+        if (now >= startTime) {
+          return 'start'
+        } else if (now < startTime){
+          return 'ready'
+        }
+      } else {
+        console.log(3)
+        if (now < startTime) {
+          return 'ready'
+        } else if (now >= startTime && now <= endTime) {
+          return 'start'
+        } else {
+          return 'end'
+        }
+      }
     },
     // 계정 조회
     selectUser() {

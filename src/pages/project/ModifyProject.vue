@@ -205,7 +205,7 @@
           <div style="max-width: 600px;">
             <!-- 전시 시작일 -->
             <div class="" style="max-width: 300px;">
-              <q-input v-model="startTime" :label="$t('start_time')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+              <q-input v-model="startTime" :label="$t('start_time')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 160)]" outlined tabindex="6">
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -232,7 +232,7 @@
             </div>
             <!-- 전시 종료일 -->
             <div class="q-pt-md" style="max-width: 300px;">
-              <q-input v-model="endTime" :label="$t('end_time')" ref="refEndTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+              <q-input v-model="endTime" :label="$t('end_time')" ref="refEndTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 160)]" outlined tabindex="6">
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -910,8 +910,8 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '2',
-      projectSeq: '', // route parameter seq
+      tab: '1',
+      projectSeq: 0, // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
         label: 'Klaytn',
@@ -1242,11 +1242,6 @@ export default defineComponent({
           this.projectDescription = result.data.description
           this.projectBackground = result.data.production_background
           this.hashState.hashArr = result.data.tag ? result.data.tag.split(',') : []
-
-          console.log("selectProject this.bannerImage")
-          console.log(this.bannerImage)
-          console.log("selectProject this.posterImage")
-          console.log(this.posterImage)
         })
         .catch((err) => {
           console.log(err)
@@ -1557,11 +1552,12 @@ export default defineComponent({
           console.log('SUCCESS')
           this.$q.loading.hide()  // 로딩 표시 종료
           
+          // 나의 프로젝트 리스트 화면으로 이동
+          this.$router.push('/mypage/MyExhibition')
+
           // mintKlaytnNft API 호출을 대기
           await this.$axios.get('/api/project/mintKlaytnNft', { params: { seq: this.projectSeq } })
 
-          // 나의 프로젝트 리스트 화면으로 이동
-          this.$router.push('/mypage/MyExhibition')
         }
       } catch (err) {
         console.log(err)
@@ -1625,6 +1621,7 @@ export default defineComponent({
         item.project_seq = this.projectSeq
       })
 
+      console.table(addMediaList)
       // this.$q.loading.show()
       this.$axios.post('/api/media/insertMediaList', addMediaList)
         .then((result) => {

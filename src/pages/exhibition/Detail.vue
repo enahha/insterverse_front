@@ -25,14 +25,17 @@
                   </td> -->
                   <td width="100%">
                     <div class="q-pl-sm title" style="word-break: break-word;">
-                      <div v-if="projectVo.status_cd == '10'" style="font-size: 14px;">
-                        {{ $t('Registering') }}
+                      <div v-if="calculateStatus(projectVo) === 'Registering'" style="font-size: 14px;">
+                        <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('Registering') }}
                       </div>
-                      <div v-if="isStart" style="font-size: 14px;">
-                        <q-icon name="radio_button_checked" color="red" style="padding-right: 5px;"/>{{ $t('display') }}
+                      <div v-if="calculateStatus(projectVo) === 'start'" style="font-size: 14px;">
+                        <q-icon name="radio_button_checked" color="red" style="padding-right: 5px;" />{{ $t('display') }}
                       </div>
-                      <div v-if="isEnd" style="font-size: 14px;">
-                        <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;"/>{{ $t('exhibit_ending') }}
+                      <div v-if="calculateStatus(projectVo) === 'end'" style="font-size: 14px;">
+                        <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('exhibit_ending') }}
+                      </div>
+                      <div v-if="calculateStatus(projectVo) === 'ready'" style="font-size: 14px;">
+                        <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('exhibit_ready') }}
                       </div>
                       <div style="font-weight: bold; font-size: 50px;">
                         {{ projectVo.title }}
@@ -123,15 +126,16 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="i" style="word-break: break-word;">
 
-      <div class="project-list row" style="margin-bottom: 30px">
+      <div class="project-list row " style="margin-bottom: 30px">
         <div v-for="item in mediaList" :key="item.seq">
           <q-item>
             <q-item-section avatar @click="goMediaDetail(item)">
-              <q-avatar square v-if="item.type == 'VIDEO'">
-                <video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
+              <!-- 스타일이 안먹어서 해당 파일 아래 따로 스타일 설정 -->
+              <q-avatar square v-if="item.type == 'VIDEO'" class="media-container">
+                <video :src="item.url" controls autoplay loop muted class="media-content"></video>
               </q-avatar>
-              <q-avatar square v-else>
-                <img v-if="item.url" :src="item.url">
+              <q-avatar square v-else class="media-container">
+                <img v-if="item.url" :src="item.url"  class="media-content">
                 <q-icon v-else name="rocket_launch" size="md" />
               </q-avatar>
             </q-item-section>
@@ -1048,6 +1052,7 @@ export default defineComponent({
       confirmDeleteProject: false, // 프로젝트 삭제 모달
       isStart: false,
       isEnd: false,
+      isReady: false,
     }
   },
   components: {
@@ -1141,6 +1146,32 @@ export default defineComponent({
       this.$store.dispatch('setWalletType', userVo.wallet_type)
       this.$store.dispatch('setWalletAddress', userVo.wallet_address)
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
+    },
+    calculateStatus(item) {
+      const now = new Date()
+      const startTime = new Date(item.display_start_time)
+      const endTime = item.display_end_time ? new Date(item.display_end_time) : null
+
+      if (item.status_cd == "10") {
+        return 'Registering'
+      }
+
+      if (!endTime) {
+        if (now >= startTime) {
+          return 'start'
+        } else if (now < startTime){
+          return 'ready'
+        }
+      } else {
+        console.log(3)
+        if (now < startTime) {
+          return 'ready'
+        } else if (now >= startTime && now <= endTime) {
+          return 'start'
+        } else {
+          return 'end'
+        }
+      }
     },
     goMediaDetail(item) {
       console.log(item)
@@ -1370,16 +1401,37 @@ export default defineComponent({
             const startTime = new Date(result.data.display_start_time)
             const endTime = result.data.display_end_time ? new Date(result.data.display_end_time) : null
 
-            // display_end_time이 null이거나 빈값이면
             if (!endTime) {
-              // 현재 시간이 isStart를 경과하면 true
-              this.isStart = now >= startTime
+              // display_end_time이 null이거나 빈 값이면
+              // 현재 시간이 startTime을 경과하면 전시 중 상태로 설정
+              if (now >= startTime) {
+                this.isStart = true
+                this.isReady = false
+                this.isEnd = false
+              } else {
+                // 전시 준비 중 상태로 설정
+                this.isStart = false
+                this.isReady = true
+                this.isEnd = false
+              }
             } else {
-              // 오늘 날짜가 startTime과 endTime 사이에 있으면 true
-              this.isStart = now >= startTime && now <= endTime
-
-              // now가 endTime을 경과하면 isEnd는 true
-              this.isEnd = now > endTime
+              // display_end_time이 설정된 경우
+              if (now < startTime) {
+                // 전시 준비 중 상태로 설정
+                this.isStart = false
+                this.isReady = true
+                this.isEnd = false
+              } else if (now >= startTime && now <= endTime) {
+                // 전시 중 상태로 설정
+                this.isStart = true
+                this.isReady = false
+                this.isEnd = false
+              } else {
+                // 전시 종료 상태로 설정
+                this.isStart = false
+                this.isReady = false
+                this.isEnd = true
+              }
             }
 
           } else {
@@ -1665,4 +1717,19 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.media-container {
+    overflow: hidden;
+    cursor: pointer; /* 손가락 모양으로 변경 */
+}
+.media-content {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #f6f6f6;
+    transition: transform 0.3s ease; /* 부드러운 변형 효과 */
+}
+
+.media-container:hover .media-content {
+    transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
+}
 </style>
