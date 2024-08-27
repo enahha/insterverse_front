@@ -62,61 +62,42 @@
           </div>
 
           <q-pull-to-refresh @refresh="refresher">
-          <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll" style="background-color: #FEFEFE;">
-            
-            <div class="media-table-wrapper text-center q-pt-lg">
-              <div class="table-scroll-wrapper">
-                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
-                  <thead>
-                    <tr>
-                      <!-- <th>{{ $t('media_order_number') }}</th> -->
-                      <th>No.</th>
-                      <th>{{ $t('media') }}</th>
-                      <th>{{ $t('media_title') }}</th>
-                      <th>{{ $t('media_price') }} (USD)</th>
-                      <th>{{ $t('media_description') }}</th>
-                      <!-- <th></th> -->
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr 
-                      v-for="(item, index) in myMediaList" 
-                      :key="index" 
-                      @click="toggleSelect(item)" 
-                      :class="{'selected-row': item.selected}" 
-                      style="cursor: pointer;"
-                    >
-                      <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                      <td style="width: 70px; cursor: pointer;">{{ item.order_no }}</td>
-                      <td style="width: 140px; cursor: pointer;" v-if="item.type == 'VIDEO'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
-                      <td style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
-                      <td style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
-                      <td style="width: 100px; cursor: pointer;" v-if="item.price > 0">{{ Number(item.price).toLocaleString() }}</td>
-                      <td style="width: 100px; cursor: pointer;" v-else><span>-</span></td>
-                      <td style="width: 300px; cursor: pointer;">{{ truncateText(item.description, 20) }}</td>
-                      <!-- <td style="width: 100px;">
-                        <q-icon name="edit" size="md" @click="goEdit(item.seq)">
-                          <q-tooltip>{{ $t('edit') }}</q-tooltip>
-                        </q-icon>
-                        &nbsp;&nbsp;&nbsp;
-                        <q-icon name="delete_forever" size="md" @click="deleteMyMedia(item.seq)">
-                          <q-tooltip>{{ $t('delete') }}</q-tooltip>
-                        </q-icon>
-                      </td> -->
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <template v-slot:loading>
-              <div class="row justify-center q-my-md">
-                <q-spinner-dots color="primary" size="40px" />
-              </div>
-            </template>
-
-          </q-infinite-scroll>
-        </q-pull-to-refresh>
+            <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll">
+              <q-table
+                flat
+                :rows="myMediaList"
+                :columns="columns"
+                row-key="seq"
+                selection="multiple"
+                v-model:selected="selected"
+                class="media-table-wrapper text-center q-pt-lg"
+                virtual-scroll
+                v-model:pagination="pagination"
+                :rows-per-page-options="[10, 25, 50, 100]"
+              >
+                <template v-slot:body-cell-media="props">
+                  <q-td :props="props">
+                    <video v-if="props.row.type === 'VIDEO'" :src="props.row.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
+                    <q-img v-else :src="props.row.url" style="width: 100px;" />
+                  </q-td>
+                </template>
+                <template v-slot:body-cell-title="props">
+                  <q-td :props="props">{{ truncateText(props.row.title, 10) }}</q-td>
+                </template>
+                <template v-slot:body-cell-price="props">
+                  <q-td :props="props">{{ props.row.price > 0 ? Number(props.row.price).toLocaleString() : '-' }}</q-td>
+                </template>
+                <template v-slot:body-cell-description="props">
+                  <q-td :props="props">{{ truncateText(props.row.description, 20) }}</q-td>
+                </template>
+              </q-table>
+              <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                  <q-spinner-dots color="primary" size="40px" />
+                </div>
+              </template>
+            </q-infinite-scroll>
+          </q-pull-to-refresh>
 
           <div v-if="noDataFlag" class="row justify-center q-pt-lg">
             <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
@@ -759,14 +740,15 @@
           </div>
 
           <div class="project-list row">
-          <div v-for="item in selectedmyMediaList" :key="item.seq">
+          <div v-for="item in selected" :key="item.seq">
             <q-item>
               <q-item-section avatar>
-                <q-avatar square v-if="item.type == 'VIDEO'">
-                  <video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
+                <!-- 스타일이 안먹어서 해당 파일 아래 따로 스타일 설정 -->
+                <q-avatar square v-if="item.type == 'VIDEO'" class="media-container">
+                  <video :src="item.url" controls autoplay loop muted class="media-content"></video>
                 </q-avatar>
-                <q-avatar square v-else>
-                  <img v-if="item.url" :src="item.url">
+                <q-avatar square v-else class="media-container">
+                  <img v-if="item.url" :src="item.url"  class="media-content">
                   <q-icon v-else name="rocket_launch" size="md" />
                 </q-avatar>
               </q-item-section>
@@ -910,7 +892,7 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '2',
+      tab: '1',
       projectSeq: '', // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
@@ -994,6 +976,18 @@ export default defineComponent({
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
+      columns: [
+        { name: 'order_no', required: true, label: 'No.', align: 'left', field: 'order_no' },
+        { name: 'media', label: this.$t('media'), align: 'left', field: 'type' },
+        { name: 'title', label: this.$t('media_title'), align: 'left', field: 'title' },
+        { name: 'price', label: this.$t('media_price') + ' (USD)', align: 'left', field: 'price' },
+        { name: 'description', label: this.$t('media_description'), align: 'left', field: 'description' },
+      ],
+      selected: [],
+      pagination: {
+        page: 1,
+        rowsPerPage: 25, 
+      },
       myMediaList: [],
       selectedState: {},
       hashState: reactive({
@@ -1071,6 +1065,11 @@ export default defineComponent({
     },
     selectedmyMediaList() {
       return this.myMediaList.filter(item => item.selected);
+    },
+    paginatedRows() {
+      const start = (this.pagination.page - 1) * this.pagination.rowsPerPage
+      const end = start + this.pagination.rowsPerPage
+      return this.myMediaList.slice(start, end)
     },
   },
   created: function () {
@@ -1580,20 +1579,20 @@ export default defineComponent({
     },
     async insertmyMediaList() {
       // 선택된 미디어 항목을 필터링
-      const selectedMedia = this.myMediaList.filter(item => item.selected)
+      // const selectedMedia = this.myMediaList.filter(item => item.selected)
       
-      if (selectedMedia.length === 0) {
+      if (this.selected.length === 0) {
         console.log("선택된 항목x")
         return
       }
 
       // project_seq 추가
-      selectedMedia.forEach(item => {
+      this.selected.forEach(item => {
         item.project_seq = this.projectSeq
       })
 
       // this.$q.loading.show()
-      this.$axios.post('/api/media/insertMediaList', selectedMedia)
+      this.$axios.post('/api/media/insertMediaList', this.selected)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.$q.loading.hide() // 로딩 표시 종료
@@ -1682,5 +1681,21 @@ export default defineComponent({
 })
 </script>
 
+
 <style scoped>
+.media-container {
+    overflow: hidden;
+    cursor: pointer; /* 손가락 모양으로 변경 */
+}
+.media-content {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #f6f6f6;
+    transition: transform 0.3s ease; /* 부드러운 변형 효과 */
+}
+
+.media-container:hover .media-content {
+    transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
+}
 </style>

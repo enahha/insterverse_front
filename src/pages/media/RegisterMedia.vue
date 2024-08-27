@@ -97,6 +97,7 @@
                     :auto-upload="true"
                     style="width: 100%;"
                     tabindex="9"
+                    no-thumbnails
                     @uploaded="fileUploadedMedia"
                   />
                 </div>

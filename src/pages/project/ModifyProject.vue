@@ -12,7 +12,7 @@
       align="justify"
       inline-label
     >
-      <q-tab name="1" :disable="true">{{ $t('project_artwork') }}</q-tab>
+      <q-tab name="1" :disable="true">{{ $t('project_artworks') }}</q-tab>
       <q-tab name="2" :disable="true">{{ $t('project_description') }}</q-tab>
       <q-tab name="3" :disable="true">{{ $t('project_artist') }}</q-tab>
       <q-tab name="4" :disable="true">{{ $t('project_preview') }}</q-tab>
@@ -30,7 +30,7 @@
       <q-tab-panel name="1" style="word-break: break-word;">
         <keep-alive>
         <div class="tab-panel-3 q-pt-lg">
-          <span>{{ $t('my_artworks') }}</span>
+          <span>{{ $t('project_artworks') }}</span>
           <div class="underline"></div>
 
 
@@ -53,74 +53,58 @@
             />
           </div> -->
 
-          <div style="width: 100%; display: flex; justify-content: flex-end">
+          <!-- <div style="width: 100%; display: flex; justify-content: flex-end">
             <q-btn
                 :label="$t('manage')"
                 @click="goMyMediaList"
                 style="background-color: #0C2C69; color: white; min-width: 100px; "
               />
+          </div> -->
+          <div style="width: 100%; display: flex; justify-content: flex-end">
+            <q-icon name="library_add" color="gray" size="md" @click="showAddMediaModal()">
+              <q-tooltip>{{ $t('media_add') }}</q-tooltip>
+            </q-icon>
           </div>
 
           <q-pull-to-refresh @refresh="refresher">
-          <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll" style="background-color: #FEFEFE;">
-            
-            <div class="media-table-wrapper text-center q-pt-lg">
-              <div class="table-scroll-wrapper">
-                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
-                  <thead>
-                    <tr>
-                      <!-- <th>{{ $t('media_order_number') }}</th> -->
-                      <th>No.</th>
-                      <th>{{ $t('media') }}</th>
-                      <th>{{ $t('media_title') }}</th>
-                      <th>{{ $t('media_price') }} (USD)</th>
-                      <th>{{ $t('media_description') }}</th>
-                      <!-- <th></th> -->
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr 
-                      v-for="(item, index) in myMediaList" 
-                      :key="index" 
-                      @click="toggleSelect(item)" 
-                      :class="{'selected-row': item.selected}" 
-                      style="cursor: pointer;"
-                    >
-                      <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                      <td style="width: 70px; cursor: pointer;">{{ item.order_no }}</td>
-                      <td style="width: 140px; cursor: pointer;" v-if="item.type == 'VIDEO'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
-                      <td style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
-                      <td style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
-                      <td style="width: 100px; cursor: pointer;" v-if="item.price > 0">{{ Number(item.price).toLocaleString() }}</td>
-                      <td style="width: 100px; cursor: pointer;" v-else><span>-</span></td>
-                      <td style="width: 300px; cursor: pointer;">{{ truncateText(item.description, 20) }}</td>
-                      <!-- <td style="width: 100px;">
-                        <q-icon name="edit" size="md" @click="goEdit(item.seq)">
-                          <q-tooltip>{{ $t('edit') }}</q-tooltip>
-                        </q-icon>
-                        &nbsp;&nbsp;&nbsp;
-                        <q-icon name="delete_forever" size="md" @click="deleteMyMedia(item.seq)">
-                          <q-tooltip>{{ $t('delete') }}</q-tooltip>
-                        </q-icon>
-                      </td> -->
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <q-table
+              flat
+              :rows="mediaListDelN"
+              :columns="columns"
+              row-key="seq"
+              class="media-table-wrapper text-center q-pt-lg"
+              virtual-scroll
+              v-model:pagination="pagination"
+              :rows-per-page-options="[10, 25, 50, 100]"
+            >
+              <template v-slot:body-cell-media="props">
+                <q-td :props="props">
+                  <video v-if="props.row.type === 'VIDEO'" :src="props.row.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
+                  <q-img v-else :src="props.row.url" style="width: 100px;" />
+                </q-td>
+              </template>
+              <template v-slot:body-cell-title="props">
+                <q-td :props="props">{{ truncateText(props.row.title, 10) }}</q-td>
+              </template>
+              <template v-slot:body-cell-price="props">
+                <q-td :props="props">{{ props.row.price > 0 ? Number(props.row.price).toLocaleString() : '-' }}</q-td>
+              </template>
+              <template v-slot:body-cell-description="props">
+                <q-td :props="props">{{ truncateText(props.row.description, 20) }}</q-td>
+              </template>
+              <template v-slot:body-cell-edit="props">
+                <q-td :props="props">
+                  <q-icon name="cancel_presentation" color="gray" size="sm" @click="remove(props.row)">
+                    <q-tooltip>{{ $t('remove') }}</q-tooltip>
+                  </q-icon>
+                </q-td>
+              </template>
+            </q-table>
+          </q-pull-to-refresh>
 
-            <template v-slot:loading>
-              <div class="row justify-center q-my-md">
-                <q-spinner-dots color="primary" size="40px" />
-              </div>
-            </template>
-
-          </q-infinite-scroll>
-        </q-pull-to-refresh>
-
-          <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+          <!-- <div v-if="noDataFlag" class="row justify-center q-pt-lg">
             <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
-          </div>
+          </div> -->
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
             <q-btn
@@ -762,11 +746,12 @@
           <div v-for="item in selectedMyMediaList" :key="item.seq">
             <q-item>
               <q-item-section avatar>
-                <q-avatar square v-if="item.type == 'VIDEO'">
-                  <video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
+                <!-- 스타일이 안먹어서 해당 파일 아래 따로 스타일 설정 -->
+                <q-avatar square v-if="item.type == 'VIDEO'" class="media-container">
+                  <video :src="item.url" controls autoplay loop muted class="media-content"></video>
                 </q-avatar>
-                <q-avatar square v-else>
-                  <img v-if="item.url" :src="item.url">
+                <q-avatar square v-else class="media-container">
+                  <img v-if="item.url" :src="item.url"  class="media-content">
                   <q-icon v-else name="rocket_launch" size="md" />
                 </q-avatar>
               </q-item-section>
@@ -877,6 +862,7 @@
   <WalletModal ref="refWalletModal" />
   <ExhibitionTypeModal ref="refExhibitionTypeModal" @callback-register="setexhibitionName"/>
   <MediaDetailModal ref="refMediaDetailModal" />
+  <AddMediaModal ref="refAddMediaModal" @callback-refresher="refresher"/>
 
   <q-dialog v-model="confirmGoBack">
     <q-card>
@@ -892,6 +878,20 @@
       </q-card-actions>
     </q-card>
   </q-dialog>
+
+  <!-- <q-dialog v-model="confirmDelete">
+  <q-card>
+    <q-card-section class="row items-center" style="min-width: 200px;">
+      <q-icon name="warning" color="primary" size="md" />
+      <span class="q-ml-sm">{{ $t('confirm_delete') }}</span>
+    </q-card-section>
+    <q-separator />
+    <q-card-actions align="around">
+      <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+      <q-btn flat style="width: 45%;" :label="$t('delete')" color="black" v-close-popup @click="doDeleteNotice" />
+    </q-card-actions>
+  </q-card>
+</q-dialog> -->
 
 </template>
 
@@ -964,6 +964,7 @@ export default defineComponent({
       // preview
       // seqFileMst: '' // 파일 마스터 SEQ
       confirmGoBack: false, // goBack 확인창
+      confirmDelete: false, // goBack 확인창
       truncateTitle: 10,
       truncateDescription: 200,
       ////////////////////////
@@ -994,8 +995,24 @@ export default defineComponent({
       pageSize: 50,
       lastPageNum: 1, // 마지막 페이지
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
+      columns: [
+        { name: 'order_no', required: true, label: 'No.', align: 'center', field: 'order_no' },
+        { name: 'media', label: this.$t('media'), align: 'center', field: 'type' },
+        { name: 'title', label: this.$t('media_title'), align: 'center', field: 'title' },
+        { name: 'price', label: this.$t('media_price') + ' (USD)', align: 'center', field: 'price' },
+        { name: 'description', label: this.$t('media_description'), align: 'center', field: 'description' },
+        { name: 'edit', label: '', align: 'center', style: 'width: 50px' },
+      ],
+      pagination: {
+        page: 1,
+        rowsPerPage: 25, 
+      },
+      selected: [],
       myMediaList: [],
       mediaList: [],
+      mediaListDelN: [],
+      deleteMedia: [],
+      /////////////////////
       originalMediaList: [],
       selectedState: {},
       hashState: reactive({
@@ -1074,6 +1091,11 @@ export default defineComponent({
     selectedMyMediaList() {
       return this.myMediaList.filter(item => item.selected)
     },
+    paginatedRows() {
+      const start = (this.pagination.page - 1) * this.pagination.rowsPerPage;
+      const end = start + this.pagination.rowsPerPage;
+      return this.myMediaList.slice(start, end);
+    },
   },
   created: function () {
     // 키 설정
@@ -1110,7 +1132,8 @@ export default defineComponent({
     this.selectProject()
 
     // 미디어 리스트 조회
-    this.selectListMax()
+    // this.selectListMax()
+    this.selectMediaListAll()
   },
   watch: {
     getNickname(newNickname) {
@@ -1135,9 +1158,8 @@ export default defineComponent({
     },
     goTabNext() {
       if (this.tab == '1') {
-        this.processMediaLists()
+        // this.processMediaLists()
       } else {
-        console.log("register")
         this.branchInsertUpdate()   // 등록
       }
 
@@ -1157,6 +1179,11 @@ export default defineComponent({
     },
     showExhibitionTypeModal() {
       this.$refs.refExhibitionTypeModal.show()
+    },
+    showAddMediaModal() {
+      this.$refs.refAddMediaModal.projectSeq = this.projectSeq
+      this.$refs.refAddMediaModal.mediaList = this.mediaList
+      this.$refs.refAddMediaModal.show()
     },
     setexhibitionName(name) {
       this.exhibitionName = name
@@ -1258,80 +1285,116 @@ export default defineComponent({
       }
     },
     refresher (done) {
-      // done - Function to call when you made all necessary updates.
-      //        DO NOT forget to call it otherwise the refresh message
-      //        will continue to be displayed
-      // make some Ajax call then call done()
-      this.saveSelectionState() // 새로고침 전에 선택 상태 저장
-      this.myMediaList = []
+      this.mediaListDelN = []
       this.refresherDone = done // load가 끝나면 로딩메세지 종료
-      this.$refs.infiniteScroll.reset() // index 초기화
-      this.$refs.infiniteScroll.resume() // stop에서 다시 재생
-      // this.$refs.infiniteScroll.load() // loadMore로 검색
-      this.loadMore(1, done)
-    },
-    loadMore(index, done) {
-      // index - called for nth time
-      // done - Function to call when you made all necessary updates.
-      //        DO NOT forget to call it otherwise your loading message
-      //        will continue to be displayed. Has optional boolean
-      //        parameter that invokes stop() when true
-      // console.log('index: ' + index)
-      // make some Ajax call then call done()
-      // this.pageNum = index
-      setTimeout(() => {
-        // alert(index)
-        // console.log('loadMore called index: ' + index)
-        if (index <= this.lastPageNum) {
-          this.selectList(index, done)
-          if (index === this.lastPageNum) {
-            this.$refs.infiniteScroll.stop()
-          }
+      // this.$refs.infiniteScroll.reset() // index 초기화
+      // this.$refs.infiniteScroll.resume() // stop에서 다시 재생
 
-          // refresher 로딩메세지 처리
-          if (this.refresherDone != null && this.refresherDone !== '') {
-            this.refresherDone() // 로딩메세지 종료
-            this.refresherDone = '' // 로딩메세지 초기화
-          }
-        }
-      }, 500)
+      this.selectMediaListAll(done)
     },
-    // 작품 마지막 페이지 조회
-    selectListMax() {
-      // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
-      if (!this.keyword) {
-        this.keyword = ''
-      }
-      this.$axios.get('/api/mymedia/selectMyMediaListLastPageNum',
-        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+    // loadMore(index, done) {
+    //   // index - called for nth time
+    //   // done - Function to call when you made all necessary updates.
+    //   //        DO NOT forget to call it otherwise your loading message
+    //   //        will continue to be displayed. Has optional boolean
+    //   //        parameter that invokes stop() when true
+    //   // console.log('index: ' + index)
+    //   // make some Ajax call then call done()
+    //   // this.pageNum = index
+    //   setTimeout(() => {
+    //     // alert(index)
+    //     // console.log('loadMore called index: ' + index)
+    //     if (index <= this.lastPageNum) {
+    //       this.selectList(index, done)
+    //       if (index === this.lastPageNum) {
+    //         this.$refs.infiniteScroll.stop()
+    //       }
+
+    //       // refresher 로딩메세지 처리
+    //       if (this.refresherDone != null && this.refresherDone !== '') {
+    //         this.refresherDone() // 로딩메세지 종료
+    //         this.refresherDone = '' // 로딩메세지 초기화
+    //       }
+    //     }
+    //   }, 500)
+    // },
+    // // 작품 마지막 페이지 조회
+    // selectListMax() {
+    //   // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
+    //   if (!this.keyword) {
+    //     this.keyword = ''
+    //   }
+    //   this.$axios.get('/api/mymedia/selectMyMediaListLastPageNum',
+    //     {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword}})
+    //     .then((result) => {
+    //       // console.log(JSON.stringify(result.data))
+    //       this.lastPageNum = result.data
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //     })
+    // },
+    // // 작품 리스트 조회
+    // async selectList(idx, done) {
+    //   if (!this.keyword) {
+    //     this.keyword = ''
+    //   }
+    //   this.$axios.get('/api/mymedia/selectMyMediaList',
+    //     {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
+    //     .then(async (result) => {
+    //       // console.log(JSON.stringify(result.data))
+    //       // console.log(result.data)
+    //       if (idx === 1) { // 첫번째 load인 경우
+    //         this.myMediaList = [] // 리스트 초기화
+    //       }
+    //       this.myMediaList = this.myMediaList.concat(result.data)
+
+    //       // 선택된 미디어 리스트와 비교하여 선택 상태 적용
+    //       await this.selectMediaList()
+
+    //       // 데이터 없음 표시 설정
+    //       if (!this.myMediaList || this.myMediaList.length < 1) {
+    //         this.noDataFlag = true
+    //       } else {
+    //         this.noDataFlag = false
+    //       }
+    //       if (done) {
+    //         done()
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //       if (done) {
+    //         done()
+    //       }
+    //     })
+    // },
+    // async selectMediaList() {
+    //   this.$axios.get('/api/media/selectMediaList',
+    //     {params: {uid: this.getUid, projectSeq: this.projectSeq}})
+    //     .then((result) => {
+    //       this.mediaList = result.data.filter(media => media.del_yn === 'N')
+    //       console.log(this.mediaList)
+
+    //       this.originalMediaList = result.data
+
+    //       // myMediaList와 mediaList 비교하여 선택 상태 적용
+    //       this.applySelectionState()
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //     })
+    // },
+    async selectMediaListAll(done) {
+      this.$axios.get('/api/media/selectMediaListAll',
+        {params: {uid: this.getUid, projectSeq: this.projectSeq}})
         .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.lastPageNum = result.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    // 작품 리스트 조회
-    async selectList(idx, done) {
-      if (!this.keyword) {
-        this.keyword = ''
-      }
-      this.$axios.get('/api/mymedia/selectMyMediaList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
-        .then(async (result) => {
-          // console.log(JSON.stringify(result.data))
-          // console.log(result.data)
-          if (idx === 1) { // 첫번째 load인 경우
-            this.myMediaList = [] // 리스트 초기화
-          }
-          this.myMediaList = this.myMediaList.concat(result.data)
-
-          // 선택된 미디어 리스트와 비교하여 선택 상태 적용
-          await this.selectMediaList()
+          // this.mediaList = result.data.filter(media => media.del_yn === 'N')
+          this.mediaList = result.data
+          this.mediaListDelN = this.mediaList.filter(media => media.del_yn === 'N')
 
           // 데이터 없음 표시 설정
-          if (!this.myMediaList || this.myMediaList.length < 1) {
+          if (!this.mediaListDelN || this.mediaListDelN.length < 1) {
             this.noDataFlag = true
           } else {
             this.noDataFlag = false
@@ -1342,25 +1405,9 @@ export default defineComponent({
         })
         .catch((err) => {
           console.log(err)
-          if (done) {
-            done()
-          }
-        })
-    },
-    async selectMediaList() {
-      this.$axios.get('/api/media/selectMediaList',
-        {params: {uid: this.getUid, projectSeq: this.projectSeq}})
-        .then((result) => {
-          this.mediaList = result.data.filter(media => media.del_yn === 'N')
-          console.log(this.mediaList)
-
-          this.originalMediaList = result.data
-
-          // myMediaList와 mediaList 비교하여 선택 상태 적용
-          this.applySelectionState()
-        })
-        .catch((err) => {
-          console.log(err)
+            if (done) {
+              done()
+            }
         })
     },
     truncateText(text, maxLength) {
@@ -1565,7 +1612,7 @@ export default defineComponent({
       }
     },
     // 미디어 등록, 삭제, 재등록 처리
-    async processMediaLists() {
+    async processMediaList() {
       try {
         // 현재 선택된 미디어 리스트 (MyMediaVo 리스트)
         const selectedMediaList = this.selectedMyMediaList
@@ -1621,7 +1668,7 @@ export default defineComponent({
         item.project_seq = this.projectSeq
       })
 
-      console.table(addMediaList)
+      // console.table(addMediaList)
       // this.$q.loading.show()
       this.$axios.post('/api/media/insertMediaList', addMediaList)
         .then((result) => {
@@ -1643,7 +1690,13 @@ export default defineComponent({
           this.$noti(this.$q, err)
         })
     },
-    // 미디어 삭제
+    async remove(item) {
+      const deleteList = []
+      deleteList.push(item)
+
+      await this.deleteMediaList(deleteList)
+    },
+    // 미디어 리스트 삭제
     async deleteMediaList(deleteList) {
       if (deleteList.length === 0) {
         console.log("deleteMediaList 선택된 항목x")
@@ -1659,8 +1712,7 @@ export default defineComponent({
             // console.log(result.data)
             this.$noti(this.$q, this.$t('register_success'))
 
-            // // 페이지 이동
-            // this.$router.push('/media') // 나의 작품 리스트
+            this.refresher()
           } else {
             this.$noti(this.$q, this.$t('register_failed'))
           }
@@ -1766,5 +1818,21 @@ export default defineComponent({
 })
 </script>
 
+
 <style scoped>
+.media-container {
+    overflow: hidden;
+    cursor: pointer; /* 손가락 모양으로 변경 */
+}
+.media-content {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #f6f6f6;
+    transition: transform 0.3s ease; /* 부드러운 변형 효과 */
+}
+
+.media-container:hover .media-content {
+    transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
+}
 </style>

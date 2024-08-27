@@ -44,7 +44,7 @@
   
     <IframeModal ref="refIframeModal" />
   
-    <q-dialog v-model="confirmDelete">
+    <!-- <q-dialog v-model="confirmDelete">
       <q-card>
         <q-card-section class="row items-center" style="min-width: 200px;">
           <q-icon name="warning" color="primary" size="md" />
@@ -56,7 +56,7 @@
           <q-btn flat style="width: 45%;" :label="$t('delete')" color="black" v-close-popup @click="doDeleteNotice" />
         </q-card-actions>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
   
   </template>
   

@@ -398,7 +398,7 @@
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ $t('menu_media_register') }}</q-item-label>
+              <q-item-label>{{ $t('menu_media_manage') }}</q-item-label>
             </q-item-section>
           </q-item>
 

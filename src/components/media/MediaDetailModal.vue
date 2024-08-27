@@ -1,16 +1,11 @@
 <template>
   <q-dialog v-model="MediaDetailModal" :maximized="maximized">
-    <div class="flex flex-center bg-white" style="max-width: 1200px; word-break: break-all;">
+    <div class="flex flex-center bg-white" style="max-width: 1600px; word-break: break-all;">
 
       <div class="row">
-
-        <q-toolbar class="bg-white">
-          <q-toolbar-title><span class="text-weight-bold text-center"></span></q-toolbar-title>
-          <q-btn flat round dense icon="close" v-close-popup icon-right="true" @click="close" />
-        </q-toolbar>
         
         <!-- 반응형 div 1-->
-        <div class="bg-white q-pl-lg q-pr-lg q-pb-lg" style="max-width: 600px; word-break: break-all;">
+        <div v-if="smallSize" class="bg-white q-pl-lg q-pr-lg q-pb-lg q-mt-sm" style="max-width: 600px; word-break: break-all;">
           <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
               <td>
@@ -21,9 +16,23 @@
             </tr>
           </table>
         </div>
+        <div v-if="!smallSize" class="media-wrapper">
+          <!-- <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
+            <tr>
+              <td> -->
+                <video v-if="myMediaVo.type == 'VIDEO'" :src="myMediaVo.url" controls autoplay loop muted class="responsive-media"></video>
+                <img v-else :src="myMediaVo.url" class="responsive-media" />
+              <!-- </td>
+            </tr>
+          </table> -->
+        </div>
 
         <!-- 반응형 div 2 -->
-        <div class="bg-white q-pl-lg q-pr-lg q-pb-lg responsive-container" style="max-width: 600px; word-break: break-all;">
+        <div class="bg-white q-pl-lg q-pr-lg q-pb-lg responsive-container" style="word-break: break-all;">
+          <q-toolbar class="bg-white">
+            <q-toolbar-title><span class="text-weight-bold text-center"></span></q-toolbar-title>
+            <q-btn flat round dense icon="close" v-close-popup icon-right="true" @click="close" />
+          </q-toolbar>
           <!-- 작품 항목 -->
           <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
@@ -38,26 +47,35 @@
             </tr>
             <tr>
               <td>
+                <div class="q-mt-md q-mb-sm">
+                  <div class="text-subtitle2">
+                    <span v-if="myMediaVo.created_at">{{ myMediaVo.created_at }} <br/></span>
+                    <span v-if="myMediaVo.size">{{ myMediaVo.size }} <br/></span>
+                    <span v-if="myMediaVo.materials">{{ myMediaVo.materials }}</span>
+                  </div>
+                </div>
               </td>
               <td width="100" align="center">
-                <div v-if="myMediaVo.sale_yn == 'Y'" class="text-subtitle1">$ {{ Number(myMediaVo.price).toLocaleString() }}</div>
-                <div v-else class="text-subtitle1">N/A</div>
+                <!-- <div v-if="myMediaVo.sale_yn == 'Y'" class="text-subtitle1">$ {{ Number(myMediaVo.price).toLocaleString() }}</div>
+                <div v-else class="text-subtitle1">N/A</div> -->
               </td>
             </tr>
             <tr>
               <td>
-                <div class="q-mt-md q-mb-sm">
-                  <div class="text-subtitle2">{{ myMediaVo.created_at }} &nbsp;&bull;&nbsp; {{ myMediaVo.size }} &nbsp;&bull;&nbsp; {{ myMediaVo.materials }}</div>
-                </div>
+                <!-- <div class="q-mt-md q-mb-sm">
+                  <div class="text-subtitle2">{{ myMediaVo.created_at }} <br/> {{ myMediaVo.size }} <br/> {{ myMediaVo.materials }}</div>
+                </div> -->
               </td>
               <td align="center">
+                <div v-if="myMediaVo.sale_yn == 'Y'" class="text-subtitle1">$ {{ Number(myMediaVo.price).toLocaleString() }}</div>
+                <div v-else class="text-subtitle1">N/A</div>
                 <q-btn 
                   :label="$t('buy')" 
                   @click="openUrl(myMediaVo.nft_market_url)" 
                   :style="{
                     'background-color': myMediaVo.sale_yn == 'N' ? '#cdd3d6' : '#90B2D8', 
                     'color': 'white', 
-                    'width': '100%'
+                    'width': '100%',
                   }"
                   :disabled="myMediaVo.sale_yn == 'N'"
                 />
@@ -86,6 +104,7 @@ export default {
     return {
       MediaDetailModal: false,
       maximized: false,
+      smallSize: false,
       // exhibitionTypeList: [],
       myMediaVo: {
         url: '',
@@ -102,6 +121,13 @@ export default {
       },
     }
   },
+  created: function () {
+    // 화면 리사이즈 이벤트 핸들러
+    window.addEventListener("resize", this.resizeEventHandler)
+    if (document.body.offsetWidth < 1024) {
+      this.smallSize = true
+    }
+  },
   methods: {
     async show() {
       console.log(this.$q.platform.is)
@@ -116,6 +142,15 @@ export default {
     },
     close() {
       this.MediaDetailModal = false
+    },
+    resizeEventHandler() {
+      // console.log('resizeEventHandler')
+      // console.log(document.body.offsetWidth)
+      if (this.$q.platform.is.mobile || this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || document.body.offsetWidth < 1024) {
+        this.smallSize = true
+      } else {
+        this.smallSize = false
+      }
     },
     async apply(seq) {
       this.$emit('callback-memetoonAccount', this.memetoonAccount)
@@ -156,7 +191,25 @@ export default {
 <style scoped>
 .responsive-container {
   width: 100%;
+  max-width: 300px; 
 }
+.media-wrapper {
+    width: 800px;
+    height: 800px;
+    background-color: #ffffff;
+    padding: 16px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .responsive-media {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
 @media (min-width: 600px) {
   .responsive-container {
     width: 600px;

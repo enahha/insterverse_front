@@ -19,6 +19,7 @@ import FaqDetailModal from 'components/faq/FaqDetailModal'
 import SettleOutHistoryModal from 'components/settlement/SettleOutHistoryModal'
 import MediaSaleModifyModal from 'components/admin/MediaSaleModifyModal'
 import CollectionRequestInfoModal from 'components/admin/CollectionRequestInfoModal'
+import AddMediaModal from 'components/media/AddMediaModal'
 
 export default boot(({ app }) => {
   app.component('LoginModal', LoginModal) // 로그인
@@ -40,4 +41,5 @@ export default boot(({ app }) => {
   app.component('SettleOutHistoryModal', SettleOutHistoryModal) // 정산 내역 조회 모달
   app.component('MediaSaleModifyModal', MediaSaleModifyModal) // 출금 등록 모달
   app.component('CollectionRequestInfoModal', CollectionRequestInfoModal) // 출금 등록 모달
+  app.component('AddMediaModal', AddMediaModal) // 출금 등록 모달
 })

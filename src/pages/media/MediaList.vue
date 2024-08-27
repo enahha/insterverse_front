@@ -47,8 +47,10 @@
                   <tr v-for="(item, index) in mediaList" :key="index">
                     <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
                     <td @click="showDetail(item)" style="width: 70px; cursor: pointer;">{{ item.order_no }}</td>
+
                     <td @click="showDetail(item)" style="width: 140px; cursor: pointer;" v-if="item.type == 'VIDEO'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
+                    
                     <td @click="showDetail(item)" style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-if="item.price > 0">{{ Number(item.price).toLocaleString() }}</td>
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><span>-</span></td>
