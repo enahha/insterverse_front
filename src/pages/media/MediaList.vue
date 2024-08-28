@@ -6,24 +6,28 @@
       </div>
     </div>
 
-    <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
-      <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
-    </q-page-scroller> -->
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="secondary" />
+    </q-page-scroller>
 
 
     <div class="tab-panel-3 q-pt-lg">
 
       <div style="width: 100%; display: flex; justify-content: flex-end; gap: 20px;">
-        <q-btn
+        <!-- <q-btn
             :label="$t('import')"
             @click="goImport"
             style="background-color: #0C2C69; color: white; min-width: 100px;"
-          />
+          /> -->
+
           <q-btn
-            :label="$t('add')"
+            
             @click="goAdd"
-            style="background-color: #0C2C69; color: white; min-width: 100px; "
-          />
+            style="background-color: #0C2C69; color: white; min-width: 140px; "
+          >
+            <q-icon name="add" color="white" size="sm" />&nbsp;
+            {{ $t('add') }}
+          </q-btn>
       </div>
 
       <q-pull-to-refresh @refresh="refresher">
@@ -100,7 +104,7 @@
 
       <q-card-actions align="around">
         <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
-        <q-btn flat style="width: 45%;" :label="$t('delete')" color="black" v-close-popup @click="doDeleteMyMedia" />
+        <q-btn flat style="width: 45%;" :label="$t('delete')" color="black" v-close-popup @click="deleteProcess" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -177,8 +181,15 @@ export default defineComponent({
       this.deleteSeq = seq
       this.confirmDelete = true
     },
+    async deleteProcess() {
+      await this.doDeleteMyMedia()
+      await this.doDeleteMedia()
+
+      // 리스트 재조회
+      this.search()
+    },
     // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
-    doDeleteMyMedia(seq) {
+    async doDeleteMyMedia(seq) {
       this.$q.loading.show() // 로딩 표시 시작
       const param = {
         uid: this.getUid,
@@ -190,9 +201,29 @@ export default defineComponent({
           this.$q.loading.hide() // 로딩 표시 종료
           if (result.data && result.data.resultCd === 'SUCCESS') {
             this.$noti(this.$q, this.$t('delete_success'))
-            
-            // 리스트 재조회
-            this.search()
+          } else {
+            this.$noti(this.$q, this.$t('delete_failed'))
+            this.$noti(this.$q, result.data.resultMsg)
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
+    },
+    async doDeleteMedia(seq) {
+      this.$q.loading.show() // 로딩 표시 시작
+      const param = {
+        del_id: this.getUid,
+        my_media_seq: this.deleteSeq,
+      }
+      this.$axios.post('/api/media/deleteMediaByMyMediaSeq', param)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            this.$noti(this.$q, this.$t('delete_success'))
           } else {
             this.$noti(this.$q, this.$t('delete_failed'))
             this.$noti(this.$q, result.data.resultMsg)

@@ -1704,7 +1704,7 @@ export default defineComponent({
       }
 
       // this.$q.loading.show()
-      this.$axios.post('/api/media/deleteMedia', deleteList)
+      this.$axios.post('/api/media/deleteMedsia', deleteList)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.$q.loading.hide() // 로딩 표시 종료

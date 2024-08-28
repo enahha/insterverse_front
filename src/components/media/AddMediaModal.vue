@@ -286,7 +286,7 @@
             const matchedMedia = this.mediaList.find(media => media.my_media_seq === item.seq)
             
             if (matchedMedia) {
-              // item.seq를 mediaList의 seq로 재정의
+              // item.seq를 mediaList의 seq로 재정의(restore경우 media의 seq가 필요하기 때문)
               item.seq = matchedMedia.seq
               restoreMediaList.push(item)
             } else {

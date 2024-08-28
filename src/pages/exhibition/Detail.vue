@@ -4,16 +4,18 @@
       <!-- 베너 이미지 db저장된 uri로 바꿔야 함. 임시 이미지 -->
       <img v-if="projectVo.banner_url" :src="projectVo.banner_url" alt="Active Icon" style="width: 100%; height: 400px; object-fit: cover; margin: -60px auto;" />
       <img v-else src="images/main_exhibition.png" alt="Active Icon" style="width: 100%; height: 400px; margin: -60px auto;" />
-      <!-- 흰색 그라데이션 커버 이미지(고정) -->
 
-
+      <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+        <q-btn fab icon="keyboard_arrow_up" color="secondary" />
+      </q-page-scroller>
+      
       <!-- <div class="row flex flex-center"> -->
       <!-- <div class="row justify justify-between q-pt-sm"> -->
       <div class="row q-pt-sm" style="">
         <div class="row flex flex-center full-screen">
           <div class="row flex flex-center full-screen">
             <div class="col">
-              <table border="0" width="100%" style="margin: -150px auto; padding-left: 15%;" align="center">
+              <table border="0" width="100%" style="margin: -150px auto; padding-left: 15%; width: 90%;" align="center">
                 <tr>
                   <!-- <td>
                     <div class="text-right q-pl-sm">
@@ -23,7 +25,7 @@
                       </q-avatar>
                     </div>
                   </td> -->
-                  <td width="100%">
+                  <td >
                     <div class="q-pl-sm title" style="word-break: break-word;">
                       <div v-if="calculateStatus(projectVo) === 'Registering'" style="font-size: 14px;">
                         <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('Registering') }}
@@ -37,10 +39,10 @@
                       <div v-if="calculateStatus(projectVo) === 'ready'" style="font-size: 14px;">
                         <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('exhibit_ready') }}
                       </div>
-                      <div style="font-weight: bold; font-size: 50px;">
+                      <div class="title">
                         {{ projectVo.title }}
                       </div>
-                      <div class="col-12" style="word-break: break-word; font-size: 25px;">
+                      <div class="col-12 subtitle">
                         {{ projectVo.subtitle }}
                       </div>
                     </div>
@@ -56,20 +58,20 @@
           </div>
         </div>
         <!--<div class="q-pl-sm" style="padding-left: 15%; background-color: rgba(255, 255, 255, 0.3);">   반투명 흰색레이어 추가 -->
-        <div class="q-pl-sm" style="padding-left: 15%;">
+        <div class="q-pl-sm" style="padding-left: 20%;">
           <div class="row flex flex-center">
             <!-- <div v-if="popupYn !== 'y'"> -->
             <div>
-              <q-btn flat round dense icon="arrow_back" color="black" icon-left="true" @click="goBack" />
+              <q-btn  class="btn-custom-style" flat round dense icon="arrow_back" color="white" icon-left="true" @click="goBack" />
             </div>
             <div v-if="getUid === projectVo.reg_id" class="col flex flex-center">
-              <q-btn flat round dense icon="edit" size="md" color="primary" icon-right="true" @click="goModify" />
+              <q-btn  class="btn-custom-style" flat round dense icon="edit" size="md" color="white" icon-right="true" @click="goModify" />
             </div>
             <div v-if="getUid === projectVo.reg_id" class="col">
-              <q-btn flat round dense icon="delete" size="md" color="primary" icon-right="true" @click="deleteProject" />
+              <q-btn class="btn-custom-style" flat round dense icon="delete" size="md" color="white" icon-right="true" @click="deleteProject" />
             </div>
             <div class="col">
-              <q-btn flat round dense icon="share" size="md" color="black" icon-right="true" @click="shareUrlCopy(projectVo.seq)" />
+              <q-btn  class="btn-custom-style" flat round dense icon="share" size="md" color="white" icon-right="true" @click="shareUrlCopy(projectVo.seq)" />
             </div>
             <!-- <div class="q-pl-md q-pr-sm">
               <q-select
@@ -88,11 +90,11 @@
         </div>
         
         <div class="col">
-          <table border="0" width="100%" style="margin: -100px auto; padding-left: 15%;" align="center">
+          <table border="0" width="100%" style="margin: -70px auto; padding-right: 8%;" align="center">
             <tr>
               <td style="display: flex; flex-direction: column; align-items: end; padding-right: 25%;">
                 <!-- <q-btn :label="$t('edit')" @click="goModify" style="background-color: #90B2D8; width: 100px; margin: 10px;"/> -->
-                <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" :disable="!isStart" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 3%;"/>
+                <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" :disable="!isStart" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 2%; opacity: 1;"/>
                 <!-- <q-btn label="MediaDetailModal" @click="showMediaDetailModal" size="20px" style="background-color: #E1D2BB; width: 180px; margin-top: 3%;"/> -->
               </td>
             </tr>
@@ -124,7 +126,10 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <!-- 정보 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <q-tab-panel name="i" style="word-break: break-word;">
+      <q-tab-panel name="i" style="word-break: break-word; ">
+
+      <span>{{ $t('project_catalog') }}</span>
+      <div class="underline" style="margin-bottom: 30px"></div>
 
       <div class="project-list row " style="margin-bottom: 30px">
         <div v-for="item in mediaList" :key="item.seq">
@@ -170,22 +175,12 @@
       </div>
       <div class="row justify-center q-pl-xs">
         <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('start_time') }}</span>
+          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_period') }}</span>
         </div>
       </div>
-      <div class="row justify-center q-pb-md q-pl-xs">
+      <div class="justify-center q-pb-md q-pl-xs">
         <div class="col-12 t-text">
-          {{ projectVo.display_start_time }}
-        </div>
-      </div>
-      <div class="row justify-center q-pl-xs">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('end_time') }}</span>
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md q-pl-xs">
-        <div class="col-12 t-text">
-          {{ projectVo.display_end_time ? projectVo.display_end_time : $t('indefinite') }}
+          {{ projectVo.display_start_time }} ~ {{ projectVo.display_end_time ? projectVo.display_end_time : $t('indefinite') }}
         </div>
       </div>
 
@@ -1719,7 +1714,7 @@ export default defineComponent({
 <style scoped>
 .media-container {
     overflow: hidden;
-    cursor: pointer; /* 손가락 모양으로 변경 */
+    cursor: pointer;
 }
 .media-content {
     width: 100%;
@@ -1731,5 +1726,35 @@ export default defineComponent({
 
 .media-container:hover .media-content {
     transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
+}
+.title {
+  font-weight: bold; 
+  font-size: 50px;
+  color: white;
+  text-shadow: 2px 2px 5px black;
+}
+.subtitle{
+  word-break: break-word;
+  font-size: 25px;
+  color: white;
+  text-shadow: 2px 2px 5px black;
+}
+.btn-custom-style {
+  text-shadow: 2px 2px 5px black;
+}
+@media (max-width: 1023px) {
+  .title-wrap {
+    width: 100%;
+    position: absolute;
+    top: 0.5%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .title{
+    font-size: 25px;
+  }
+  .subtitle{
+    display: none;
+  }
 }
 </style>

@@ -8,18 +8,17 @@
       animated
       :autoplay="15000"
       control-color="white"
-      navigation
+      :navigation="!this.smallSize"
+      :arrows="this.smallSize"
       infinite
-      height="800px"
-      style="margin: -60px auto;"
     >
     
       <template v-slot:navigation-icon="{ active, onClick }">
         <q-btn v-if="active" size="lg" flat round dense @click="onClick">
-          <img src="icons/icon_main_1.png" alt="Active Icon" style="width: 20px;" />
+          <img src="icons/icon_main_1.png" alt="Active Icon" class="navigation-icon" />
         </q-btn>
         <q-btn v-else size="sm" flat round dense @click="onClick">
-          <img src="icons/icon_main_2.png" alt="Inactive Icon" style="width: 20px;"/>
+          <img src="icons/icon_main_2.png" alt="Inactive Icon" class="navigation-icon"/>
         </q-btn>
       </template>
 
@@ -28,12 +27,11 @@
         :key="item.seq"
         :name="(item.seq).toString()"
         :img-src="item.src"
-        style="box-shadow: inset  0px -10px 15px -5px rgba(255, 255, 255, 1);"
       />
       <!-- <img :src="item.src" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
     </q-carousel>
 
-    <div class="page-1200" style="word-break: keep-all; padding-top: 150px;">
+    <div class="page-1200" style="word-break: keep-all;">
 
 
       <!-- <div class="text-center" v-if="locale === 'en-US'">
@@ -45,7 +43,8 @@
         <br />- 랄프 월도 에머슨 -
       </div> -->
 
-      <br /><br /><br /><br /><br /><br /><br /><br />
+      <div class="space">
+      </div>
 
       <!-- 인기 전시 -->
       <div class="best-exhibition">
@@ -65,7 +64,7 @@
         infinite
         flat
         padding
-        height="400px"
+        height="450px"
         :arrows="!this.smallSize"
       >
         <q-carousel-slide
@@ -116,7 +115,7 @@
         infinite
         flat
         padding
-        height="400px"
+        height="450px"
         :arrows="!this.smallSize"
       >
         <q-carousel-slide
@@ -595,3 +594,16 @@ export default defineComponent({
   }
 })
 </script>
+<style scoped>
+.navigation-icon{
+  width: 20px;
+}
+.q-carousel__slide {
+  box-shadow: inset 0px -10px 15px -5px rgba(255, 255, 255, 1);
+}
+@media (max-width: 1023px) {
+  .q-carousel__slide {
+    box-shadow: none;
+  }
+}
+</style>

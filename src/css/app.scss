@@ -403,7 +403,7 @@ textarea {
 }
 //프로젝트 상세
 .project-detail-wrap {
-    max-width: calc(100% - 440px);
+    // max-width: calc(100% - 740px);
     width: 100%;
     // margin-left: 0;
 }
@@ -645,6 +645,13 @@ textarea {
 //메인 페이지 게시판
 .main-list {
     word-break: break-word;
+    .benner.carousel {
+        height: 800px;
+        margin: -60px auto;
+    }
+    .space{
+        margin: 200px;
+    }
     .q-infinite-scroll {
         display: -ms-inline-flexbox;
         display: -webkit-inline-flex;
@@ -757,6 +764,8 @@ textarea {
 //프로젝트 게시판
 .project-list {
     word-break: break-word;
+    display: flex;
+    justify-content: center;
     .q-infinite-scroll {
         display: -ms-inline-flexbox;
         display: -webkit-inline-flex;
@@ -808,6 +817,8 @@ textarea {
             margin: 0 auto 15px;
             > .q-avatar {
                 font-size: 250px;
+                height: 200px; /* 원하는 높이 */
+                width: 250px;  /* 원하는 너비 */
             }
         }
         .q-item__section--avatar {
@@ -1068,7 +1079,30 @@ textarea {
 }
 //마이페이지
 .mypage-wrap {
-    // max-width: 500px;
+    .info-panel-1{
+        max-width: 100%;
+        .information-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 50px 150px;
+            max-width: 70%;
+        }
+        > span {
+            font-size: 23px;
+            font-weight: bold;
+        }
+        .label {
+            width: 30%;
+            text-align: start;
+            padding-left: 5%;
+        }
+        .label-input {
+            width: 1000px;
+        }
+        > input{
+            width: 50%;
+        }
+    }
     .section-tit {
         font-size: 25px !important;
         padding-left: 20px;
@@ -1523,92 +1557,11 @@ background-color: #e7e6de9c;
     }
 }
 // 작품 정보 디테일
-.media-detail-wrap {
-    .q-card {
-        flex-direction: column;
-        margin: 30px;
-    }
-  
-    .content {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        padding: 30px;
-    }
-  
-    .image-container {
-        width: 800px;
-        height: 800px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
-
-    .image {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
-  
-    .details {
-        position: relative;
-        width: 550px;
-    }
-  
+.media-detail-wrap {  
     .close-btn {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-  
-    .title {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-        width: 500px;
-    }
-  
-    .subtitle {
-        color: grey;
-        font-size: 1.2rem;
-        width: 500px;
-    }
-  
-    .info {
-        margin-top: 1rem;
-        width: 500px;
-    }
-  
-    .size {
-        font-size: 1rem;
-        color: grey;
-    }
-  
-    .description {
-        font-size: 1rem;
-        margin-top: 0.5rem;
-        white-space: pre-line;
-        max-height: 550px;
-        overflow-y: auto;
-    }
-  
-    .separator {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-  
-    .price-action {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 1rem;
-        margin-left: 1rem;
-        width: 500px;
-    }
-  
-    .price {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
+        justify-content: flex-end;
+        margin-right: -20px;
     }
 }
 // about us 
@@ -1869,6 +1822,33 @@ background-color: #e7e6de9c;
     //     .q-page-container {
     //     }
     // }
+    //마이페이지
+    .mypage-wrap {
+        .info-panel-1{
+            max-width: 100%;
+            .information-wrap {
+                display: flex;
+                justify-content: center;
+                // margin: 50px 150px;
+                // max-width: 70%;
+            }
+            > span {
+                font-size: 11px;
+                font-weight: bold;
+            }
+            .label {
+                width: 30%;
+                text-align: start;
+                padding-left: 5%;
+            }
+            .label-input {
+                width: 1000px;
+            }
+            > input{
+                width: 50%;
+            }
+        }
+    }
 
 }
 
@@ -1919,7 +1899,15 @@ background-color: #e7e6de9c;
         //         }
         //     }
         // }
+        .space {
+            margin: 50px;
+        }
+        .benner.carousel {
+            height: 200px; /* 모바일에서는 높이를 줄임 */
+            margin: 0 auto; /* 모바일에서는 마진을 줄임 */
+        }
         .item-container {
+            max-height: 5000px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
@@ -1933,6 +1921,14 @@ background-color: #e7e6de9c;
                 > .q-avatar {
                     font-size: 150px;
                 }
+            }
+            .q-item__label {
+                font-size: 13px;
+                font-family: 'Montserrat', 'Noto Sans KR';
+                text-align: center;
+                line-height: 13px !important;
+                letter-spacing: -0.5px;
+                word-break: keep-all;
             }
         }
         .q-carousel{
@@ -1958,11 +1954,30 @@ background-color: #e7e6de9c;
     }
     //프로젝트 게시판
     .project-list {
+        .q-tab-panels {
+            .q-tab-panel {
+                // padding: 20px 20px;
+                padding: 50px 50px;
+            }
+        }
         .q-infinite-scroll {
             > div {
                 width: 100%;
                 margin: 10px 0;
                 padding: 20px 20px;
+            }
+        }
+        .q-item {
+            padding: 5px 20px;
+            + .q-item {
+            }
+            .q-item__section--side {
+                > .q-avatar {
+                    height: 130px; /* 원하는 높이 */
+                    width: 150px;  /* 원하는 너비 */
+                }
+            }
+            .q-item__section--avatar {
             }
         }
     }
@@ -1996,6 +2011,12 @@ background-color: #e7e6de9c;
     //프로젝트 상세
     .project-detail-wrap {
         max-width: 100%;
+        .q-tab-panels {
+            .q-tab-panel {
+                // padding: 20px 20px;
+                padding: 30px 0px;
+            }
+        }
     }
     .q-tab-panels {
         .q-tab-panel {
@@ -2008,10 +2029,6 @@ background-color: #e7e6de9c;
     }
     .vote-withdraw-wrap,
     .user-reg-wrap,
-    .mypage-wrap {
-        // max-width: 100%;
-        max-width: 500px;
-    }
     .page-default {
         padding: 20px 0 !important;
     }
@@ -2243,4 +2260,44 @@ background-color: #e7e6de9c;
             margin-top: 50px;
         }
       }
+    //마이페이지
+    .mypage-wrap {
+        .info-panel-1{
+            max-width: 100%;
+            .information-wrap {
+                display: flex;
+                justify-content: center;
+                // margin: 50px 150px;
+                // max-width: 70%;
+            }
+            > span {
+                font-size: 11px;
+                font-weight: bold;
+            }
+            .label {
+                width: 30%;
+                text-align: start;
+                padding-left: 5%;
+            }
+            .label-input {
+                width: 1000px;
+            }
+            > input{
+                width: 50%;
+            }
+        }
+    }  
 }
+@media (max-width: 400px) {
+    //프로젝트 게시판
+    .project-list {
+        .q-item {
+            .q-item__section--side {
+                > .q-avatar {
+                    height: 100px; /* 원하는 높이 */
+                    width: 130px;
+                }
+            }
+        }
+    }
+}  

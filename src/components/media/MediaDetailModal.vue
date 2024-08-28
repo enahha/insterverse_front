@@ -1,8 +1,13 @@
 <template>
   <q-dialog v-model="MediaDetailModal" :maximized="maximized">
-    <div class="flex flex-center bg-white" style="max-width: 1600px; word-break: break-all;">
+    <div class="flex flex-center bg-white media-detail-wrap" style="max-width: 1600px; word-break: break-all;">
 
       <div class="row">
+
+        <q-toolbar v-if="smallSize" class="bg-white">
+          <q-toolbar-title><span class="text-weight-bold text-center"></span></q-toolbar-title>
+          <q-btn flat round dense icon="close" v-close-popup icon-right="true" @click="close" />
+        </q-toolbar>
         
         <!-- 반응형 div 1-->
         <div v-if="smallSize" class="bg-white q-pl-lg q-pr-lg q-pb-lg q-mt-sm" style="max-width: 600px; word-break: break-all;">
@@ -29,12 +34,13 @@
 
         <!-- 반응형 div 2 -->
         <div class="bg-white q-pl-lg q-pr-lg q-pb-lg responsive-container" style="word-break: break-all;">
-          <q-toolbar class="bg-white">
-            <q-toolbar-title><span class="text-weight-bold text-center"></span></q-toolbar-title>
-            <q-btn flat round dense icon="close" v-close-popup icon-right="true" @click="close" />
-          </q-toolbar>
           <!-- 작품 항목 -->
           <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr  v-if="!smallSize">
+              <td colspan="2">
+                <div class="text-h5 q-mb-xs close-btn"><q-btn flat round dense icon="close" v-close-popup icon-right="true" @click="close" /></div>
+              </td>
+            </tr>
             <tr>
               <td colspan="2">
                 <div class="text-h5 q-mb-xs">{{ myMediaVo.title }}</div>
@@ -48,27 +54,24 @@
             <tr>
               <td>
                 <div class="q-mt-md q-mb-sm">
-                  <div class="text-subtitle2">
+                  <div class="text-subtitle2" style="font-size: small;">
                     <span v-if="myMediaVo.created_at">{{ myMediaVo.created_at }} <br/></span>
                     <span v-if="myMediaVo.size">{{ myMediaVo.size }} <br/></span>
                     <span v-if="myMediaVo.materials">{{ myMediaVo.materials }}</span>
                   </div>
                 </div>
               </td>
-              <td width="100" align="center">
-                <!-- <div v-if="myMediaVo.sale_yn == 'Y'" class="text-subtitle1">$ {{ Number(myMediaVo.price).toLocaleString() }}</div>
-                <div v-else class="text-subtitle1">N/A</div> -->
-              </td>
+
             </tr>
             <tr>
               <td>
-                <!-- <div class="q-mt-md q-mb-sm">
-                  <div class="text-subtitle2">{{ myMediaVo.created_at }} <br/> {{ myMediaVo.size }} <br/> {{ myMediaVo.materials }}</div>
-                </div> -->
+          
               </td>
-              <td align="center">
+              <td align="center"  class="q-pb-lg">
                 <div v-if="myMediaVo.sale_yn == 'Y'" class="text-subtitle1">$ {{ Number(myMediaVo.price).toLocaleString() }}</div>
                 <div v-else class="text-subtitle1">N/A</div>
+                <!-- :label="'$' + Number(myMediaVo.price).toLocaleString() + '&nbsp;&nbsp;&nbsp;' + $t('buy')"  -->
+                <!-- :label="$t('buy')"  -->
                 <q-btn 
                   :label="$t('buy')" 
                   @click="openUrl(myMediaVo.nft_market_url)" 
@@ -196,7 +199,7 @@ export default {
 .media-wrapper {
     width: 800px;
     height: 800px;
-    background-color: #ffffff;
+    background-color: #f6f6f6;
     padding: 16px;
     margin: 0 auto;
     box-sizing: border-box;
@@ -210,9 +213,9 @@ export default {
     max-height: 100%;
     object-fit: contain;
   }
-@media (min-width: 600px) {
+@media (max-width: 1023px) {
   .responsive-container {
-    width: 600px;
+    max-width: 600px; 
   }
 }
 </style>

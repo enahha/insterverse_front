@@ -1015,7 +1015,7 @@ export default {
   menu_project_register: 'Register Exhibition',
   menu_project_selection_description: 'Please choose how to register your Exhibition.',
   menu_project_register_description: 'Register exhibition information.',
-  menu_media_manage: 'Management Artwork',
+  menu_media_manage: 'Manage Artwork',
   menu_import: 'Import',
   menu_import_description: 'Import from another platform.',
   menu_import_instagram: 'Import from Instagram',
@@ -1232,6 +1232,9 @@ export default {
   project_guide_2_2: 'Decials 1, Initial Supply 100 - 10 in your wallet',
   project_guide_2_2: 'Decials 2, Initial Supply 100 - 1 in your wallet',
   project_nft_info: 'NFT Information',
+  project_period: 'Period',
+  project_catalog: 'Catalog',
+  
   
   // artist description
   artist_basic_information: 'Artist Information',
@@ -1254,10 +1257,15 @@ export default {
   media_sale: 'Sale',
   media_created: 'Year',
   media_size: 'Size',
+  media_height: 'Height',
+  media_width: 'Width',
+  media_unit: 'Unit',
   media_image: 'Artwork',
   media_preview: 'Preview',
   media_materials: 'Materials',
   media_description: 'Description',
+  tag: '#Enter tags (up to 5)',
+  tag_limit: 'Enter up to 5',
 
   // project create
   delete: 'Delete',

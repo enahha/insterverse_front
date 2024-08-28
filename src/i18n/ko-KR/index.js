@@ -1237,6 +1237,8 @@ export default {
   project_guide_2_2: '소수점 자릿수 1, 초기 발행개수 100 - 지갑에 10개로 표시',
   project_guide_2_2: '소수점 자릿수 2, 초기 발행개수 100 - 지갑에 1개로 표시',
   project_nft_info: 'NFT 정보',
+  project_period: '전시 기간',
+  project_catalog: '카탈로그',
 
   // artist description
   artist_basic_information: '작가 정보',
@@ -1257,12 +1259,17 @@ export default {
   media_sale: '판매여부',
   media_price: '가격',
   media_created: '제작연도',
-  media_size: '작품크기',
+  media_size: '사이즈',
+  media_height: '높이',
+  media_width: '너비',
+  media_unit: '단위',
   media_materials: '사용재료',
   media_image: '작품 업로드',
   media_preview: '작품 미리보기',
   media_description: '작품 설명글',
   media_order_number_hibt: '(순서 편집 가능)',
+  tag: '#태그 입력 (최대 5개)',
+  tag_limit: '최대 5개까지 입력',
 
   // modify project
   modify_project: '수정하기',

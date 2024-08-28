@@ -1,10 +1,15 @@
 <template>
   <q-page class="page-1200 q-pa-md project-list-wrap">
-      <div class="row title">
-        <div class="col-12 doc-heading">
-          <div class="title-sec">{{ $t('menu_project_list') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Exhibition</span></div>
-        </div>
+
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="secondary" />
+    </q-page-scroller>
+
+    <div class="row title">
+      <div class="col-12 doc-heading">
+        <div class="title-sec">{{ $t('menu_project_list') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Exhibition</span></div>
       </div>
+    </div>
       <!-- <div class="row q-pl-md justify-center page-sub-tit">
         <div class="col-12">
           {{ $t('menu_project_list_description') }}

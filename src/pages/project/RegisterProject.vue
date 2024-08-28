@@ -6,6 +6,10 @@
       </div>
     </div>
 
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="secondary" />
+    </q-page-scroller>
+
     <q-tabs
       v-model="tab"
       no-caps
@@ -87,9 +91,9 @@
                 <template v-slot:body-cell-price="props">
                   <q-td :props="props">{{ props.row.price > 0 ? Number(props.row.price).toLocaleString() : '-' }}</q-td>
                 </template>
-                <template v-slot:body-cell-description="props">
-                  <q-td :props="props">{{ truncateText(props.row.description, 20) }}</q-td>
-                </template>
+                <!-- <template v-slot:body-cell-description="props">
+                  <q-td :props="props">{{ truncateText(props.row.description, 50) }}</q-td>
+                </template> -->
               </q-table>
               <template v-slot:loading>
                 <div class="row justify-center q-my-md">
@@ -977,11 +981,11 @@ export default defineComponent({
       lastPageNum: 1, // 마지막 페이지
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
       columns: [
-        { name: 'order_no', required: true, label: 'No.', align: 'left', field: 'order_no' },
-        { name: 'media', label: this.$t('media'), align: 'left', field: 'type' },
+        { name: 'order_no', required: true, label: 'No.', align: 'center', field: 'order_no' , style: { width: '20px' }},
+        { name: 'media', label: this.$t('media'), align: 'center', field: 'type', style: { width: '300px' }},
         { name: 'title', label: this.$t('media_title'), align: 'left', field: 'title' },
         { name: 'price', label: this.$t('media_price') + ' (USD)', align: 'left', field: 'price' },
-        { name: 'description', label: this.$t('media_description'), align: 'left', field: 'description' },
+        // { name: 'description', label: this.$t('media_description'), align: 'left', field: 'description' },
       ],
       selected: [],
       pagination: {
