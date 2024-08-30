@@ -3,27 +3,26 @@
     <q-dialog v-model="AddMediaModal" :maximized="maximized" transition-show="slide-up" transition-hide="slide-down">
   
       <q-layout view="lHh Lpr lFf" container class="shadow-2 rounded-borders bg-white" style="min-width: 40%;">
-        <!-- <q-header class="bg-white" elevated>
+        <q-header class="bg-white" elevated>
           <q-toolbar>
             <q-toolbar-title class="text-body2 text-black">
-              <span class="text-weight-bold text-subtitle1">{{ $t('settle_out_list') }}</span>
+              <span class="text-weight-bold text-subtitle1">{{ $t('media_add') }}</span>
             </q-toolbar-title>
             <q-btn flat round dense icon="close" color="black" v-close-popup icon-right="true" @click="close" />
           </q-toolbar>
         </q-header>
-        <br /> -->
+        <br /><br />
   
         <div>
-            <div class="end"><q-btn flat round dense icon="close" color="black" v-close-popup icon-right="true" @click="close" /></div>
+            <!-- <div class="end"><q-btn flat round dense icon="close" color="black" v-close-popup icon-right="true" @click="close" /></div> -->
             
-            <q-pull-to-refresh @refresh="refresher">
+            <!-- <q-pull-to-refresh @refresh="refresher"> -->
             <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll">
               <q-table
                 style="height: 85vh"
                 flat
-                :title="$t('media_add')"
                 :rows="myMediaList"
-                :columns="columns"
+                :columns="filteredColumns"
                 row-key="seq"
                 selection="multiple"
                 v-model:selected="selected"
@@ -48,13 +47,13 @@
                   <q-td :props="props">{{ truncateText(props.row.description, 20) }}</q-td>
                 </template> -->
               </q-table>
-              <template v-slot:loading>
+              <!-- <template v-slot:loading>
                 <div class="row justify-center q-my-md">
                   <q-spinner-dots color="primary" size="40px" />
                 </div>
-              </template>
+              </template> -->
             </q-infinite-scroll>
-          </q-pull-to-refresh>
+          <!-- </q-pull-to-refresh> -->
         </div>
 
         <q-btn
@@ -136,6 +135,19 @@
       qDate() {
         return date
       },
+      filteredColumns() {
+        // smallSize일 때 price 필드를 제거
+        return this.smallSize
+          ? this.columns.filter(col => col.name !== 'price')
+          : this.columns
+      }
+    },
+    created: function () {
+       // 화면 리사이즈 이벤트 핸들러
+      window.addEventListener("resize", this.resizeEventHandler)
+        if (document.body.offsetWidth < 1024) {
+        this.smallSize = true
+      }
     },
     methods: {
         async show () {

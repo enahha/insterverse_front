@@ -1,6 +1,6 @@
 <template>
   
-  <q-dialog v-model="privacyModal">
+  <q-dialog v-model="PrivacyModal">
     <q-card>
       <q-card-section>
         <div class="">{{ $t('personal_information_processing_policy') }}</div>
@@ -299,7 +299,7 @@
 
       <q-card-actions align="right">
         <q-btn flat v-close-popup>{{ $t('decline') }}</q-btn>
-        <q-btn flat v-close-popup>{{ $t('accept') }}</q-btn>
+        <q-btn flat v-close-popup @click="accept()">{{ $t('accept') }}</q-btn>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -310,10 +310,10 @@
 import { useI18n } from 'vue-i18n'
 
 export default {
-  name: 'TermsModal',
+  name: 'PrivacyModal',
   data () {
     return {
-      privacyModal: false,
+      PrivacyModal: false,
     }
   },
   setup () {
@@ -325,10 +325,16 @@ export default {
   },
   methods: {
     async show () {
-      this.privacyModal = true
+      this.PrivacyModal = true
     },
     close () {
-      this.privacyModal = false
+      this.PrivacyModal = false
+    },
+    accept() {
+       // 부모창의 콜백함수 호출
+       this.$emit('callback-privacyAccept')
+
+       this.close()
     }
   }
 }

@@ -2,14 +2,13 @@
   <q-page class="page-1200 q-pa-md project-reg-wrap">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec">{{ $t('my_artworks') }}</div>
+        <div class="title-sec"><span>{{ $t('my_artworks') }}</span></div>
       </div>
     </div>
 
-    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+    <q-page-scroller class="custom-scroller" position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
       <q-btn fab icon="keyboard_arrow_up" color="secondary" />
     </q-page-scroller>
-
 
     <div class="tab-panel-3 q-pt-lg">
 

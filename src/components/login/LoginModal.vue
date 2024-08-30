@@ -480,8 +480,8 @@
 
     </q-card>
   </q-dialog>
-  <TermsModal ref="refTermsModal" />
-  <PrivacyModal ref="refPrivacyModal" />
+  <TermsModal ref="refTermsModal" @callback-termsAccept="termsAccept"/>
+  <PrivacyModal ref="refPrivacyModal" @callback-privacyAccept="privacyAccept"/>
 </template>
 
 <style>
@@ -808,6 +808,12 @@ export default {
     },
 
     doJoin() {
+      if(this.privacyAgreed && this.termsAgreed){
+        // 이용약관에 동의해주세요
+        this.$noti(this.$q, this.$t('terms_must_be_agree'))
+        return
+      }
+
       this.$axios.post('/api/user/insertUser', this.userVo)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
@@ -1210,6 +1216,12 @@ export default {
     // 개인정보처리방침 모달 표시
     showPrivacy() {
       this.$refs.refPrivacyModal.show()
+    },
+    termsAccept() {
+      this.termsAgreed = true
+    },
+    privacyAccept() {
+      this.privacyAgreed = true
     },
     close () {
       this.loginModal = false

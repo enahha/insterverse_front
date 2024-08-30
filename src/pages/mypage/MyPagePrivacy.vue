@@ -53,7 +53,7 @@
             </tr>
             <tr>
               <div class="input-group q-pt-lg">
-                <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_account') }}<span class="text-red"> *</span></span></td>
+                <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_account') }}</span></td>
                 <td class="label-input">
                   <q-select
                     v-model="bankType"
@@ -70,7 +70,7 @@
             </tr>
             <tr>
               <div class="input-group q-pt-lg">
-                <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_wallet') }}<span class="text-red"> *</span></span></td>
+                <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('menu_mypage_settlement_wallet') }}</span></td>
                 <td class="label-input">
                   <q-select
                     v-model="walletType"

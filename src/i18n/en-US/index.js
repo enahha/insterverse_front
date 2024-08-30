@@ -937,7 +937,7 @@ export default {
   menu_join_description: 'Register User information.',
   menu_mypage: 'My page',
   menu_mypage_description: 'Modify the account information.',
-  menu_mypage_privacy: 'Info',
+  menu_mypage_privacy: 'My Info',
   menu_mypage_bank: 'Bank',
   menu_mypage_wallet_type: 'Type',
   menu_mypage_wallet_address: 'Address',
@@ -1247,6 +1247,7 @@ export default {
   
   // add artwork
   add_artwork: 'Add Artwork',
+  mod_artwork: 'Modify Artwork',
   media: 'Artwork',
   media_url: 'Media URL',
   media_order_number: 'Order No.',
@@ -1279,6 +1280,7 @@ export default {
   display: 'Display',
   exhibit_ending: 'Exhibit End',
   exhibit_ready: 'Preparing',
+  untitled: 'Untitled',
 
   // my list
   copy: 'COPY',

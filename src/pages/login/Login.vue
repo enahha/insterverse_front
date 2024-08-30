@@ -470,6 +470,8 @@
 
     </div>
   </q-page>
+  <TermsModal ref="refTermsModal" @callback-termsAccept="termsAccept"/>
+  <PrivacyModal ref="refPrivacyModal" @callback-privacyAccept="privacyAccept"/>
 </template>
 <style>
 .text-kakao {
@@ -1201,6 +1203,12 @@ export default {
     // 개인정보처리방침 모달 표시
     showPrivacy() {
       this.$refs.refPrivacyModal.show()
+    },
+    termsAccept() {
+      this.termsAgreed = true
+    },
+    privacyAccept() {
+      this.privacyAgreed = true
     },
     // close () {
     //   this.loginModal = false

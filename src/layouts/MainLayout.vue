@@ -2,7 +2,7 @@
   <q-layout view="lHr LpR lFf" class="">
     <!-- <q-header elevated> -->
     <!-- <q-header class="header" style="background-image: url(images/star1.jpg)"> -->
-    <q-header class="header shadow-1">
+    <q-header reveal class="header shadow-1">
       <q-toolbar class="page-default">
 
         <q-btn
@@ -292,7 +292,7 @@
       <!-- element 가 resize 되면 onResize 호출 -->
       <q-resize-observer @resize="onResize" />
 
-      <q-scroll-area dark :vertical-thumb-style="{width: '10px'}" :style="`width: 100%; height: ${ scrollAreaHeight }px;`">
+      <q-scroll-area dark :vertical-thumb-style="{width: '10px'}" :style="`width: 100%; height: ${ scrollAreaHeight }px;`" style="z-index: 9998;">
 
 
         <q-list class="">
@@ -359,8 +359,10 @@
           <!-- 1. HOME -->
           <q-item clickable to="/web">
             <q-item-section avatar class="q-pt-md">
-              <!-- <q-icon name="home" style="width: 20px; height: 20px;" /> -->
-              <q-img src="icons/instarverse_logo.png" width="40px" />
+              <q-item-label>
+                <!-- <q-icon name="home" style="width: 20px; height: 20px;" /> -->
+                <q-img src="icons/instarverse_logo.png" width="40px" style="cursor: pointer;" />
+              </q-item-label>
             </q-item-section>
             <q-item-section>
               <q-item-label>
@@ -445,6 +447,18 @@
               <q-item-label>{{ $t('menu_mypage_feedback') }}</q-item-label>
             </q-item-section>
           </q-item>
+
+          <!-- 공간확보 -->
+          <q-item v-if="smallSize">
+            <q-item-section avatar class="q-pt-md">
+              <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
+              <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
+            </q-item-section>
+            <q-item-section>
+              <!-- <q-item-label>{{ $t('menu_mypage_feedback') }}</q-item-label> -->
+            </q-item-section>
+          </q-item>
+
 
           <!-- IMPORT -->
           <!--
@@ -685,7 +699,7 @@
               <!-- <q-icon name="language" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
             <q-icon name="language" size="sm" class="q-pt-md q-pb-sm" />
-            <q-menu>
+            <q-menu style="z-index: 9999;">
               <div class="no-wrap q-pa-sm pd-xy">
                 <!-- settings -->
                 <div class="q-pt-xs q-pb-xs">
@@ -932,6 +946,7 @@ export default defineComponent({
       // name: '',
       // mobile_no: '',
       wallet_address: '',
+      smallSize: false,
       // ucode: '',
       // birth: '',
       // gender: '',
@@ -1021,6 +1036,12 @@ export default defineComponent({
       this.locale = cookieLocale
     } else {
       this.locale = 'en-US'
+    }
+
+    // 화면 리사이즈 이벤트 핸들러
+    window.addEventListener("resize", this.resizeEventHandler)
+    if (document.body.offsetWidth < 1024) {
+      this.smallSize = true
     }
 
     // // CORDOVA APP에서 로그인 후 WEB으로 왔을 때 처리
@@ -1122,6 +1143,16 @@ export default defineComponent({
       // console.log(window.innerHeight)
       // console.log(this.scrollAreaHeight)
     },
+    resizeEventHandler() {
+      // console.log('resizeEventHandler')
+      // console.log(document.body.offsetWidth)
+      if (this.$q.platform.is.mobile || this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || document.body.offsetWidth < 1024) {
+        this.smallSize = true
+      } else {
+        this.smallSize = false
+      }
+    },
+
     walletAccountsChangedMetamask(accounts) {
       // console.log(accounts)
       this.$store.dispatch('setWalletType', 'metamask')
@@ -1465,5 +1496,10 @@ export default defineComponent({
   position: absolute;
   width: 100%;
   bottom: 0;
+}
+@media (max-height: 900px) {
+  .bottom-items {
+    position: relative;
+  }
 }
 </style>

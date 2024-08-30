@@ -48,25 +48,32 @@
 
       <!-- 인기 전시 -->
       <div class="best-exhibition">
-        <div class="doc-h2 part-1" >
+        <div class="line-short"></div>
+        <div class="doc-h2 part-1">
           {{ $t('best_exhibition') }}
         </div>
+        <div class="line-padding"></div>
+        <div class="line-long"></div>
       </div>
-
 
       <q-carousel
         class="view"
         v-model="bestSlide"
         swipeable
         animated
-        :autoplay="10000"
+        :autoplay="8000"
         control-color="black"
         infinite
         flat
         padding
-        height="450px"
-        :arrows="!this.smallSize"
+        :style="{ height: carouselHeight }"
+        :navigation="!this.smallSize"
       >
+      <template v-slot:navigation-icon="{ active, btnProps, onClick }">
+        <q-btn v-if="active" size="xs" :icon="btnProps.icon" color="gray" flat round dense @click="onClick" />
+        <q-btn v-else size="xs" icon="radio_button_unchecked" color="black" flat round dense @click="onClick" />
+      </template>
+
         <q-carousel-slide
           v-for="(group, index) in groupedItemAsView" 
           :key="index"
@@ -95,17 +102,20 @@
         </q-carousel-slide>
       </q-carousel>
 
-      <div style="padding-top: 150px;"></div>
+      <div style="padding-top: 100px;"></div>
 
       <!-- 신규 전시 -->
       <div class="new-exhibition">
+        <div class="line-long"></div>
+        <div class="line-padding"></div>
         <div class="doc-h2 part-1">
           {{ $t('new_exhibition') }}
         </div>
+        <div class="line-short"></div>
       </div>
 
 
-      <q-carousel
+      <!-- <q-carousel
         class="view"
         v-model="newSlide"
         swipeable
@@ -117,7 +127,25 @@
         padding
         height="450px"
         :arrows="!this.smallSize"
+      > -->
+      <q-carousel
+        class="view"
+        v-model="newSlide"
+        swipeable
+        animated
+        :autoplay="8000"
+        control-color="black"
+        infinite
+        flat
+        padding
+        :style="{ height: carouselHeight }"
+        :navigation="!this.smallSize"
       >
+      <template v-slot:navigation-icon="{ active, btnProps, onClick }">
+        <q-btn v-if="active" size="xs" :icon="btnProps.icon" color="gray" flat round dense @click="onClick" />
+        <q-btn v-else size="xs" icon="radio_button_unchecked" color="black" flat round dense @click="onClick" />
+      </template>
+      
         <q-carousel-slide
           v-for="(group, index) in groupedItemAsNew" 
           :key="index"
@@ -143,6 +171,8 @@
               </q-item>
             </div>
           </div>
+
+
         </q-carousel-slide>
       </q-carousel>
 
@@ -331,6 +361,9 @@ export default defineComponent({
     },
     getKeyword () {
       return this.$store.getters.getKeyword
+    },
+    carouselHeight() {
+      return this.smallSize ? '550px' : '400px';
     },
     groupedItemAsView() {
      let chunkSize = 4 // Number of items per slide
@@ -596,7 +629,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .navigation-icon{
-  width: 20px;
+  width: 15px;
 }
 .q-carousel__slide {
   box-shadow: inset 0px -10px 15px -5px rgba(255, 255, 255, 1);

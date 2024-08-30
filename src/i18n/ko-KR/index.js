@@ -1251,6 +1251,7 @@ export default {
 
   // add artwork
   add_artwork: '작품 추가',
+  mod_artwork: '작품 수정',
   media: '작품',
   media_url: '작품 URL',
   media_order_number: '작품번호',

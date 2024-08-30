@@ -19,6 +19,14 @@
 //     margin-left: auto;
 //     margin-right: auto;
 // }
+.custom-scroller {
+    position: fixed; /* 필수: 요소를 고정된 위치에 배치 */
+    z-index: 700;   /* 필요에 따라 z-index 설정 */
+}
+
+.custom-scroller-btn {
+    z-index: 9999; /* 버튼에 직접 z-index 적용 */
+}
 .doc-heading {
     color: $primary;
     color: $grey-9;
@@ -32,7 +40,6 @@
     // margin: 4rem 0 1.5rem;
     padding: 0.5rem 0;
 }
-
 // .doc-h1 .q-icon, .doc-h2 {
 .doc-h1 .q-icon, .doc-h2 {
     font-size: 2rem;
@@ -124,7 +131,7 @@ textarea {
     background: url('/images/background_bottom2.png');
     background-size: cover;
     width: 100%;
-    height: 500px;
+    height: 484px;
     // margin-top: 300px;
     > .footer-info {
         position: absolute;
@@ -137,6 +144,7 @@ textarea {
     background: #FEFEFE;
     border-right: 1 !important;
     box-shadow: 5px 0 10px rgba(190, 190, 190, 0.1);
+    z-index: 800;
 }
 .text-caption {
     background: transparent !important;
@@ -646,7 +654,7 @@ textarea {
 .main-list {
     word-break: break-word;
     .benner.carousel {
-        height: 800px;
+        height: 600px;
         margin: -60px auto;
     }
     .space{
@@ -736,36 +744,67 @@ textarea {
             }
         }
     }
+    // .best-exhibition {
+    //     display: flex; 
+    //     align-items: center;
+    //     background: url('/images/background_main_1.png');
+    //     background-size: cover; 
+    //     width: 100%;
+    //     height: 100px;
+    //     > .part-1 {
+    //         padding-left: 150px;
+    //     }
+    // }
+    // .new-exhibition {
+    //     display: flex; 
+    //     justify-content: flex-end;
+    //     background: url('/images/background_main_2.png');
+    //     background-size: cover; 
+    //     width: 100%;
+    //     height: 100px;
+    //     > .part-1 {
+    //         width: 100%;
+    //         padding-left: 78%;
+    //         padding-top: 30px;
+    //     }
+    // }
     .best-exhibition {
-        display: flex; 
-        align-items: center;
-        background: url('/images/background_main_1.png');
-        background-size: cover; 
-        width: 100%;
-        height: 100px;
-        > .part-1 {
-            padding-bottom: 30px;
-            padding-left: 100px;
-        }
+        display: flex;
+        align-items: baseline;
     }
     .new-exhibition {
-        display: flex; 
-        align-items: center;
-        background: url('/images/background_main_2.png');
-        background-size: cover; 
-        width: 100%;
-        height: 100px;
-        > .part-1 {
-            padding-bottom: 55px;
-            padding-left: 1000px;
-        }
+        display: flex;
+        align-items: baseline;
     }
+    .line-short {
+        width: 12%; 
+        height: 5px;
+        background-color: black;
+    }
+    .line-long {
+        flex-grow: 1;
+        height: 5px;
+        background-color: black;
+    }
+    .line-padding {
+        padding-left: 200px;
+    }
+    .doc-h2.part-1 {
+        font-weight: bold;
+        font-size: 28px;
+        white-space: nowrap;
+        padding: 30px 30px;
+    }
+      
+      
+      
+      
 }
 //프로젝트 게시판
 .project-list {
     word-break: break-word;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     .q-infinite-scroll {
         display: -ms-inline-flexbox;
         display: -webkit-inline-flex;
@@ -816,9 +855,8 @@ textarea {
             padding-right: 0;
             margin: 0 auto 15px;
             > .q-avatar {
-                font-size: 250px;
-                height: 200px; /* 원하는 높이 */
-                width: 250px;  /* 원하는 너비 */
+                height: 200px;
+                width: 254px;
             }
         }
         .q-item__section--avatar {
@@ -827,15 +865,18 @@ textarea {
     }
     .list-item {
         .q-item__label {
-            width: 100%;
-            font-size: 15px;
+            width: 340px;
+            font-size: 18px;
             margin-bottom: 10px;
             display: -ms-flexbox;
             display: -webkit-flex;
-            display: flex;
+            display: block;
             -webkit-justify-content: center;
             -ms-flex-pack: center;
             justify-content: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             + .q-item__label {
                 font-size: 13px;
                 opacity: 0.9;
@@ -844,7 +885,6 @@ textarea {
                 margin-bottom: 0;
             }
         }
-
     }
 }
 //투표 게시판
@@ -1336,7 +1376,7 @@ background-color: #e7e6de9c;
     }
     .tab-panel-2 {
         .hash-wrapper {
-            height: 30px;
+            height: auto;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
@@ -1406,20 +1446,6 @@ background-color: #e7e6de9c;
         background-color: #90B2D8;
         color: white;
     }
-    .title-sec {
-        background: url("/images/background_top.png");
-        background-size: cover;
-        width: 100%;
-        padding-bottom: 10px;
-        font-size: 40px; 
-    }
-    // .q-expansion-item {
-    //     .q-item {
-    //         background: #000000d1 !important;
-    //         border-radius: 10px;
-    //         min-height: 38px !important;
-    //     }
-    // }
 }
     .tab-panel-1{
         max-width: 100%;
@@ -1462,11 +1488,16 @@ background-color: #e7e6de9c;
     background: url("/images/background_top.png");
     background-size: cover;
     width: 100%;
-    padding-bottom: 10px;
-    font-size: 40px; 
+    padding-bottom: 100px;
+    font-size: 40px;
+    span {
+        position: absolute;
+        top: 30px;
+    }
 }
 .title {
     font-weight: bold;
+    padding-bottom: 10px;
 }
 .subtitle {
     font-size: 25px;
@@ -1527,7 +1558,7 @@ background-color: #e7e6de9c;
 }
 .reg-media{
     .hash-wrapper {
-        height: 30px;
+        height: auto;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -1934,23 +1965,6 @@ background-color: #e7e6de9c;
         .q-carousel{
             height: 10000px;
         }
-        .best-exhibition {
-            > .part-1 {
-                font-size: 25px;
-                margin-left: 0px;
-                padding-left: 20px;
-                padding-bottom: 110px;
-            }
-        }
-        .new-exhibition {
-            display: flex; 
-            align-items: center;
-            > .part-1 {
-                font-size: 25px;
-                padding-left: 200px;
-                padding-bottom: 120px;
-            }
-        }
     }
     //프로젝트 게시판
     .project-list {
@@ -1962,22 +1976,29 @@ background-color: #e7e6de9c;
         }
         .q-infinite-scroll {
             > div {
-                width: 100%;
+                width: 50%;
                 margin: 10px 0;
-                padding: 20px 20px;
+                // padding: 20px 20px;
             }
         }
         .q-item {
-            padding: 5px 20px;
+            padding: 0px 5px;
             + .q-item {
             }
             .q-item__section--side {
                 > .q-avatar {
-                    height: 130px; /* 원하는 높이 */
-                    width: 150px;  /* 원하는 너비 */
+                    height: 130px;
+                    width: 160px;
                 }
             }
             .q-item__section--avatar {
+            }
+        }
+        .list-item {
+            .q-item__label {
+                width: 450px;
+                font-size: 18px;
+                margin-bottom: 10px;
             }
         }
     }
@@ -2104,18 +2125,6 @@ background-color: #e7e6de9c;
         }
     }
     .project-list-wrap {
-        .title-sec{
-            padding-top: 20px;
-            padding-left: 70px;
-        }
-        .title {
-            background: url('/images/background_top.png');
-            background-size: cover;
-            width: 100%;
-            padding-bottom: 10px;
-            font-size: 30px; 
-            color: #0C2C69;
-        }
         .subtitle {
             font-size: 40px;
             color: #90B2D8;
@@ -2286,18 +2295,38 @@ background-color: #e7e6de9c;
                 width: 50%;
             }
         }
-    }  
+    }
+
 }
-@media (max-width: 400px) {
+@media (max-width: 550px) {
     //프로젝트 게시판
     .project-list {
         .q-item {
             .q-item__section--side {
                 > .q-avatar {
-                    height: 100px; /* 원하는 높이 */
-                    width: 130px;
+                    height: 125px;
+                    width: 161px;
                 }
             }
         }
+        .list-item {
+            .q-item__label {
+                width: 161px;
+                font-size: 15px;
+                margin-bottom: 3px;
+            }
+        }
     }
+    .main-list{
+        .line-short {
+            width: 10%; 
+        }
+        .line-padding {
+            padding-left: 10px;
+        }
+        .doc-h2.part-1 {
+            font-size: 20px;
+        }
+    }
+
 }  

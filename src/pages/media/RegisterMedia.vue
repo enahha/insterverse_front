@@ -2,11 +2,9 @@
   <q-page class="page-1200 q-pa-md q-pa-md reg-media">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec">{{ $t('add_artwork') }}</div>
+        <div class="title-sec"><span>{{ $t('add_artwork') }}</span></div>
       </div>
     </div>
-
-    <br><br><br><br>
 
     <div class="flex flex-center">
 
@@ -45,6 +43,7 @@
                     <span>{{ $t('no_artwork') }}</span>
                   </div>
                 </div>
+                <br>
               </td>
             </tr>
             <tr>
@@ -109,7 +108,7 @@
                   <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_order_number') }}</span>
                 </div>
                 <div class="">
-                  <q-input v-model="mediaOrderNumber" ref="refMediaOrderNumber" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaOrderNumber" ref="refMediaOrderNumber" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>

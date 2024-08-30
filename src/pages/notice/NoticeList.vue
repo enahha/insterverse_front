@@ -2,7 +2,7 @@
   <q-page class="page-1200 q-pa-md">
       <div class="row title">
         <div class="col-12 doc-heading">
-          <div class="title-sec">{{ $t('notice') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Notice</span></div>
+          <div class="title-sec"><span>{{ $t('notice') }}</span></div>
         </div>
       </div>
     <!-- <div class="row justify-center q-pb-md">

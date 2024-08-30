@@ -49,6 +49,9 @@ export default boot(({ app }) => {
   // 인스타그램
   app.config.globalProperties.$instagramClientId = '681042560396956'
   app.config.globalProperties.$instagramLoginRedirectUri = 'https://instarverse.com/api/login/instagramLoginRedirectUri'
+
+  //유니티
+  app.config.globalProperties.$exhibitionUnityUrl = 'https://instarverse.com/exhibition/index.html?exhibitionSeq='
   
   // 프로젝트 상태 코드
   app.config.globalProperties.$PROJECT_STATUS_CD_REGISTERED = '10'
@@ -91,15 +94,14 @@ export default boot(({ app }) => {
 
   app.config.globalProperties.$noti = function (quasar, message) {
     quasar.notify({
-      message: message,
-      color: 'black',
-      // avatar: 'images/logo-64x64.png',
-      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+      message: `<span style="color: black;">${message}</span>`,
+      color: 'white',
+      avatar: 'icons/instarverse_logo.png',
       position: 'bottom',
       html: true,
       actions: [
         { label: 'X', color: 'black', handler: () => { /* ... */ } },
-      ]
+      ],
     })
   }
 

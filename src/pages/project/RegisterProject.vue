@@ -2,11 +2,11 @@
   <q-page class="page-1200 q-pa-md project-reg-wrap">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec">{{ $t('menu_project_register') }}</div>
+        <div class="title-sec"><span>{{ $t('menu_project_register') }}</span></div>
       </div>
     </div>
 
-    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+    <q-page-scroller class="custom-scroller" position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
       <q-btn fab icon="keyboard_arrow_up" color="secondary" />
     </q-page-scroller>
 
@@ -16,10 +16,10 @@
       align="justify"
       inline-label
     >
-      <q-tab name="1" :disable="true">{{ $t('project_artwork') }}</q-tab>
-      <q-tab name="2" :disable="true">{{ $t('project_description') }}</q-tab>
-      <q-tab name="3" :disable="true">{{ $t('project_artist') }}</q-tab>
-      <q-tab name="4" :disable="true">{{ $t('project_preview') }}</q-tab>
+      <q-tab name="1" @click="unableTabNext">{{ $t('project_artwork') }}</q-tab>
+      <q-tab name="2" @click="unableTabNext">{{ $t('project_description') }}</q-tab>
+      <q-tab name="3" @click="unableTabNext">{{ $t('project_artist') }}</q-tab>
+      <q-tab name="4" @click="unableTabNext">{{ $t('project_preview') }}</q-tab>
     </q-tabs>
 
     <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
@@ -65,47 +65,45 @@
               />
           </div>
 
-          <q-pull-to-refresh @refresh="refresher">
-            <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll">
-              <q-table
-                flat
-                :rows="myMediaList"
-                :columns="columns"
-                row-key="seq"
-                selection="multiple"
-                v-model:selected="selected"
-                class="media-table-wrapper text-center q-pt-lg"
-                virtual-scroll
-                v-model:pagination="pagination"
-                :rows-per-page-options="[10, 25, 50, 100]"
-              >
-                <template v-slot:body-cell-media="props">
-                  <q-td :props="props">
-                    <video v-if="props.row.type === 'VIDEO'" :src="props.row.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
-                    <q-img v-else :src="props.row.url" style="width: 100px;" />
-                  </q-td>
-                </template>
-                <template v-slot:body-cell-title="props">
-                  <q-td :props="props">{{ truncateText(props.row.title, 10) }}</q-td>
-                </template>
-                <template v-slot:body-cell-price="props">
-                  <q-td :props="props">{{ props.row.price > 0 ? Number(props.row.price).toLocaleString() : '-' }}</q-td>
-                </template>
-                <!-- <template v-slot:body-cell-description="props">
-                  <q-td :props="props">{{ truncateText(props.row.description, 50) }}</q-td>
-                </template> -->
-              </q-table>
-              <template v-slot:loading>
-                <div class="row justify-center q-my-md">
-                  <q-spinner-dots color="primary" size="40px" />
-                </div>
+          <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll">
+            <q-table
+              flat
+              :rows="myMediaList"
+              :columns="columns"
+              row-key="seq"
+              selection="multiple"
+              v-model:selected="selected"
+              class="media-table-wrapper text-center q-pt-lg"
+              virtual-scroll
+              v-model:pagination="pagination"
+              :rows-per-page-options="[10, 25, 50, 100]"
+            >
+              <template v-slot:body-cell-media="props">
+                <q-td :props="props">
+                  <video v-if="props.row.type === 'VIDEO'" :src="props.row.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
+                  <q-img v-else :src="props.row.url" style="width: 100px;" />
+                </q-td>
               </template>
-            </q-infinite-scroll>
-          </q-pull-to-refresh>
+              <template v-slot:body-cell-title="props">
+                <q-td :props="props">{{ truncateText(props.row.title, 10) }}</q-td>
+              </template>
+              <template v-slot:body-cell-price="props">
+                <q-td :props="props">{{ props.row.price > 0 ? Number(props.row.price).toLocaleString() : '-' }}</q-td>
+              </template>
+              <!-- <template v-slot:body-cell-description="props">
+                <q-td :props="props">{{ truncateText(props.row.description, 50) }}</q-td>
+              </template> -->
+            </q-table>
+            <template v-slot:loading>
+              <div class="row justify-center q-my-md">
+                <q-spinner-dots color="primary" size="40px" />
+              </div>
+            </template>
+          </q-infinite-scroll>
 
-          <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+          <!-- <div v-if="noDataFlag" class="row justify-center q-pt-lg">
             <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
-          </div>
+          </div> -->
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
             <q-btn
@@ -130,7 +128,7 @@
             <span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span>
           </div>
           <div style="max-width: 600px;">
-            <q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+            <q-input v-model="title" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
           </div>
 
           <div class="q-pt-lg">
@@ -149,7 +147,7 @@
               </q-tooltip>
             </q-icon>
             <div style="max-width: 600px;">
-              <q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+              <q-input v-model="symbol" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 10)]" clearable outlined tabindex="1" />
             </div>
           </div>
 
@@ -190,7 +188,7 @@
           <div style="max-width: 600px;">
             <!-- 전시 시작일 -->
             <div class="" style="max-width: 300px;">
-              <q-input v-model="startTime" :label="$t('start_time')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 160)]" outlined tabindex="6">
+              <q-input v-model="startTime" :label="$t('start_time')" ref="refStartTime" outlined tabindex="6">
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -217,7 +215,7 @@
             </div>
             <!-- 전시 종료일 -->
             <div class="q-pt-xs" style="max-width: 300px;">
-              <q-input v-model="endTime" :label="$t('end_time')" ref="refEndTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 160)]" outlined tabindex="6">
+              <q-input v-model="endTime" :label="$t('end_time')" ref="refEndTime" outlined tabindex="6">
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -273,12 +271,12 @@
                 />
               </div>
             </div>
-            <div class="col-12 text-red text-bold worn-text">
+            <!-- <div class="col-12 text-red text-bold worn-text">
               {{ $t('square_image_only') }}
-            </div>
+            </div> -->
           </div>
 
-          <div class="q-pt-lg">
+          <div class="row q-pt-lg">
             <span class="text-weight-bold text-subtitle1">{{ $t('project_tag') }}<span class="text-red"></span></span>
           </div>
           <div class="input-wrapper" style="max-width: 600px;">
@@ -982,7 +980,7 @@ export default defineComponent({
       noDataFlag: false, // 나의 작품 데이터 없음 플래그
       columns: [
         { name: 'order_no', required: true, label: 'No.', align: 'center', field: 'order_no' , style: { width: '20px' }},
-        { name: 'media', label: this.$t('media'), align: 'center', field: 'type', style: { width: '300px' }},
+        { name: 'media', label: this.$t('media'), align: 'center', field: 'type', style: { width: '250px' }},
         { name: 'title', label: this.$t('media_title'), align: 'left', field: 'title' },
         { name: 'price', label: this.$t('media_price') + ' (USD)', align: 'left', field: 'price' },
         // { name: 'description', label: this.$t('media_description'), align: 'left', field: 'description' },
@@ -990,7 +988,7 @@ export default defineComponent({
       selected: [],
       pagination: {
         page: 1,
-        rowsPerPage: 25, 
+        rowsPerPage: 10, 
       },
       myMediaList: [],
       selectedState: {},
@@ -1130,6 +1128,11 @@ export default defineComponent({
       if(!this.getUid) {
         this.$router.push({ path: '/login', query: { redirectPath: this.$route.path }})
       }
+    },
+    unableTabNext() {
+      event.preventDefault()
+      event.stopPropagation()
+      this.currentTab = this.currentTab
     },
     goTabNext() {
       if (this.tab == '1') {
@@ -1285,7 +1288,6 @@ export default defineComponent({
             this.myMediaList = [] // 리스트 초기화
           }
           this.myMediaList = this.myMediaList.concat(result.data)
-
           // 선택 상태 적용
           await this.applySelectionState()
 
@@ -1358,12 +1360,12 @@ export default defineComponent({
     validate() {
       let result = true
       // 왜 안되는거야악!!
-      // if (!this.$refs.refNickname.validate()) {
-      //   result = falsetrue
-      // }
-      // if (!this.$refs.refRepresentativeSns.validate()) {
-      //   result = falsetrue
-      // }
+      if (!this.$refs.refTitle.validate()) {
+        result = false
+      }
+      if (!this.$refs.refSubTitle.validate()) {
+        result = false
+      }
       // if (!this.$refs.refTitle.validate()) {
       //   result = falsetrue
       // }
@@ -1374,9 +1376,9 @@ export default defineComponent({
       // //   this.$noti(this.$q, this.$t('validation_failed_minting_nft_image'))true
       // //   result = falsetrue
       // // }
-      // if (!this.$refs.refSymbol.validate()) {
-      //   result = falsetrue
-      // }
+      if (!this.$refs.refSymbol.validate()) {
+        result = falsetrue
+      }
       // if (!this.$refs.refSubtitle.validate()) {
       //   result = falsetrue
       // }
@@ -1390,12 +1392,6 @@ export default defineComponent({
     },
     // 등록 처리 시작
     async branchInsertUpdate() {
-      // Field validation check
-      if(!this.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed'))
-        return
-      }
-
       // 로그인 여부 체크, 메인화면으로?
       if (!this.getUid) {
         this.$refs.refLoginModal.show()
@@ -1545,6 +1541,12 @@ export default defineComponent({
         })
     },
     async register() {
+      // Field validation check
+      if(!this.validate()) {
+        this.$noti(this.$q, this.$t('validation_failed'))
+        return
+      }
+
       this.isButtonClicked = true
 
       // 미디어 리스트 등록

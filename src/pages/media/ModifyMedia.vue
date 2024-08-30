@@ -2,11 +2,9 @@
   <q-page class="page-1200 q-pa-md q-pa-md reg-media">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec">{{ $t('add_artwork') }}</div>
+        <div class="title-sec"><span>{{ $t('mod_artwork') }}</span></div>
       </div>
     </div>
-
-    <br><br><br><br>
 
     <div class="flex flex-center">
 
@@ -45,15 +43,9 @@
                     <span>{{ $t('no_artwork') }}</span>
                   </div>
                 </div>
+                <br>
               </td>
             </tr>
-          </table>
-        </div>
-
-        <!-- 반응형 div 2 -->
-        <div>
-          <!-- 작품 항목 -->
-          <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
               <td>
                 <!-- 작품 URL -->
@@ -65,7 +57,7 @@
             <tr>
               <td>
                 <div class="">
-                  <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 1000)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 500)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -73,10 +65,10 @@
               <td>
                 <!-- 작품 업로드 -->
                 <div class="row">
-                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_image') }}</span>
+                  <!-- <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_image') }}</span>
                   <span class="text-grey">
                     &nbsp;&nbsp;({{ $t('image_reset') }} : <q-icon name="done_all" size="sm" />)
-                  </span>
+                  </span> -->
                 </div>
               </td>
             </tr>
@@ -97,53 +89,96 @@
                     :auto-upload="true"
                     style="width: 100%;"
                     tabindex="9"
+                    no-thumbnails
                     @uploaded="fileUploadedMedia"
                   />
                 </div>
               </td>
             </tr>
+          </table>
+        </div>
+
+        <!-- 반응형 div 2 -->
+        <div>
+          <!-- 작품 항목 -->
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 10px;">
             <tr>
               <td>
-                <div class="q-pt-xl">
-                  <q-input v-model="mediaOrderNumber" :label="$t('media_order_number')" ref="refMediaOrderNumber" :rules="[required]" clearable outlined tabindex="1" />
+                <div class="row">
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_order_number') }}</span>
+                </div>
+                <div class="">
+                  <q-input v-model="mediaOrderNumber" ref="refMediaOrderNumber" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
             <tr>
               <td>
-                <div class="q-pt-lg">
-                  <q-input v-model="mediaTitle" :label="$t('media_title')" ref="refMediaTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                <div class="row">
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_title') }}</span>
+                </div>
+                <div class="">
+                  <q-input v-model="mediaTitle" ref="refMediaTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
             <tr>
               <td>
-                <div class="q-pt-lg">
-                  <q-input v-model="mediaSubtitle" :label="$t('media_subtitle')" ref="refMediaSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                <div class="row">
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_subtitle') }}</span>
+                </div>
+                <div class="">
+                  <q-input v-model="mediaSubtitle" ref="refMediaSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
             <tr>
               <td>
-                <div class="q-pt-lg row">
+                <div class="row">
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_price') }} (USD)</span>
+                </div>
+                <div class="row">
+                  <q-input v-if="mediaForSale" v-model="mediaPrice" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
+                  <q-input v-else v-model="mediaPrice" :readonly="true" ref="refMediaPrice" clearable outlined tabindex="1" style="width: 200px;"/>
                   <q-checkbox
-                    left-label
+                    right-label
                     v-model="mediaForSale"
                     :label = "$t('media_sale')"
                     checked-icon="task_alt"
                     unchecked-icon="highlight_off"
                   />
-                  <q-input v-if="mediaForSale" v-model="mediaPrice" :label="$t('media_price') + '(USD)'" ref="refMediaPrice" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" style="width: 200px;"/>
-                  <q-input v-else v-model="mediaPrice" :readonly="true" :label="$t('media_price') + '(USD)'" ref="refMediaPrice" clearable outlined tabindex="1" style="width: 200px;"/>
                 </div>
               </td>
             </tr>
             <tr>
               <td>
-                <div class="q-pt-lg row">
-                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaCreatedAt" :label="$t('media_created') + ' ex) 2024'" ref="refMediaCreated" clearable outlined tabindex="1" />
-                  <q-input class="q-mb-xs q-mr-xs" style="width: 200px;" v-model="mediaSize" :label="$t('media_size')+ ' ex) 500*500'" ref="refMediaSize" clearable outlined tabindex="1" />
-                  <q-input class="q-mb-xs" style="width: 200px;" v-model="mediaMaterials" :label="$t('media_materials')" ref="refMediaMaterials" clearable outlined tabindex="1" />
+                <div class="row">
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_created') }}</span>
+                </div>
+                <div class="">
+                  <q-input v-model="mediaCreatedAt" ref="refMediaCreated" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="row">
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_size') }}</span>
+                </div>
+                <div class="row">
+                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_height')" style="width: 200px;" v-model="mediaHeight" ref="refMediaCreated" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_width')" style="width: 200px;" v-model="mediaWidth" ref="refMediaSize" clearable outlined tabindex="1" />
+                  <q-select  :label="$t('media_unit')" outlined v-model="mediaUnit" :options="mediaUnitOption" style="width: 100px;"/>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="row">
+                  <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_materials') }}</span>
+                </div>
+                <div class="">
+                  <q-input v-model="mediaMaterials" ref="refMediaCreated" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -158,7 +193,7 @@
                       type="text"
                       v-model="hashState.hashtag"
                       @keyup.enter="onEnterKey"
-                      :placeholder="hashState.hashArr.length < 5 ? '#태그 입력 (최대 5개)' : '최대 5개까지 입력'"
+                      :placeholder="hashState.hashArr.length < 5 ? $t('tag') : $t('tag_limit')"
                       :disabled="hashState.hashArr.length >= 5"
                       clearable outlined tabindex="1"
                     />
@@ -181,7 +216,6 @@
         </div>
       </div>
     </div>
-    <br><br><br>
 
     <!-- 작품 설명글 -->
     <div class="row justify-center q-pt-lg">
@@ -283,7 +317,6 @@
   </q-dialog>
 
 </template>
-
 <script>
 import { defineComponent, reactive } from 'vue'
 import { required, requiredNumber, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
@@ -301,6 +334,13 @@ export default defineComponent({
       mediaPrice: '',
       mediaCreatedAt: '',
       mediaSize: '',
+      mediaHeight: '',
+      mediaWidth: '',
+      mediaUnit: '',
+      mediaUnitOption: [
+        'cm',
+        'inch',
+      ],
       mediaMaterials: '',
       mediaDescription: '',
       mediaForSale: true,
@@ -521,13 +561,13 @@ export default defineComponent({
       // }
       return result
     },
-    // 등록 처리 시작
+    // 수정 처리 시작
     async register() {
       // Field validation check
-      if(!this.validate()) {
-          this.$noti(this.$q, this.$t('validation_failed'))
-          return
-      }
+      // if(!this.validate()) {
+      //     this.$noti(this.$q, this.$t('validation_failed'))
+      //     return
+      // }
 
       // 로그인 여부 체크, 로그인 모달 표시
       if (!this.getUid) {
@@ -535,24 +575,23 @@ export default defineComponent({
           return
       }
 
-      // 등록
+      // 수정
       this.doRegister()
     },
-    // 등록
+    // 수정
     async doRegister() {
-      console.log("this.")
-      // 1. 등록
+      // 1. 수정
       const params = {
         uid: this.getUid,
         seq: this.mediaSeq,
         type: this.mediaType,
         url: this.mediaUrl,
         order_no: this.mediaOrderNumber,
-        title: this.mediaTitle,
+        title: this.mediaTitle ? this.mediaTitle : 'Untitled',
         subtitle: this.mediaSubtitle,
         description: this.mediaDescription,
         sale_yn: this.mediaForSale ? 'Y':'N',
-        price: this.mediaPrice,
+        price: `${this.mediaWidth} x ${this.mediaHeight} ${this.mediaUnit}`,
         created_at: this.mediaCreatedAt,
         size: this.mediaSize,
         materials: this.mediaMaterials,

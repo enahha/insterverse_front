@@ -1,13 +1,13 @@
 <template>
   <q-page class="page-1200 q-pa-md project-list-wrap">
 
-    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+    <q-page-scroller class="custom-scroller" position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
       <q-btn fab icon="keyboard_arrow_up" color="secondary" />
     </q-page-scroller>
 
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec">{{ $t('menu_project_list') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Exhibition</span></div>
+        <div class="title-sec"><span>{{ $t('menu_project_list') }}</span></div>
       </div>
     </div>
       <!-- <div class="row q-pl-md justify-center page-sub-tit">
@@ -36,7 +36,7 @@
 
           <div v-for="item in projectList" :key="item.seq">
             <q-item clickable @click="goDetail(item.seq)">
-              <q-item-section style="padding-bottom: 20px;">
+              <q-item-section style="padding-bottom: 10px;">
                 <!-- <q-avatar>
                   <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
@@ -297,20 +297,26 @@ export default defineComponent({
 
 <style scoped>
 .image-container {
-    width: 350px;
-    height: 280px;
+    width: 100%;
+    max-width: 350px;
+    aspect-ratio: 5 / 4;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f5f5f5;
-    border-radius: 8px;
 }
+
 .image-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: block;
 }
-@media (max-width: 1023px) {
 
+@media (max-width: 1023px) {
+  .image-container {
+    max-width: 100%;
+  }
 }
 </style>

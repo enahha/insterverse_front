@@ -2,7 +2,7 @@
   <q-page class="page-1200 q-pa-md contact-wrap">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec">{{ $t('contact') }}   <span class="subtitle" v-if="locale === 'ko-KR'">Contact</span></div>
+        <div class="title-sec"><span>{{ $t('contact') }}</span></div>
       </div>
     </div>
 
@@ -57,7 +57,7 @@
                 <span class="text-weight-bold text-subtitle1">{{ $t('email') }}<span class="text-red"> *</span></span>
                 <q-input v-model="email" ref="email" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
                 <span class="text-weight-bold text-subtitle1">{{ $t('contact_content') }}<span class="text-red"> *</span></span>
-                <q-input v-model="contants" ref="contants" :rules="[required, val => minLength(val, 1)]" clearable type="textarea" tabindex="1" />
+                <q-input v-model="contants" ref="contants" :rules="[required, val => minLength(val, 1)]" clearable borderless type="textarea" tabindex="1" />
                 <div class="register-btn">
                   <q-btn
                     :label="$t('contact_register')"

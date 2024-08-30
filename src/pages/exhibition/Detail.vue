@@ -5,27 +5,49 @@
       <img v-if="projectVo.banner_url" :src="projectVo.banner_url" alt="Active Icon" style="width: 100%; height: 400px; object-fit: cover; margin: -60px auto;" />
       <img v-else src="images/main_exhibition.png" alt="Active Icon" style="width: 100%; height: 400px; margin: -60px auto;" />
 
-      <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-page-scroller class="custom-scroller" position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
         <q-btn fab icon="keyboard_arrow_up" color="secondary" />
       </q-page-scroller>
       
       <!-- <div class="row flex flex-center"> -->
       <!-- <div class="row justify justify-between q-pt-sm"> -->
-      <div class="row q-pt-sm" style="">
-        <div class="row flex flex-center full-screen">
-          <div class="row flex flex-center full-screen">
+      <div class="row q-pt-sm flex flex-center page-1200" style="width: 100%;">
+        <div class="row">
+          <div class="row">
             <div class="col">
-              <table border="0" width="100%" style="margin: -150px auto; padding-left: 15%; width: 90%;" align="center">
-                <tr>
-                  <!-- <td>
-                    <div class="text-right q-pl-sm">
-                      <q-avatar size="md">
-                        <img v-if="projectVo.logo_image" :src="projectVo.logo_image">
-                        <q-icon v-else name="rocket_launch" size="md" />
-                      </q-avatar>
+              <table border="0" width="100%" class="table-wrap flex flex-center"  align="center">
+                <tr class="title-wrap row">
+                  <td class="title-inner">
+                    <div class="q-pl-sm" style="display: flex;">
+                      <div class="row">
+                        <!-- <div v-if="popupYn !== 'y'"> -->
+                        <div>
+                          <q-btn  class="btn-custom-style" flat round dense icon="arrow_back" color="white" icon-left="true" @click="goBack" />
+                        </div>
+                        <div v-if="getUid === projectVo.reg_id" class="col flex flex-center">
+                          <q-btn  class="btn-custom-style" flat round dense icon="edit" size="md" color="white" icon-right="true" @click="goModify" />
+                        </div>
+                        <div v-if="getUid === projectVo.reg_id" class="col">
+                          <q-btn class="btn-custom-style" flat round dense icon="delete" size="md" color="white" icon-right="true" @click="deleteProject" />
+                        </div>
+                        <div class="col">
+                          <q-btn  class="btn-custom-style" flat round dense icon="share" size="md" color="white" icon-right="true" @click="shareUrlCopy(projectVo.seq)" />
+                        </div>
+                        <!-- <div class="q-pl-md q-pr-sm">
+                          <q-select
+                            v-if="popupYn === 'y'"
+                            v-model="locale"
+                            :options="localeOptions"
+                            dense
+                            borderless
+                            emit-value
+                            map-options
+                            style="width: 55px"
+                            @update:model-value="onChangeLocale"
+                          />
+                        </div> -->
+                      </div>
                     </div>
-                  </td> -->
-                  <td >
                     <div class="q-pl-sm title" style="word-break: break-word;">
                       <div v-if="calculateStatus(projectVo) === 'Registering'" style="font-size: 14px;">
                         <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('Registering') }}
@@ -39,7 +61,7 @@
                       <div v-if="calculateStatus(projectVo) === 'ready'" style="font-size: 14px;">
                         <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('exhibit_ready') }}
                       </div>
-                      <div class="title">
+                      <div class="">
                         {{ projectVo.title }}
                       </div>
                       <div class="col-12 subtitle">
@@ -53,53 +75,57 @@
                     </div>
                   </td> -->
                 </tr>
+                <tr class="row btn-wrap">
+                  <td>
+                    <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" :disable="!isStart" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 2%; opacity: 1; margin: 10px;"/>
+                  </td>
+                </tr>
               </table>
             </div>
           </div>
         </div>
         <!--<div class="q-pl-sm" style="padding-left: 15%; background-color: rgba(255, 255, 255, 0.3);">   반투명 흰색레이어 추가 -->
-        <div class="q-pl-sm" style="padding-left: 20%;">
-          <div class="row flex flex-center">
-            <!-- <div v-if="popupYn !== 'y'"> -->
-            <div>
-              <q-btn  class="btn-custom-style" flat round dense icon="arrow_back" color="white" icon-left="true" @click="goBack" />
-            </div>
-            <div v-if="getUid === projectVo.reg_id" class="col flex flex-center">
-              <q-btn  class="btn-custom-style" flat round dense icon="edit" size="md" color="white" icon-right="true" @click="goModify" />
-            </div>
-            <div v-if="getUid === projectVo.reg_id" class="col">
-              <q-btn class="btn-custom-style" flat round dense icon="delete" size="md" color="white" icon-right="true" @click="deleteProject" />
-            </div>
-            <div class="col">
-              <q-btn  class="btn-custom-style" flat round dense icon="share" size="md" color="white" icon-right="true" @click="shareUrlCopy(projectVo.seq)" />
-            </div>
-            <!-- <div class="q-pl-md q-pr-sm">
-              <q-select
-                v-if="popupYn === 'y'"
-                v-model="locale"
-                :options="localeOptions"
-                dense
-                borderless
-                emit-value
-                map-options
-                style="width: 55px"
-                @update:model-value="onChangeLocale"
-              />
-            </div> -->
+        <!-- <div class="page-1200">
+          <div class="q-pl-sm" style="">
+            <div class="row flex flex-center">
+              <div>
+                <q-btn  class="btn-custom-style" flat round dense icon="arrow_back" color="white" icon-left="true" @click="goBack" />
+              </div>
+              <div v-if="getUid === projectVo.reg_id" class="col flex flex-center">
+                <q-btn  class="btn-custom-style" flat round dense icon="edit" size="md" color="white" icon-right="true" @click="goModify" />
+              </div>
+              <div v-if="getUid === projectVo.reg_id" class="col">
+                <q-btn class="btn-custom-style" flat round dense icon="delete" size="md" color="white" icon-right="true" @click="deleteProject" />
+              </div>
+              <div class="col">
+                <q-btn  class="btn-custom-style" flat round dense icon="share" size="md" color="white" icon-right="true" @click="shareUrlCopy(projectVo.seq)" />
+              </div> -->
+              <!-- <div class="q-pl-md q-pr-sm">
+                <q-select
+                  v-if="popupYn === 'y'"
+                  v-model="locale"
+                  :options="localeOptions"
+                  dense
+                  borderless
+                  emit-value
+                  map-options
+                  style="width: 55px"
+                  @update:model-value="onChangeLocale"
+                />
+              </div> -->
+            <!-- </div>
           </div>
-        </div>
+        </div> -->
         
-        <div class="col">
-          <table border="0" width="100%" style="margin: -70px auto; padding-right: 8%;" align="center">
+        <!-- <div class="col">
+          <table border="0" style="margin: -70px auto; padding-right: 8%;" align="center">
             <tr>
               <td style="display: flex; flex-direction: column; align-items: end; padding-right: 25%;">
-                <!-- <q-btn :label="$t('edit')" @click="goModify" style="background-color: #90B2D8; width: 100px; margin: 10px;"/> -->
                 <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" :disable="!isStart" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 2%; opacity: 1;"/>
-                <!-- <q-btn label="MediaDetailModal" @click="showMediaDetailModal" size="20px" style="background-color: #E1D2BB; width: 180px; margin-top: 3%;"/> -->
               </td>
             </tr>
           </table>
-        </div>
+        </div> -->
 
 
       </div>
@@ -217,7 +243,7 @@
         <!-- 하단 공간 확보 -->
         <div class="row justify-center q-pa-xl">
         </div>
-      </div>xsax
+      </div>
 
 
 
@@ -715,7 +741,7 @@
 
       <div class="row">
         <div class="col-12">
-          <q-input v-model="myContents" type="textarea" :placeholder="$t('enter_the_comment')" rows="2" outlined @keyup="countMyContentsLength" />
+          <q-input v-model="myContents" type="textarea" :placeholder="$t('enter_the_comment')" rows="2" clearable borderless tabindex="1" @keyup="countMyContentsLength" />
         </div>
       </div>
 
@@ -1678,7 +1704,7 @@ export default defineComponent({
       this.confirmDeleteProject = true
     },
     exhibition_enter() {
-      window.open('https://instarverse.com/exhibition/index.html?exhibitionSeq=' + this.projectSeq, '_system')
+      window.open(this.$exhibitionUnityUrl +  this.projectSeq, '_system')
     },
     // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
     doDeleteProject() {
@@ -1723,38 +1749,54 @@ export default defineComponent({
     background-color: #f6f6f6;
     transition: transform 0.3s ease; /* 부드러운 변형 효과 */
 }
-
 .media-container:hover .media-content {
-    transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
+  transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
 }
 .title {
   font-weight: bold; 
-  font-size: 50px;
+  font-size: 40px;
   color: white;
   text-shadow: 2px 2px 5px black;
+  padding-top: 20px;
 }
 .subtitle{
   word-break: break-word;
-  font-size: 25px;
+  font-size: 20px;
   color: white;
   text-shadow: 2px 2px 5px black;
 }
 .btn-custom-style {
   text-shadow: 2px 2px 5px black;
 }
+.table-wrap {
+  margin: -329px auto;
+  /* padding-left: 9%; */
+  height: 410px;
+}
+.title-wrap {
+  width: 1280px;
+  height: 150px;
+}
+.btn-wrap {
+  width: 100%; 
+  display: flex; 
+  justify-content: flex-end;
+}
 @media (max-width: 1023px) {
-  .title-wrap {
-    width: 100%;
-    position: absolute;
-    top: 0.5%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
   .title{
     font-size: 25px;
   }
   .subtitle{
     display: none;
+  }
+  .table-wrap {
+    margin: -329px auto;
+    /* padding-left: 9%; */
+    height: 410px;
+  }
+  .title-wrap {
+    width: 100%;
+    height: 150px;
   }
 }
 </style>

@@ -11,7 +11,7 @@
           <br />
 
           <div class="text-caption flex flex-center q-pt-xs">
-            <span class="text-white">ⓒ 2023 Star Inc. all rights reserved.</span>
+            <span class="text-white">ⓒ 2024 Star Inc. all rights reserved.</span>
           </div>
 
           <!-- 사업자정보 -->

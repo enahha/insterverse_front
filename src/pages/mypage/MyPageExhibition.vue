@@ -1,12 +1,14 @@
 <template>
   <q-page class="q-pa-md page-1200 mypage-wrap">
-    <div class="row justify-center">
-      <div class="row title-sec">
-          <div class="col-12 doc-heading">
-            <div class="title">{{ $t('menu_mypage_my_exhibition') }}</div>
-          </div>
-        </div>
+    <div class="row title">
+      <div class="col-12 doc-heading">
+        <div class="title-sec"><span>{{ $t('menu_mypage_my_exhibition') }}</span></div>
+      </div>
     </div>
+
+    <q-page-scroller class="custom-scroller" position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="secondary" />
+    </q-page-scroller>
 
     <div class="tab-panel-2 q-pt-lg">
       <!-- 프로젝트 리스트 -->
@@ -20,8 +22,9 @@
                   <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
                 </q-avatar> -->
-                <div style="width: 350px; height: 280px; display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; border-radius: 8px;">
-                  <img v-if="item.postar_url" :src="item.postar_url" style="width: 100%; height: 100%; object-fit: cover;">
+                <!-- 이거 스타일은 app.scss파일이 아닌 해당 파일 아래쪽에 위치해있음. (스타일이 안먹어서,,,) -->
+                <div class="image-container">
+                  <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
                 </div>
               </q-item-section>
@@ -758,4 +761,27 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.image-container {
+    width: 100%;
+    max-width: 350px;
+    aspect-ratio: 5 / 4;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: block;
+}
+
+@media (max-width: 1023px) {
+  .image-container {
+    max-width: 100%;
+  }
+}
 </style>

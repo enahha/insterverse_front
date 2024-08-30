@@ -1,12 +1,14 @@
 <template>
   <q-page class="q-pa-md page-1200 mypage-wrap">
-    <div class="row justify-center">
-      <div class="row title-sec">
-          <div class="col-12 doc-heading">
-            <div class="title">{{ $t('menu_mypage_feedback') }}</div>
-          </div>
-        </div>
+    <div class="row title">
+      <div class="col-12 doc-heading">
+        <div class="title-sec"><span>{{ $t('menu_mypage_feedback') }}</span></div>
+      </div>
     </div>
+
+    <q-page-scroller class="custom-scroller" position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="secondary" />
+    </q-page-scroller>
 
     <!-- <span style="font-size: 23px; font-weight: bold;">{{ $t('menu_mypage_feedback_info') }}</span>
     <div class="underline"></div> -->
