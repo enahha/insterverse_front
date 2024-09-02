@@ -87,7 +87,7 @@
             <tr>
               <td colspan="2">
                 <!-- <div class="q-mt-sm q-pr-sm q-pl-sm q-pb-sm" style="border: 1px solid; height: 28vh; overflow-y: auto;" v-html="myMediaVo.description" /> -->
-                <div class="q-mt-sm q-pr-sm q-pl-sm q-pb-sm" style="height: 28vh; overflow-y: auto;" v-html="myMediaVo.description" />
+                <div class="q-mt-sm q-pr-sm q-pl-sm q-pb-sm my-scrollbar" style="height: 30vh; overflow-y: auto;" v-html="myMediaVo.description" />
               </td>
             </tr>
           </table>
@@ -196,23 +196,34 @@ export default {
   width: 100%;
   max-width: 300px; 
 }
+.my-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #f1f1f1;
+}
+/* Webkit 기반 브라우저 (Chrome, Safari) */
+.my-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+/* IE 및 Edge (레거시) */
+.my-scrollbar {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
 .media-wrapper {
-    width: 800px;
-    height: 800px;
-    background-color: #f6f6f6;
-    padding: 16px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .responsive-media {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
+  width: 800px;
+  height: 800px;
+  background-color: #f6f6f6;
+  padding: 16px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.responsive-media {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
 @media (max-width: 1023px) {
   .responsive-container {
     max-width: 600px; 

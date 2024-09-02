@@ -20,26 +20,26 @@
               </td>
             </tr>
             <tr>
-              <td v-if="smallSize" align="center" style="height: 300px; background-color: #f3f3f3;">
+              <td v-if="smallSize" align="center" class="small-size-preview text-center">
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
-                  <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
-                    <video v-if="mediaType == 'VIDEO'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
-                    <img v-else :src="mediaUrl" style="width: 100%;">
+                  <div v-if="mediaUrl" class="col-12 media-preview">
+                    <video v-if="mediaType == 'VIDEO'" :src="mediaUrl" controls autoplay loop muted class="media-video"></video>
+                    <img v-else :src="mediaUrl" class="media-image">
                   </div>
-                  <div v-else class="col-12" style="width: 100%; min-width: 300px;">
+                  <div v-else class="col-12 media-preview">
                     <span>{{ $t('no_artwork') }}</span>
                   </div>
                 </div>
               </td>
-              <td v-else align="center" style="height: 40vh; background-color: #f3f3f3;">
+              <td v-else align="center" class="large-size-preview text-center">
                 <!-- 작품 미리보기 -->
                 <div class="row justify-center">
-                  <div v-if="mediaUrl" class="col-12 priview" style="width: 100%; min-width: 300px;">
-                    <video v-if="mediaType == 'VIDEO'" :src="mediaUrl" controls autoplay loop muted style="width: 100%;"></video>
-                    <img v-else :src="mediaUrl" style="width: 100%;">
+                  <div v-if="mediaUrl" class="col-12 media-preview">
+                    <video v-if="mediaType == 'VIDEO'" :src="mediaUrl" controls autoplay loop muted class="media-video"></video>
+                    <img v-else :src="mediaUrl" class="media-image">
                   </div>
-                  <div v-else class="col-12" style="width: 100%; min-width: 300px;">
+                  <div v-else class="col-12 media-preview">
                     <span>{{ $t('no_artwork') }}</span>
                   </div>
                 </div>
@@ -57,7 +57,7 @@
             <tr>
               <td>
                 <div class="">
-                  <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 500)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 3000)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -556,8 +556,8 @@ export default defineComponent({
         subtitle: this.mediaSubtitle,
         description: this.mediaDescription,
         sale_yn: this.mediaForSale ? 'Y':'N',
-        price: `${this.mediaWidth} x ${this.mediaHeight} ${this.mediaUnit}`,
-        created_at: this.mediaCreatedAt,
+        price: this.price,
+        created_at: `${this.mediaWidth} x ${this.mediaHeight} ${this.mediaUnit}`,
         size: this.mediaSize,
         materials: this.mediaMaterials,
         tag_list: this.hashState.hashArr,

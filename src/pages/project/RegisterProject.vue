@@ -79,16 +79,16 @@
               :rows-per-page-options="[10, 25, 50, 100]"
             >
               <template v-slot:body-cell-media="props">
-                <q-td :props="props">
+                <q-td :props="props"  @click="showDetail(props.row)">
                   <video v-if="props.row.type === 'VIDEO'" :src="props.row.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video>
                   <q-img v-else :src="props.row.url" style="width: 100px;" />
                 </q-td>
               </template>
               <template v-slot:body-cell-title="props">
-                <q-td :props="props">{{ truncateText(props.row.title, 10) }}</q-td>
+                <q-td :props="props"  @click="showDetail(props.row)">{{ truncateText(props.row.title, 10) }}</q-td>
               </template>
               <template v-slot:body-cell-price="props">
-                <q-td :props="props">{{ props.row.price > 0 ? Number(props.row.price).toLocaleString() : '-' }}</q-td>
+                <q-td :props="props"  @click="showDetail(props.row)">{{ props.row.price > 0 ? Number(props.row.price).toLocaleString() : '-' }}</q-td>
               </template>
               <!-- <template v-slot:body-cell-description="props">
                 <q-td :props="props">{{ truncateText(props.row.description, 50) }}</q-td>
@@ -677,70 +677,24 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="4">
         <div class="c">
-          <span>{{ $t('project_basic_information') }}</span>
-          <div class="underline" style="margin-bottom: 20px;"></div>
+          <span style="font-weight: bold; font-size: 20px;">{{ $t('project_period') }}</span>
+          <div class="underline" style="margin-bottom: 30px"></div>
+          <div class="justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ startTime }} ~ {{ endTime ? endTime : $t('indefinite') }}
+            </div>
+          </div>
 
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ title }}
-            </div>
-          </div>
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_symbol') }}</span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ symbol }}
-            </div>
-          </div>
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('start_time') }}</span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ startTime }}
-            </div>
-          </div>
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('end_time') }}</span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ endTime ? endTime : $t('indefinite') }}
-            </div>
-          </div>
-          <div v-if="projectDescription" class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_description') }}</span>
-            </div>
-          </div>
+          <span v-if="projectDescription" style="font-weight: bold; font-size: 20px;">{{ $t('project_description') }}</span>
+          <div v-if="projectDescription" class="underline" style="margin-bottom: 30px"></div>
           <div v-if="projectDescription" class="q-pb-md q-pl-xs">
             <div class="row justify-center q-pb-md q-pl-xs t-stit">
               <div class="col-12" v-html="projectDescription" />
             </div>
           </div>
-          <div v-if="projectBackground" class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_background') }}</span>
-            </div>
-          </div>
-          <div v-if="projectBackground" class="q-pb-md q-pl-xs">
-            <div class="row justify-center q-pb-md q-pl-xs t-stit">
-              <div class="col-12" v-html="projectBackground" />
-            </div>
-          </div>
 
+          <span style="font-weight: bold; font-size: 20px;">{{ $t('project_catalog') }}</span>
+          <div class="underline" style="margin-bottom: 30px"></div>
           <div class="project-list row">
           <div v-for="item in selected" :key="item.seq">
             <q-item>
@@ -756,19 +710,25 @@
               </q-item-section>
             </q-item>
           </div>
-        </div>
+          </div>
 
-          <span>{{ $t('artist_basic_information') }}</span>
-          <div class="underline" style="margin-bottom: 20px;"></div>
+          <!-- 하단 공간 확보 -->
+          <div class="row justify-center q-pa-xl">
+          </div>
 
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_nickname') }}</span>
+          <span style="font-weight: bold; font-size: 20px;">{{ $t('artist_basic_information') }}</span>
+          <div class="underline" style="margin-bottom: 30px"></div>
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 text-weight-bold" style="font-size: 50px;">
+              {{ nickname }}
+            </div>
+            <div class="col-12" style="font-size: 20px;">
+              {{ instargram }}
             </div>
           </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ nickname }}
+          <div v-if="artistDescription" class="q-pb-md q-pl-xs">
+            <div class="row justify-center q-pb-md q-pl-xs t-stit">
+              <div class="col-12" v-html="artistDescription" />
             </div>
           </div>
           <div class="row justify-center">
@@ -821,35 +781,48 @@
               {{ telegram }}
             </div>
           </div>
-          <div v-if="artistDescription" class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_details') }}</span>
-            </div>
+
+          <!-- 하단 공간 확보 -->
+          <div class="row justify-center q-pa-xl">
           </div>
-          <div v-if="artistDescription" class="q-pb-md q-pl-xs">
+
+          <span v-if="projectBackground">{{ $t('project_background') }}</span>
+          <div v-if="projectBackground" class="underline" style="margin-bottom: 30px"></div>
+          <div v-if="projectBackground" class="q-pb-md q-pl-xs">
             <div class="row justify-center q-pb-md q-pl-xs t-stit">
-              <div class="col-12" v-html="artistDescription" />
+              <div class="col-12" v-html="projectBackground" />
+            </div>
+            <!-- 하단 공간 확보 -->
+            <div class="row justify-center q-pa-xl">
             </div>
           </div>
 
-          <div class="center q-pb-md">
-            <q-btn
-              size="lg"
-              @click="register"
-              :disable="isButtonClicked"
-              :label="$t('register_project')"
-              class="exhibit-btn"
-            />
+          <span>{{ $t('project_nft_info') }}</span>
+          <div class="underline" style="margin-bottom: 30px"></div>
+          <div class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_symbol') }}</span>
+            </div>
           </div>
-          <div class="center">
-            <q-btn flat round dense @click="goTabBack">
-              <q-icon name="keyboard_double_arrow_left" size='xl' />
-            </q-btn>
-            <!-- <q-btn
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ symbol }}
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; padding-top: 30px;">
+            <q-btn
               :label="$t('go_back')"
               @click="goTabBack"
               style="background-color: #90B2D8; color: white "
-            /> -->
+            />
+            <q-btn
+              outline
+              @click="register"
+              :disable="isButtonClicked"
+              :label="$t('register_project')"
+              style="background-color: #FEFEFE; color: #90B2D8; width: 200px; font-weight: bold;"
+            />
           </div>
         </div>
       </q-tab-panel>
@@ -894,7 +867,7 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '1',
+      tab: '4',
       projectSeq: '', // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
@@ -1702,6 +1675,5 @@ export default defineComponent({
 }
 
 .media-container:hover .media-content {
-    transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
 }
 </style>

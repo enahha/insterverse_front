@@ -133,7 +133,7 @@
             <span class="text-weight-bold text-subtitle1">{{ $t('project_name') }}<span class="text-red"> *</span></span>
           </div>
           <div style="max-width: 600px;">
-            <q-input v-model="title" :disable="true" ref="refTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+            <q-input v-model="title" :readonly="true" ref="refTitle" clearable outlined tabindex="1" />
           </div>
 
           <div class="q-pt-lg">
@@ -152,7 +152,7 @@
               </q-tooltip>
             </q-icon>
             <div style="max-width: 600px;">
-              <q-input v-model="symbol" :disable="true" ref="refSymbol" :rules="[required, val => minLength(val, 1), val => maxLength(val, 10)]" clearable outlined tabindex="1" />
+              <q-input v-model="symbol" :readonly="true" ref="refSymbol" clearable outlined tabindex="1" />
             </div>
           </div>
 
@@ -186,6 +186,15 @@
               {{ $t('project_banner_hint') }}
             </div>
           </div>
+
+          <!-- <q-list bordered separator>
+            <q-item class="text-left" @click="openUrl(bannerImage)">
+              <q-item-section avatar>
+                <img :src="bannerImage" style="width: 100%; max-width: 150px" />
+              </q-item-section>
+            </q-item>
+          </q-list> -->
+
 
           <div class="q-pt-lg">
             <span class="text-weight-bold text-subtitle1">{{ $t('project_exhibition_day') }}</span>
@@ -682,72 +691,26 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="4">
         <div class="c">
-          <span>{{ $t('project_basic_information') }}</span>
-          <div class="underline" style="margin-bottom: 20px;"></div>
+          <span style="font-weight: bold; font-size: 20px;">{{ $t('project_period') }}</span>
+          <div class="underline" style="margin-bottom: 30px"></div>
+          <div class="justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ startTime }} ~ {{ endTime ? endTime : $t('indefinite') }}
+            </div>
+          </div>
 
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_title') }}</span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ title }}
-            </div>
-          </div>
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_symbol') }}</span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ symbol }}
-            </div>
-          </div>
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('start_time') }}</span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ startTime }}
-            </div>
-          </div>
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('end_time') }}</span>
-            </div>
-          </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ endTime ? endTime : $t('indefinite') }}
-            </div>
-          </div>
-          <div v-if="projectDescription" class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_description') }}</span>
-            </div>
-          </div>
+          <span v-if="projectDescription" style="font-weight: bold; font-size: 20px;">{{ $t('project_description') }}</span>
+          <div v-if="projectDescription" class="underline" style="margin-bottom: 30px"></div>
           <div v-if="projectDescription" class="q-pb-md q-pl-xs">
             <div class="row justify-center q-pb-md q-pl-xs t-stit">
               <div class="col-12" v-html="projectDescription" />
             </div>
           </div>
-          <div v-if="projectBackground" class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_background') }}</span>
-            </div>
-          </div>
-          <div v-if="projectBackground" class="q-pb-md q-pl-xs">
-            <div class="row justify-center q-pb-md q-pl-xs t-stit">
-              <div class="col-12" v-html="projectBackground" />
-            </div>
-          </div>
 
+          <span style="font-weight: bold; font-size: 20px;">{{ $t('project_catalog') }}</span>
+          <div class="underline" style="margin-bottom: 30px"></div>
           <div class="project-list row">
-          <div v-for="item in selectedMyMediaList" :key="item.seq">
+          <div v-for="item in mediaListDelN" :key="item.seq">
             <q-item>
               <q-item-section avatar>
                 <!-- 스타일이 안먹어서 해당 파일 아래 따로 스타일 설정 -->
@@ -761,19 +724,25 @@
               </q-item-section>
             </q-item>
           </div>
-        </div>
+          </div>
 
-          <span>{{ $t('artist_basic_information') }}</span>
-          <div class="underline" style="margin-bottom: 20px;"></div>
+          <!-- 하단 공간 확보 -->
+          <div class="row justify-center q-pa-xl">
+          </div>
 
-          <div class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_nickname') }}</span>
+          <span style="font-weight: bold; font-size: 20px;">{{ $t('artist_basic_information') }}</span>
+          <div class="underline" style="margin-bottom: 30px"></div>
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 text-weight-bold" style="font-size: 50px;">
+              {{ nickname }}
+            </div>
+            <div class="col-12" style="font-size: 20px;">
+              {{ instargram }}
             </div>
           </div>
-          <div class="row justify-center q-pb-md q-pl-xs">
-            <div class="col-12 t-text">
-              {{ nickname }}
+          <div v-if="artistDescription" class="q-pb-md q-pl-xs">
+            <div class="row justify-center q-pb-md q-pl-xs t-stit">
+              <div class="col-12" v-html="artistDescription" />
             </div>
           </div>
           <div class="row justify-center">
@@ -826,35 +795,48 @@
               {{ telegram }}
             </div>
           </div>
-          <div v-if="artistDescription" class="row justify-center">
-            <div class="col-12">
-              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('artist_details') }}</span>
-            </div>
+
+          <!-- 하단 공간 확보 -->
+          <div class="row justify-center q-pa-xl">
           </div>
-          <div v-if="artistDescription" class="q-pb-md q-pl-xs">
+
+          <span v-if="projectBackground">{{ $t('project_background') }}</span>
+          <div v-if="projectBackground" class="underline" style="margin-bottom: 30px"></div>
+          <div v-if="projectBackground" class="q-pb-md q-pl-xs">
             <div class="row justify-center q-pb-md q-pl-xs t-stit">
-              <div class="col-12" v-html="artistDescription" />
+              <div class="col-12" v-html="projectBackground" />
+            </div>
+            <!-- 하단 공간 확보 -->
+            <div class="row justify-center q-pa-xl">
             </div>
           </div>
 
-          <div class="center q-pb-md">
-            <q-btn
-              size="lg"
-              @click="register"
-              :disable="isButtonClicked"
-              :label="$t('register_project')"
-              class="exhibit-btn"
-            />
+          <span>{{ $t('project_nft_info') }}</span>
+          <div class="underline" style="margin-bottom: 30px"></div>
+          <div class="row justify-center">
+            <div class="col-12">
+              <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_symbol') }}</span>
+            </div>
           </div>
-          <div class="center">
-            <q-btn flat round dense @click="goTabBack">
-              <q-icon name="keyboard_double_arrow_left" size='xl' />
-            </q-btn>
-            <!-- <q-btn
+          <div class="row justify-center q-pb-md q-pl-xs">
+            <div class="col-12 t-text">
+              {{ symbol }}
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; padding-top: 30px;">
+            <q-btn
               :label="$t('go_back')"
               @click="goTabBack"
               style="background-color: #90B2D8; color: white "
-            /> -->
+            />
+            <q-btn
+              outline
+              @click="register"
+              :disable="isButtonClicked"
+              :label="$t('register_project')"
+              style="background-color: #FEFEFE; color: #90B2D8; width: 200px; font-weight: bold;"
+            />
           </div>
         </div>
       </q-tab-panel>
@@ -915,7 +897,7 @@ export default defineComponent({
   data () {
     return {
       smallSize: false,
-      tab: '1',
+      tab: '2',
       projectSeq: 0, // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
@@ -1821,6 +1803,9 @@ export default defineComponent({
       this.posterImage = fileNameNew // 프로젝트 로고 URL 설정
       // this.$refs.uploaderObj.reset()
     },
+    openUrl(url) {
+      window.open(url)
+    },
     goBack() {
       // this.$router.go(-1)
 
@@ -1857,6 +1842,5 @@ export default defineComponent({
 }
 
 .media-container:hover .media-content {
-    transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
 }
 </style>

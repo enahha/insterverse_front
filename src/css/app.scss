@@ -144,7 +144,7 @@ textarea {
     background: #FEFEFE;
     border-right: 1 !important;
     box-shadow: 5px 0 10px rgba(190, 190, 190, 0.1);
-    z-index: 800;
+    z-index: 3000;
 }
 .text-caption {
     background: transparent !important;
@@ -193,22 +193,22 @@ textarea {
 .srch-wrap {
     position: relative;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 20px;
     .q-field {
         width: 100% !important;
+        border: #90B2D8 1px solid;
         .q-field__control {
-            height: 40px !important;
+            height: 50px !important;
             padding: 0 !important;
             padding-right: 60px !important;
-            background: #FEFEFE;
+            background: #ffffff;
             border-radius: 5px;
             max-height: inherit !important;
             &:before {
                 border: 0 !important;
             }
             input {
-                background: #FEFEFE;
-                border: 2px solid #90B2D8;
+                background: #ffffff;
                 border-radius: 5px;
                 color: #000000 !important;
                 font-size: 14px;
@@ -228,15 +228,15 @@ textarea {
         }
     }
     button {
-        font-size: 20px !important;
+        font-size: 13px !important;
         width: 45px !important;
         color: #90B2D8 !important;
-        background: #FEFEFE !important;
+        background: #ffffff !important;
         padding: 0 0;
         border-radius: 5px;
         position: absolute;
-        right: 10px;
-        top: -5px;
+        right: 4px;
+        top: 5px;
         height: 40px;
         &:before {
             border: 0 !important;
@@ -246,6 +246,7 @@ textarea {
         }
     }
 }
+
 //탭
 .q-tabs {
     // background: #1b1f24 !important;
@@ -414,13 +415,17 @@ textarea {
     // max-width: calc(100% - 740px);
     width: 100%;
     // margin-left: 0;
+    span {
+        font-weight: bold;
+        font-size: 20px;
+    }
 }
 .project-detail-header {
     // padding: 0 20px;
     // margin-left: 0;
     // max-width: calc(100% - 440px);
     width: 100%;
-    height: 400px;
+    height: 330px;
     // margin-top: 20px;
 
     
@@ -658,7 +663,7 @@ textarea {
         margin: -60px auto;
     }
     .space{
-        margin: 200px;
+        margin: 250px;
     }
     .q-infinite-scroll {
         display: -ms-inline-flexbox;
@@ -1162,6 +1167,7 @@ textarea {
         }
     }
     .bank-change_btn {
+        width: 100%;
         padding-top: 20px;
         display: flex;
         justify-content: flex-end;
@@ -1339,7 +1345,7 @@ textarea {
     // }
 }
 .underline {
-    width: 10%;
+    width: 5%;
     height: 5px;
     background-color: black;
 }
@@ -1443,8 +1449,6 @@ background-color: #e7e6de9c;
     .exhibit-btn {
         margin-top: 100px;
         width: 250px;
-        background-color: #90B2D8;
-        color: white;
     }
 }
     .tab-panel-1{
@@ -1585,6 +1589,29 @@ background-color: #e7e6de9c;
         font-size: 14px;
         color: #ff4d4d;
         cursor: pointer;
+    }
+    /* smallSize가 true일 때 적용되는 스타일 */
+    .small-size-preview {
+        height: 300px;
+        background-color: #f3f3f3;
+    }
+    /* smallSize가 false일 때 적용되는 스타일 */
+    .large-size-preview {
+        height: 40vh;
+        background-color: #f3f3f3;
+    }
+    .media-preview {
+        width: 100%;
+        min-width: 300px;
+    }
+    .media-video {
+        width: 100%;
+    }
+    .media-image {
+        width: 100%;
+    }
+    .text-center {
+        text-align: center;
     }
 }
 // 작품 정보 디테일
@@ -1910,6 +1937,9 @@ background-color: #e7e6de9c;
             padding: 0 10px !important;
         }
     }
+    .title-sec {
+        font-size: 35px;
+    }
     .main-list{
         // 2개용 스타일
         // .item-container {
@@ -1931,7 +1961,7 @@ background-color: #e7e6de9c;
         //     }
         // }
         .space {
-            margin: 50px;
+            margin: 80px;
         }
         .benner.carousel {
             height: 200px; /* 모바일에서는 높이를 줄임 */
@@ -2167,10 +2197,10 @@ background-color: #e7e6de9c;
         }
         .table-scroll-wrapper table {
             width: 100%;
-            min-width: 1000px;
+            min-width: 300px;
         }
         table tbody td { 
-            padding: 20px 15px;
+            padding: 0px 0px;
         }
         .table-scroll-wrapper th,
         .table-scroll-wrapper td {
@@ -2181,6 +2211,12 @@ background-color: #e7e6de9c;
           white-space: normal;
           width: 500px;
         }
+        .tab-panel-3 {
+            table tbody td { 
+                padding: 15px 0px;
+            }
+        }
+    
     }
     .exhibition-type {
         .type-sec {

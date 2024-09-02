@@ -62,7 +62,7 @@
     <br />
 
     <div>
-        <q-input v-model="settleInDate" :label="$t('settle in date')" ref="refStartTime" :rules="[required, val => minLength(val, 16), val => maxLength(val, 16)]" outlined tabindex="6">
+        <q-input v-model="settleInDate" :label="$t('settle in date')" ref="refStartTime" outlined tabindex="6">
         <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -158,30 +158,30 @@ data () {
         confirmDelete: false,
         deleteSeq: 0,
 
-        salePrice: '',
-        nftId: '',
-        contractAddress: '',
-        settleIn: '',
-        settleInDate: '',
+        salePrice: '10',
+        nftId: '1',
+        contractAddress: '0xdc33aa09e3ed3ad5dda602295363552165505e4f',
+        settleIn: '11',
+        settleInDate: '2024-09-01 00:00',
         settleOut: '',
         settleOutDate: '',
         marketType: null,
         currencyType: null,
         marketOption: [
-            {
+          {
             label: '메직에덴',
             value: 'magicaden',
-            },
-            {
+          },
+          {
             label: '오픈씨',
             value: 'open sea',
-            },
+          },
         ],
         currencyOption: [
-            {
+          {
             label: 'USDT',
             value: 'USDT',
-            },
+          },
         ],
 
     }
@@ -189,19 +189,26 @@ data () {
 components: {
 },
 computed: {
-    getUid () {
-        return this.$store.getters.getUid
-    },
-    isAdmin () {
-        return this.$store.getters.getAdcd === this.$adminCode
-    },
-    getKeyword () {
-        return this.$store.getters.getKeyword
-    },
+  getUid () {
+      return this.$store.getters.getUid
+  },
+  isAdmin () {
+      return this.$store.getters.getAdcd === this.$adminCode
+  },
+  getKeyword () {
+      return this.$store.getters.getKeyword
+  },
 },
 created: function () {
-    // 검색 키워드 설정
-    this.keyword = this.getKeyword
+  const nickname = localStorage.getItem('NICKNAME') ? localStorage.getItem('NICKNAME') : this.$cookie.get('NICKNAME')
+  const uid = localStorage.getItem('UID') ? localStorage.getItem('UID') : this.$cookie.get('UID')
+  if (nickname && uid) {
+    this.$store.dispatch('setNickname', nickname)
+    this.$store.dispatch('setUid', uid)
+  }
+
+  // 검색 키워드 설정
+  this.keyword = this.getKeyword
 },
 mounted: function () {
   },
@@ -292,26 +299,6 @@ methods: {
       return maxValue(val, message, value);
     },
     ///////////////////////////////////////////////////////////////////////////
-    validate() {
-      let result = true
-      if (!this.$refs.refTitle.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_notice_title'))
-        result = false
-      }
-      if (!this.$refs.refTitleKo.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed_notice_title'))
-        result = false
-      }
-      if (this.$refs.refContents.length > 21800) {
-        this.$noti(this.$q, this.$t('validation_failed_notice_contents'))
-        result = false
-      }
-      if (this.$refs.refContentsKo.length > 21800) {
-        this.$noti(this.$q, this.$t('validation_failed_notice_contents'))
-        result = false
-      }
-      return result
-    },
     // 공지사항 등록
     register() {
       // Field validation check
@@ -331,7 +318,7 @@ methods: {
       const param = {
         uid: this.getUid,
         market_cd: this.marketType.value,
-        market_name: this.marketType.name,
+        market_name: this.marketType.value,
         sale_price: this.salePrice,
         payment_currency: this.currencyType.value,
         contract_address: this.contractAddress,

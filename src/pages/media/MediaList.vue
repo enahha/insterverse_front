@@ -38,26 +38,26 @@
                 <thead>
                   <tr>
                     <!-- <th>{{ $t('media_order_number') }}</th> -->
-                    <th>No.</th>
+                    <th v-if="!smallSize">No.</th>
                     <th>{{ $t('media') }}</th>
                     <th>{{ $t('media_title') }}</th>
-                    <th>{{ $t('media_price') }} (USD)</th>
-                    <th>{{ $t('media_description') }}</th>
+                    <th v-if="!smallSize">{{ $t('media_price') }} (USD)</th>
+                    <th v-if="!smallSize">{{ $t('media_description') }}</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(item, index) in mediaList" :key="index">
                     <!-- <td><input type="checkbox" v-model="item.selected"></td> 체크박스 -->
-                    <td @click="showDetail(item)" style="width: 70px; cursor: pointer;">{{ item.order_no }}</td>
+                    <td v-if="!smallSize" @click="showDetail(item)" style="width: 70px; cursor: pointer;">{{ item.order_no }}</td>
 
                     <td @click="showDetail(item)" style="width: 140px; cursor: pointer;" v-if="item.type == 'VIDEO'"><video :src="item.url" controls autoplay loop muted style="width: 100%; max-width: 100px;"></video></td>
                     <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><q-img :src="item.url" style="width: 100px;" /></td>
                     
                     <td @click="showDetail(item)" style="width: 150px; cursor: pointer;"> {{ truncateText(item.title, 10) }}</td>
-                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-if="item.price > 0">{{ Number(item.price).toLocaleString() }}</td>
-                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-else><span>-</span></td>
-                    <td @click="showDetail(item)" style="width: 300px; cursor: pointer;">{{ truncateText(item.description, 20) }}</td>
+                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-if="!smallSize && item.price > 0">{{ Number(item.price).toLocaleString() }}</td>
+                    <td @click="showDetail(item)" style="width: 100px; cursor: pointer;" v-if="!smallSize && (item.price <= 0 || isNaN(item.price))"><span>-</span></td>
+                    <td  v-if="!smallSize" @click="showDetail(item)" style="width: 300px; cursor: pointer;">{{ truncateText(item.description, 20) }}</td>
                     <td style="width: 100px;">
                       <q-icon name="edit" size="sm" @click="goEdit(item.seq)">
                         <q-tooltip>{{ $t('edit') }}</q-tooltip>
@@ -127,6 +127,7 @@ export default defineComponent({
   },
   data () {
     return {
+      smallSize: false,
       confirmDelete: false, // delete 확인창
       keyword: '',
       refresherDone: '',
@@ -154,6 +155,12 @@ export default defineComponent({
     },
   },
   created: function () {
+    // 화면 리사이즈 이벤트 핸들러
+    window.addEventListener("resize", this.resizeEventHandler)
+      if (document.body.offsetWidth < 1024) {
+      this.smallSize = true
+    }
+
     // 로그인 체크
     this.checkLogin()
 

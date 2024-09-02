@@ -1,20 +1,14 @@
 <template>
   <q-page class="q-pa-md page-1200 mypage-wrap">
-    <!-- <div class="row justify-center">
-      <div class="row title-sec">
-          <div class="col-12 doc-heading">
-            <div class="title">{{ $t('menu_mypage_privacy') }}</div>
-          </div>
-        </div>
-    </div> -->
+    <div class="row title">
+      <div class="col-12 doc-heading">
+        <div class="title-sec"><span>{{ $t('menu_mypage_privacy') }}</span></div>
+      </div>
+    </div>
 
-    <div class="center" style="padding-top: 100px;">
-      <div class="tab-panel-1 q-pt-lg">
-        <span>{{ $t('artist_basic_information') }}</span>
-        <div class="underline"></div>
-
-        <div class="information-wrap" style="display: flex; justify-content: center;">
-          <table>
+    <div class="" style="padding-top: 100px;">
+      <div class="info-panel-1" style="">
+          <table class="information-wrap row">
             <tr>
               <div class="input-group q-pt-lg">
                 <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('user_nickname') }}<span class="text-red"> *</span></span></td>
@@ -85,8 +79,8 @@
                 </td>
               </div>
             </tr>
-            <tr>
-              <td class="bank-change_btn">
+            <tr class="bank-change_btn">
+              <td>
                 <q-btn
                   v-if="bankAccount == null && walletAddress == null"
                   :label="$t('save')"
@@ -102,7 +96,6 @@
               </td>
             </tr>
           </table>
-        </div>
         </div>
     </div>
 

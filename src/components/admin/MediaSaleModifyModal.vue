@@ -9,6 +9,122 @@
         <table border="0" width="75%" align="center">
           <tr>
             <td colspan="3" class="space">
+              <div class="row justify-center">
+              <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">{{ $t('market') }}</span>
+              </div>
+              </div>
+              <div class="row justify-center q-pb-md">
+              <div class="col-12">
+                  <q-select
+                      v-model="mediaSaleVo.market_name"
+                      :options="marketOption"
+                      option-label="label"
+                      option-value="value"
+                      :label="$t('Market')"
+                      dense
+                  />
+              </div>
+          </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" class="space">
+              <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">Contract address</span>
+              </div>
+              <div class="col-12">
+                <q-input v-model="mediaSaleVo.contract_address" hide-bottom-space placeholder="Contract address" style="height: 56px;" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" class="space">
+              <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">NFT ID</span>
+              </div>
+              <div class="col-12">
+                <q-input v-model="mediaSaleVo.nft_id" hide-bottom-space placeholder="NFT ID" style="height: 56px;" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" class="space">
+              <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">Sale price</span>
+              </div>
+              <div class="col-12">
+                <q-input v-model="mediaSaleVo.sale_price" hide-bottom-space placeholder="Sale price" style="height: 56px;" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" class="space">
+              <div class="row justify-center">
+                <div class="col-12">
+                    <span class="text-weight-bold text-subtitle1">{{ $t('payment_currency') }}</span>
+                </div>
+                </div>
+                <div class="row justify-center q-pb-md">
+                <div class="col-12">
+                    <q-select
+                        v-model="mediaSaleVo.payment_currency"
+                        :options="currencyOption"
+                        option-label="label"
+                        option-value="value"
+                        :label="$t('payment_currency')"
+                        dense
+                    />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" class="space">
+              <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">Settle in</span>
+              </div>
+              <div class="col-12">
+                <q-input v-model="mediaSaleVo.settle_in" hide-bottom-space placeholder="Settle in" style="height: 56px;" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" class="space">
+              <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">Settle in</span>
+              </div>
+              <div>
+                <q-input v-model="mediaSaleVo.settle_in_date" :label="$t('settle in date')" ref="refStartTime" tabindex="6">
+                <template v-slot:prepend>
+                    <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-date v-model="mediaSaleVo.settle_out_date" mask="YYYY-MM-DD HH:mm">
+                        <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                        </q-date>
+                    </q-popup-proxy>
+                    </q-icon>
+                </template>
+                <template v-slot:append>
+                    <q-icon name="access_time" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-time v-model="mediaSaleVo.settle_out_date" mask="YYYY-MM-DD HH:mm" format24h>
+                        <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                        </q-time>
+                    </q-popup-proxy>
+                    </q-icon>
+                </template>
+                </q-input>
+              </div>
+            </td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td colspan="3" class="space">
               <div class="col-12">
                 <q-input v-model="mediaSaleVo.settle_out" hide-bottom-space placeholder="Settlement out price" outlined style="height: 56px;" />
               </div>
@@ -94,7 +210,23 @@
             reg_id: '',
             reg_time: '',
             uid: '',
-        }
+        },
+        marketOption: [
+          {
+            label: '메직에덴',
+            value: 'magicaden',
+          },
+          {
+            label: '오픈씨',
+            value: 'open sea',
+          },
+        ],
+        currencyOption: [
+          {
+            label: 'USDT',
+            value: 'USDT',
+          },
+        ],
       }
     },
     // created: function () {

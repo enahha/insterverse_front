@@ -48,17 +48,15 @@
 
               <div v-for="item in myMediaSaleList" :key="item.seq">
                 <q-item clickable @click="goMediaDetail(item)">
-                  <q-item-section avatar>
-                    <!-- <q-avatar square>
-                      <img v-if="item.url" :src="item.url">
+                  <q-item-section avatar @click="goMediaDetail(item)">
+                    <!-- 스타일이 안먹어서 해당 파일 아래 따로 스타일 설정 -->
+                    <q-avatar square v-if="item.type == 'VIDEO'" class="media-container">
+                      <video :src="item.url" controls autoplay loop muted class="media-content"></video>
+                    </q-avatar>
+                    <q-avatar square v-else class="media-container">
+                      <img v-if="item.url" :src="item.url"  class="media-content">
                       <q-icon v-else name="rocket_launch" size="md" />
-                    </q-avatar> -->
-
-                    <!-- 이거 스타일은 app.scss파일이 아닌 해당 파일 아래쪽에 위치해있음. (스타일이 안먹어서,,,) -->
-                    <div class="image-container">
-                      <img v-if="item.postar_url" :src="item.postar_url">
-                      <q-icon v-else name="rocket_launch" size="md" />
-                    </div>
+                    </q-avatar>
                   </q-item-section>
 
                   <q-item-section>
@@ -368,7 +366,6 @@ export default defineComponent({
       this.$refs.refMediaDetailModal.show()
     },
     showsettleOutHistoryModal() {
-      console.log(this.$refs.refSettleOutHistoryModal)
       this.$refs.refSettleOutHistoryModal.uid = this.getUid
       this.$refs.refSettleOutHistoryModal.show()
     },
@@ -428,7 +425,7 @@ export default defineComponent({
         {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: ''}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
-          console.log(result.data)
+          console.table(result.data)
           if (idx === 1) { // 첫번째 load인 경우
             this.myMediaSaleList = [] // 리스트 초기화
           }
@@ -458,7 +455,9 @@ export default defineComponent({
       }
       this.$axios.get('/api/mediaSale/selectMyMediaSaleSettleIn', { params: { ...param } })
         .then((result) => {
+            console.log("result.data")
             console.log(result.data)
+            console.log("result.data")
             this.settleInTotal = result.data
           })
           .catch((err) => {
@@ -494,7 +493,20 @@ export default defineComponent({
     height: 100%;
     object-fit: block;
 }
-
+.media-container {
+    overflow: hidden;
+    cursor: pointer;
+}
+.media-content {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #f6f6f6;
+    transition: transform 0.3s ease; /* 부드러운 변형 효과 */
+}
+.media-container:hover .media-content {
+  transform: scale(1.05); /* 마우스를 올리면 5% 확대 */
+}
 @media (max-width: 1023px) {
   .image-container {
     max-width: 100%;

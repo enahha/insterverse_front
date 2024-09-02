@@ -37,6 +37,10 @@
               </template>
           </q-infinite-scroll>
           </q-pull-to-refresh>
+
+          <div v-if="noDataFlag" class="row justify-center">
+            <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+          </div>
         </div>
       </q-layout>
     </q-dialog>
@@ -74,8 +78,8 @@
         uid: 'dmsdk921@gmail.com',
         keyword: '',
         refresherDone: '',
-        pageSize: 50,
-        lastPageNum: 2, // 마지막 페이지
+        pageSize: 100,
+        lastPageNum: 1, // 마지막 페이지
         noDataFlag: false,
         settleOutList: [],
       }
@@ -110,7 +114,7 @@
             this.settleOutHistoryModal = true
 
             // // 정산 내역 조회
-            // this.selectListMax()
+            this.selectListMax()
         },
         // 정산 내역 조회
         refresher (done) {
@@ -179,7 +183,7 @@
                 {params: {uid: this.uid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword}})
                 .then((result) => {
                 // console.log(JSON.stringify(result.data))
-                // console.log(result.data)
+                console.log(result.data)
                 if (idx === 1) { // 첫번째 load인 경우
                     this.settleOutList = [] // 리스트 초기화
                 }

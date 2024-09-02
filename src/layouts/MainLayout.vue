@@ -15,7 +15,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
+        <q-toolbar-title style="z-index: 999;">
           <div class="text-bold">
             <table border="0" width="100%" style="margin: 0px 0px 0px 0px;" cellpadding="0" cellspacing="0">
               <tr>

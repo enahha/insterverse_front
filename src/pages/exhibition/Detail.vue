@@ -49,16 +49,16 @@
                       </div>
                     </div>
                     <div class="q-pl-sm title" style="word-break: break-word;">
-                      <div v-if="calculateStatus(projectVo) === 'Registering'" style="font-size: 14px;">
+                      <div v-if="calculateStatus(projectVo) === 'Registering'" style="font-size: 18px;">
                         <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('Registering') }}
                       </div>
-                      <div v-if="calculateStatus(projectVo) === 'start'" style="font-size: 14px;">
+                      <div v-if="calculateStatus(projectVo) === 'start'" style="font-size: 18px;">
                         <q-icon name="radio_button_checked" color="red" style="padding-right: 5px;" />{{ $t('display') }}
                       </div>
-                      <div v-if="calculateStatus(projectVo) === 'end'" style="font-size: 14px;">
+                      <div v-if="calculateStatus(projectVo) === 'end'" style="font-size: 18px;">
                         <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('exhibit_ending') }}
                       </div>
-                      <div v-if="calculateStatus(projectVo) === 'ready'" style="font-size: 14px;">
+                      <div v-if="calculateStatus(projectVo) === 'ready'" style="font-size: 18px;">
                         <q-icon name="radio_button_unchecked" color="gray" style="padding-right: 5px;" />{{ $t('exhibit_ready') }}
                       </div>
                       <div class="">
@@ -77,7 +77,7 @@
                 </tr>
                 <tr class="row btn-wrap">
                   <td>
-                    <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" :disable="!isStart" size="20px" style="background-color: #FEFEFE; width: 180px; margin-top: 2%; opacity: 1; margin: 10px;"/>
+                    <q-btn :label="$t('exhibition_enter')" @click="exhibition_enter" :disable="!isStart" size="20px" style="background-color: #FEFEFE; width: 250px; margin-top: 2%; opacity: 1; margin: 10px;"/>
                   </td>
                 </tr>
               </table>
@@ -139,9 +139,9 @@
       align="justify"
       inline-label
     >
-      <q-tab name="i" icon="">&nbsp;&nbsp;{{ $t('information') }}</q-tab>
-      <q-tab name="l" icon="">&nbsp;&nbsp;{{ $t('link') }}</q-tab>
-      <q-tab name="c" icon="">&nbsp;&nbsp;{{ $t('comment') }}</q-tab>
+      <q-tab name="i">{{ $t('information') }}</q-tab>
+      <q-tab name="l">{{ $t('link') }}</q-tab>
+      <q-tab name="c">{{ $t('comment') }}</q-tab>
       <!-- <q-tab name="i" icon="info">&nbsp;&nbsp;{{ $t('information') }}</q-tab>
       <q-tab name="l" icon="link">&nbsp;&nbsp;{{ $t('link') }}</q-tab>
       <q-tab name="c" icon="chat">&nbsp;&nbsp;{{ $t('comment') }}</q-tab> -->
@@ -153,6 +153,22 @@
       <!-- 정보 패널 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="i" style="word-break: break-word; ">
+      
+      <span>{{ $t('project_period') }}</span>
+      <div class="underline" style="margin-bottom: 30px"></div>
+      <div class="justify-center q-pb-md q-pl-xs">
+        <div class="col-12 t-text">
+          {{ projectVo.display_start_time }} ~ {{ projectVo.display_end_time ? projectVo.display_end_time : $t('indefinite') }}
+        </div>
+      </div>
+
+      <span v-if="projectVo.description">{{ $t('project_description') }}</span>
+      <div v-if="projectVo.description" class="underline" style="margin-bottom: 30px"></div>
+      <div v-if="projectVo.description" class="q-pb-md q-pl-xs">
+        <div class="row justify-center q-pb-md q-pl-xs t-stit">
+          <div class="col-12" v-html="projectVo.description" />
+        </div>
+      </div>
 
       <span>{{ $t('project_catalog') }}</span>
       <div class="underline" style="margin-bottom: 30px"></div>
@@ -188,27 +204,6 @@
         </div>
       </div> -->
 
-
-      <div v-if="projectVo.description" class="row justify-center">
-        <div class="col-12 q-pb-md">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit" style="font-size: 20px;">{{ $t('project_description') }}</span>
-        </div>
-      </div>
-      <div v-if="projectVo.description" class="q-pb-md q-pl-xs">
-        <div class="row justify-center q-pb-md q-pl-xs t-stit">
-          <div class="col-12" v-html="projectVo.description" />
-        </div>
-      </div>
-      <div class="row justify-center q-pl-xs">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('project_period') }}</span>
-        </div>
-      </div>
-      <div class="justify-center q-pb-md q-pl-xs">
-        <div class="col-12 t-text">
-          {{ projectVo.display_start_time }} ~ {{ projectVo.display_end_time ? projectVo.display_end_time : $t('indefinite') }}
-        </div>
-      </div>
 
       <!-- 하단 공간 확보 -->
       <div class="row justify-center q-pa-xl">
@@ -259,7 +254,7 @@
           {{ projectVo.symbol }}
         </div>
       </div>
-      <div class="row justify-center">
+      <div class="row justify-center" v-if="projectVo.contract_address">
         <div class="col-12">
           <span class="text-weight-bold text-subtitle1 text-grey-6 t-tit">{{ $t('contract_address') }}</span>
         </div>
@@ -1757,7 +1752,6 @@ export default defineComponent({
   font-size: 40px;
   color: white;
   text-shadow: 2px 2px 5px black;
-  padding-top: 20px;
 }
 .subtitle{
   word-break: break-word;
@@ -1771,11 +1765,13 @@ export default defineComponent({
 .table-wrap {
   margin: -329px auto;
   /* padding-left: 9%; */
+  padding-right: 7px;
   height: 410px;
 }
 .title-wrap {
   width: 1280px;
   height: 150px;
+  padding-top: 17px;
 }
 .btn-wrap {
   width: 100%; 
@@ -1785,6 +1781,7 @@ export default defineComponent({
 @media (max-width: 1023px) {
   .title{
     font-size: 25px;
+    padding-top: 20px;
   }
   .subtitle{
     display: none;
