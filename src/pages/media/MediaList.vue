@@ -83,7 +83,7 @@
       </q-pull-to-refresh>
 
       <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-        <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+        <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
       </div>
     </div>
 
@@ -231,7 +231,7 @@ export default defineComponent({
           if (result.data && result.data.resultCd === 'SUCCESS') {
             this.$noti(this.$q, this.$t('delete_success'))
           } else {
-            this.$noti(this.$q, this.$t('delete_failed'))
+            this.$noti(this.$q, this.$t('media_delete_failed'))
             this.$noti(this.$q, result.data.resultMsg)
           }
         })

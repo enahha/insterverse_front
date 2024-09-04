@@ -13,13 +13,13 @@
         </q-header>
         <br /><br />
   
-        <div>
+        <div v-if="!noDataFlag">
             <!-- <div class="end"><q-btn flat round dense icon="close" color="black" v-close-popup icon-right="true" @click="close" /></div> -->
             
             <!-- <q-pull-to-refresh @refresh="refresher"> -->
             <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll">
               <q-table
-                style="height: 85vh"
+                style="height: 84vh"
                 flat
                 :rows="myMediaList"
                 :columns="filteredColumns"
@@ -54,13 +54,19 @@
               </template> -->
             </q-infinite-scroll>
           <!-- </q-pull-to-refresh> -->
-        </div>
+        
 
-        <q-btn
-        :label="$t('add')"
-        @click="processMediaList"
-        style="background-color: #0C2C69; color: white; min-width: 100px; display: flex; float: right; margin: 30px;"
-        />
+        
+          <q-btn
+          :label="$t('add')"
+          @click="processMediaList"
+          style="background-color: #0C2C69; color: white; min-width: 100px; display: flex; float: right; margin: 30px;"
+          />
+        </div>
+      
+        <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+          <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
+        </div>
       </q-layout>
     </q-dialog>
     

@@ -361,14 +361,15 @@
             <q-item-section avatar class="q-pt-md">
               <q-item-label>
                 <!-- <q-icon name="home" style="width: 20px; height: 20px;" /> -->
-                <q-img src="icons/instarverse_logo.png" width="40px" style="cursor: pointer;" />
+                <q-img v-if="!smallSize" class="logo" src="icons/instarverse_logo.png" width="50px" style="cursor: pointer;" />
+                <q-img v-else class="logo" src="logo/main_logo_mobile.png" width="180px" style="cursor: pointer;" />
               </q-item-label>
             </q-item-section>
-            <q-item-section>
+            <!-- <q-item-section>
               <q-item-label>
                 <q-img src="logo/logo_instarverse_main2.png" width="90px" />
               </q-item-label>
-            </q-item-section>
+            </q-item-section> -->
           </q-item>
 
           <!-- 2. Project List -->

@@ -44,8 +44,8 @@
       </q-infinite-scroll>
     </q-pull-to-refresh>
 
-    <div v-if="noDataFlag" class="row justify-center">
-      <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+    <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+      <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
     </div>
 
     <!-- 하단 공간 확보 -->

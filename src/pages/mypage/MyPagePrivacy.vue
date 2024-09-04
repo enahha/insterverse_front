@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <div class="" style="padding-top: 100px;">
+    <div>
       <div class="info-panel-1" style="">
           <table class="information-wrap row">
             <tr>

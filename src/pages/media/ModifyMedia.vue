@@ -340,6 +340,7 @@ export default defineComponent({
       mediaUnitOption: [
         'cm',
         'inch',
+        'px',
       ],
       mediaMaterials: '',
       mediaDescription: '',
@@ -591,9 +592,9 @@ export default defineComponent({
         subtitle: this.mediaSubtitle,
         description: this.mediaDescription,
         sale_yn: this.mediaForSale ? 'Y':'N',
-        price: this.price,
-        created_at: this.mediaWidth ? `${this.mediaWidth} x ${this.mediaHeight} ${this.mediaUnit}` : null,
-        size: this.mediaSize,
+        price: this.mediaPrice,
+        created_at: this.mediaCreatedAt,
+        size: this.mediaWidth ? `${this.mediaWidth} x ${this.mediaHeight} ${this.mediaUnit}` : null,
         materials: this.mediaMaterials,
         tag_list: this.hashState.hashArr,
       }

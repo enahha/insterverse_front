@@ -27,18 +27,19 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="3" style="word-break: break-word;">
         <div class="tab-panel-3 q-pt-lg">
-          <div class="withdrawal">
-            <div class="title">{{ $t('menu_mypage_total_settlement') }} {{ $t('menu_mypage_currncy') }} {{ settleInTotal }} </div>
-            <div>                  
+          <div class="withdrawal row">
+            <div class="title">{{ $t('menu_mypage_total_settlement') }} <div>{{ $t('menu_mypage_currncy') }} {{ settleInTotal }}</div> </div>
+           
+          </div>
+          <div class="sales-detail q-pt-lg">
+            <div style="width: 100%; display: flex; justify-content: space-between;">
+            <div class="title">{{ $t('settle_out_list') }}</div>
               <q-btn
                 :label="$t('menu_mypage_settlement_list')"
                 @click="showsettleOutHistoryModal"
-                style="background-color: #0C2C69; color: white "
+                style="background-color: #0C2C69; color: white;"
               />
             </div>
-          </div>
-          <div class="sales-detail q-pt-lg">
-            <div class="title">{{ $t('settle_out_list') }}</div>
             <div class="underline"></div>
           </div>  
 
@@ -80,8 +81,8 @@
             </q-infinite-scroll>
           </q-pull-to-refresh>
 
-          <div v-if="noDataFlag" class="row justify-center">
-            <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+          <div v-if="noDataFlagMyMediaSale" class="row justify-center q-pt-lg">
+            <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
           </div>
 
         </div>

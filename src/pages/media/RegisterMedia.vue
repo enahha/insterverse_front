@@ -78,7 +78,7 @@
                   <q-uploader
                     field-name="file"
                     ref="uploaderObj"
-                    url="/api/common/uploadImage"
+                    url="/api/common/uploadImageAndThumbnail"
                     hide-upload-btn
                     color="grey-3"
                     text-color="black"
@@ -118,7 +118,7 @@
                   <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_title') }}</span>
                 </div>
                 <div class="">
-                  <q-input v-model="mediaTitle" ref="refMediaTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaTitle" ref="refMediaTitle" :rules="[val => maxLength(val, 100)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -128,7 +128,7 @@
                   <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_subtitle') }}</span>
                 </div>
                 <div class="">
-                  <q-input v-model="mediaSubtitle" ref="refMediaSubtitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaSubtitle" ref="refMediaSubtitle" :rules="[val => maxLength(val, 100)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -156,7 +156,7 @@
                   <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_created') }}</span>
                 </div>
                 <div class="">
-                  <q-input v-model="mediaCreatedAt" ref="refMediaCreated" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaCreatedAt" ref="refMediaCreated" :rules="[val => maxLength(val, 15)]" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -178,7 +178,7 @@
                   <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_materials') }}</span>
                 </div>
                 <div class="">
-                  <q-input v-model="mediaMaterials" ref="refMediaCreated" clearable outlined tabindex="1" />
+                  <q-input v-model="mediaMaterials" ref="refMediaMaterials" clearable outlined tabindex="1" />
                 </div>
               </td>
             </tr>
@@ -340,11 +340,13 @@ export default defineComponent({
       mediaUnitOption: [
         'cm',
         'inch',
+        'px',
       ],
       mediaMaterials: '',
       mediaDescription: '',
       mediaForSale: true,
       mediaUrl: '',
+      mediaThumnailUrl: '',
       // mediaUrl: 'https://beastar.io/images/platform.png',
       // mediaUrl: 'https://beastar.io/images/og_image.png',
       mediaType: 'IMAGE', // 파일 업로드시 fileUploadedMedia 함수에서 image or video로 자동 설정
@@ -501,34 +503,34 @@ export default defineComponent({
     ///////////////////////////////////////////////////////////////////////////
     validate() {
       let result = true
+      if (!this.$refs.refMediaUrl.validate()) {
+        result = false
+      }
       if (!this.$refs.refMediaOrderNumber.validate()) {
         result = false
       }
-      if (!this.$refs.refMediaTitle.validate()) {
-        result = false
-      }
-      if (!this.$refs.refMediaSubtitle.validate()) {
-        result = false
-      }
-      if (!this.$refs.refMediaPrice.validate()) {
-        result = false
-      }
-      if (!this.$refs.refMediaCreated.validate()) {
-        result = false
-      }
-      if (!this.$refs.refMediaSize.validate()) {
-        result = false
-      }
-      if (!this.$refs.refMediaMaterials.validate()) {
-        result = false
-      }
+      // if (!this.$refs.refMediaSubtitle.validate()) {
+      //   result = false
+      // }
+      // if (!this.$refs.refMediaPrice.validate()) {
+      //   result = false
+      // }
+      // if (!this.$refs.refMediaCreated.validate()) {
+      //   result = false
+      // }
+      // if (!this.$refs.refMediaSize.validate()) {
+      //   result = false
+      // }
+      // if (!this.$refs.refMediaMaterials.validate()) {
+      //   result = false
+      // }
       // if (!this.$refs.refMediaDescription.validate()) {
       //   result = false
       // }
       return result
     },
     // 등록 처리 시작
-    async register() {
+    register() {
       // Field validation check
       if(!this.validate()) {
           this.$noti(this.$q, this.$t('validation_failed'))
@@ -551,14 +553,15 @@ export default defineComponent({
         uid: this.getUid,
         type: this.mediaType,
         url: this.mediaUrl,
+        thumbnail_url: this.thumbnailUrl,
         order_no: this.mediaOrderNumber,
-        title: this.mediaTitle,
+        title: this.mediaTitle ? this.mediaTitle : 'Untitled',
         subtitle: this.mediaSubtitle,
         description: this.mediaDescription,
         sale_yn: this.mediaForSale ? 'Y':'N',
-        price: this.price,
-        created_at: `${this.mediaWidth} x ${this.mediaHeight} ${this.mediaUnit}`,
-        size: this.mediaSize,
+        price: this.mediaPrice,
+        created_at: this.mediaCreatedAt,
+        size: this.mediaWidth ? `${this.mediaWidth} x ${this.mediaHeight} ${this.mediaUnit}` : null,
         materials: this.mediaMaterials,
         tag_list: this.hashState.hashArr,
       }
@@ -600,12 +603,15 @@ export default defineComponent({
       // 이미지 업로드가 완료되면 호출되는 메소드
       // let fileName = file.name
       // let fileSize = file.size
+      let response = JSON.parse(file.xhr.responseText)
       let fileType = file.type
-      let fileNameNew = file.xhr.responseText
+      let fileNameNew = response.fileUrl
+      let thumbnailUrl = response.thumnailUrl
       // console.log('fileName: ' + fileName)
       // console.log('fileSize: ' + fileSize)
       // console.log('fileType: ' + fileType)
       console.log('fileNameNew: ' + fileNameNew)
+      console.log('thumbnailUrl: ' + thumbnailUrl)
       // console.log(file)
       // console.log(file.files[0].type)
       // console.log(file.files[0].type.split('/')[0])
@@ -614,6 +620,7 @@ export default defineComponent({
       this.mediaType = file.files[0].type.split('/')[0] // image or video
 
       this.mediaUrl = fileNameNew // 작품 이미지 설정
+      this.thumbnailUrl = thumbnailUrl
       // this.$refs.uploaderObj.reset()
     },
     goBack() {

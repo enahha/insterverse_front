@@ -45,7 +45,7 @@
                 <!-- 이거 스타일은 app.scss파일이 아닌 해당 파일 아래쪽에 위치해있음. (스타일이 안먹어서,,,) -->
                 <div class="image-container">
                   <img v-if="item.postar_url" :src="item.postar_url">
-                  <q-icon v-else name="rocket_launch" size="md" />
+                  <img v-else src="images/exhibition_poster_basic2.png">
                 </div>
               </q-item-section>
 
@@ -74,8 +74,8 @@
         </q-infinite-scroll>
       </q-pull-to-refresh>
 
-      <div v-if="noDataFlag" class="row justify-center">
-        <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+      <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+        <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
       </div>
 
       <!-- 하단 공간 확보 -->

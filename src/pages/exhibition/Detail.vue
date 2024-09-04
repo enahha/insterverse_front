@@ -3,7 +3,7 @@
     <div class="col-12 q-pb-xs">
       <!-- 베너 이미지 db저장된 uri로 바꿔야 함. 임시 이미지 -->
       <img v-if="projectVo.banner_url" :src="projectVo.banner_url" alt="Active Icon" style="width: 100%; height: 400px; object-fit: cover; margin: -60px auto;" />
-      <img v-else src="images/main_exhibition.png" alt="Active Icon" style="width: 100%; height: 400px; margin: -60px auto;" />
+      <img v-else src="images/exhibition_banner_basic.png" alt="Active Icon" style="width: 100%; height: 400px; margin: -60px auto;" />
 
       <q-page-scroller class="custom-scroller" position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
         <q-btn fab icon="keyboard_arrow_up" color="secondary" />
@@ -154,7 +154,7 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <q-tab-panel name="i" style="word-break: break-word; ">
       
-      <span>{{ $t('project_period') }}</span>
+      <span class="subhead">{{ $t('project_period') }}</span>
       <div class="underline" style="margin-bottom: 30px"></div>
       <div class="justify-center q-pb-md q-pl-xs">
         <div class="col-12 t-text">
@@ -162,7 +162,7 @@
         </div>
       </div>
 
-      <span v-if="projectVo.description">{{ $t('project_description') }}</span>
+      <span class="subhead" v-if="projectVo.description">{{ $t('project_description') }}</span>
       <div v-if="projectVo.description" class="underline" style="margin-bottom: 30px"></div>
       <div v-if="projectVo.description" class="q-pb-md q-pl-xs">
         <div class="row justify-center q-pb-md q-pl-xs t-stit">
@@ -170,7 +170,7 @@
         </div>
       </div>
 
-      <span>{{ $t('project_catalog') }}</span>
+      <span class="subhead">{{ $t('project_catalog') }}</span>
       <div class="underline" style="margin-bottom: 30px"></div>
 
       <div class="project-list row " style="margin-bottom: 30px">
@@ -209,7 +209,7 @@
       <div class="row justify-center q-pa-xl">
       </div>
 
-      <span>{{ $t('artist_basic_information') }}</span>
+      <span class="subhead">{{ $t('artist_basic_information') }}</span>
       <div class="underline" style="margin-bottom: 30px"></div>
       <div class="row justify-center q-pb-md q-pl-xs">
         <div class="col-12 text-weight-bold" style="font-size: 50px;">
@@ -229,7 +229,7 @@
       <div class="row justify-center q-pa-xl">
       </div>
 
-      <span v-if="projectVo.production_background">{{ $t('project_background') }}</span>
+      <span v-if="projectVo.production_background" class="subhead">{{ $t('project_background') }}</span>
       <div v-if="projectVo.production_background" class="underline" style="margin-bottom: 30px"></div>
       <div v-if="projectVo.production_background" class="q-pb-md q-pl-xs">
         <div class="row justify-center q-pb-md q-pl-xs t-stit">
@@ -242,7 +242,7 @@
 
 
 
-      <span>{{ $t('project_nft_info') }}</span>
+      <span class="subhead">{{ $t('project_nft_info') }}</span>
       <div class="underline" style="margin-bottom: 30px"></div>
       <div class="row justify-center">
         <div class="col-12">
@@ -725,120 +725,119 @@
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
       <!-- 3. 댓글 패널 ※ infiniteScroll 이상동작으로 comment는 별도로 기술 -->
       <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
-      <!-- <q-tab-panel name="comment">
-        <div>
-        </div>
-      </q-tab-panel> -->
-    </q-tab-panels>
+      <q-tab-panel name="c">
+        <!-- 댓글 리스트  -->
+        <div class="col-12 justify-center q-pa-md comment-wrap">
 
-    <!-- 댓글 리스트  -->
-    <div v-if="tab === 'c'" class="col-12 justify-center q-pa-md comment-wrap">
-
-      <div class="row">
-        <div class="col-12">
-          <q-input v-model="myContents" type="textarea" :placeholder="$t('enter_the_comment')" rows="2" clearable borderless tabindex="1" @keyup="countMyContentsLength" />
-        </div>
-      </div>
-
-      <div class="row q-pt-sm q-pb-sm">
-        <div class="col-6 text-left">
-          &nbsp;&nbsp;&nbsp;{{ myContentsLength }} / 300
-        </div>
-        <div class="col-6 text-right">
-          <q-btn size="md" color="black" style="height: 36px;" @click="insertProjectComment" outline>{{ $t('register') }}</q-btn>
-        </div>
-      </div>
-
-      <!-- 프로젝트 댓글 리스트 -->
-      <q-pull-to-refresh @refresh="refresher">
-        <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
-          <div v-for="item in projectCommentList" :key="item.seq">
-
-            <div :style="`padding-left: ${ item.group_layer * 20 }px`" v-if="item.visible_child" :class="`${ item.group_layer === 0 ? 'bg-white' : 'bg-grey-2'}`">
-              <div class="row q-pt-md">
-                <div class="col-8">
-                  <table border="0" cellpadding="0" sellspacing="0" width="100%">
-                    <tr>
-                      <td rowspan="2" width="60" class="flex-bottom">
-                        <q-avatar>
-                          <!-- <img src="https://cdn.quasar.dev/img/avatar7.jpg"> -->
-                          <!-- <img src="https://cdn.quasar.dev/img/boy-avatar.png"> -->
-                          <q-avatar color="primary" text-color="white" icon="person" size="40px"  />
-                        </q-avatar>
-                      </td>
-                      <td><span class="text-body2">{{ item.reg_name }}</span></td>
-                    </tr>
-                    <tr>
-                      <td><span class="text-caption text-grey-7">{{ item.reg_time }}</span></td>
-                    </tr>
-                  </table>
-                </div>
-                <div v-if="getUid && getUid === item.reg_id" class="col-4 text-right q-pt-md">
-                  <!-- <span style="cursor: pointer;" @click="modifyComment(item)">{{ $t('modify') }}</span> -->
-                  <q-btn icon="edit" @click="modifyComment(item)" flat dense />
-                  &nbsp;&nbsp;
-                  <!-- <span style="cursor: pointer;" @click="deleteComment(item.seq)">{{ $t('delete') }}</span> -->
-                  <q-btn icon="delete" @click="deleteComment(item.seq)" flat dense />
-                  &nbsp;&nbsp;
-                </div>
-              </div>
-              <div class="row q-pt-sm" style="word-break: break-word;">
-                <div class="col-12 text-body1">{{ item.contents }}</div>
-              </div>
-              <div class="row q-pt-sm q-pb-sm">
-                <div class="col-4">
-                  <span style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">{{ $t('register_reply') }}</span>
-                  <span v-if="item.group_layer === 0" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt1 }})</span>
-                  <span v-if="item.group_layer === 1" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt2 }})</span>
-                  <span v-if="item.group_layer === 2" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt3 }})</span>
-                  <span v-if="item.group_layer === 3" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt4 }})</span>
-                  <span v-if="item.group_layer === 4" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt5 }})</span>
-                  <span v-else></span>
-                </div>
-                <!-- <div class="col-4"></div> -->
-                <div class="col-8 text-right">
-                  <q-btn v-if="item.like_cd === 'Y'" icon="thumb_up_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
-                  <q-btn v-else icon="thumb_up_off_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
-                  &nbsp;{{ item.like_cnt }}
-                  &nbsp;&nbsp;
-                  <q-btn v-if="item.like_cd === 'N'" icon="thumb_down_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
-                  <q-btn v-else icon="thumb_down_off_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
-                  &nbsp;{{ item.dislike_cnt }}
-                  &nbsp;&nbsp;
-                  <!-- ### {{ item.group_order }} ### {{ item.group_layer }} -->
-                </div>
-              </div>
-
-              <div v-if="item.visible_reply_input" class="row q-pt-sm q-pb-sm">
-                <div class="col-12">
-                  <q-input v-model="myReply" type="textarea" :placeholder="$t('enter_the_reply')" rows="2" outlined @keyup="countMyReplyLength" />
-                </div>
-
-                <div class="col-6 text-left q-pt-sm">
-                  &nbsp;&nbsp;&nbsp;{{ myReplyLength }} / 300
-                </div>
-                <div class="col-6 text-right q-pt-sm">
-                  <q-btn size="md" color="black" style="height: 36px;" @click="insertProjectCommentReply(item)" outline>{{ $t('register') }}</q-btn>
-                </div>
-              </div>
-
+          <div class="row">
+            <div class="col-12">
+              <q-input v-model="myContents" type="textarea" :placeholder="$t('enter_the_comment')" rows="2" clearable borderless tabindex="1" @keyup="countMyContentsLength" />
             </div>
-
           </div>
-          <template v-slot:loading>
-            <div class="row justify-center q-my-md">
-              <q-spinner-dots color="primary" size="40px" />
+
+          <div class="row q-pt-sm q-pb-sm">
+            <div class="col-6 text-left">
+              &nbsp;&nbsp;&nbsp;{{ myContentsLength }} / 300
             </div>
-          </template>
-        </q-infinite-scroll>
-      </q-pull-to-refresh>
+            <div class="col-6 text-right">
+              <q-btn size="md" color="black" style="height: 36px;" @click="insertProjectComment" outline>{{ $t('register') }}</q-btn>
+            </div>
+          </div>
 
-      <!-- place QPageScroller at end of page -->
-      <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-        <q-btn fab icon="keyboard_arrow_up" color="#FEFEFE" />
-      </q-page-scroller>
+          <!-- 프로젝트 댓글 리스트 -->
+          <q-pull-to-refresh @refresh="refresher">
+            <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll">
+              <div v-for="item in projectCommentList" :key="item.seq">
 
-    </div>
+                <div :style="`padding-left: ${ item.group_layer * 20 }px`" v-if="item.visible_child" :class="`${ item.group_layer === 0 ? 'bg-white' : 'bg-grey-2'}`">
+                  <div class="row q-pt-md">
+                    <div class="col-8">
+                      <table border="0" cellpadding="0" sellspacing="0" width="100%">
+                        <tr>
+                          <td rowspan="2" width="60" class="flex-bottom">
+                            <q-avatar>
+                              <!-- <img src="https://cdn.quasar.dev/img/avatar7.jpg"> -->
+                              <!-- <img src="https://cdn.quasar.dev/img/boy-avatar.png"> -->
+                              <q-avatar color="primary" text-color="white" icon="person" size="40px"  />
+                            </q-avatar>
+                          </td>
+                          <td><span class="text-body2">{{ item.reg_name }}</span></td>
+                        </tr>
+                        <tr>
+                          <td><span class="text-caption text-grey-7">{{ item.reg_time }}</span></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div v-if="getUid && getUid === item.reg_id" class="col-4 text-right q-pt-md">
+                      <!-- <span style="cursor: pointer;" @click="modifyComment(item)">{{ $t('modify') }}</span> -->
+                      <q-btn icon="edit" @click="modifyComment(item)" flat dense />
+                      &nbsp;&nbsp;
+                      <!-- <span style="cursor: pointer;" @click="deleteComment(item.seq)">{{ $t('delete') }}</span> -->
+                      <q-btn icon="delete" @click="deleteComment(item.seq)" flat dense />
+                      &nbsp;&nbsp;
+                    </div>
+                  </div>
+                  <div class="row q-pt-sm" style="word-break: break-word;">
+                    <div class="col-12 text-body1">{{ item.contents }}</div>
+                  </div>
+                  <div class="row q-pt-sm q-pb-sm">
+                    <div class="col-4">
+                      <span style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">{{ $t('register_reply') }}</span>
+                      <span v-if="item.group_layer === 0" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt1 }})</span>
+                      <span v-if="item.group_layer === 1" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt2 }})</span>
+                      <span v-if="item.group_layer === 2" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt3 }})</span>
+                      <span v-if="item.group_layer === 3" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt4 }})</span>
+                      <span v-if="item.group_layer === 4" style="cursor: pointer;" class="text-body2" @click="showReplyInput(item)">&nbsp;({{ item.reply_cnt5 }})</span>
+                      <span v-else></span>
+                    </div>
+                    <!-- <div class="col-4"></div> -->
+                    <div class="col-8 text-right">
+                      <q-btn v-if="item.like_cd === 'Y'" icon="thumb_up_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
+                      <q-btn v-else icon="thumb_up_off_alt" @click="likeIt(item, 'YES')" flat dense size="sm" />
+                      &nbsp;{{ item.like_cnt }}
+                      &nbsp;&nbsp;
+                      <q-btn v-if="item.like_cd === 'N'" icon="thumb_down_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
+                      <q-btn v-else icon="thumb_down_off_alt" @click="likeIt(item, 'NO')" flat dense size="sm" />
+                      &nbsp;{{ item.dislike_cnt }}
+                      &nbsp;&nbsp;
+                      <!-- ### {{ item.group_order }} ### {{ item.group_layer }} -->
+                    </div>
+                  </div>
+
+                  <div v-if="item.visible_reply_input" class="row q-pt-sm q-pb-sm">
+                    <div class="col-12">
+                      <q-input v-model="myReply" type="textarea" :placeholder="$t('enter_the_reply')" rows="2" outlined @keyup="countMyReplyLength" />
+                    </div>
+
+                    <div class="col-6 text-left q-pt-sm">
+                      &nbsp;&nbsp;&nbsp;{{ myReplyLength }} / 300
+                    </div>
+                    <div class="col-6 text-right q-pt-sm">
+                      <q-btn size="md" color="black" style="height: 36px;" @click="insertProjectCommentReply(item)" outline>{{ $t('register') }}</q-btn>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+              <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                  <q-spinner-dots color="primary" size="40px" />
+                </div>
+              </template>
+            </q-infinite-scroll>
+          </q-pull-to-refresh>
+
+          
+
+          <!-- place QPageScroller at end of page -->
+          <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+            <q-btn fab icon="keyboard_arrow_up" color="#FEFEFE" />
+          </q-page-scroller>
+
+        </div>
+      </q-tab-panel>
+    </q-tab-panels>
 
     <div v-if="noDataFlag && tab === 'c'" class="row justify-center">
       <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
@@ -1137,6 +1136,8 @@ export default defineComponent({
   },
   destroy: function () {
     window.removeEventListener("resize", this.resizeEventHandler)
+  },
+  watch: {
   },
   mounted: function () {},
   methods: {
@@ -1734,15 +1735,15 @@ export default defineComponent({
 
 <style scoped>
 .media-container {
-    overflow: hidden;
-    cursor: pointer;
+  overflow: hidden;
+  cursor: pointer;
 }
 .media-content {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background-color: #f6f6f6;
-    transition: transform 0.3s ease; /* 부드러운 변형 효과 */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #f6f6f6;
+  transition: transform 0.3s ease; /* 부드러운 변형 효과 */
 }
 .media-container:hover .media-content {
   transform: scale(1.05); /* 마우스를 올리면 5% 확대 */

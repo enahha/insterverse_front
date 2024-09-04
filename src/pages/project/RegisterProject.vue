@@ -101,9 +101,9 @@
             </template>
           </q-infinite-scroll>
 
-          <!-- <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-            <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
-          </div> -->
+          <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+            <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
+          </div>
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
             <q-btn
@@ -867,7 +867,7 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '4',
+      tab: '1',
       projectSeq: '', // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
@@ -926,23 +926,23 @@ export default defineComponent({
       ////////////////////////
       nickname: '',
       // representativeSns: '',
-      email: 'email@gmail.com',
+      email: '',
       instargram: '',
       twitter: '',
       discord: '',
       telegram: '',
-      artistDescription: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">작가 소개입니다</span>',
-      title: '테스트',
+      artistDescription: '',
+      title: '',
       titleKo: '',
-      symbol: 'TEST',
-      subtitle: '부제',
+      symbol: '',
+      subtitle: '',
       exhibitionName: '',
-      bannerImage: 'http://43.201.176.43:8000/uploaded/20240819/20240819_1308_53_011_9a8103.png',
-      posterImage: 'http://43.201.176.43:8000/uploaded/20240819/20240819_1308_53_011_9a8103.png',
+      bannerImage: '',
+      posterImage: '',
       startTime: null,
       endTime: null,
-      projectDescription: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">전시 소개입니다</span>',
-      projectBackground: '<span style=\"font-size: 16px; font-weight: 700; letter-spacing: 0.14992px;\">전시 제작 배경입니다</span>',
+      projectDescription: '',
+      projectBackground: '',
 
       methodsExecuted: false,
       isButtonClicked: false,
@@ -954,8 +954,8 @@ export default defineComponent({
       columns: [
         { name: 'order_no', required: true, label: 'No.', align: 'center', field: 'order_no' , style: { width: '20px' }},
         { name: 'media', label: this.$t('media'), align: 'center', field: 'type', style: { width: '250px' }},
-        { name: 'title', label: this.$t('media_title'), align: 'left', field: 'title' },
-        { name: 'price', label: this.$t('media_price') + ' (USD)', align: 'left', field: 'price' },
+        { name: 'title', label: this.$t('media_title'), align: 'center', field: 'title' },
+        { name: 'price', label: this.$t('media_price') + ' (USD)', align: 'center', field: 'price' },
         // { name: 'description', label: this.$t('media_description'), align: 'left', field: 'description' },
       ],
       selected: [],

@@ -120,7 +120,7 @@ export default {
   menu_inquiry_list_description: 'Inquiry list is displayed.',
   menu_inquiry_register: 'Register Inquiry',
   menu_inquiry_register_description: 'Register Inquiry.',
-  about_us: "what's Instarverse?",
+  about_us: "what's Gallary X?",
   contact: 'Contact',
 
   // inquiry
@@ -571,6 +571,7 @@ export default {
   process_failed: 'Process failed',
   create_success: 'Creation success.',
   create_failed: 'Creation failed.',
+  media_delete_failed: 'The item does not exist in the media',
 
   // whitelist common
   whitelist: 'Whitelist',

@@ -2,7 +2,7 @@
   <q-dialog v-model="MediaDetailModal" :maximized="maximized">
     <div class="flex flex-center bg-white media-detail-wrap" style="max-width: 1600px; word-break: break-all;">
 
-      <div class="row">
+      <div class="media-row">
 
         <q-toolbar v-if="smallSize" class="bg-white">
           <q-toolbar-title><span class="text-weight-bold text-center"></span></q-toolbar-title>
@@ -192,6 +192,10 @@ export default {
 </script>
 
 <style scoped>
+.media-row {
+  display: flex;
+  flex-wrap: nowrap;
+}
 .responsive-container {
   width: 100%;
   max-width: 300px; 
@@ -225,6 +229,10 @@ export default {
   object-fit: contain;
 }
 @media (max-width: 1023px) {
+  .media-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
   .responsive-container {
     max-width: 600px; 
   }

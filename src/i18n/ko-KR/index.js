@@ -116,7 +116,7 @@ export default {
   menu_inquiry_list_description: '문의사항 목록입니다.',
   menu_inquiry_register: '문의사항 등록',
   menu_inquiry_register_description: '문의사항을 등록합니다.',
-  about_us: '인스타버스란?',
+  about_us: 'Gallary X',
   contact: '문의하기',
 
   // inquiry
@@ -571,6 +571,8 @@ export default {
   process_failed: '처리 실패',
   create_success: '생성되었습니다.',
   create_failed: '생성 실패',
+  media_delete_failed: '미디어에 해당 항목이 존재하지 않습니다.',
+
 
   // whitelist common
   whitelist: '화이트리스트',

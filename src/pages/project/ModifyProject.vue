@@ -106,9 +106,9 @@
             </q-table>
           <!-- </q-pull-to-refresh> -->
 
-          <!-- <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-            <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
-          </div> -->
+          <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+            <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
+          </div>
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
             <q-btn
@@ -897,7 +897,7 @@ export default defineComponent({
   data () {
     return {
       smallSize: false,
-      tab: '2',
+      tab: '1',
       projectSeq: 0, // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
@@ -1397,6 +1397,7 @@ export default defineComponent({
         .then((result) => {
           // this.mediaList = result.data.filter(media => media.del_yn === 'N')
           this.mediaList = result.data
+          // del_yn이 "N"인것만 필터
           this.mediaListDelN = this.mediaList.filter(media => media.del_yn === 'N')
 
           // 데이터 없음 표시 설정
@@ -1617,89 +1618,91 @@ export default defineComponent({
         this.$noti(this.$q, err)
       }
     },
-    // 미디어 등록, 삭제, 재등록 처리
-    async processMediaList() {
-      try {
-        // 현재 선택된 미디어 리스트 (MyMediaVo 리스트)
-        const selectedMediaList = this.selectedMyMediaList
-        // console.log('Selected Media List:')
-        // console.table(selectedMediaList)
+    // // 미디어 등록, 삭제, 재등록 처리
+    // async processMediaList() {
+    //   try {
+    //     // 현재 선택된 미디어 리스트 (MyMediaVo 리스트)
+    //     const selectedMediaList = this.selectedMyMediaList
+    //     // console.log('Selected Media List:')
+    //     // console.table(selectedMediaList)
 
-        // 기존 DB에 저장된 미디어 리스트
-        const currentMediaList = this.originalMediaList
-        // console.log('Current Media List:')
-        // console.table(currentMediaList)
+    //     // 기존 DB에 저장된 미디어 리스트
+    //     const currentMediaList = this.originalMediaList
+    //     // console.log('Current Media List:')
+    //     // console.table(currentMediaList)
 
-        // add 리스트 생성: 선택된 미디어 리스트에 있지만 기존 리스트에 없는 항목  - 새로운 항목
-        const addList = selectedMediaList.filter(selected => {
-          return !currentMediaList.some(media => media.my_media_seq === selected.seq)
-        })
-        // console.log('Add List:')
-        // console.table(addList)
+    //     // add 리스트 생성: 선택된 미디어 리스트에 있지만 기존 리스트에 없는 항목  - 새로운 항목
+    //     const addList = selectedMediaList.filter(selected => {
+    //       return !currentMediaList.some(media => media.my_media_seq === selected.seq)
+    //     })
+    //     // console.log('Add List:')
+    //     // console.table(addList)
 
-        // delete 리스트 생성: 기존 리스트에 있지만 선택된 리스트에 없는 항목 - 지워진 항목
-        const deleteList = currentMediaList.filter(media => {
-          return !selectedMediaList.some(selected => selected.seq === media.my_media_seq)
-        })
-        // console.log('deleteList List:')
-        // console.table(deleteList)
+    //     // delete 리스트 생성: 기존 리스트에 있지만 선택된 리스트에 없는 항목 - 지워진 항목
+    //     const deleteList = currentMediaList.filter(media => {
+    //       return !selectedMediaList.some(selected => selected.seq === media.my_media_seq)
+    //     })
+    //     // console.log('deleteList List:')
+    //     // console.table(deleteList)
 
-        // restore 리스트 생성: 선택된 리스트에 있지만 기존 리스트에 있고, 해당 항목이 삭제된 상태인 경우
-        const restoreList = currentMediaList.filter(media => {
-          return selectedMediaList.some(selected => selected.seq === media.my_media_seq && media.del_yn === 'Y')
-        })
-        // console.log('Restore List:')
-        // console.table(restoreList)
-        // console.log('---------------')
+    //     // restore 리스트 생성: 선택된 리스트에 있지만 기존 리스트에 있고, 해당 항목이 삭제된 상태인 경우
+    //     const restoreList = currentMediaList.filter(media => {
+    //       return selectedMediaList.some(selected => selected.seq === media.my_media_seq && media.del_yn === 'Y')
+    //     })
+    //     // console.log('Restore List:')
+    //     // console.table(restoreList)
+    //     // console.log('---------------')
 
-        // 각각의 리스트를 처리
-        await this.insertMediaList(addList)
-        await this.deleteMediaList(deleteList)
-        await this.restoreMedia(restoreList)
+    //     // 각각의 리스트를 처리
+    //     await this.insertMediaList(addList)
+    //     await this.deleteMediaList(deleteList)
+    //     await this.restoreMedia(restoreList)
 
-      } catch (error) {
-        console.error('Error processing media lists:', error)
-        this.$q.notify({ type: 'negative', message: 'Failed to process media lists.' })
-      }
-    },
-    // 미디어 등록
-    async insertMediaList(addMediaList) {
-      if (addMediaList.length === 0) {
-        console.log("addMediaList 선택된 항목x")
-        return
-      }
+    //   } catch (error) {
+    //     console.error('Error processing media lists:', error)
+    //     this.$q.notify({ type: 'negative', message: 'Failed to process media lists.' })
+    //   }
+    // },
+    // // 미디어 등록
+    // async insertMediaList(addMediaList) {
+    //   if (addMediaList.length === 0) {
+    //     console.log("addMediaList 선택된 항목x")
+    //     return
+    //   }
 
-      // project_seq 추가
-      addMediaList.forEach(item => {
-        item.project_seq = this.projectSeq
-      })
+    //   // project_seq 추가
+    //   addMediaList.forEach(item => {
+    //     item.project_seq = this.projectSeq
+    //   })
 
-      // console.table(addMediaList)
-      // this.$q.loading.show()
-      this.$axios.post('/api/media/insertMediaList', addMediaList)
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            // console.log(result.data)
-            this.$noti(this.$q, this.$t('register_success'))
+    //   // console.table(addMediaList)
+    //   // this.$q.loading.show()
+    //   this.$axios.post('/api/media/insertMediaList', addMediaList)
+    //     .then((result) => {
+    //       // console.log(JSON.stringify(result.data))
+    //       this.$q.loading.hide() // 로딩 표시 종료
+    //       if (result.data && result.data.resultCd === 'SUCCESS') {
+    //         // console.log(result.data)
+    //         this.$noti(this.$q, this.$t('register_success'))
 
-            // // 페이지 이동
-            // this.$router.push('/media') // 나의 작품 리스트
-          } else {
-            this.$noti(this.$q, this.$t('register_failed'))
-          }
-        })
-        .catch((err) => {
-          // this.$q.loading.hide() // 로딩 표시 종료
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
-    },
+    //         // // 페이지 이동
+    //         // this.$router.push('/media') // 나의 작품 리스트
+    //       } else {
+    //         this.$noti(this.$q, this.$t('register_failed'))
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       // this.$q.loading.hide() // 로딩 표시 종료
+    //       console.log(err)
+    //       this.$noti(this.$q, err)
+    //     })
+    // },
     async remove(item) {
       const deleteList = []
       deleteList.push(item)
 
+      console.table("deleteList")
+      console.table(deleteList)
       await this.deleteMediaList(deleteList)
     },
     // 미디어 리스트 삭제
@@ -1710,7 +1713,7 @@ export default defineComponent({
       }
 
       // this.$q.loading.show()
-      this.$axios.post('/api/media/deleteMedsia', deleteList)
+      this.$axios.post('/api/media/deleteMediaList', deleteList)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.$q.loading.hide() // 로딩 표시 종료
@@ -1729,34 +1732,34 @@ export default defineComponent({
           this.$noti(this.$q, err)
         })
     },
-    // 미디어 재등록
-    async restoreMedia(restoreList) {
-      if (restoreList.length === 0) {
-        console.log("restoreList 선택된 항목x")
-        return
-      }
+    // // 미디어 재등록
+    // async restoreMedia(restoreList) {
+    //   if (restoreList.length === 0) {
+    //     console.log("restoreList 선택된 항목x")
+    //     return
+    //   }
 
-      // this.$q.loading.show()
-      this.$axios.post('/api/media/restoreMedia', restoreList)
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            // console.log(result.data)
-            this.$noti(this.$q, this.$t('register_success'))
+    //   // this.$q.loading.show()
+    //   this.$axios.post('/api/media/restoreMedia', restoreList)
+    //     .then((result) => {
+    //       // console.log(JSON.stringify(result.data))
+    //       this.$q.loading.hide() // 로딩 표시 종료
+    //       if (result.data && result.data.resultCd === 'SUCCESS') {
+    //         // console.log(result.data)
+    //         this.$noti(this.$q, this.$t('register_success'))
 
-            // // 페이지 이동
-            // this.$router.push('/media') // 나의 작품 리스트
-          } else {
-            this.$noti(this.$q, this.$t('register_failed'))
-          }
-        })
-        .catch((err) => {
-          // this.$q.loading.hide() // 로딩 표시 종료
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
-    },
+    //         // // 페이지 이동
+    //         // this.$router.push('/media') // 나의 작품 리스트
+    //       } else {
+    //         this.$noti(this.$q, this.$t('register_failed'))
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       // this.$q.loading.hide() // 로딩 표시 종료
+    //       console.log(err)
+    //       this.$noti(this.$q, err)
+    //     })
+    // },
     // 파일 업로드 필터
     filterFiles (files) {
       const MAX_FILE_SIZE = 2 * 1024 * 1024

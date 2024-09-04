@@ -32,7 +32,17 @@
     color: $grey-9;
     // cursor: pointer;
 }
-
+.logo:hover{
+    animation: rotateLogo 3s ease-in-out;
+}
+@keyframes rotateLogo {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 .doc-h2 {
     // border-bottom: 1px solid #ccc;
     font-weight: 600;
@@ -128,7 +138,7 @@ textarea {
     }
 }
 .footer {
-    background: url('/images/background_bottom2.png');
+    background: url('/images/background_bottom3.png');
     background-size: cover;
     width: 100%;
     height: 484px;
@@ -415,7 +425,7 @@ textarea {
     // max-width: calc(100% - 740px);
     width: 100%;
     // margin-left: 0;
-    span {
+    .subhead {
         font-weight: bold;
         font-size: 20px;
     }
@@ -1132,14 +1142,12 @@ textarea {
             margin: 50px 150px;
             max-width: 70%;
         }
-        > span {
-            font-size: 23px;
-            font-weight: bold;
-        }
         .label {
             width: 30%;
             text-align: start;
             padding-left: 5%;
+            > span {
+            }
         }
         .label-input {
             width: 1000px;
@@ -1890,10 +1898,6 @@ background-color: #e7e6de9c;
                 // margin: 50px 150px;
                 // max-width: 70%;
             }
-            > span {
-                font-size: 11px;
-                font-weight: bold;
-            }
             .label {
                 width: 30%;
                 text-align: start;
@@ -2308,21 +2312,20 @@ background-color: #e7e6de9c;
     //마이페이지
     .mypage-wrap {
         .info-panel-1{
-            max-width: 100%;
             .information-wrap {
                 display: flex;
                 justify-content: center;
-                // margin: 50px 150px;
-                // max-width: 70%;
-            }
-            > span {
-                font-size: 11px;
-                font-weight: bold;
+                margin: 0px 0px;
+                max-width: 100%;
             }
             .label {
                 width: 30%;
                 text-align: start;
                 padding-left: 5%;
+                > span {
+                    font-size: 12px;
+                    font-weight: bold;
+                }
             }
             .label-input {
                 width: 1000px;
