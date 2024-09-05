@@ -102,7 +102,7 @@
           </q-infinite-scroll>
 
           <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-            <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
+            <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
           </div>
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
@@ -481,13 +481,13 @@
             </div>
           </div>
 
-          <!-- <div style="display: flex; justify-content: flex-end;">
+          <div style="display: flex; justify-content: flex-end;">
             <q-btn
-              :label="$t('save')"
-              @click="register"
+              label="showExhibitionTypeModal"
+              @click="showExhibitionTypeModal"
               :style="{ backgroundColor: methodsExecuted ? 'black' : '#0C2C69', color: 'white', width: '10%' }"
             />
-          </div> -->
+          </div>
           
           <div style="display: flex; justify-content: space-between; padding-top: 30px;">
             <q-btn

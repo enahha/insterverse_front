@@ -75,7 +75,7 @@ export default defineComponent({
       } catch(e) {
         console.log(e)
       }
-
+// 전시관 페이ㄴㅑ(단일 결제), plan(장기 결제)로 분기 
       if (this.payCode === this.$PAY_CODE_REGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG_EEEEEXXXXXX) { // 'CREATE_TOKEN' 결제코드가 토큰 생성인 경우
         // 1. 결제 완료 상태로 변경
         const params = {

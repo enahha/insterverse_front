@@ -27,7 +27,8 @@
                     <td rowspan="2" width="60" class="flex-bottom">
                       <q-avatar>
                         <!-- <img src="https://cdn.quasar.dev/img/avatar7.jpg"> -->
-                        <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                        <!-- <img src="https://cdn.quasar.dev/img/boy-avatar.png"> -->
+                        <q-avatar color="primary" text-color="white" icon="person" size="40px"  />
                       </q-avatar>
                     </td>
                     <td><span class="text-body2">{{ item.reg_name }}</span></td>
@@ -107,7 +108,7 @@
 
 
     <div v-if="noDataFlagMyComment" class="row justify-center q-pt-lg">
-      <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
+      <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
     </div>
 
     <!-- 하단 공간 확보 -->

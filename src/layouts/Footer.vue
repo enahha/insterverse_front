@@ -5,7 +5,7 @@
           <br /><br /><br /><br/><br /><br />
           <!-- links -->
           <div class="text-h5 text-bold flex flex-center q-pt-md">
-            <span class="footer-title">GALLARY_X</span>
+            <span class="footer-title">GALLERY X</span>
             <br /><br /><br /><br /><br /><br/>
           </div>
           <br />

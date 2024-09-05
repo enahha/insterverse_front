@@ -1,6 +1,6 @@
 <template>
     <q-dialog v-model="ExhibitionTypeModal" persistent>
-        <q-card style="max-width: 60vh;">
+        <q-card style="width: 800px;">
           <div style="padding: 30px;">
             <q-toolbar>
                 <q-toolbar-title><span class="text-weight-bold text-center"></span></q-toolbar-title>

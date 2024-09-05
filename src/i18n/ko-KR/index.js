@@ -116,7 +116,7 @@ export default {
   menu_inquiry_list_description: '문의사항 목록입니다.',
   menu_inquiry_register: '문의사항 등록',
   menu_inquiry_register_description: '문의사항을 등록합니다.',
-  about_us: 'Gallary X',
+  about_us: 'GALLERY X',
   contact: '문의하기',
 
   // inquiry
@@ -939,7 +939,7 @@ export default {
   menu_join_description: '사용자 정보를 등록합니다.',
   menu_mypage: '마이페이지',
   menu_mypage_description: '계정 정보를 수정합니다.',
-  menu_mypage_privacy: '개인정보',
+  menu_mypage_privacy: '나의 정보',
   menu_mypage_bank: '은행',
   menu_mypage_bank_account: '계좌번호',
   menu_mypage_wallet_type: '지갑 유형',
@@ -1132,6 +1132,12 @@ export default {
   buyer_email: '이메일',
   do_payment: '결제하기',
   payment_failed: '결제 실패',
+
+    // plan
+    plan: 'Plan',
+
+    // store
+    store: 'Store',
 
 
   request_data_failed: '데이터 조회 실패',

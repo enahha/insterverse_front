@@ -215,8 +215,11 @@
         <div class="col-12 text-weight-bold" style="font-size: 50px;">
           {{ projectVo.nickname }}
         </div>
-        <div class="col-12" style="font-size: 20px;">
+        <div v-if="projectVo.instargram" class="col-12" style="font-size: 20px;">
           {{ projectVo.instargram }}
+        </div>
+        <div v-else class="col-12" style="font-size: 20px;">
+          {{ projectVo.email }}
         </div>
       </div>
       <div v-if="projectVo.artist_details" class="q-pb-md q-pl-xs">

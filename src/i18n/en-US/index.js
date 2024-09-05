@@ -120,7 +120,7 @@ export default {
   menu_inquiry_list_description: 'Inquiry list is displayed.',
   menu_inquiry_register: 'Register Inquiry',
   menu_inquiry_register_description: 'Register Inquiry.',
-  about_us: "what's Gallary X?",
+  about_us: "what's GALLERY X?",
   contact: 'Contact',
 
   // inquiry
@@ -1130,6 +1130,12 @@ export default {
   buyer_email: 'E-mail',
   do_payment: 'Payment',
   payment_failed: 'Payment failed',
+
+  // plan
+  plan: 'Plan',
+
+  // store
+  store: 'Store',
 
 
   request_data_failed: 'Request data failed',

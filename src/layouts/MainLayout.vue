@@ -374,7 +374,7 @@
 
           <!-- 2. Project List -->
           <q-item clickable to="/exhibition">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="20px" /> -->
             </q-item-section>
@@ -385,7 +385,7 @@
 
           <!-- 3. Register Project -->
           <q-item clickable to="/project">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_showcase_1.png" width="30px" /> -->
             </q-item-section>
@@ -396,7 +396,7 @@
 
           <!-- 4. Register Media -->
           <q-item clickable to="/media">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
@@ -407,7 +407,7 @@
 
           <!-- 5. My page(내 정조) -->
           <q-item v-if="getUid" clickable to="/mypage/MyPrivacy">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
@@ -418,7 +418,7 @@
 
           <!-- 5. My page(내 전시회) -->
           <q-item v-if="getUid" clickable to="/mypage/MyExhibition">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
@@ -429,7 +429,7 @@
 
           <!-- 5. My page(판매내역) -->
           <q-item v-if="getUid" clickable to="/mypage/MySale">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
@@ -440,7 +440,7 @@
 
           <!-- 5. My page(피드백) -->
           <q-item v-if="getUid" clickable to="/mypage/MyFeedback">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
             </q-item-section>
@@ -620,7 +620,7 @@
 
             <!-- ADMIN USER LIST -->
             <q-item clickable to="/admin/adminUserList">
-              <q-item-section avatar class="q-pt-md">
+              <q-item-section avatar class="q-pt-sm">
                 <q-icon name="account_circle" style="width: 20px; height: 20px;" />
               </q-item-section>
               <q-item-section>
@@ -630,7 +630,7 @@
 
             <!-- ADMIN MAINTENANCE -->
             <q-item clickable to="/admin/adminMaintenance">
-              <q-item-section avatar class="q-pt-md">
+              <q-item-section avatar class="q-pt-sm">
                 <q-icon name="settings" style="width: 20px; height: 20px;" />
               </q-item-section>
               <q-item-section>
@@ -640,7 +640,7 @@
 
             <!-- ADMIN MEDIA SALE LIST -->
             <q-item clickable to="/admin/adminMediaSale">
-              <q-item-section avatar class="q-pt-md">
+              <q-item-section avatar class="q-pt-sm">
                 <q-icon name="settings" style="width: 20px; height: 20px;" />
               </q-item-section>
               <q-item-section>
@@ -650,7 +650,7 @@
 
             <!-- ADMIN COLLECTION REQEST LIST -->
             <q-item clickable to="/admin/adminCollectionRequest">
-              <q-item-section avatar class="q-pt-md">
+              <q-item-section avatar class="q-pt-sm">
                 <q-icon name="settings" style="width: 20px; height: 20px;" />
               </q-item-section>
               <q-item-section>
@@ -666,7 +666,7 @@
         <q-list class="bottom-items">
           <!-- NOTICE -->
           <q-item clickable to="/notice">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
             <q-item-section>
@@ -676,7 +676,7 @@
 
           <!-- ABOUT US -->
           <q-item clickable to="/introduction">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
             <q-item-section>
@@ -684,9 +684,29 @@
             </q-item-section>
           </q-item>
 
+          <!-- PLAN -->
+          <q-item clickable to="/plan">
+            <q-item-section avatar class="q-pt-sm">
+              <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('plan') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <!-- STORE -->
+          <q-item clickable to="/store">
+            <q-item-section avatar class="q-pt-sm">
+              <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ $t('store') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
           <!-- QUESTIONS -->
           <q-item clickable to="/contact">
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
             <q-item-section>
@@ -696,10 +716,10 @@
 
           <!-- LANGUAGE -->
           <q-item clickable>
-            <q-item-section avatar class="q-pt-md">
+            <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="language" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
-            <q-icon name="language" size="sm" class="q-pt-md q-pb-sm" />
+            <q-icon name="language" size="sm" class="q-pt-sm q-pb-sm" />
             <q-menu style="z-index: 9999;">
               <div class="no-wrap q-pa-sm pd-xy">
                 <!-- settings -->

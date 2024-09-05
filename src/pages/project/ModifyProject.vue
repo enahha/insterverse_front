@@ -107,7 +107,7 @@
           <!-- </q-pull-to-refresh> -->
 
           <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-            <img src="images/no_data.png" style="width: 50%; max-width: 400px;" />
+            <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
           </div>
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
