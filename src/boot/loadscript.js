@@ -28,12 +28,13 @@ export default boot(({ app }) => {
   })
 
   //loadScript('https://stdpay.inicis.com/stdjs/INIStdPay_popup.js')
+  // loadScript('https://stgstdpay.inicis.com/stdjs/INIStdPay.js') //테스트 js
   loadScript('https://stdpay.inicis.com/stdjs/INIStdPay.js')
   .then(() => {
     // Script is loaded, do something
     app.config.globalProperties.$INIStdPay = window.INIStdPay
-    app.config.globalProperties.$paymentMid = 'oneoninc01'
-    app.config.globalProperties.$paymentSignKey = 'OUp6VkxCTnU5K2xHRkpCYmFZWE5LUT09'
+    app.config.globalProperties.$paymentMid = 'metashop51'
+    app.config.globalProperties.$paymentSignKey = 'bDN2SWNzdWUrRHJMbHNOeUdFTDA2dz09'
     // console.log(app.config.globalProperties.$INIStdPay)
   })
   .catch(() => {

@@ -9,6 +9,13 @@ const routes = [
     ]
   },
   {
+    path: '/plan',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/plan/EnterPlan.vue') },
+    ]
+  },
+  {
     path: '/payment',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -70,6 +77,8 @@ const routes = [
       { path: 'twitter', component: () => import('src/pages/test/TestTwitter.vue') },
       { path: 'ipfs', component: () => import('src/pages/test/TestIPFS.vue') },
       { path: 'tag', component: () => import('src/pages/test/TestTag.vue') },
+      { path: 'plan', component: () => import('src/pages/test/TestPlan.vue') },
+      { path: 'pay', component: () => import('src/pages/test/TestPay.vue') },
       // { path: 'home', component: () => import('pages/Index.vue') },
     ]
   },

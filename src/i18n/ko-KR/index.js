@@ -1133,11 +1133,17 @@ export default {
   do_payment: '결제하기',
   payment_failed: '결제 실패',
 
-    // plan
-    plan: 'Plan',
+  // plan
+  plan: 'Plan',
+  plan_detail: '최고의 전시장을 위한 최상의 서비스',
+  plan_currncy_usd_month: 'USD / 월',
+  plan_currncy_usd_year: 'USD / 년',
+  plan_feature_pre: '',
+  plan_feature_post: '개의 작품 저장소',
+  plan_feature: '개의 3D전시관',
 
-    // store
-    store: 'Store',
+  // store
+  store: 'Store',
 
 
   request_data_failed: '데이터 조회 실패',

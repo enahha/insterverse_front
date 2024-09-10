@@ -1133,6 +1133,12 @@ export default {
 
   // plan
   plan: 'Plan',
+  plan_detail: 'Best service for the best experience',
+  plan_currncy_usd_month: 'USD / MONTH',
+  plan_currncy_usd_year: 'USD / YEAR',
+  plan_feature_pre: 'Storage for',
+  plan_feature_post: 'works of art',
+  plan_feature: 'public 3D Exhibitions',
 
   // store
   store: 'Store',
