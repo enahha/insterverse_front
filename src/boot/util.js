@@ -63,16 +63,25 @@ export default boot(({ app }) => {
 
   // 결제 관련 상수
   // app.config.globalProperties.$CREATE_TOKEN_CD_PAID = '11' // 토큰 생성 상태 코드 - 결제완료
-  app.config.globalProperties.$PAY_CODE_CREATE_TOKEN = 'CREATE_TOKEN' // 결제코드: CREATE_TOKEN(토큰 생성)
-  app.config.globalProperties.$PAY_CODE_MINT_TOKEN = 'MINT_TOKEN' // 결제코드: MINT_TOKEN(토큰 추가발행)
-  app.config.globalProperties.$PAY_CODE_BURN_TOKEN = 'BURN_TOKEN' // 결제코드: BURN_TOKEN(토큰 소각)
-  app.config.globalProperties.$PAY_CODE_CONTRACT_VERIFY = 'CONTRACT_VERIFY' // 결제코드: CONTRACT_VERIFY(계약 검증)
-  app.config.globalProperties.$PAY_CODE_CREATE_POOL = 'CREATE_POOL' // 결제코드: CREATE_POOL(유동성 풀 생성)
-  app.config.globalProperties.$PAY_CODE_CREATE_AIRDROP = 'CREATE_AIRDROP' // 결제코드: CREATE_AIRDROP(에어드랍 생성)
-  app.config.globalProperties.$PAY_CODE_CREATE_WHITELIST = 'CREATE_WHITELIST' // 결제코드: CREATE_WHITELIST(화이트리스트 생성)
-  app.config.globalProperties.$PAY_CODE_CREATE_PRESALE = 'CREATE_PRESALE' // 결제코드: CREATE_PRESALE(사전판매 생성)
-  app.config.globalProperties.$PAY_CODE_CREATE_RECRUIT = 'CREATE_RECRUIT' // 결제코드: CREATE_RECRUIT(채용 생성)
-  app.config.globalProperties.$PAY_CODE_CREATE_MINTING = 'CREATE_MINTING' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
+  // app.config.globalProperties.$PAY_CODE_CREATE_TOKEN = 'CREATE_TOKEN' // 결제코드: CREATE_TOKEN(토큰 생성)
+  // app.config.globalProperties.$PAY_CODE_MINT_TOKEN = 'MINT_TOKEN' // 결제코드: MINT_TOKEN(토큰 추가발행)
+  // app.config.globalProperties.$PAY_CODE_BURN_TOKEN = 'BURN_TOKEN' // 결제코드: BURN_TOKEN(토큰 소각)
+  // app.config.globalProperties.$PAY_CODE_CONTRACT_VERIFY = 'CONTRACT_VERIFY' // 결제코드: CONTRACT_VERIFY(계약 검증)
+  // app.config.globalProperties.$PAY_CODE_CREATE_POOL = 'CREATE_POOL' // 결제코드: CREATE_POOL(유동성 풀 생성)
+  // app.config.globalProperties.$PAY_CODE_CREATE_AIRDROP = 'CREATE_AIRDROP' // 결제코드: CREATE_AIRDROP(에어드랍 생성)
+  // app.config.globalProperties.$PAY_CODE_CREATE_WHITELIST = 'CREATE_WHITELIST' // 결제코드: CREATE_WHITELIST(화이트리스트 생성)
+  // app.config.globalProperties.$PAY_CODE_CREATE_PRESALE = 'CREATE_PRESALE' // 결제코드: CREATE_PRESALE(사전판매 생성)
+  // app.config.globalProperties.$PAY_CODE_CREATE_RECRUIT = 'CREATE_RECRUIT' // 결제코드: CREATE_RECRUIT(채용 생성)
+  // app.config.globalProperties.$PAY_CODE_CREATE_MINTING = 'CREATE_MINTING' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
+
+  // 아이템 무료, 유료 구분
+  app.config.globalProperties.$ITEM_TYPE_FREE = 'FREE' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
+  app.config.globalProperties.$ITEM_TYPE_PAID = 'PAID' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
+
+  // 결제 관련 상수
+  app.config.globalProperties.$PAY_CODE_HALL = 'HALL' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
+
+
 
   // app.config.globalProperties.$device = '' // 디바이스 - P: 데스크탑, M: 모바일웹, android: 안드로이드 앱, ios: 아이폰 앱
 

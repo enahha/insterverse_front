@@ -188,7 +188,7 @@
 
           this.myMediaList = this.myMediaList.filter(item => {
             // mediaList에서 item.seq와 일치하는 항목을 찾음
-            const matchedMedia = this.mediaList.find(media => media.my_media_seq === item.seq);
+            const matchedMedia = this.mediaList.find(media => media.my_media_seq === item.seq)
 
             // mediaList에 해당 항목이 존재하지 않거나, del_yn이 "Y"인 경우만 남김
             if (!matchedMedia || matchedMedia.del_yn === "Y") {

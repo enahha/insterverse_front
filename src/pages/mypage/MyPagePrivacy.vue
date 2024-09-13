@@ -176,12 +176,16 @@ export default defineComponent({
       ],
       walletOption: [
         {
-          label: '메타마스크',
-          value: 'metamask',
+          label: 'Solana',
+          value: 'SOLANA',
         },
         {
-          label: '팬텀',
-          value: 'phantom',
+          label: 'Ethereum',
+          value: 'ETH',
+        },
+        {
+          label: 'Kaia',
+          value: 'KAIA',
         },
       ],
     }

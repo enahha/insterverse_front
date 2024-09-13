@@ -141,7 +141,7 @@
                   <q-item-section avatar>
                     <q-avatar square>
                       <img v-if="item.postar_url" :src="item.postar_url">
-                      <q-icon v-else name="rocket_launch" size="md" />
+                      <img v-else src="images/exhibition_poster_basic2.png">
                     </q-avatar>
                   </q-item-section>
 

@@ -28,7 +28,7 @@
       <q-tab-panel name="3" style="word-break: break-word;">
         <div class="tab-panel-3 q-pt-lg">
           <div class="withdrawal row">
-            <div class="title">{{ $t('menu_mypage_total_settlement') }} <div>{{ $t('menu_mypage_currncy') }} {{ settleInTotal }}</div> </div>
+            <div class="title">{{ $t('menu_mypage_total_settlement') }} <div>{{ $t('menu_mypage_currncy') }} {{ Number(settleInTotal).toLocaleString() }}</div> </div>
            
           </div>
           <div class="sales-detail q-pt-lg">
@@ -56,7 +56,7 @@
                     </q-avatar>
                     <q-avatar square v-else class="media-container">
                       <img v-if="item.url" :src="item.url"  class="media-content">
-                      <q-icon v-else name="rocket_launch" size="md" />
+                      <img v-else src="images/exhibition_poster_basic2.png">
                     </q-avatar>
                   </q-item-section>
 
@@ -213,12 +213,16 @@ export default defineComponent({
       ],
       walletOption: [
         {
-          label: '메타마스크',
-          value: 'metamask',
+          label: 'Solana',
+          value: 'SOLANA',
         },
         {
-          label: '팬텀',
-          value: 'phantom',
+          label: 'Ethereum',
+          value: 'ETH',
+        },
+        {
+          label: 'Kaia',
+          value: 'KAIA',
         },
       ],
     }
@@ -320,7 +324,7 @@ export default defineComponent({
             if (!this.walletAddress) {
               this.walletAddress = this.$store.getters.getWalletAddress
             }
-            this.walletType = result.data.wallet_type
+            this.walletType.value = result.data.wallet_type
             this.bankAccount = result.data.bank_account
             this.bankType = result.data.bank_type
             // this.nickname = result.data.nickname

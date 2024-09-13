@@ -16,10 +16,19 @@ const routes = [
     ]
   },
   {
+    path: '/store',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/store/StoreList.vue') },
+    ]
+  },
+  {
     path: '/payment',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/payment/Payment.vue') },
+      { path: 'item', component: () => import('pages/payment/PaymentItem.vue') },
+      { path: 'paymentItemCallback', component: () => import('pages/payment/PaymentItemCallback.vue') },
       { path: 'paymentCallback', component: () => import('pages/payment/PaymentCallback.vue') },
     ]
   },

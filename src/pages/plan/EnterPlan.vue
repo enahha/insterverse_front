@@ -16,51 +16,29 @@
     <div class="row pricing-plan justify-center">
         <!-- FREE Plan -->
         <div class="col-12 col-md-3 plan start-plan">
-        <h2>STARTER</h2>
+        <h2>{{ plan[0].name }}</h2>
         <p class="price">FREE</p>
         <div class="features">
-            <p>{{ $t('plan_feature_pre') }} 20 {{ $t('plan_feature_post') }}</p>
-            <p>1 {{ $t('plan_feature') }}</p>
+            <p>{{ $t('plan_feature_pre') }} {{ plan[0].storage }} {{ $t('plan_feature_post') }}</p>
+            <p>{{ plan[0].exhibition_count }} {{ $t('plan_feature') }}</p>
         </div>
         </div>
 
-        <!-- BASIC Plan -->
-        <div class="col-12 col-md-3 plan">
-        <h2>BASIC</h2>
-        <div class="price-part">
-            <p class="price">12</p><p class="currncy">{{ $t('plan_currncy_usd_month') }}</p>
-        </div>
-        <div class="features">
-            <p>{{ $t('plan_feature_pre') }} 50 {{ $t('plan_feature_post') }}</p>
-            <p>5 {{ $t('plan_feature') }}</p>
-        </div>
-        <button class="plan-button">UPGRADE</button>
-        </div>
-
-        <!-- REGULAR Plan -->
-        <div class="col-12 col-md-3 plan">
-        <h2>REGULAR</h2>
-        <div class="price-part">
-            <p class="price">30</p><p class="currncy">{{ $t('plan_currncy_usd_month') }}</p>
-        </div>
-        <div class="features">
-            <p>{{ $t('plan_feature_pre') }} 250 {{ $t('plan_feature_post') }}</p>
-            <p>10 {{ $t('plan_feature') }}</p>
-        </div>
-        <button class="plan-button">UPGRADE</button>
-        </div>
-
-        <!-- PROFESSIONAL Plan -->
-        <div class="col-12 col-md-3 plan">
-        <h2>PROFESSIONAL</h2>
-        <div class="price-part">
-            <p class="price">60</p><p class="currncy">{{ $t('plan_currncy_usd_month') }}</p>
-        </div>
-        <div class="features">
-            <p>{{ $t('plan_feature_pre') }} 500 {{ $t('plan_feature_post') }}</p>
-            <p>50 {{ $t('plan_feature') }}</p>
-        </div>
-        <button class="plan-button">UPGRADE</button>
+        <div
+        v-for="(item, index) in plan.slice(1, 4)"
+        :key="index"
+        class="col-12 col-md-3 plan"
+        >
+            <h2>{{ item.name }}</h2>
+            <div class="price-part">
+                <p class="price">{{ item.price }}</p>
+                <p class="currncy">{{ $t('plan_currncy_usd_month') }}</p>
+            </div>
+            <div class="features">
+                <p>{{ $t('plan_feature_pre') }} {{ item.storage }} {{ $t('plan_feature_post') }}</p>
+                <p>{{ item.exhibition_count }} {{ $t('plan_feature') }}</p>
+            </div>
+            <button class="plan-button">UPGRADE</button>
         </div>
 
         <!-- CUSTOM Plan -->
@@ -156,6 +134,9 @@ created: function () {
 
     // 계정 정보 조회
     this.selectUser()
+
+    // plan항목 조회
+    this.selectPlanList()
 },
 mounted: function () {
 },
@@ -228,6 +209,26 @@ methods: {
     this.$store.dispatch('setWalletType', userVo.wallet_type)
     this.$store.dispatch('setWalletAddress', userVo.wallet_address)
     this.$store.dispatch('setMobileNo', userVo.mobile_no)
+    },
+    selectPlanList() {
+        const param = {
+            uid: this.getUid,
+        }
+
+        // 계정 조회
+        this.$axios.get('/api/plan/selectPlanList', { params: { ...param }})
+            .then((result) => {
+            // console.log(JSON.stringify(result.data))
+            if (result.data) {
+                console.log(result.data)
+                this.plan = result.data
+            } else {
+                this.$noti(this.$q, this.$t('request_data_failed'))
+            }
+            })
+            .catch((err) => {
+            console.log(err)
+            })
     },
     ///////////////////////////////////////////////////////////////////////////
     // validation

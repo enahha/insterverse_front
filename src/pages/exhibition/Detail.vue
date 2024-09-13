@@ -183,7 +183,7 @@
               </q-avatar>
               <q-avatar square v-else class="media-container">
                 <img v-if="item.url" :src="item.url"  class="media-content">
-                <q-icon v-else name="rocket_launch" size="md" />
+                <img v-else src="images/exhibition_poster_basic2.png">
               </q-avatar>
             </q-item-section>
           </q-item>

@@ -1131,6 +1131,8 @@ export default {
   buyer_tel: '전화번호',
   buyer_email: '이메일',
   do_payment: '결제하기',
+  payment_confirm: '결제확인',
+  payment_item: '결제 예정 품목',
   payment_failed: '결제 실패',
 
   // plan
@@ -1197,7 +1199,7 @@ export default {
   project_exhibition_day: '전시일',
   project_basic_information: '전시 기본 정보',
   project_information: '전시 정보',
-  project_exhibition_type: '전시관 타입',
+  project_exhibition_type: '전시관',
   project_official_website: '공식 웹사이트',
   project_official_email: '이메일',
   project_poster_image: '포스터 이미지',
@@ -1205,6 +1207,7 @@ export default {
   project_artwork: '작품 선택',
   my_artworks: '나의 작품',
   project_artworks: '전시 작품',
+  project_exhibit: '전시',
   project_preview: '미리보기',
   project_docs: 'Docs',
   project_blog: 'Blog',
@@ -1253,6 +1256,12 @@ export default {
   project_nft_info: 'NFT 정보',
   project_period: '전시 기간',
   project_catalog: '카탈로그',
+
+  over_display_maximum: '전시 가능 작품 수',
+  over_display_maximum_warn: '전시 가능 작품 수를 초과했습니다',
+
+  select_exhibition_hall: '전시관을 선택해주세요.',
+
 
   // artist description
   artist_basic_information: '작가 정보',

@@ -16,7 +16,7 @@
       align="justify"
       inline-label
     >
-      <q-tab name="1" @click="unableTabNext">{{ $t('project_artwork') }}</q-tab>
+      <q-tab name="1" @click="unableTabNext">{{ $t('project_exhibit') }}</q-tab>
       <q-tab name="2" @click="unableTabNext">{{ $t('project_description') }}</q-tab>
       <q-tab name="3" @click="unableTabNext">{{ $t('project_artist') }}</q-tab>
       <q-tab name="4" @click="unableTabNext">{{ $t('project_preview') }}</q-tab>
@@ -34,8 +34,41 @@
       <q-tab-panel name="1" style="word-break: break-word;">
         <keep-alive>
         <div class="tab-panel-3 q-pt-lg">
-          <span>{{ $t('my_artworks') }}</span>
+          <span>{{ $t('project_exhibition_type') }}</span>
+          <q-btn
+            :label="$t('choice')"
+            @click="showExhibitionTypeModal"
+            size="md"
+            style="background-color: #0C2C69; color: white;"
+          />
           <div class="underline"></div>
+
+          <div style="width: 100%; display: flex; justify-content: flex-end">
+
+          </div>
+
+          <div  style="max-width: 100%;" class="project-exhibit-warp">
+            <div class="item-container">
+              <q-item >
+                <q-item-section avatar>
+                  <q-avatar square class="">
+                    <img v-if="itemVo.url" :src="itemVo.url"  class="">
+                    <img v-else src="images/exhibition_poster_basic2.png">
+                  </q-avatar>
+                </q-item-section>
+
+                <q-item-section>
+                  <div class="row list-item">
+                    <q-item-label class="col-12">{{ itemVo.name }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+            </div>
+          </div>
+
+          <!-- 하단 공간 확보 -->
+          <div class="row justify-center q-pa-xl">
+          </div>
 
 
           <!-- <div class="row srch-wrap" style="width: 100%;">
@@ -56,6 +89,9 @@
               style="background-color: #E1D2BB; font-size: large; margin: 10px;"
             />
           </div> -->
+
+          <span>{{ $t('my_artworks') }}</span>
+          <div class="underline"></div>
 
           <div style="width: 100%; display: flex; justify-content: flex-end">
             <q-btn
@@ -705,7 +741,7 @@
                 </q-avatar>
                 <q-avatar square v-else class="media-container">
                   <img v-if="item.url" :src="item.url"  class="media-content">
-                  <q-icon v-else name="rocket_launch" size="md" />
+                  <img v-else src="images/exhibition_poster_basic2.png">
                 </q-avatar>
               </q-item-section>
             </q-item>
@@ -832,20 +868,38 @@
   </q-page>
 
   <WalletModal ref="refWalletModal" />
-  <ExhibitionTypeModal ref="refExhibitionTypeModal" @callback-register="setexhibitionName"/>
+  <ExhibitionTypeModal ref="refExhibitionTypeModal" @callback-register="setItem"/>
   <MediaDetailModal ref="refMediaDetailModal" />
 
-  <q-dialog v-model="confirmGoBack">
+  <q-dialog v-model="overLimit">
     <q-card>
       <q-card-section class="row items-center" style="min-width: 200px;">
         <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
-        <q-icon name="warning" color="primary" size="md" />
-        <span class="q-ml-sm">{{ $t('confirm_go_back') }}</span>
+        <q-icon name="priority_high" color="primary" size="md" />
+        <span class="q-ml-sm" style="font-size: 15px; font-weight: bold">{{ $t('over_display_maximum_warn') }}</span>
+      </q-card-section>
+      <q-card-section class="row items-center" style="min-width: 200px; display: flex; justify-content: center;">
+        <span class="q-ml-sm" style="font-size: 12px;">{{ $t('over_display_maximum') }} : {{ itemVo.display_maximum }}</span>
       </q-card-section>
       <q-separator />
       <q-card-actions align="around">
         <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
-        <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" />
+        <!-- <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" /> -->
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="exhibitionhallWarn">
+    <q-card>
+      <q-card-section class="row items-center" style="min-width: 200px;">
+        <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
+        <q-icon name="priority_high" color="primary" size="md" />
+        <span class="q-ml-sm" style="font-size: 15px; font-weight: bold">{{ $t('select_exhibition_hall') }}</span>
+      </q-card-section>
+      <q-separator />
+      <q-card-actions align="around">
+        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+        <!-- <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" /> -->
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -921,6 +975,8 @@ export default defineComponent({
       // preview
       // seqFileMst: '' // 파일 마스터 SEQ
       confirmGoBack: false, // goBack 확인창
+      overLimit: false,  // 작품 개수 초과 안내창
+      exhibitionhallWarn: false,
       truncateTitle: 10,
       truncateDescription: 200,
       ////////////////////////
@@ -936,13 +992,22 @@ export default defineComponent({
       titleKo: '',
       symbol: '',
       subtitle: '',
-      exhibitionName: '',
       bannerImage: '',
       posterImage: '',
       startTime: null,
       endTime: null,
       projectDescription: '',
       projectBackground: '',
+      itemVo: {
+        seq: '',
+        name: '',
+        type: '',
+        price: '',
+        display_maximum: '',
+        description: '',
+        url: '',
+        delYn: '',
+      },
 
       methodsExecuted: false,
       isButtonClicked: false,
@@ -969,58 +1034,6 @@ export default defineComponent({
         hashtag: '',
         hashArr: [],
       }),
-      // selectedmyMediaList: [
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      // ]
     }
   },
   components: {
@@ -1079,7 +1092,7 @@ export default defineComponent({
     this.nickname = nickname ? nickname : ''
 
     // 미디어 리스트 조회
-    this.selectListMax()
+    this.selectMyMediaListMax()
   },
   watch: {
     getNickname(newNickname) {
@@ -1109,8 +1122,17 @@ export default defineComponent({
     },
     goTabNext() {
       if (this.tab == '1') {
+        // 전시장 선택 확인
+        if (!this.itemVo.name) {
+          this.exhibitionhallWarn = true
+          return
+        }
+        // 선택한 전시장의 게시물 최대개수 확인
+        if (this.selected.length > this.itemVo.display_maximum) {
+          this.overLimit = true
+          return
+        }
       } else {
-        console.log("register")
         this.branchInsertUpdate()   // 등록
       }
 
@@ -1131,8 +1153,8 @@ export default defineComponent({
     showExhibitionTypeModal() {
       this.$refs.refExhibitionTypeModal.show()
     },
-    setexhibitionName(name) {
-      this.exhibitionName = name
+    setItem(item) {
+      this.itemVo = item
     },
     callbackLogin(userVo) {
       // console.log('callbackLogin!!!')
@@ -1148,6 +1170,13 @@ export default defineComponent({
     toggleSelect(item) {
       item.selected = !item.selected
       this.saveSelectionState()
+    },
+    checkMediaMaxSize() {
+      if (this.selected.length > this.maxSize) {
+        // 선택한 행이 최대 개수를 초과하면 모달을 띄우고 선택을 제한
+        this.showModal = true
+        // this.selected = selected.slice(0, this.maxSize) // 초과된 행 선택 취소
+      }
     },
     saveSelectionState() {
       // 현재 선택 상태를 저장
@@ -1183,7 +1212,7 @@ export default defineComponent({
       this.$router.push('/media')
     },
     async search() {
-      await this.selectListMax()
+      await this.selectMyMediaListMax()
       await this.refresher(null)
     },
     // 검색어 입력창 키업 이벤트
@@ -1218,7 +1247,7 @@ export default defineComponent({
         // alert(index)
         // console.log('loadMore called index: ' + index)
         if (index <= this.lastPageNum) {
-          this.selectList(index, done)
+          this.selectMyMediaList(index, done)
           if (index === this.lastPageNum) {
             this.$refs.infiniteScroll.stop()
           }
@@ -1232,7 +1261,7 @@ export default defineComponent({
       }, 500)
     },
     // 작품 마지막 페이지 조회
-    selectListMax() {
+    selectMyMediaListMax() {
       // 검색어 입력창 x버튼 클릭시 this.keyword가 null이 됨.
       if (!this.keyword) {
         this.keyword = ''
@@ -1248,7 +1277,7 @@ export default defineComponent({
         })
     },
     // 작품 리스트 조회
-    async selectList(idx, done) {
+    async selectMyMediaList(idx, done) {
       if (!this.keyword) {
         this.keyword = ''
       }
@@ -1350,7 +1379,7 @@ export default defineComponent({
       // //   result = falsetrue
       // // }
       if (!this.$refs.refSymbol.validate()) {
-        result = falsetrue
+        result = false
       }
       // if (!this.$refs.refSubtitle.validate()) {
       //   result = falsetrue
@@ -1402,6 +1431,7 @@ export default defineComponent({
         nickname: this.nickname,
         status_cd: '10', // 등록중
         // representative_sns_id: this.representativeSns,
+        exhibitionhall_seq: this.itemVo.seq,
         email: this.email,
         instargram: this.instargram,
         twitter: this.twitter,

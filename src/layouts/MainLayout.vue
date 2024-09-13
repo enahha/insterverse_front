@@ -685,14 +685,13 @@
           </q-item>
 
           <!-- PLAN -->
-          <q-item clickable to="/plan">
+          <!-- <q-item clickable to="/plan">
             <q-item-section avatar class="q-pt-sm">
-              <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ $t('plan') }}</q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
           <!-- STORE -->
           <q-item clickable to="/store">

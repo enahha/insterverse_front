@@ -25,7 +25,8 @@ export default {
   mainnet: 'Mainnet',
   vote: 'Vote',
   add: 'Add',
-  choice: 'Choice',
+  choice: 'Selcet',
+  get: 'Get',
   preview: 'Preview',
   start: 'Start',
   end: 'End',
@@ -1129,6 +1130,8 @@ export default {
   buyer_tel: 'Mobile No.',
   buyer_email: 'E-mail',
   do_payment: 'Payment',
+  payment_confirm: 'Payment confirm',
+  payment_item: 'Items to be paid',
   payment_failed: 'Payment failed',
 
   // plan
@@ -1142,6 +1145,7 @@ export default {
 
   // store
   store: 'Store',
+  
 
 
   request_data_failed: 'Request data failed',
@@ -1191,7 +1195,7 @@ export default {
   project_exhibition_day: 'Exhibition day',
   project_basic_information: 'Basic information',
   project_information: 'Exhibition information',
-  project_exhibition_type: 'Exhibition type',
+  project_exhibition_type: 'Exhibition Hall',
   project_official_website: 'Official Website',
   project_official_email: 'E-mail',
   project_poster_image: 'Poster image',
@@ -1199,6 +1203,7 @@ export default {
   project_artwork: 'Artworks',
   my_artworks: 'My Artworks',
   project_artworks: 'Artworks',
+  project_exhibit: 'Exhibit',
   project_preview: 'Preview',
   project_docs: 'Docs',
   project_blog: 'Blog',
@@ -1247,6 +1252,11 @@ export default {
   project_nft_info: 'NFT Information',
   project_period: 'Period',
   project_catalog: 'Catalog',
+
+  over_display_maximum: 'Artwork limit',
+  over_display_maximum_warn: 'Exceeded the number of works on display',
+
+  select_exhibition_hall: 'Please select the exhibition hall.',
   
   
   // artist description

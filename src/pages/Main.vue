@@ -429,7 +429,6 @@ export default defineComponent({
     window.removeEventListener("resize", this.resizeEventHandler)
   },
   mounted: function () {
-    this.selectListMax()
   },
   setup () {
     const { locale } = useI18n({ useScope: 'global' })
@@ -481,7 +480,7 @@ export default defineComponent({
 
     // 검색
     async search() {
-      await this.selectListMax()
+      // await this.selectListMax()
       await this.refresher(null)
     },
     goDetail(seq) {

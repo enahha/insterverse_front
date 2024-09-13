@@ -16,7 +16,7 @@
       align="justify"
       inline-label
     >
-      <q-tab name="1" @click="unableTabNext">{{ $t('project_artworks') }}</q-tab>
+      <q-tab name="1" @click="unableTabNext">{{ $t('project_exhibit') }}</q-tab>
       <q-tab name="2" @click="unableTabNext">{{ $t('project_description') }}</q-tab>
       <q-tab name="3" @click="unableTabNext">{{ $t('project_artist') }}</q-tab>
       <q-tab name="4" @click="unableTabNext">{{ $t('project_preview') }}</q-tab>
@@ -34,8 +34,32 @@
       <q-tab-panel name="1" style="word-break: break-word;">
         <keep-alive>
         <div class="tab-panel-3 q-pt-lg">
-          <span>{{ $t('project_artworks') }}</span>
+          <span>{{ $t('project_exhibition_type') }}</span>
           <div class="underline"></div>
+
+          <div v-if="exhibitionName" style="max-width: 100%; display: flex; justify-content: flex-start;" class="project-exhibit-warp">
+            <div class="item-container">
+              <q-item >
+                <q-item-section avatar>
+                  <q-avatar square class="">
+                    <img v-if="exhibitionUrl" :src="exhibitionUrl"  class="">
+                    <img v-else src="images/exhibition_poster_basic2.png">
+                  </q-avatar>
+                </q-item-section>
+
+                <q-item-section>
+                  <div class="row list-item">
+                    <q-item-label class="col-12">{{ exhibitionName }}</q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+            </div>
+          </div>
+
+
+          <!-- 하단 공간 확보 -->
+          <div class="row justify-center q-pa-xl">
+          </div>
 
 
           <!-- <div class="row srch-wrap" style="width: 100%;">
@@ -64,6 +88,10 @@
                 style="background-color: #0C2C69; color: white; min-width: 100px; "
               />
           </div> -->
+
+          <span>{{ $t('project_artworks') }}</span>
+          <div class="underline"></div>
+
           <div style="width: 100%; display: flex; justify-content: flex-end">
             <q-icon name="library_add" color="gray" size="md" @click="showAddMediaModal()">
               <q-tooltip>{{ $t('media_add') }}</q-tooltip>
@@ -719,7 +747,7 @@
                 </q-avatar>
                 <q-avatar square v-else class="media-container">
                   <img v-if="item.url" :src="item.url"  class="media-content">
-                  <q-icon v-else name="rocket_launch" size="md" />
+                  <img v-else src="images/exhibition_poster_basic2.png">
                 </q-avatar>
               </q-item-section>
             </q-item>
@@ -865,19 +893,23 @@
     </q-card>
   </q-dialog>
 
-  <!-- <q-dialog v-model="confirmDelete">
-  <q-card>
-    <q-card-section class="row items-center" style="min-width: 200px;">
-      <q-icon name="warning" color="primary" size="md" />
-      <span class="q-ml-sm">{{ $t('confirm_delete') }}</span>
-    </q-card-section>
-    <q-separator />
-    <q-card-actions align="around">
-      <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
-      <q-btn flat style="width: 45%;" :label="$t('delete')" color="black" v-close-popup @click="doDeleteNotice" />
-    </q-card-actions>
-  </q-card>
-</q-dialog> -->
+  <q-dialog v-model="overLimit">
+    <q-card>
+      <q-card-section class="row items-center" style="min-width: 200px;">
+        <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
+        <q-icon name="priority_high" color="primary" size="md" />
+        <span class="q-ml-sm" style="font-size: 15px; font-weight: bold">{{ $t('over_display_maximum_warn') }}</span>
+      </q-card-section>
+      <q-card-section class="row items-center" style="min-width: 200px; display: flex; justify-content: center;">
+        <span class="q-ml-sm" style="font-size: 12px;">{{ $t('over_display_maximum') }} : {{ displayMaximum }}</span>
+      </q-card-section>
+      <q-separator />
+      <q-card-actions align="around">
+        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+        <!-- <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" /> -->
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 
 </template>
 
@@ -952,6 +984,7 @@ export default defineComponent({
       // seqFileMst: '' // 파일 마스터 SEQ
       confirmGoBack: false, // goBack 확인창
       confirmDelete: false, // goBack 확인창
+      overLimit: false,
       truncateTitle: 10,
       truncateDescription: 200,
       ////////////////////////
@@ -968,13 +1001,17 @@ export default defineComponent({
       titleKo: '',
       symbol: '',
       subtitle: '',
-      exhibitionName: '',
       bannerImage: '',
       posterImage: '',
       startTime: '',
       endTime: '',
       projectDescription: '',
       projectBackground: '',
+
+      exhibitionSeq: 0,
+      exhibitionName: '',
+      exhibitionUrl: '',
+      displayMaximum: '',
 
       methodsExecuted: false,
       isButtonClicked: false,
@@ -1007,58 +1044,6 @@ export default defineComponent({
         hashtag: '',
         hashArr: [],
       }),
-      // selectedMyMediaList: [
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      //   {
-      //     seq: 1,
-      //     type: 'IMAGE',
-      //     url: 'https://picsum.photos/500',
-      //   },
-      // ]
     }
   },
   components: {
@@ -1158,7 +1143,11 @@ export default defineComponent({
     },
     goTabNext() {
       if (this.tab == '1') {
-        // this.processMediaLists()
+        // 선택한 전시장의 게시물 최대개수 확인
+        if (this.mediaListDelN.length > this.displayMaximum) {
+          this.overLimit = true
+          return
+        }
       } else {
         this.branchInsertUpdate()   // 등록
       }
@@ -1251,28 +1240,31 @@ export default defineComponent({
       this.$router.push('/media')
     },
     async selectProject() {
-      this.$axios.get('/api/project/selectProject',
+      this.$axios.get('/api/project/selectProjectAndExhibitionHall',
         {params: {uid: this.getUid, seq: this.projectSeq}})
         .then((result) => {
-          console.log("result.data.tag")
-          console.log(result.data.tag)
+          console.log("result.data")
+          console.log(result.data)
+          this.title = result.data.title
+          this.statusCd = result.data.status_cd
+          this.subtitle = result.data.subtitle
+          this.exhibitionSeq = result.data.subtitle
+          this.exhibitionName = result.data.exhibition_name
+          this.exhibitionUrl = result.data.exhibition_url
+          this.displayMaximum = result.data.display_maximum
           this.nickname = result.data.nickname
-          this.statusCd =  result.data.status_cd
+          this.artistDescription = result.data.artist_details
           this.email = result.data.email
-          this.instargram = result.data.instargram
+          this.instagram = result.data.instargram
           this.twitter = result.data.twitter
           this.discord = result.data.discord
           this.telegram = result.data.telegram
-          this.artistDescription = result.data.artist_details
-          this.title = result.data.title
           this.symbol = result.data.symbol
-          this.subtitle = result.data.subtitle
-          this.exhibitionName = result.data.exhibition_name
-          this.bannerImage = result.data.banner_url
           this.posterImage = result.data.postar_url
+          this.bannerImage = result.data.banner_url
+          this.projectDescription = result.data.description
           this.startTime = result.data.display_start_time
           this.endTime = result.data.display_end_time
-          this.projectDescription = result.data.description
           this.projectBackground = result.data.production_background
           this.hashState.hashArr = result.data.tag ? result.data.tag.split(',') : []
         })
@@ -1534,7 +1526,7 @@ export default defineComponent({
         title_ko: this.titleKo,
         symbol: this.symbol,
         subtitle: this.subtitle,
-        exhibition_name: this.exhibitionName,
+        exhibitionhall_seq: this.exhibitionSeq,
         banner_url: this.bannerImage,
         postar_url: this.posterImage,
         display_start_time: this.startTime,
