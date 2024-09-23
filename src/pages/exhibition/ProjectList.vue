@@ -160,8 +160,26 @@ export default defineComponent({
       }
       return text.substring(0, maxLength) + '...'
     },
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     // 검색
     async search() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_SEARCH, 'project', null, null)
+
       await this.selectListMax()
       await this.refresher(null)
     },

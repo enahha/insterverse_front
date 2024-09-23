@@ -290,6 +290,21 @@ export default defineComponent({
     // this.refresherMyComment(null)
   },
   methods: {
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     truncateText(text, maxLength) {
       if (!text) {
         return ''
@@ -371,6 +386,9 @@ export default defineComponent({
       this.$refs.refMediaDetailModal.show()
     },
     showsettleOutHistoryModal() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, 'SettleOutHistoryModal', null, null)
+
       this.$refs.refSettleOutHistoryModal.uid = this.getUid
       this.$refs.refSettleOutHistoryModal.show()
     },

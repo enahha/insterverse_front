@@ -485,6 +485,7 @@
 <script>
 // import { Cookies } from 'quasar'
 import { sha512 } from 'js-sha512'
+import { useI18n } from 'vue-i18n'
 // import { KakaoCordovaSDK } from 'kakao-sdk'
 
 export default {
@@ -518,6 +519,13 @@ export default {
       privacyAgreed: false,
     }
   },
+  setup () {
+    const { locale } = useI18n({ useScope: 'global' })
+
+    return {
+      locale,
+    }
+  },
   created: function () {
     // 로그인 후 이동할 path 설정
     this.redirectPath = this.$route.query.redirectPath
@@ -548,6 +556,22 @@ export default {
     //   this.loading = false
     //   this.loginModal = true
     // },
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      console.log('insertActionLog ...')
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.userVo.uid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     async goCheckEmailCode() {
       // 1. 필드 체크
       if(!this.checkField()) {
@@ -797,6 +821,9 @@ export default {
     },
 
     doJoin() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, null, '/api/user/insertUser', JSON.stringify(this.userVo))
+
       this.$axios.post('/api/user/insertUser', this.userVo)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
@@ -857,6 +884,9 @@ export default {
         })
     },
     doChangePwd() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, null, '/api/user/updateUserPwd', JSON.stringify(this.userVo))
+
       this.$axios.post('/api/user/updateUserPwd', this.userVo)
         .then((result) => {
           this.loading = false
@@ -1110,6 +1140,9 @@ export default {
     },
     // [WEB] 3. 로그인
     async doLogin () {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, null, '/api/login/doLogin', JSON.stringify(this.userVo))
+
       // ID 항목 체크
       if (!this.checkInput(this.userVo.uid, 'ID')) {
         return false
@@ -1148,6 +1181,7 @@ export default {
             this.$cookie.set('AUTH_KEY', result.data.auth_key, 365)
             this.$cookie.set('NICKNAME', result.data.nickname, 365)
             this.$cookie.set('ADCD', result.data.adcd, 365)
+            this.$cookie.set('LOCALE', this.locale, 365)
             localStorage.setItem('UID', result.data.uid, 365)
             localStorage.setItem('NICKNAME', result.data.nickname, 365)
             localStorage.setItem('AUTH_KEY', result.data.auth_key, 365)

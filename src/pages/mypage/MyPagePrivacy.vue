@@ -243,6 +243,21 @@ export default defineComponent({
   mounted: function () {
   },
   methods: {
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     truncateText(text, maxLength) {
       if (!text) {
         return ''
@@ -410,6 +425,9 @@ export default defineComponent({
     },
     // 회원정보 수정 처리 시작
     async modifyUser(nickname, pwd, pwdCheck) {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_MODIFY, 'user', null, null)
+
       // Field validation check
       // if(!this.validate()) {
       //   // this.$noti(this.$q, this.$t('validation_failed'))
@@ -555,6 +573,9 @@ export default defineComponent({
       }
     },
     ModifyUserAccount() {
+      // 액션 로그 등록s
+      this.insertActionLog(this.$ACTION_MODIFY, 'user account', null, null)
+
       const params = {
         uid: this.getUid,
         wallet_address: this.walletAddress,

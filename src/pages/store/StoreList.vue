@@ -32,7 +32,7 @@
                   <!-- <div style="font-size: large; color: black; font-weight: bold;">$ {{ item.price }}</div> -->
                   <q-btn
                       :label="$t('project_preview')"
-                      @click="goMyMediaList"
+                      @click="openPreview"
                       style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 90px; max-height: 30px;"
                     />
                   <q-btn
@@ -173,6 +173,21 @@ export default defineComponent({
     this.refresher(null)
   },
   methods: {
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     // 검색
     async search() {
       await this.selectListMax()
@@ -281,10 +296,6 @@ export default defineComponent({
           }
         })
     },
-    goRegister() {
-      // 공지사항 등록 화면으로 이동
-      this.$router.push('/notice/register')
-    },
     goPayment(item) {
       // 1. 해당 건이 결제 완료인지 확인
       const params = {
@@ -324,9 +335,15 @@ export default defineComponent({
 
         // 결제 화면으로 이동
         if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || this.$q.platform.is.mobile) {
+          // 액션 로그 등록
+          this.insertActionLog(this.$ACTION_CLICK, null, '/paymentMobile', null)
+
           // 디바이스가 모바일인 경우
           this.$router.push('/paymentMobile')
         } else {
+          // 액션 로그 등록
+          this.insertActionLog(this.$ACTION_CLICK, null, '/payment/item', null)
+
           // 디바이스가 데스크탑인 경우
           // this.$router.push('/PaymentItem')
 
@@ -341,6 +358,11 @@ export default defineComponent({
     callbackDetail() {
       this.search()
     },
+    openPreview() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, 'item preview', null, null)
+
+    }
   },
 })
 </script>

@@ -1153,6 +1153,21 @@ export default defineComponent({
         this.smallSize = false
       }
     },
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     showMediaDetailModal() {
       this.$refs.refMediaDetailModal.show()
     },
@@ -1703,6 +1718,9 @@ export default defineComponent({
       this.confirmDeleteProject = true
     },
     exhibition_enter() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_ENTER, null, this.$exhibitionUnityUrl, this.projectSeq)
+      
       window.open(this.$exhibitionUnityUrl +  this.projectSeq, '_system')
     },
     // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리

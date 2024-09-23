@@ -61,6 +61,17 @@ export default boot(({ app }) => {
   app.config.globalProperties.$PROJECT_STATUS_CD_CONFIRMED = '50'
   app.config.globalProperties.$PROJECT_STATUS_CD_DELETE = '99'
 
+  // 액션 로그 관련 상수
+  app.config.globalProperties.$ACTION_CLICK = 'click'
+  app.config.globalProperties.$ACTION_PAGE_VIEW = 'page_view'
+  app.config.globalProperties.$ACTION_SEARCH = 'search'
+  app.config.globalProperties.$ACTION_ENTER = 'enter'
+  app.config.globalProperties.$ACTION_EXPLORE = 'explore'
+  app.config.globalProperties.$ACTION_REGISTER = 'register'
+  app.config.globalProperties.$ACTION_MODIFY = 'modify'
+  app.config.globalProperties.$ACTION_DELETE = 'delete'
+
+
   // 결제 관련 상수
   // app.config.globalProperties.$CREATE_TOKEN_CD_PAID = '11' // 토큰 생성 상태 코드 - 결제완료
   // app.config.globalProperties.$PAY_CODE_CREATE_TOKEN = 'CREATE_TOKEN' // 결제코드: CREATE_TOKEN(토큰 생성)

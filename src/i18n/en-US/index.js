@@ -1258,7 +1258,6 @@ export default {
 
   select_exhibition_hall: 'Please select the exhibition hall.',
   
-  
   // artist description
   artist_basic_information: 'Artist Information',
   artist_details: 'Artist Details',

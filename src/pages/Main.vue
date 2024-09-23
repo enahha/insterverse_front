@@ -344,7 +344,8 @@ export default defineComponent({
           seq: 1,
           src: 'images/instarverse_banner_2_2.png',
         },
-      ]
+      ],
+      userAgent: '',
     }
   },
   components: {
@@ -428,7 +429,11 @@ export default defineComponent({
   destroy: function () {
     window.removeEventListener("resize", this.resizeEventHandler)
   },
-  mounted: function () {
+  mounted() {
+    // 브라우저의 user agent 정보를 가져옴
+    this.userAgent = navigator.userAgent
+
+    this.$cookie.set('AGENT', this.userAgent)
   },
   setup () {
     const { locale } = useI18n({ useScope: 'global' })
@@ -477,7 +482,21 @@ export default defineComponent({
         this.smallSize = false
       }
     },
-
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     // 검색
     async search() {
       // await this.selectListMax()

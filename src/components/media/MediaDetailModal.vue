@@ -111,6 +111,7 @@ export default {
       // exhibitionTypeList: [],
       myMediaVo: {
         url: '',
+        nft_id: '',
         title: '',
         subtitle: '',
         type: '',
@@ -133,7 +134,8 @@ export default {
   },
   methods: {
     async show() {
-      console.log(this.$q.platform.is)
+      console.log('this.myMediaVo')
+      console.log(this.myMediaVo)
       if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || this.$q.platform.is.mobile) {
         // 디바이스가 모바일인 경우
         this.maximized = true
@@ -175,6 +177,9 @@ export default {
       return result;
     },
     openUrl(url) {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, 'opensea', url, null)
+
       // cordova인 경우 IframeModal 표시
       // if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit') {
       //   this.$refs.refIframeModal.url = url

@@ -398,6 +398,21 @@ export default defineComponent({
   },
   mounted: function () {},
   methods: {
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     // 미디어 URL 변경 이벤트 - mediaType 설정
     // q-uploader를 통해서 파일 업로드시에는 이 처리가 실행되지 않음
     mediaUrlChanged() {
@@ -531,6 +546,9 @@ export default defineComponent({
     },
     // 등록 처리 시작
     register() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_REGISTER, 'my media', null, null)
+
       // Field validation check
       if(!this.validate()) {
           this.$noti(this.$q, this.$t('validation_failed'))

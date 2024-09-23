@@ -1141,6 +1141,21 @@ export default defineComponent({
         this.$router.push({ path: '/login', query: { redirectPath: this.$route.path }})
       }
     },
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     goTabNext() {
       if (this.tab == '1') {
         // 선택한 전시장의 게시물 최대개수 확인
@@ -1172,9 +1187,14 @@ export default defineComponent({
       this.tab = (currentTab + 1).toString()
     },
     showExhibitionTypeModal() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, 'AddMediaModal', null, null)
+
       this.$refs.refExhibitionTypeModal.show()
     },
     showAddMediaModal() {
+      this.insertActionLog(this.$ACTION_CLICK, 'ExhibitionTypeModal', null, null)
+
       this.$refs.refAddMediaModal.projectSeq = this.projectSeq
       this.$refs.refAddMediaModal.mediaList = this.mediaList
       this.$refs.refAddMediaModal.show()
@@ -1460,7 +1480,6 @@ export default defineComponent({
     ///////////////////////////////////////////////////////////////////////////
     validate() {
       let result = true
-      // 왜 안되는거야악!!
       if (!this.$refs.refTitle.validate()) {
         result = false
       }
@@ -1493,6 +1512,9 @@ export default defineComponent({
     },
     // 등록 처리 시작
     async branchInsertUpdate() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_MODIFY, 'project', null, null)
+
       // 로그인 여부 체크, 메인화면으로?
       if (!this.getUid) {
         this.$refs.refLoginModal.show()
@@ -1514,7 +1536,7 @@ export default defineComponent({
         uid: this.getUid,
         seq: this.projectSeq,
         nickname: this.nickname,
-        status_cd: '10', // 등록중
+        status_cd: this.$PROJECT_STATUS_CD_REGISTERED, // '10' 등록중
         // representative_sns_id: this.representativeSns,
         email: this.email,
         instargram: this.instargram,
@@ -1690,6 +1712,9 @@ export default defineComponent({
     //     })
     // },
     async remove(item) {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_DELETE, 'media', null, null)
+
       const deleteList = []
       deleteList.push(item)
 

@@ -209,8 +209,26 @@ export default defineComponent({
     this.nickname = this.getNickname
   },
   methods: {
-// 검색
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+  // 검색
     async search() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_SEARCH, 'faq', null, null)
+
       await this.selectListMax()
       await this.refresher(null)
     },
@@ -368,6 +386,9 @@ export default defineComponent({
     },
     // 등록 처리 시작
     async register() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_REGISTER, 'inquiry', null, null)
+
       // Field validation check
       // if(!this.validate()) {
       //   this.$noti(this.$q, this.$t('validation_failed'))

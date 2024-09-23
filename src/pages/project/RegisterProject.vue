@@ -60,6 +60,7 @@
                 <q-item-section>
                   <div class="row list-item">
                     <q-item-label class="col-12">{{ itemVo.name }}</q-item-label>
+                    <q-item-label class="" style="max-height: 20px; ">{{ $t('over_display_maximum') }} : {{ itemVo.display_maximum }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -515,14 +516,6 @@
                 }"
               />
             </div>
-          </div>
-
-          <div style="display: flex; justify-content: flex-end;">
-            <q-btn
-              label="showExhibitionTypeModal"
-              @click="showExhibitionTypeModal"
-              :style="{ backgroundColor: methodsExecuted ? 'black' : '#0C2C69', color: 'white', width: '10%' }"
-            />
           </div>
           
           <div style="display: flex; justify-content: space-between; padding-top: 30px;">
@@ -999,7 +992,7 @@ export default defineComponent({
       projectDescription: '',
       projectBackground: '',
       itemVo: {
-        seq: '',
+        seq: '1',
         name: '',
         type: '',
         price: '',
@@ -1093,6 +1086,9 @@ export default defineComponent({
 
     // 미디어 리스트 조회
     this.selectMyMediaListMax()
+
+    // 기본 전시관 아이템 조회
+    this.selectItem()
   },
   watch: {
     getNickname(newNickname) {
@@ -1114,6 +1110,21 @@ export default defineComponent({
       if(!this.getUid) {
         this.$router.push({ path: '/login', query: { redirectPath: this.$route.path }})
       }
+    },
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
     },
     unableTabNext() {
       event.preventDefault()
@@ -1151,6 +1162,8 @@ export default defineComponent({
       this.tab = (currentTab + 1).toString()
     },
     showExhibitionTypeModal() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, 'ExhibitionTypeModal', null, null)
       this.$refs.refExhibitionTypeModal.show()
     },
     setItem(item) {
@@ -1209,6 +1222,7 @@ export default defineComponent({
     },
     goMyMediaList() {
       // this.$router.push({ path: '/media/registerMedia', query: { seq: this.projectSeq }})
+      this.insertActionLog(this.$ACTION_CLICK, null, '/media', null)
       this.$router.push('/media')
     },
     async search() {
@@ -1310,6 +1324,18 @@ export default defineComponent({
           }
         })
     },
+    // 기본 전시관 아이템 조회
+    async selectItem() {
+      this.$axios.get('/api/item/selectItem',
+        {params: {uid: this.getUid, seq: 1}})
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.itemVo = result.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     truncateText(text, maxLength) {
       if (!text) {
         return ''
@@ -1361,7 +1387,6 @@ export default defineComponent({
     ///////////////////////////////////////////////////////////////////////////
     validate() {
       let result = true
-      // 왜 안되는거야악!!
       if (!this.$refs.refTitle.validate()) {
         result = false
       }
@@ -1424,12 +1449,12 @@ export default defineComponent({
         this.startTime = now.replace('T', ' ').split('.')[0]
       }
       console.log(this.hashState.hashArr)
-      // 1. 등록
+      // 1. 등록 
       const params = {
         uid: this.getUid,
         seq: this.projectSeq,
         nickname: this.nickname,
-        status_cd: '10', // 등록중
+        status_cd: this.$PROJECT_STATUS_CD_REGISTERED, // '10' 등록중
         // representative_sns_id: this.representativeSns,
         exhibitionhall_seq: this.itemVo.seq,
         email: this.email,
@@ -1544,6 +1569,9 @@ export default defineComponent({
         })
     },
     async register() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_REGISTER, 'project', null, null)
+
       // Field validation check
       if(!this.validate()) {
         this.$noti(this.$q, this.$t('validation_failed'))

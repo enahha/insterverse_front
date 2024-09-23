@@ -288,7 +288,7 @@
       />
       <q-btn
         :label="$t('save')"
-        @click="register"
+        @click="modify"
         style="background-color: #90B2D8; color: white "
       />
     </div>
@@ -400,6 +400,21 @@ export default defineComponent({
   },
   mounted: function () {},
   methods: {
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     // 미디어 URL 변경 이벤트 - mediaType 설정
     // q-uploader를 통해서 파일 업로드시에는 이 처리가 실행되지 않음
     mediaUrlChanged() {
@@ -563,7 +578,10 @@ export default defineComponent({
       return result
     },
     // 수정 처리 시작
-    async register() {
+    async modify() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_MODIFY, 'my media', null, null)
+
       // Field validation check
       // if(!this.validate()) {
       //     this.$noti(this.$q, this.$t('validation_failed'))
@@ -577,10 +595,10 @@ export default defineComponent({
       }
 
       // 수정
-      this.doRegister()
+      this.doModify()
     },
     // 수정
-    async doRegister() {
+    async doModify() {
       // 1. 수정
       const params = {
         uid: this.getUid,
@@ -605,12 +623,12 @@ export default defineComponent({
           this.$q.loading.hide() // 로딩 표시 종료
           if (result.data && result.data.resultCd === 'SUCCESS') {
             // console.log(result.data)
-            this.$noti(this.$q, this.$t('register_success'))
+            this.$noti(this.$q, this.$t('modify_success'))
 
             // 페이지 이동
             this.$router.push('/media') // 나의 작품 리스트
           } else {
-            this.$noti(this.$q, this.$t('register_failed'))
+            this.$noti(this.$q, this.$t('modify_failed'))
           }
         })
         .catch((err) => {

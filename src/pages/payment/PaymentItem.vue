@@ -281,6 +281,21 @@ export default defineComponent({
   mounted: function () {
   },
   methods: {
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     required(val) {
       const message = this.$t('validation_required')
       return required(val, message);
@@ -343,6 +358,9 @@ export default defineComponent({
       }
     },
     doPayment() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, 'payment', null, null)
+
       // Field validation check
       if(!this.validate()) {
         this.$noti(this.$q, this.$t('validation_failed'))

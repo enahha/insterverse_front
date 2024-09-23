@@ -1201,6 +1201,21 @@ export default defineComponent({
       // window.location.reload();
       this.checkChain()
     },
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     async checkChain() {
       // 로그인 상태가 아니면 처리하지 않음
       if(!this.$store.getters.getWalletAddress) {
@@ -1380,6 +1395,7 @@ export default defineComponent({
       localStorage.setItem('LOCALE', this.locale, 365) // APP용
     },
     showLoginModal() {
+      this.insertActionLog(this.$ACTION_CLICK, 'LoginModal', null, null)
       this.$refs.refLoginModal.show()
     },
     showWalletModal() {

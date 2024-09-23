@@ -174,20 +174,44 @@ export default defineComponent({
   // },
   mounted: function () {},
   methods: {
+    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action: action,
+        action_detail: actionDetail,
+        req_url: reqUrl,
+        params: urlParams,
+        user_agent: this.$cookie.get('AGENT'),
+      }
+      this.$axios.post('/api/common/insertActionLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     showDetail(item) {
       console.log(item)
       this.$refs.refMediaDetailModal.myMediaVo = item
       this.$refs.refMediaDetailModal.show()
     },
     goEdit(seq) {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_PAGE_VIEW, null, '/media/modifyMedia', null)
+
       this.$router.push({ path: '/media/modifyMedia', query: { seq: seq }})
     },
     deleteMyMedia(seq) {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_CLICK, 'confirm delete my media', null, null)
+
       // 삭제 확인창 표시
       this.deleteSeq = seq
       this.confirmDelete = true
     },
     async deleteProcess() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_DELETE, 'my media', null, null)
+
       await this.doDeleteMyMedia()
       await this.doDeleteMedia()
 
@@ -403,6 +427,9 @@ export default defineComponent({
 
     },
     goAdd() {
+      // 액션 로그 등록
+      this.insertActionLog(this.$ACTION_PAGE_VIEW, null, '/media/registerMedia', null)
+
       this.$router.push('/media/registerMedia')
     },
     goImport() {
