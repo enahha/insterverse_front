@@ -387,7 +387,7 @@ export default defineComponent({
     },
     showsettleOutHistoryModal() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, 'SettleOutHistoryModal', null, null)
+      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'SettleOutHistoryModal', null, null)
 
       this.$refs.refSettleOutHistoryModal.uid = this.getUid
       this.$refs.refSettleOutHistoryModal.show()

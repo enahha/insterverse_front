@@ -168,13 +168,14 @@ export default defineComponent({
         itemName: '',     // name 속성이 TypeScript나 JavaScript 환경에서 더 이상 권장되지 않아 itemName우로 변경
         type: '',
         price: '',
+        priceType: '',
         displayMaximum: '',
         description: '',
         url: '',
         delYn: '',
       },
       paymentVo: {
-        item_seq: '',
+        seq: '',
         payCode: '', // 결제 코드
         goodname: '',
         buyername: '',
@@ -270,7 +271,7 @@ export default defineComponent({
     }
 
     this.itemVo.seq = this.$route.query.s
-    this.paymentVo.item_seq = this.$route.query.s
+    this.paymentVo.seq = this.$route.query.s
 
     // 아이템 정보 조회
     this.selectItem()
@@ -320,6 +321,7 @@ export default defineComponent({
             this.itemVo.itemName = result.data.name
             this.itemVo.type = result.data.type
             this.itemVo.price = result.data.price
+            this.itemVo.priceType = result.data.price_type
             this.itemVo.displayMaximum = result.data.display_maximum
             this.itemVo.description = result.data.description
             this.itemVo.url = result.data.url
@@ -359,7 +361,7 @@ export default defineComponent({
     },
     doPayment() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, 'payment', null, null)
+      this.insertActionLog(this.$ACTION_PAY, 'payment', null, null)
 
       // Field validation check
       if(!this.validate()) {

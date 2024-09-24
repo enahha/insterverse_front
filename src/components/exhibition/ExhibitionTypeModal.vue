@@ -150,7 +150,7 @@
           this.keyword = ''
         }
         this.$axios.get('/api/item/selectItemList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, payCd:this.$PAY_CODE_HALL}})
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, type:this.$ITEM_TYPE_HALL}})
           .then(async (result) => {
             // console.log(JSON.stringify(result.data))
             // console.log(result.data)
@@ -208,7 +208,7 @@
 
           const otherItems = this.itemList
             .filter(item => !this.myItemList.some(myItem => myItem.item_seq === item.seq))
-            .map(item => item.type === 'FREE' ? { ...item, myItem: true } : item)
+            .map(item => item.price_type === this.$ITEM_PRICE_TYPE_FREE ? { ...item, myItem: true } : item)
           // console.log("myItems")
           // console.log(myItems)
           // console.log("otherItems")

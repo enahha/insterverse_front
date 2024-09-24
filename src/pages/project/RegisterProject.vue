@@ -1163,7 +1163,7 @@ export default defineComponent({
     },
     showExhibitionTypeModal() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, 'ExhibitionTypeModal', null, null)
+      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'ExhibitionTypeModal', null, null)
       this.$refs.refExhibitionTypeModal.show()
     },
     setItem(item) {
@@ -1516,6 +1516,7 @@ export default defineComponent({
         nickname: this.nickname,
         status_cd: '10', // 등록중
         // representative_sns_id: this.representativeSns,
+        exhibitionhall_seq: this.itemVo.seq,
         email: this.email,
         instargram: this.instargram,
         twitter: this.twitter,
@@ -1569,22 +1570,26 @@ export default defineComponent({
         })
     },
     async register() {
-      // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_REGISTER, 'project', null, null)
+      if(!this.isButtonClicked) {
+        // 액션 로그 등록
+        this.insertActionLog(this.$ACTION_REGISTER, 'project', null, null)
 
-      // Field validation check
-      if(!this.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed'))
-        return
+        // Field validation check
+        // if(!this.validate()) {
+        //   this.$noti(this.$q, this.$t('validation_failed'))
+        //   return
+        // }
+
+        this.isButtonClicked = true
+
+        // 미디어 리스트 등록
+        let insertmyMediaListResult = await this.insertmyMediaList()
+
+        if(insertmyMediaListResult === 'SUCCESS') {
+          // 프로젝트 status_cd변경
+          this.updateProjectStatusCd()
+        }
       }
-
-      this.isButtonClicked = true
-
-      // 미디어 리스트 등록
-      this.insertmyMediaList()
-
-      // 프로젝트 status_cd변경
-      this.updateProjectStatusCd()
     },
     async updateProjectStatusCd() {
       // 1. 프로젝트 수정 처리
@@ -1629,25 +1634,23 @@ export default defineComponent({
       })
 
       // this.$q.loading.show()
-      this.$axios.post('/api/media/insertMediaList', this.selected)
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            // console.log(result.data)
-            this.$noti(this.$q, this.$t('register_success'))
-
-            // // 페이지 이동
-            // this.$router.push('/media') // 나의 작품 리스트
-          } else {
-            this.$noti(this.$q, this.$t('register_failed'))
-          }
-        })
-        .catch((err) => {
-          // this.$q.loading.hide() // 로딩 표시 종료
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
+      try {
+        const result = await this.$axios.post('/api/media/insertMediaList', this.selected)
+        // this.$q.loading.hide() // 로딩 표시 종료
+        
+        if (result.data && result.data.resultCd === 'SUCCESS') {
+          this.$noti(this.$q, this.$t('register_success'))
+          return result.data.resultCd
+        } else {
+          this.$noti(this.$q, this.$t('register_failed'))
+          return result.data.resultCd
+        }
+      } catch (err) {
+        // this.$q.loading.hide() // 로딩 표시 종료
+        console.log(err)
+        this.$noti(this.$q, err)
+        return 'FAIL'
+      }
 
     },
     // 파일 업로드 필터

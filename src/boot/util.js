@@ -66,6 +66,7 @@ export default boot(({ app }) => {
   app.config.globalProperties.$ACTION_PAGE_VIEW = 'page_view'
   app.config.globalProperties.$ACTION_SEARCH = 'search'
   app.config.globalProperties.$ACTION_ENTER = 'enter'
+  app.config.globalProperties.$ACTION_PAY = 'pay'
   app.config.globalProperties.$ACTION_EXPLORE = 'explore'
   app.config.globalProperties.$ACTION_REGISTER = 'register'
   app.config.globalProperties.$ACTION_MODIFY = 'modify'
@@ -86,11 +87,11 @@ export default boot(({ app }) => {
   // app.config.globalProperties.$PAY_CODE_CREATE_MINTING = 'CREATE_MINTING' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
 
   // 아이템 무료, 유료 구분
-  app.config.globalProperties.$ITEM_TYPE_FREE = 'FREE' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
-  app.config.globalProperties.$ITEM_TYPE_PAID = 'PAID' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
+  app.config.globalProperties.$ITEM_PRICE_TYPE_FREE = 'FREE' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
+  app.config.globalProperties.$ITEM_PRICE_TYPE_PAID = 'PAID' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
 
   // 결제 관련 상수
-  app.config.globalProperties.$PAY_CODE_HALL = 'HALL' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
+  app.config.globalProperties.$ITEM_TYPE_HALL = 'HALL' // 결제코드: CREATE_MINTING(NFT 민팅 생성)
 
 
 

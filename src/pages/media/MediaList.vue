@@ -201,9 +201,6 @@ export default defineComponent({
       this.$router.push({ path: '/media/modifyMedia', query: { seq: seq }})
     },
     deleteMyMedia(seq) {
-      // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, 'confirm delete my media', null, null)
-
       // 삭제 확인창 표시
       this.deleteSeq = seq
       this.confirmDelete = true

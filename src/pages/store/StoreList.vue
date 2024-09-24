@@ -253,7 +253,7 @@ export default defineComponent({
         this.keyword = ''
       }
       this.$axios.get('/api/item/selectItemListLastPageNum',
-        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword, payCd:this.$PAY_CODE_HALL}})
+        {params: {uid: this.getUid, pageSize: this.pageSize, keyword: this.keyword, type:this.$ITEM_PRICE_TYPE_PAID}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           this.lastPageNum = result.data
@@ -270,7 +270,7 @@ export default defineComponent({
         this.keyword = ''
       }
       this.$axios.get('/api/item/selectItemList',
-        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, payCd:this.$PAY_CODE_HALL, type:this.$ITEM_TYPE_PAID}})
+        {params: {uid: this.getUid, pageNum: idx, pageSize: this.pageSize, keyword: this.keyword, type:this.$ITEM_TYPE_HALL, priceType:this.$ITEM_PRICE_TYPE_PAID}})
         .then((result) => {
           // console.log(JSON.stringify(result.data))
           console.log(result.data)
@@ -309,7 +309,7 @@ export default defineComponent({
         // 결제정보 설정
         // const goodName = item.name + ' ' + this.$t('contract_verify')
         const goodName = item.name
-        const payCode = this.$PAY_CODE_HALL
+        const payCode = this.$ITEM_TYPE_HALL
 
         this.$store.dispatch('setPaymentGoodsName', goodName)
         this.$store.dispatch('setPaymentPayCode', payCode)
@@ -360,7 +360,7 @@ export default defineComponent({
     },
     openPreview() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, 'item preview', null, null)
+      // this.insertActionLog(this.$ACTION_CLICK, 'item preview', null, null)
 
     }
   },

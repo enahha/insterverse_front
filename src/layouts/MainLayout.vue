@@ -1395,7 +1395,7 @@ export default defineComponent({
       localStorage.setItem('LOCALE', this.locale, 365) // APP용
     },
     showLoginModal() {
-      this.insertActionLog(this.$ACTION_CLICK, 'LoginModal', null, null)
+      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'LoginModal', null, null)
       this.$refs.refLoginModal.show()
     },
     showWalletModal() {

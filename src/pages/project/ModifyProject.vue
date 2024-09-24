@@ -2,7 +2,7 @@
   <q-page class="page-1200 q-pa-md project-reg-wrap">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec"><span>{{ $t('menu_project_register') }}</span></div>
+        <div class="title-sec"><span>{{ $t('menu_project_modify') }}</span></div>
       </div>
     </div>
 
@@ -50,6 +50,7 @@
                 <q-item-section>
                   <div class="row list-item">
                     <q-item-label class="col-12">{{ exhibitionName }}</q-item-label>
+                    <q-item-label class="" style="max-height: 20px; ">{{ $t('over_display_maximum') }} : {{ displayMaximum }}</q-item-label>
                   </div>
                 </q-item-section>
               </q-item>
@@ -1188,12 +1189,12 @@ export default defineComponent({
     },
     showExhibitionTypeModal() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, 'AddMediaModal', null, null)
+      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'AddMediaModal', null, null)
 
       this.$refs.refExhibitionTypeModal.show()
     },
     showAddMediaModal() {
-      this.insertActionLog(this.$ACTION_CLICK, 'ExhibitionTypeModal', null, null)
+      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'ExhibitionTypeModal', null, null)
 
       this.$refs.refAddMediaModal.projectSeq = this.projectSeq
       this.$refs.refAddMediaModal.mediaList = this.mediaList
@@ -1268,7 +1269,7 @@ export default defineComponent({
           this.title = result.data.title
           this.statusCd = result.data.status_cd
           this.subtitle = result.data.subtitle
-          this.exhibitionSeq = result.data.subtitle
+          this.exhibitionSeq = result.data.exhibition_seq
           this.exhibitionName = result.data.exhibition_name
           this.exhibitionUrl = result.data.exhibition_url
           this.displayMaximum = result.data.display_maximum
@@ -1592,10 +1593,10 @@ export default defineComponent({
     },
     async register() {
       // Field validation check
-      if(!this.validate()) {
-        this.$noti(this.$q, this.$t('validation_failed'))
-        return
-      }
+      // if(!this.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed'))
+      //   return
+      // }
 
       this.isButtonClicked = true
       // 미디어 수정 혹은 등록
