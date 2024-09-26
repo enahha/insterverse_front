@@ -32,7 +32,7 @@
     /> -->
     <br />
 
-    <!-- <img src="https://instarverse.com/images/logo_instarverse.png" /> -->
+    <!-- <img src="https://galleryx.io/images/logo_instarverse.png" /> -->
 
     <!-- 포스트 리스트 -->
 

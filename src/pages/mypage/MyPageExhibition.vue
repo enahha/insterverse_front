@@ -22,10 +22,25 @@
                   <img v-if="item.postar_url" :src="item.postar_url">
                   <q-icon v-else name="rocket_launch" size="md" />
                 </q-avatar> -->
-                <!-- 이거 스타일은 app.scss파일이 아닌 해당 파일 아래쪽에 위치해있음. (스타일이 안먹어서,,,) -->
-                <div class="image-container">
+
+
+                <!-- 이거 스타일은 app.scss파일이 아닌 해당 파일 아래쪽에 위치해있음. (스타일이 안먹어서,,,) 
+                 @mouseover="hovering[index] = true" @mouseleave="hovering[index] = false"-->
+                <div class="image-container"  >
                   <img v-if="item.postar_url" :src="item.postar_url">
                   <img v-else src="images/exhibition_poster_basic2.png">
+
+                  <div class="menu-sec">
+                    <!--  @click.stop="confirmMainHallModify(item)"  -->
+                    <q-btn flat round dense icon="more_horiz" color="black" icon-right="true" class="more-menu" @click.stop="openMenu(item.seq)">
+
+                    <q-menu :offset="[50, 10]" class="menu" >
+                      <q-btn flat label="대표로 지정"  @click="confirmMainHallModify(item)"/>
+                    </q-menu>
+                  </q-btn>
+                  </div>
+
+                  <div v-if="item.main_hall == 'Y'" class="main-hall-label">대표 전시관</div>
                 </div>
               </q-item-section>
 
@@ -101,20 +116,20 @@
         <q-btn flat style="width: 45%;" :label="$t('modify')" color="black" v-close-popup @click="doModifyCommennt" />
       </q-card-actions>
     </q-card>
-  </q-dialog>
+  </q-dialog> -->
   
-  <q-dialog v-model="confirmGoBack">
+  <q-dialog v-model="confirmMainHall">
     <q-card>
       <q-card-section class="row items-center" style="min-width: 200px;">
-        <q-icon name="warning" color="primary" size="md" />
-        <span class="q-ml-sm">{{ $t('confirm_go_back') }}</span>
+        <!-- <q-icon name="warning" color="primary" size="md" /> -->
+        <span class="q-ml-sm">{{ $t('confirm_main_hall') }}</span>
       </q-card-section>
       <q-card-actions align="around">
         <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
-        <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" />
+        <q-btn flat style="width: 45%;" :label="$t('confirm')" color="black" v-close-popup @click="updateMainHall" />
       </q-card-actions>
     </q-card>
-  </q-dialog> -->
+  </q-dialog>
 
   <MediaDetailModal ref="refMediaDetailModal" />
   <WalletModal ref="refWalletModal" />
@@ -154,6 +169,9 @@ export default defineComponent({
       confirmGoBack: false, // goBack 확인창
       truncateSubtitle: 50,
       settleInTotal: '',
+      itemTemp: null,
+      menuOpened: {},
+      confirmMainHall: false,
 
       pageSize: 100,
       lastPageNum: 1, // 마지막 페이지
@@ -221,6 +239,13 @@ export default defineComponent({
     this.refresher(null)
   },
   methods: {
+    openMenu(seq) {
+      this.menuOpened[seq] = true
+    },
+    confirmMainHallModify(item) {
+      this.itemTemp = item
+      this.confirmMainHall = true
+    },
     truncateText(text, maxLength) {
       if (!text) {
         return ''
@@ -497,73 +522,19 @@ export default defineComponent({
       // }
       return result
     },
-    modifyUserPre(nickname, pwd, pwdCheck) {
-      // 비밀번호 변경시
-      if(nickname == null) {
-        this.modifyUser(nickname, pwd, pwdCheck)
-        return
-      }
-      // 닉네임 변경시
-      if(pwd == null && pwdCheck == null) {
-        this.modifyUser(nickname, pwd, pwdCheck)
-        return
-      }
-    },
-    // 회원정보 수정 처리 시작
-    async modifyUser(nickname, pwd, pwdCheck) {
-      // Field validation check
-      // if(!this.validate()) {
-      //   // this.$noti(this.$q, this.$t('validation_failed'))
-      //   return
-      // }
-
-      // nickname 중복 체크
-      const resultNickname = await this.checkNicknameDuplicate(nickname)
-      if (resultNickname === false) {
-        return
-      }
-
-      if(!this.checkField(pwd, pwdCheck)) {
-        // this.$noti(this.$q, this.$t('validation_failed'))
-        return
-      }
-
-      // 로그인 여부 체크, 로그인 모달 표시
-      if (!this.getUid) {
-        this.$refs.refWalletModal.show()
-        return
-      }
-
-      // 회원정보 수정
-      this.doModifyUser(nickname, pwd)
-    },
-    // 회원정보 수정
-    async doModifyUser(nickname, pwd) {
-      // 1. 회원정보 수정 처리 - token, token_description, token_contract_verify
-      let encPwd = ''
-      if (pwd) {
-        encPwd = sha512(pwd)
-      } else {
-        encPwd = null
-      }
+    // 메인 홀 수정
+    async updateMainHall() {
       const params = {
-        uid: this.getUid,
-        pwd: encPwd,
-        nickname: nickname,
+        ...this.itemTemp
       }
 
-      this.$q.loading.show() // 로딩 표시 시작
-
-      this.$axios.post('/api/user/updateUser', params)
+      this.$axios.post('/api/project/updateMainHall', params)
         .then((result) => {
           // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
           if (result.data && result.data.resultCd === 'SUCCESS') {
             // console.log(result.data)
-            this.$noti(this.$q, this.$t('modify_user_success'))
-            this.clearField()
+            this.refresher(null)
           } else {
-            this.$noti(this.$q, this.$t('modify_user_failed'))
           }
         })
         .catch((err) => {
@@ -571,183 +542,6 @@ export default defineComponent({
           console.log(err)
           this.$noti(this.$q, err)
         })
-    },
-    checkField(pwd, pwdCheck) {
-      // ID 항목 체크
-      // if (!this.checkInput(this.userVo.uid, 'ID')) {
-      //   return false
-      // }
-      // if (!this.checkInputLength(this.userVo.uid, this.$t('ID'), 50, 'long')) {
-      //   return false
-      // }
-
-      // ID 이메일 형식 체크
-      // if (!this.checkEmail(this.userVo.uid)) {
-      //   this.$noti(this.$q, this.$t('id_must_be_email'))
-      //   return false
-      // }
-      // // 비밀번호 항목 체크
-      // if (!this.checkInput(this.userVo.pwd, this.$t('pwd_upper'))) {
-      //   return false
-      // }
-      // // 비밀번호 확인 항목 체크
-      // if (!this.checkInput(this.pwdCheck, this.$t('pwd_check_upper'))) {
-      //   return false
-      // }
-
-      // 비밀번호 변경이 아닐 시
-      if(!pwd) {
-        return true
-      }
-
-      // 비밀번호 항목 자릿수 체크
-      if (!this.checkInputLength(pwd, this.$t('pwd_upper'), 6, 'short')) {
-        return false
-      }
-      // 비밀번호 확인 항목 자릿수 체크
-      if (!this.checkInputLength(pwdCheck, this.$t('pwd_check_upper'), 6, 'short')) {
-        return false
-      }
-      // 비밀번호 일치 확인
-      if (pwd !== pwdCheck) {
-        this.$noti(this.$q, this.$t('pwd_not_match'))
-        return false
-      }
-      return true
-    },
-    checkInputLength(field, fieldName, length, compareCd) {
-      if (!field) {
-        this.$noti(this.$q, fieldName + this.$t('is_required'))
-        return false
-      } else {
-        if (compareCd === 'short') {
-          if (field.length < length) {
-            this.$noti(this.$q, fieldName + this.$t('must_be_longer_than') + ' ' + length)
-            return false
-          }
-        } else if (compareCd === 'long') {
-          if (field.length > length) {
-            this.$noti(this.$q, fieldName + this.$t('must_be_shorter_than') + ' ' + length)
-            return false
-          }
-        } else if (compareCd === 'equal') {
-          if (field.length !== length) {
-            this.$noti(this.$q, fieldName + this.$t('must_be_equal') + ' ' + length)
-            return false
-          }
-        }
-        return true
-      }
-    },
-    // nickname 중복 체크
-    async checkNicknameDuplicate(nickname) {
-      const vo = {
-        nickname: nickname
-      }
-      const result = await this.$axios.post('/api/login/checkNicknameDuplicate', vo)
-      if (result.data && result.data.resultCd === 'SUCCESS') {
-        return true
-      } else if (result.data.resultCd === 'FAIL') {
-        this.$noti(this.$q, this.$t('nickname_already_in_use'))
-        return false
-      } else {
-        this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
-        return false
-      }
-    },
-    ModifyUserAccount() {
-      const params = {
-        uid: this.getUid,
-        wallet_address: this.walletAddress,
-        wallet_type: this.walletType ? this.walletType.value : '',
-        bank_type: this.bankType ? this.bankType.value : '',
-        bank_account: this.bankAccount
-      }
-
-      this.$q.loading.show() // 로딩 표시 시작
-
-      this.$axios.post('/api/user/updateUserAccount', params)
-        .then((result) => {
-          this.$q.loading.hide() // 로딩 표시 종료
-
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            // console.log(result.data)
-            this.$noti(this.$q, this.$t('modify_user_success'))
-            this.selectUser()
-          } else {
-            this.$noti(this.$q, this.$t('modify_user_failed'))
-          }
-        })
-        .catch((err) => {
-          this.$q.loading.hide() // 로딩 표시 종료
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
-    },
-    // 파일 업로드 필터
-    filterFiles (files) {
-      const MAX_FILE_SIZE = 10 * 1024 * 1024
-      // this.$store.state.UPLOAD_FILE_SIZE_LIMIT * 1024 * 1024 // = 4M
-      // returns an Array containing allowed files
-      return files.filter((file) => {
-        if (file.size > MAX_FILE_SIZE) {
-          this.$noti(this.$q, this.$t('file_size_exceeded'))
-
-        }
-        return file.size <= MAX_FILE_SIZE
-      })
-    },
-    // 이미지 업로드가 완료되면 호출되는 메소드
-    fileUploaded_profile_image (file, xhr) {
-      this.profile_image = file.xhr.responseText
-    },
-    fileUploaded_id_card_image (file, xhr) {
-      this.id_card_image = file.xhr.responseText
-    },
-    fileUploaded_home_address_image (file, xhr) {
-      this.home_address_image = file.xhr.responseText
-    },
-    fileUploaded_business_license_image (file, xhr) {
-      this.business_license_image = file.xhr.responseText
-    },
-    fileUploaded_company_address_image (file, xhr) {
-      this.company_address_image = file.xhr.responseText
-    },
-    // 지갑주소 유효성 검증
-    /**
-     * Checks if the given string is an address
-     *
-     * @method isAddress
-     * @param {String} address the given HEX address
-     * @return {Boolean}
-     */
-    checkAddress(address) {
-      if (address.length === 42) {
-        return true
-      } else {
-        return false
-      }
-      // // check if it has the basic requirements of an address
-      // if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-      //   return false
-      //     // If it's ALL lowercase or ALL upppercase
-      // }
-      // if (/^(0x|0X)?[0-9a-f]{40}$/.test(address) || /^(0x|0X)?[0-9A-F]{40}$/.test(address)) {
-      //   // return true
-      //   // Otherwise check each case
-      //   return this.checkAddressChecksum(address)
-      // } else {
-      //   return false
-      // }
-    },
-    clearField() {
-      this.nickname= ''
-      this.pwd= ''
-      this.pwdCheck= ''
-      this.bankType= null
-      this.bankAccount= ''
-      this.walletTyoe= null
-      this.walletAddress= ''
     },
     goBack() {
       // goBack 확인창 표시
@@ -771,6 +565,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .image-container img {
@@ -779,9 +574,72 @@ export default defineComponent({
     object-fit: block;
 }
 
+.menu-sec {
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    width: 20%; 
+    height: 20%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+
+.more-menu {
+  position: relative; 
+  top: 10px;
+  right: 0px;
+  transform: translateX(-25%);
+  /* background-color: rgba(0, 0, 0, 0.7); */
+  background-color: #ffffffa2;
+  color: rgb(0, 0, 0);
+  border: none;
+  /* padding: 5px 8px; */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  /* display: none; */
+}
+
+.menu {
+  z-index: 9999;
+  position: absolute;
+    top: 45px;  /* 'more_horiz' 버튼 아래에 메뉴가 위치하도록 */
+    right: 10px; /* 오른쪽 정렬 */
+    width: auto;  /* 메뉴의 너비를 자동으로 조절 */
+}
+
+.main-hall-label {
+  position: absolute;
+  top: 10px;
+  left: 15%;
+  transform: translateX(-50%);
+  background-color: aliceblue;
+  color: #0C2C69;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+
 @media (max-width: 1023px) {
   .image-container {
     max-width: 100%;
   }
+
+  .main-hall-label {
+    position: absolute;
+    top: 10px;
+    left: 23%;
+    transform: translateX(-50%);
+    background-color: aliceblue;
+    color: #0C2C69;
+    padding: 3px 5px;
+    border-radius: 5px;
+    font-size: 10px;
+  }
+
 }
 </style>

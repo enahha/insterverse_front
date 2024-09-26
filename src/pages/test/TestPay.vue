@@ -100,12 +100,13 @@
         device: 'P', // 디바이스 - P: 데스크탑, M: 모바일웹, android: 안드로이드 앱, ios: 아이폰 앱
         customData: '', // 가맹점 파라미터 - 되돌아오기에 사용할 파라미터 (2000byte)
         paymentVo: {
+          seq: 55,
           version: '',
           buyername: '',
           buyertel: '',
           buyeremail: '',
-          mid: '',
-          mKey: '',
+          mid: 'INIBillTst',
+          mKey: '3a9503069192f207491d4b19bd743fc249a761ed94246c8c42fed06c3cd15a33',
           oid: '',
           price: '',
           currency: 'WON',
@@ -114,10 +115,10 @@
           timestamp: '',
           signature: '',
           billKey: '',
-          returnUrl: 'http://43.201.176.43:8080/#/test/payReturn',
-          closeUrl: 'http://43.201.176.43:8080/#/test/payReturn',
-          acceptmethod: 'HPP(1):va_receipt:BILLAUTH(Card)',
-      },
+          returnUrl: '',
+          closeUrl: '',
+          acceptmethod: 'HPP(1):below1000:va_receipt:centerCd(Y):BILLAUTH(Card)',
+        },
       }
     },
     components: {
@@ -208,24 +209,28 @@
       },
       // 결제에 필요한 정보를 API 서버에 요청
       async setPayBaseInfo() {
+        console.log('setPayBaseInfo ----')
+
         const param = {
           ...this.paymentVo
         }
-        const result = await this.$axios.post('/api/payment/bill/selectPayBaseInfo', param)
+        const result = await this.$axios.post('/api/payment/selectPayBaseInfoINIBillTst', param)
         // const result = await this.$axios.get('/api/payment/selectPayBaseInfo', {params: {uid: this.getUid}})
         // console.log(result.data)
         if (result.data && result.data.resultCd === 'SUCCESS') {
           this.paymentVo.price = result.data.price
+
           this.paymentVo.mid = result.data.mid
           this.paymentVo.mKey = result.data.mkeyNew // mKey가 front에서 mkey로 소문자로 오는 현상 때문에 mKeyNew 항목 추가 (lombok 버그)
           this.paymentVo.oid = result.data.oid
+
           this.paymentVo.timestamp = result.data.timestamp
           this.paymentVo.signature = result.data.signature
           this.paymentVo.version = result.data.version
           this.paymentVo.currency = result.data.currency
           // this.paymentVo.acceptmethod = result.data.acceptmethod
-          // this.paymentVo.returnUrl = result.data.returnUrl
-          // this.paymentVo.closeUrl = result.data.closeUrl
+          this.paymentVo.returnUrl = result.data.returnUrl
+          this.paymentVo.closeUrl = result.data.closeUrl
         } else {
           this.$noti(this.$q, this.$t('request_data_failed'))
         }

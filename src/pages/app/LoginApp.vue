@@ -565,7 +565,7 @@ export default {
     //   const result = await this.$axios.post(this.$apiServer + '/api/login/autoLogin', params)
     //   if (result.data && result.data.resultCd === 'SUCCESS') {
     //     console.log(result.data)
-    //     // https://instarverse.com WEB으로 이동
+    //     // https://galleryx.io WEB으로 이동
     //     this.moveToWeb(result.data.uid, result.data.auth_key)
     //   } else {
     //     // 자동로그인 실패시 로그인 화면 표시
@@ -575,7 +575,7 @@ export default {
     //   }
     // },
     
-    // https://instarverse.com WEB으로 이동
+    // https://galleryx.io WEB으로 이동
     moveToWeb(uid, authKey, adcd) {
 
       // 로그인 정보 저장
@@ -981,7 +981,7 @@ export default {
         
         // alert('카카오 회원가입 완료')
 
-        // https://instarverse.com WEB으로 이동
+        // https://galleryx.io WEB으로 이동
         this.moveToWeb(result.data.uid, result.data.auth_key, result.data.adcd)
       } else {
         this.$noti(this.$q, this.$t('registration_failed'))
@@ -1021,7 +1021,7 @@ export default {
         // 부모창의 콜백함수 호출
         // this.$emit('callback-login', result.data)
 
-        // https://instarverse.com WEB으로 이동
+        // https://galleryx.io WEB으로 이동
         this.moveToWeb(result.data.uid, result.data.auth_key, result.data.adcd)
 
       } else if (result.data.resultCd === 'NO_ID') {

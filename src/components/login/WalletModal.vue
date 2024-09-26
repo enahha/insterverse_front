@@ -142,7 +142,7 @@ export default {
           }
         } else {
           this.$noti(this.$q, this.$t('MetaMask is not installed.'))
-          window.open('https://metamask.app.link/dapp/https://instarverse.com')
+          window.open('https://metamask.app.link/dapp/https://galleryx.io')
         }
       } else if (walletType === 'klip') {
         // this.$noti(this.$q, this.$t('wallet_klip'))

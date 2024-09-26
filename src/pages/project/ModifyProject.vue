@@ -560,7 +560,7 @@
             <span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span>
           </div>
           <div style="max-width: 600px;">
-            <q-input v-model="nickname" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+            <q-input v-model="nickname"  :readonly="true"  ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
           </div>
 
           <div class="q-pt-md">

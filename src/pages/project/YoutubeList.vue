@@ -32,7 +32,7 @@
     /> -->
     <br />
 
-    <!-- <img src="https://instarverse.com/images/logo_instarverse.png" /> -->
+    <!-- <img src="https://galleryx.io/images/logo_instarverse.png" /> -->
 
     <!-- 프로젝트 리스트 -->
     <q-pull-to-refresh @refresh="refresher" class="project-list">

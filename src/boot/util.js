@@ -41,17 +41,17 @@ export default boot(({ app }) => {
 
   const DOMAIN_LOCAL = ''
   const DOMAIN_INSTARVERSE_TEST = 'http://localhost:8888'
-  const DOMAIN_INSTARVERSE = 'https://instarverse.com'
+  const DOMAIN_INSTARVERSE = 'https://galleryx.io'
   app.config.globalProperties.$apiServer = DOMAIN_INSTARVERSE
 
   app.config.globalProperties.$frontDomain = DOMAIN_INSTARVERSE
 
   // 인스타그램
   app.config.globalProperties.$instagramClientId = '681042560396956'
-  app.config.globalProperties.$instagramLoginRedirectUri = 'https://instarverse.com/api/login/instagramLoginRedirectUri'
+  app.config.globalProperties.$instagramLoginRedirectUri = 'https://galleryx.io/api/login/instagramLoginRedirectUri'
 
   //유니티
-  app.config.globalProperties.$exhibitionUnityUrl = 'https://instarverse.com/exhibition/index.html?exhibitionSeq='
+  app.config.globalProperties.$exhibitionUnityUrl = 'https://galleryx.io/exhibition/index.html?exhibitionSeq='
   
   // 프로젝트 상태 코드
   app.config.globalProperties.$PROJECT_STATUS_CD_REGISTERED = '10'

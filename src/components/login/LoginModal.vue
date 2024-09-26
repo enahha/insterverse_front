@@ -591,12 +591,14 @@ export default {
       // nickname 중복 체크
       const resultNickname = await this.checkNicknameDuplicate(this.userVo.nickname)
       if (resultNickname === false) {
+        this.$noti(this.$q, this.$t('nickname_already_in_use'))
         return
       }
 
       // 2. 아이디 중복 체크
       const result = await this.checkIdDuplicate(this.userVo.uid)
       if (result === false) {
+        this.$noti(this.$q, this.$t('id_already_in_use'))
         return
       }
 

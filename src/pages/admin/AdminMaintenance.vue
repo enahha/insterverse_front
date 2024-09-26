@@ -215,8 +215,8 @@ export default defineComponent({
     },
 
     pingGoogleSitemap() {
-      window.open('https://www.google.com/ping?sitemap=http://instarverse.com/sitemap.xml')
-      // this.$axios.get('https://www.google.com/ping?sitemap=http://instarverse.com/sitemap.xml')
+      window.open('https://www.google.com/ping?sitemap=http://galleryx.io/sitemap.xml')
+      // this.$axios.get('https://www.google.com/ping?sitemap=http://galleryx.io/sitemap.xml')
       //   .then((result) => {
       //     // console.log(JSON.stringify(result.data))
       //     this.$q.loading.hide() // 로딩 표시 종료

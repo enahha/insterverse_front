@@ -374,7 +374,7 @@ export default defineComponent({
       contents += 'SEQ: ' + this.key + '<br>'
       contents += 'redirectUrl: ' + this.redirectUrl + '<br>'
       contents += '<br>'
-      contents += 'https://instarverse.com'
+      contents += 'https://galleryx.io'
 
       const params = {
         subject: title,

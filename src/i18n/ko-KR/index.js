@@ -1261,6 +1261,7 @@ export default {
   over_display_maximum_warn: '전시 가능 작품 수를 초과했습니다',
 
   select_exhibition_hall: '전시관을 선택해주세요.',
+  confirm_main_hall: '대표 전시관으로 설정하시겠습니까?',
 
 
   // artist description
@@ -1386,6 +1387,7 @@ export default {
   pwd_upper: '비밀번호',
   pwd_check_upper: '비밀번호 확인',
   nickname_must_be: '닉네임은 영문자, 숫자, 밑줄만 포함될 수 있습니다',
+  check_duplicate: '중복확인',
   id_must_be_email: 'ID는 이메일 형식이어야 합니다',
   email_must_be_email: '이메일은 이메일 형식이어야 합니다',
   not_exist_id: '존재하지 않는 ID 입니다',

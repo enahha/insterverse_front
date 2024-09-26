@@ -1257,6 +1257,7 @@ export default {
   over_display_maximum_warn: 'Exceeded the number of works on display',
 
   select_exhibition_hall: 'Please select the exhibition hall.',
+  confirm_main_hall: 'Do you want to set this as the main hall?',
   
   // artist description
   artist_basic_information: 'Artist Information',
@@ -1371,6 +1372,8 @@ export default {
   pwd_upper: 'PASSWORD',
   pwd_check_upper: 'PASSWORD CHECK',
   nickname_must_be: 'Nickname can only contain letters, digits, and underscores',
+  check_duplicate: 'Check duplicate',
+  nickname_duplicate: 'nickname already exists.',
   id_must_be_email: 'ID must be an email',
   email_must_be_email: 'Email must be an email',
   not_exist_id: 'ID does not exist',

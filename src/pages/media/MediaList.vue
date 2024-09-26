@@ -20,7 +20,6 @@
           /> -->
 
           <q-btn
-            
             @click="goAdd"
             style="background-color: #0C2C69; color: white; min-width: 140px; "
           >
