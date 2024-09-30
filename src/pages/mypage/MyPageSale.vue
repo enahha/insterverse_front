@@ -290,17 +290,15 @@ export default defineComponent({
     // this.refresherMyComment(null)
   },
   methods: {
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -387,7 +385,7 @@ export default defineComponent({
     },
     showsettleOutHistoryModal() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'SettleOutHistoryModal', null, null)
+      this.insertActionLog('100100301', 'sales history', null)
 
       this.$refs.refSettleOutHistoryModal.uid = this.getUid
       this.$refs.refSettleOutHistoryModal.show()

@@ -276,6 +276,19 @@ export default defineComponent({
     this.refresherMyComment(null)
   },
   methods: {
+    insertActionLog(actionNo, actionCd, params) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
+      }
+      this.$axios.post('/api/log/insertKpiLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     truncateText(text, maxLength) {
       if (!text) {
         return ''
@@ -431,6 +444,9 @@ export default defineComponent({
     },
     // 나의 댓글 삭제
     doDeleteCommennt() {
+      // 액션 로그 등록
+      this.insertActionLog('100200104', 'delete comment', this.deleteTargetSeq)
+
       // console.log('insertProjectComment')
       this.$q.loading.show() // 로딩 표시 시작
       const params = {
@@ -467,6 +483,9 @@ export default defineComponent({
     },
     // 나의 댓글 수정
     doModifyCommennt() {
+      // 액션 로그 등록
+      this.insertActionLog('100200101', 'adit comment', this.modifyTargetSeq)
+
       this.$q.loading.show() // 로딩 표시 시작
       const params = {
         uid: this.getUid,
@@ -530,6 +549,9 @@ export default defineComponent({
       // like_cd Y:좋아요 N:싫어요 null:중립
       // 1. 화면 조작
       if (likeCd === 'YES') { // 좋아요인 경우
+        // 액션 로그 등록
+        this.insertActionLog('100200105', 'like comment', item.seq)
+
         if (item.like_cd === 'Y') { // 이전상태 좋아요일 경우
           item.like_cd = null // 중립으로 설정
           item.like_cnt = Number(item.like_cnt) - 1
@@ -541,6 +563,9 @@ export default defineComponent({
           item.like_cnt = Number(item.like_cnt) + 1
         }
       } else { // 싫어요인 경우
+        // 액션 로그 등록
+        this.insertActionLog('100200106', 'dislike comment', item.seq)
+
         if (item.like_cd === 'N') { // 이전상태 싫어요일 경우
           item.like_cd = null // 중립으로 설정
           item.dislike_cnt = Number(item.dislike_cnt) - 1
@@ -582,6 +607,9 @@ export default defineComponent({
     },
     // 답글 등록
     insertProjectCommentReply(item) {
+      // 액션 로그 등록
+      this.insertActionLog('100200102', 'reply', null)
+
       // console.log('insertProjectComment')
 
       // 로그인 여부 체크, 로그인 모달 표시

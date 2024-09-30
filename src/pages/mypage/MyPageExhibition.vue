@@ -239,6 +239,19 @@ export default defineComponent({
     this.refresher(null)
   },
   methods: {
+    insertActionLog(actionNo, actionCd, params) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
+      }
+      this.$axios.post('/api/log/insertKpiLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     openMenu(seq) {
       this.menuOpened[seq] = true
     },
@@ -341,6 +354,9 @@ export default defineComponent({
       this.$store.dispatch('setMobileNo', userVo.mobile_no)
     },
     goDetail(seq) {
+      // 액션 로그 등록
+      this.insertActionLog('100400100', 'exhibition detail', seq)
+
       // 상세 화면으로 이동
       this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
       // this.$refs.refTokenDetailModal.tokenSeq = seq
@@ -524,6 +540,9 @@ export default defineComponent({
     },
     // 메인 홀 수정
     async updateMainHall() {
+      // 액션 로그 등록
+      this.insertActionLog('100100201', 'set main hall', null)
+
       const params = {
         ...this.itemTemp
       }

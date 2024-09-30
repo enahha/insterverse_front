@@ -138,7 +138,7 @@
                 <img :src="gallery.image" class="gallery-image">
                 <div class="gallery-description">
                   <p>{{ gallery.description }}</p>
-                  <a :href="gallery.url" target="_blank" class="gallery-button" @click="insertActionLog(gallery.url, null)">전시관 체험하기</a>
+                  <a :href="gallery.url" target="_blank" class="gallery-button" @click="insertActionLog('100800100', 'explore', null)">전시관 체험하기</a>
                 </div>
               </li>
             </ul>
@@ -207,17 +207,15 @@ export default defineComponent({
     }
   },
   methods: {
-    insertActionLog(reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: this.$ACTION_EXPLORE,
-        action_detail: null,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })

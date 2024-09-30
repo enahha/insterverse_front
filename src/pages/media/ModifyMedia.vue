@@ -166,8 +166,8 @@
                   <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_size') }}</span>
                 </div>
                 <div class="row">
-                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_height')" style="width: 200px;" v-model="mediaHeight" ref="refMediaCreated" clearable outlined tabindex="1" />
-                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_width')" style="width: 200px;" v-model="mediaWidth" ref="refMediaSize" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_width')" style="width: 200px;" v-model="mediaWidth" ref="refMediaCreated" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_height')" style="width: 200px;" v-model="mediaHeight" ref="refMediaSize" clearable outlined tabindex="1" />
                   <q-select  :label="$t('media_unit')" outlined v-model="mediaUnit" :options="mediaUnitOption" style="width: 100px;"/>
                 </div>
               </td>
@@ -400,17 +400,15 @@ export default defineComponent({
   },
   mounted: function () {},
   methods: {
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -494,6 +492,21 @@ export default defineComponent({
             this.mediaUrl = result.data.url
             this.mediaType = result.data.type
             this.hashState.hashArr = result.data.tag ? result.data.tag.split(',') : []
+
+            // mediaSize가 "70 x 50 cm" 형식이라고 가정하고 정규 표현식을 사용해 나누기
+            const sizeRegex = /^(\d+)\s*x\s*(\d+)\s*(\w+)$/
+            const matches = this.mediaSize.match(sizeRegex)
+
+            if (matches) {
+              this.mediaWidth = matches[1]  // "70"
+              this.mediaHeight = matches[2] // "50"
+              this.mediaUnit = matches[3]   // "cm"
+              // // 확인용 로그 출력
+              // console.log("this.mediaSize", this.mediaSize)    // "70 x 50 cm"
+              // console.log("this.mediaWidth", this.mediaWidth)  // "70"
+              // console.log("this.mediaHeight", this.mediaHeight) // "50"
+              // console.log("this.mediaUnit", this.mediaUnit)   // "cm"
+            }
           } else {
             this.$noti(this.$q, this.$t('request_data_failed'))
           }
@@ -501,7 +514,6 @@ export default defineComponent({
         .catch((err) => {
           console.log(err)
         })
-
     },
     onEnterKey() {
       const trimmedTag = this.hashState.hashtag.trim();
@@ -580,7 +592,7 @@ export default defineComponent({
     // 수정 처리 시작
     async modify() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_MODIFY, 'my media', null, null)
+      this.insertActionLog('100600201', 'do edit artwork', this.mediaSeq)
 
       // Field validation check
       // if(!this.validate()) {

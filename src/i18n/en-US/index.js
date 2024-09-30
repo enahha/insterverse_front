@@ -1258,6 +1258,7 @@ export default {
 
   select_exhibition_hall: 'Please select the exhibition hall.',
   confirm_main_hall: 'Do you want to set this as the main hall?',
+  empty_title: 'Please enter the exhibition information.',
   
   // artist description
   artist_basic_information: 'Artist Information',

@@ -160,17 +160,15 @@ export default defineComponent({
       }
       return text.substring(0, maxLength) + '...'
     },
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -178,7 +176,7 @@ export default defineComponent({
     // 검색
     async search() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_SEARCH, 'project', null, null)
+      this.insertActionLog('100400200', 'search exhibition', this.keyword)
 
       await this.selectListMax()
       await this.refresher(null)
@@ -199,6 +197,9 @@ export default defineComponent({
     //   this.$refs.refTokenDetailModal.show()
     // },
     goDetail(seq) {
+      // 액션 로그 등록
+      this.insertActionLog('100400100', 'exhibition detail', seq)
+
       // 상세 화면으로 이동
       this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
       // this.$refs.refTokenDetailModal.tokenSeq = seq

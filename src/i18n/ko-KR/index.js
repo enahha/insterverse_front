@@ -1262,6 +1262,7 @@ export default {
 
   select_exhibition_hall: '전시관을 선택해주세요.',
   confirm_main_hall: '대표 전시관으로 설정하시겠습니까?',
+  empty_title: '전시 정보를 입력해주세요.',
 
 
   // artist description
@@ -1280,7 +1281,7 @@ export default {
   media_url: '작품 URL',
   media_order_number: '작품번호',
   media_title: '작품명',
-  media_subtitle: '부제 및 설명글',
+  media_subtitle: '부제',
   media_sale: '판매여부',
   media_price: '가격',
   media_created: '제작연도',

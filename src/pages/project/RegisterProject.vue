@@ -876,7 +876,7 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="around">
-        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+        <q-btn flat style="width: 45%;" :label="$t('confirm')" color="black" v-close-popup />
         <!-- <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" /> -->
       </q-card-actions>
     </q-card>
@@ -891,7 +891,22 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="around">
-        <q-btn flat style="width: 45%;" :label="$t('cancel')" color="black" v-close-popup />
+        <q-btn flat style="width: 45%;" :label="$t('confirm')" color="black" v-close-popup />
+        <!-- <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" /> -->
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="emptyTitle">
+    <q-card>
+      <q-card-section class="row items-center" style="min-width: 200px;">
+        <!-- <q-avatar icon="warning" color="primary" text-color="white" size="sm" /> -->
+        <q-icon name="priority_high" color="primary" size="md" />
+        <span class="q-ml-sm" style="font-size: 15px; font-weight: bold">{{ $t('empty_title') }}</span>
+      </q-card-section>
+      <q-separator />
+      <q-card-actions align="around">
+        <q-btn flat style="width: 45%;" :label="$t('confirm')" color="black" v-close-popup />
         <!-- <q-btn flat style="width: 45%;" :label="$t('go_back')" color="black" v-close-popup @click="doGoBack" /> -->
       </q-card-actions>
     </q-card>
@@ -914,7 +929,7 @@ export default defineComponent({
   },
   data () {
     return {
-      tab: '3',
+      tab: '1',
       projectSeq: '', // route parameter seq
       mainnet: 'KLAYTN',
       mainnetObj: {
@@ -1004,6 +1019,7 @@ export default defineComponent({
 
       methodsExecuted: false,
       isButtonClicked: false,
+      emptyTitle: true,
       keyword: '',
       refresherDone: '',
       pageSize: 50,
@@ -1111,17 +1127,15 @@ export default defineComponent({
         this.$router.push({ path: '/login', query: { redirectPath: this.$route.path }})
       }
     },
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -1163,7 +1177,7 @@ export default defineComponent({
     },
     showExhibitionTypeModal() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'ExhibitionTypeModal', null, null)
+      this.insertActionLog('100500100', 'select hall', null)
       this.$refs.refExhibitionTypeModal.show()
     },
     setItem(item) {
@@ -1222,7 +1236,7 @@ export default defineComponent({
     },
     goMyMediaList() {
       // this.$router.push({ path: '/media/registerMedia', query: { seq: this.projectSeq }})
-      this.insertActionLog(this.$ACTION_CLICK, null, '/media', null)
+      this.insertActionLog('100500200', 'manage artwork', null)
       this.$router.push('/media')
     },
     async search() {
@@ -1418,10 +1432,16 @@ export default defineComponent({
       return result
     },
     // 등록 처리 시작
-    async branchInsertUpdate() {
+    branchInsertUpdate() {
       // 로그인 여부 체크, 메인화면으로?
       if (!this.getUid) {
         this.$refs.refLoginModal.show()
+        return
+      }
+
+      // title이 입력이 안되었으면 저장하지 않는다.
+      if  (this.title == null || this.title == '') {
+        console.log("title 입력 " , this.title)
         return
       }
 
@@ -1570,9 +1590,16 @@ export default defineComponent({
         })
     },
     async register() {
+      // title이 입력이 안되었으면 저장하지 않는다.
+      if  (this.title == null || this.title == '') {
+        console.log("title 입력 " , this.title)
+
+        return
+      }
+
       if(!this.isButtonClicked) {
         // 액션 로그 등록
-        this.insertActionLog(this.$ACTION_REGISTER, 'project', null, null)
+        this.insertActionLog('100500300', 'save exhibition', null)
 
         // Field validation check
         // if(!this.validate()) {

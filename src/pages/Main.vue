@@ -31,6 +31,15 @@
       <!-- <img :src="item.src" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
     </q-carousel>
 
+    <div class="banner-mant">
+      <div>
+        <q-img class="logo" src="icons/instarverse_logo.png" style="cursor: pointer; " />
+        <p class="ment ment-1">메타버스 전시관</p>
+      </div>
+      <p class="ment ment-2">Gallery X</p>
+      <p class="ment ment-3">온라인의 꿈이 현실이 되는 곳</p>
+    </div>
+
     <div class="page-1200" style="word-break: keep-all;">
 
 
@@ -338,11 +347,11 @@ export default defineComponent({
       bannerImage: [
         {
           seq: 0,
-          src: 'images/instarverse_banner_2_3.png',
+          src: 'images/instarverse_banner_3_1.png',
         },
         {
           seq: 1,
-          src: 'images/instarverse_banner_2_2.png',
+          src: 'images/instarverse_banner_3_2.png',
         },
       ],
       userAgent: '',
@@ -430,10 +439,6 @@ export default defineComponent({
     window.removeEventListener("resize", this.resizeEventHandler)
   },
   mounted() {
-    // 브라우저의 user agent 정보를 가져옴
-    this.userAgent = navigator.userAgent
-
-    this.$cookie.set('AGENT', this.userAgent)
   },
   setup () {
     const { locale } = useI18n({ useScope: 'global' })
@@ -482,17 +487,15 @@ export default defineComponent({
         this.smallSize = false
       }
     },
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -503,6 +506,7 @@ export default defineComponent({
       await this.refresher(null)
     },
     goDetail(seq) {
+      this.insertActionLog('100400100', 'exhibition detail', seq)
       // 상세 화면으로 이동
       this.$router.push({ path: '/exhibition/detail', query: { s: seq }})
       // this.$refs.refTokenDetailModal.tokenSeq = seq

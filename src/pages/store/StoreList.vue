@@ -173,17 +173,15 @@ export default defineComponent({
     this.refresher(null)
   },
   methods: {
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -336,13 +334,13 @@ export default defineComponent({
         // 결제 화면으로 이동
         if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || this.$q.platform.is.mobile) {
           // 액션 로그 등록
-          this.insertActionLog(this.$ACTION_CLICK, null, '/paymentMobile', null)
+          this.insertActionLog('100900200', 'go payment', item.seq)
 
           // 디바이스가 모바일인 경우
           this.$router.push('/paymentMobile')
         } else {
           // 액션 로그 등록
-          this.insertActionLog(this.$ACTION_CLICK, null, '/payment/item', null)
+          this.insertActionLog('100900200', 'go payment', item.seq)
 
           // 디바이스가 데스크탑인 경우
           // this.$router.push('/PaymentItem')
@@ -360,7 +358,7 @@ export default defineComponent({
     },
     openPreview() {
       // 액션 로그 등록
-      // this.insertActionLog(this.$ACTION_CLICK, 'item preview', null, null)
+      this.insertActionLog('100900100', 'preview', item.seq)
 
     }
   },

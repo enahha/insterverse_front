@@ -209,25 +209,23 @@ export default defineComponent({
     this.nickname = this.getNickname
   },
   methods: {
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
     },
-  // 검색
+    // 검색
     async search() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_SEARCH, 'faq', null, null)
+      this.insertActionLog('100110200', 'search contact', this.keyword)
 
       await this.selectListMax()
       await this.refresher(null)
@@ -239,6 +237,9 @@ export default defineComponent({
       }
     },
     showDetail(seq) {
+      // 액션 로그 등록
+      this.insertActionLog('100120100', 'faq detail', seq)
+
       // 상세 화면으로 이동
       // this.$router.push({ path: '/token/detail', query: { seq: seq }})
       this.$refs.refFaqDetailModal.seq = seq
@@ -387,7 +388,7 @@ export default defineComponent({
     // 등록 처리 시작
     async register() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_REGISTER, 'inquiry', null, null)
+      this.insertActionLog('100110100', 'register contact', null)
 
       // Field validation check
       // if(!this.validate()) {

@@ -1153,17 +1153,15 @@ export default defineComponent({
         this.smallSize = false
       }
     },
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -1523,6 +1521,9 @@ export default defineComponent({
       }
     },
     shareUrlCopy(value) {
+      // 액션 로그 등록
+      this.insertActionLog('100400103', 'copy project link', this.projectVo.seq)
+
       // console.log('copyAddress function called!')
       if (!value) {
         this.$noti(this.$q, 'Value is Empty')
@@ -1536,6 +1537,9 @@ export default defineComponent({
       this.$copyText(url).then(this.copyValueSuccess, this.copyValueFail)
     },
     copyValue(value) {
+      // 액션 로그 등록
+      this.insertActionLog('100400105', 'copy value', this.projectVo.seq)
+
       if (!value) {
         this.$noti(this.$q, 'Value is Empty')
         return
@@ -1565,6 +1569,9 @@ export default defineComponent({
     },
     // 나의 댓글 삭제
     doDeleteCommennt() {
+      // 액션 로그 등록
+      this.insertActionLog('100200104', 'delete comment', this.deleteTargetSeq)
+
       // console.log('insertProjectComment')
       this.$q.loading.show() // 로딩 표시 시작
       const params = {
@@ -1601,6 +1608,9 @@ export default defineComponent({
     },
     // 나의 댓글 수정
     doModifyCommennt() {
+      // 액션 로그 등록
+      this.insertActionLog('100200101', 'adit comment', this.modifyTargetSeq)
+
       this.$q.loading.show() // 로딩 표시 시작
       const params = {
         uid: this.getUid,
@@ -1664,6 +1674,9 @@ export default defineComponent({
       // like_cd Y:좋아요 N:싫어요 null:중립
       // 1. 화면 조작
       if (likeCd === 'YES') { // 좋아요인 경우
+        // 액션 로그 등록
+        this.insertActionLog('100200105', 'like comment', item.seq)
+
         if (item.like_cd === 'Y') { // 이전상태 좋아요일 경우
           item.like_cd = null // 중립으로 설정
           item.like_cnt = Number(item.like_cnt) - 1
@@ -1675,6 +1688,9 @@ export default defineComponent({
           item.like_cnt = Number(item.like_cnt) + 1
         }
       } else { // 싫어요인 경우
+        // 액션 로그 등록
+        this.insertActionLog('100200106', 'dislike comment', item.seq)
+
         if (item.like_cd === 'N') { // 이전상태 싫어요일 경우
           item.like_cd = null // 중립으로 설정
           item.dislike_cnt = Number(item.dislike_cnt) - 1
@@ -1711,6 +1727,9 @@ export default defineComponent({
         })
     },
     goModify() {
+      // 액션 로그 등록
+      this.insertActionLog('100400101', 'edit exhibition', this.projectVo.seq)
+
       this.$router.push({ path: '/project/modifyProject', query: { seq: this.projectVo.seq }})
     },
     deleteProject() {
@@ -1719,12 +1738,15 @@ export default defineComponent({
     },
     exhibition_enter() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_ENTER, null, this.$exhibitionUnityUrl, this.projectSeq)
+      this.insertActionLog('100400104', 'enter exhibition', this.projectSeq)
       
       window.open(this.$exhibitionUnityUrl +  this.projectSeq, '_system')
     },
     // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
     doDeleteProject() {
+      // 액션 로그 등록
+      this.insertActionLog('100400101', 'edit exhibition', this.projectVo.seq)
+
       this.$q.loading.show() // 로딩 표시 시작
       const param = {
         uid: this.getUid,

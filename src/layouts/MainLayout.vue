@@ -357,12 +357,12 @@
           </q-item> -->
 
           <!-- 1. HOME -->
-          <q-item clickable to="/web">
+          <q-item clickable to="/web" @click.stop="insertActionLog('100000000', 'main', null)">
             <q-item-section avatar class="q-pt-md">
               <q-item-label>
                 <!-- <q-icon name="home" style="width: 20px; height: 20px;" /> -->
                 <q-img v-if="!smallSize" class="logo" src="icons/instarverse_logo.png" width="50px" style="cursor: pointer;" />
-                <q-img v-else class="logo" src="logo/main_logo_mobile.png" width="180px" style="cursor: pointer;" />
+                <q-img v-else class="logo-small" src="logo/main_logo_mobile.png" width="180px" style="cursor: pointer;" />
               </q-item-label>
             </q-item-section>
             <!-- <q-item-section>
@@ -373,7 +373,7 @@
           </q-item>
 
           <!-- 2. Project List -->
-          <q-item clickable to="/exhibition">
+          <q-item clickable to="/exhibition" @click.stop="insertActionLog('100400000', 'exhibition', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="20px" /> -->
@@ -384,7 +384,7 @@
           </q-item>
 
           <!-- 3. Register Project -->
-          <q-item clickable to="/project">
+          <q-item clickable to="/project" @click.stop="insertActionLog('100500000', 'register exhibition', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_showcase_1.png" width="30px" /> -->
@@ -395,7 +395,7 @@
           </q-item>
 
           <!-- 4. Register Media -->
-          <q-item clickable to="/media">
+          <q-item clickable to="/media" @click.stop="insertActionLog('100600000', 'my artwork', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
@@ -406,7 +406,7 @@
           </q-item>
 
           <!-- 5. My page(내 정조) -->
-          <q-item v-if="getUid" clickable to="/mypage/MyPrivacy">
+          <q-item v-if="getUid" clickable to="/mypage/MyPrivacy" @click.stop="insertActionLog('100100000', 'my info', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
@@ -417,7 +417,7 @@
           </q-item>
 
           <!-- 5. My page(내 전시회) -->
-          <q-item v-if="getUid" clickable to="/mypage/MyExhibition">
+          <q-item v-if="getUid" clickable to="/mypage/MyExhibition" @click.stop="insertActionLog('100100200', 'my exhibition', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
@@ -428,7 +428,7 @@
           </q-item>
 
           <!-- 5. My page(판매내역) -->
-          <q-item v-if="getUid" clickable to="/mypage/MySale">
+          <q-item v-if="getUid" clickable to="/mypage/MySale" @click.stop="insertActionLog('100100300', 'sales', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
@@ -439,7 +439,7 @@
           </q-item>
 
           <!-- 5. My page(피드백) -->
-          <q-item v-if="getUid" clickable to="/mypage/MyFeedback">
+          <q-item v-if="getUid" clickable to="/mypage/MyFeedback" @click.stop="insertActionLog('100100400', 'feedback', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="image" style="width: 20px; height: 20px;" /> -->
               <!-- <q-img src="icons/icon_exhibition.png" width="40px" /> -->
@@ -665,7 +665,7 @@
 
         <q-list class="bottom-items">
           <!-- NOTICE -->
-          <q-item clickable to="/notice">
+          <q-item clickable to="/notice"  @click.stop="insertActionLog('100700000', 'notice', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
@@ -675,7 +675,7 @@
           </q-item>
 
           <!-- ABOUT US -->
-          <q-item clickable to="/introduction">
+          <q-item clickable to="/introduction" @click.stop="insertActionLog('100800000', 'about us', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
@@ -685,7 +685,7 @@
           </q-item>
 
           <!-- PLAN -->
-          <q-item clickable to="/plan">
+          <q-item clickable to="/plan" @click.stop="insertActionLog('100130000', 'plan', null)">
             <q-item-section avatar class="q-pt-sm">
             </q-item-section>
             <q-item-section>
@@ -694,7 +694,7 @@
           </q-item>
 
           <!-- STORE -->
-          <q-item clickable to="/store">
+          <q-item clickable to="/store" @click.stop="insertActionLog('100900000', 'store', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
@@ -704,7 +704,7 @@
           </q-item>
 
           <!-- QUESTIONS -->
-          <q-item clickable to="/contact">
+          <q-item clickable to="/contact" @click.stop="insertActionLog('100110000', 'contact', null)">
             <q-item-section avatar class="q-pt-sm">
               <!-- <q-icon name="aspect_ratio" style="width: 20px; height: 20px;" /> -->
             </q-item-section>
@@ -1158,6 +1158,21 @@ export default defineComponent({
     }
   },
   methods: {
+    insertActionLog(actionNo, actionCd, params) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
+      }
+      console.log("insertActionLog  ...  ")
+      console.log(param)
+      this.$axios.post('/api/log/insertKpiLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     onResize() {
       this.scrollAreaHeight = window.innerHeight - this.scrollAreaHeightMinus
       // console.log(window.innerHeight)
@@ -1200,21 +1215,6 @@ export default defineComponent({
       // We recommend reloading the page, unless you must do otherwise
       // window.location.reload();
       this.checkChain()
-    },
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
-      // 액션 로그 등록 처리
-      const param = {
-        uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
-      }
-      this.$axios.post('/api/common/insertActionLog', param)
-        .catch((err) => {
-          console.log(err)
-        })
     },
     async checkChain() {
       // 로그인 상태가 아니면 처리하지 않음
@@ -1395,7 +1395,7 @@ export default defineComponent({
       localStorage.setItem('LOCALE', this.locale, 365) // APP용
     },
     showLoginModal() {
-      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'LoginModal', null, null)
+      this.insertActionLog('100300000', 'login', null)
       this.$refs.refLoginModal.show()
     },
     showWalletModal() {

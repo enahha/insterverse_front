@@ -668,6 +668,33 @@ textarea {
 //메인 페이지 게시판
 .main-list {
     word-break: break-word;
+    .banner-mant {
+        position: absolute;
+        top: 12%;
+        left: 15%;
+        color: white;
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+        .ment {
+            margin: 0 0 0;
+        }
+        .ment-1 {
+            font-size: 30px;
+            padding: 0 10px;
+        }
+        .ment-2 {
+            font-size: 70px;
+            font-weight: bold;
+        }
+        .ment-3 {
+            font-size: 35px;
+        }
+        div {
+            display: flex;
+        }
+    }    
     .benner.carousel {
         height: 600px;
         margin: -60px auto;
@@ -2303,6 +2330,24 @@ background-color: #e7e6de9c;
         //         }
         //     }
         // }
+        .banner-mant {
+            top: 4%;
+            left: 10%;
+            .logo {
+                width: 23px;
+                height: 23px;
+            }
+            .ment-1 {
+                font-size: 18px;
+            }
+            .ment-2 {
+                font-size: 30px;
+            }
+            .ment-3 {
+                font-size: 18px;
+            }
+        }    
+
         .space {
             margin: 80px;
         }
@@ -2819,6 +2864,23 @@ background-color: #e7e6de9c;
         }
     }
     .main-list{
+        .banner-mant {
+            top: 5%;
+            left: 10%;
+            .logo {
+                width: 18px;
+                height: 18px;
+            }
+            .ment-1 {
+                font-size: 13px;
+            }
+            .ment-2 {
+                font-size: 25px;
+            }
+            .ment-3 {
+                font-size: 13px;
+            }
+        }    
         .line-short {
             width: 10%; 
         }

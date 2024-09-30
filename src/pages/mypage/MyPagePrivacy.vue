@@ -243,17 +243,15 @@ export default defineComponent({
   mounted: function () {
   },
   methods: {
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -426,7 +424,7 @@ export default defineComponent({
     // 회원정보 수정 처리 시작
     async modifyUser(nickname, pwd, pwdCheck) {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_MODIFY, 'user', null, null)
+      this.insertActionLog('100500100', 'select hall', null)
 
       // Field validation check
       // if(!this.validate()) {
@@ -456,6 +454,9 @@ export default defineComponent({
     },
     // 회원정보 수정
     async doModifyUser(nickname, pwd) {
+      // 액션 로그 등록
+      this.insertActionLog('100100102', 'edit user', null)
+
       // 1. 회원정보 수정 처리 - token, token_description, token_contract_verify
       let encPwd = ''
       if (pwd) {
@@ -573,8 +574,8 @@ export default defineComponent({
       }
     },
     ModifyUserAccount() {
-      // 액션 로그 등록s
-      this.insertActionLog(this.$ACTION_MODIFY, 'user account', null, null)
+      // 액션 로그 등록
+      this.insertActionLog('100100104', 'edit account', null)
 
       const params = {
         uid: this.getUid,

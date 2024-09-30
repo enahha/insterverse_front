@@ -1142,17 +1142,15 @@ export default defineComponent({
         this.$router.push({ path: '/login', query: { redirectPath: this.$route.path }})
       }
     },
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -1189,12 +1187,12 @@ export default defineComponent({
     },
     showExhibitionTypeModal() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'AddMediaModal', null, null)
+      this.insertActionLog('100500100', 'select hall', null)
 
       this.$refs.refExhibitionTypeModal.show()
     },
     showAddMediaModal() {
-      this.insertActionLog(this.$ACTION_PAGE_VIEW, 'ExhibitionTypeModal', null, null)
+      this.insertActionLog('100500200', 'manage artwork', null)
 
       this.$refs.refAddMediaModal.projectSeq = this.projectSeq
       this.$refs.refAddMediaModal.mediaList = this.mediaList
@@ -1514,7 +1512,7 @@ export default defineComponent({
     // 등록 처리 시작
     async branchInsertUpdate() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_MODIFY, 'project', null, null)
+      this.insertActionLog('100500300', 'save exhibition', null)
 
       // 로그인 여부 체크, 메인화면으로?
       if (!this.getUid) {
@@ -1714,7 +1712,7 @@ export default defineComponent({
     // },
     async remove(item) {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_DELETE, 'media', null, null)
+      this.insertActionLog('100500201', 'delete project artwork', null)
 
       const deleteList = []
       deleteList.push(item)

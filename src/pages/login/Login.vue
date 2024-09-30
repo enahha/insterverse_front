@@ -556,18 +556,15 @@ export default {
     //   this.loading = false
     //   this.loginModal = true
     // },
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
-      console.log('insertActionLog ...')
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
-        uid: this.userVo.uid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        uid: this.getUid,
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -824,7 +821,7 @@ export default {
 
     doJoin() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, null, '/api/user/insertUser', JSON.stringify(this.userVo))
+      this.insertActionLog('100300100', 'sign up', null)
 
       this.$axios.post('/api/user/insertUser', this.userVo)
         .then((result) => {
@@ -887,7 +884,7 @@ export default {
     },
     doChangePwd() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, null, '/api/user/updateUserPwd', JSON.stringify(this.userVo))
+      this.insertActionLog('100300200', 'change password', null)
 
       this.$axios.post('/api/user/updateUserPwd', this.userVo)
         .then((result) => {
@@ -1143,7 +1140,7 @@ export default {
     // [WEB] 3. 로그인
     async doLogin () {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_CLICK, null, '/api/login/doLogin', JSON.stringify(this.userVo))
+      this.insertActionLog('100300300', 'do login', null)
 
       // ID 항목 체크
       if (!this.checkInput(this.userVo.uid, 'ID')) {
@@ -1234,10 +1231,16 @@ export default {
     },
     // 이용약관 모달 표시
     showTerms() {
+      // 액션 로그 등록
+      this.insertActionLog('100300102', 'terms of service', null)
+
       this.$refs.refTermsModal.show()
     },
     // 개인정보처리방침 모달 표시
     showPrivacy() {
+      // 액션 로그 등록
+      this.insertActionLog('100300101', 'privacy policy', null)
+
       this.$refs.refPrivacyModal.show()
     },
     termsAccept() {

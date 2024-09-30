@@ -55,11 +55,11 @@
               </td>
             </tr>
             <tr>
-              <td>
+              <!-- <td>
                 <div class="">
                   <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 3000)]" clearable outlined tabindex="1" />
                 </div>
-              </td>
+              </td> -->
             </tr>
             <tr>
               <td>
@@ -166,8 +166,8 @@
                   <span class="text-weight-bold text-subtitle1" style="display: inline-block;">{{ $t('media_size') }}</span>
                 </div>
                 <div class="row">
-                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_height')" style="width: 200px;" v-model="mediaHeight" ref="refMediaCreated" clearable outlined tabindex="1" />
-                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_width')" style="width: 200px;" v-model="mediaWidth" ref="refMediaSize" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_width')" style="width: 200px;" v-model="mediaWidth" ref="refMediaCreated" clearable outlined tabindex="1" />
+                  <q-input class="q-mb-xs q-mr-xs" :label="$t('media_height')" style="width: 200px;" v-model="mediaHeight" ref="refMediaSize" clearable outlined tabindex="1" />
                   <q-select  :label="$t('media_unit')" outlined v-model="mediaUnit" :options="mediaUnitOption" style="width: 100px;"/>
                 </div>
               </td>
@@ -329,20 +329,20 @@ export default defineComponent({
       smallSize: false,
       confirmGoBack: false,
       projectSeq: '', // route parameter seq
-      mediaOrderNumber: '',
-      mediaTitle: '',
+      mediaOrderNumber: '9',
+      mediaTitle: 'classiquemin',
       mediaSubtitle: '',
-      mediaPrice: '',
-      mediaCreatedAt: '',
-      mediaHeight: '',
-      mediaWidth: '',
-      mediaUnit: '',
+      mediaPrice: '152.5',
+      mediaCreatedAt: '2024',
+      mediaHeight: '60',
+      mediaWidth: '90',
+      mediaUnit: 'cm',
       mediaUnitOption: [
         'cm',
         'inch',
         'px',
       ],
-      mediaMaterials: '',
+      mediaMaterials: '수체화',
       mediaDescription: '',
       mediaForSale: true,
       mediaUrl: '',
@@ -398,17 +398,15 @@ export default defineComponent({
   },
   mounted: function () {},
   methods: {
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -547,13 +545,13 @@ export default defineComponent({
     // 등록 처리 시작
     register() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_REGISTER, 'my media', null, null)
+      this.insertActionLog('100600101', 'save artwork', null)
 
-      // Field validation check
-      if(!this.validate()) {
-          this.$noti(this.$q, this.$t('validation_failed'))
-          return
-      }
+      // Field validation check (작품등록 다 끝나고 풀기!!)
+      // if(!this.validate()) {
+      //     this.$noti(this.$q, this.$t('validation_failed'))
+      //     return
+      // }
 
       // 로그인 여부 체크, 로그인 모달 표시
       if (!this.getUid) {

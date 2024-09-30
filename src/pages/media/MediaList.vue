@@ -173,17 +173,15 @@ export default defineComponent({
   // },
   mounted: function () {},
   methods: {
-    insertActionLog(action, actionDetail, reqUrl, urlParams) {
+    insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
       const param = {
         uid: this.getUid,
-        action: action,
-        action_detail: actionDetail,
-        req_url: reqUrl,
-        params: urlParams,
-        user_agent: this.$cookie.get('AGENT'),
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
       }
-      this.$axios.post('/api/common/insertActionLog', param)
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
           console.log(err)
         })
@@ -195,7 +193,7 @@ export default defineComponent({
     },
     goEdit(seq) {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_PAGE_VIEW, null, '/media/modifyMedia', null)
+      this.insertActionLog('100600200', 'edit artwork', seq)
 
       this.$router.push({ path: '/media/modifyMedia', query: { seq: seq }})
     },
@@ -206,7 +204,7 @@ export default defineComponent({
     },
     async deleteProcess() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_DELETE, 'my media', null, null)
+      this.insertActionLog('100600300', 'delete artwork', this.deleteSeq)
 
       await this.doDeleteMyMedia()
       await this.doDeleteMedia()
@@ -215,7 +213,7 @@ export default defineComponent({
       this.search()
     },
     // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
-    async doDeleteMyMedia(seq) {
+    async doDeleteMyMedia() {
       this.$q.loading.show() // 로딩 표시 시작
       const param = {
         uid: this.getUid,
@@ -238,7 +236,7 @@ export default defineComponent({
           this.$noti(this.$q, err)
         })
     },
-    async doDeleteMedia(seq) {
+    async doDeleteMedia() {
       this.$q.loading.show() // 로딩 표시 시작
       const param = {
         del_id: this.getUid,
@@ -424,7 +422,7 @@ export default defineComponent({
     },
     goAdd() {
       // 액션 로그 등록
-      this.insertActionLog(this.$ACTION_PAGE_VIEW, null, '/media/registerMedia', null)
+      this.insertActionLog('100600100', 'add artwork', null)
 
       this.$router.push('/media/registerMedia')
     },
