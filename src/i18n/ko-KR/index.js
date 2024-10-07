@@ -134,6 +134,10 @@ export default {
   inquiry_show_all_n: '나의 문의',
 
   // main
+  main_banner_info_1: '메타버스 전시관',
+  main_banner_info_2: 'Gallery X',
+  main_banner_info_3: '온라인의 꿈이 현실이 되는 곳',
+
   main_create_nft_project: 'NFT 프로젝트 만들기',
   main_create_token_project: '토큰 프로젝트 만들기',
 
@@ -408,6 +412,10 @@ export default {
   validation_failed_recruit_field_name: '[항목명 (EN)] 항목을 확인해주세요.',
   validation_failed_recruit_field_name_ko: '[항목명 (KO)] 항목을 확인해주세요.',
   validation_failed_recruit_project_seq: '[프로젝트 No.] 항목을 확인해주세요.',
+
+  // my page
+  designate_representative_gallery: '대표 전시관으로',
+  representative_gallery: '대표 전시관',
 
   // contact
   contact_content: '문의 내용',

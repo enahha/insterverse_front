@@ -1595,6 +1595,13 @@ export default defineComponent({
       //   this.$noti(this.$q, this.$t('validation_failed'))
       //   return
       // }
+      
+      // title이 입력이 안되었으면 저장하지 않는다.
+      if  (this.title == null || this.title == '') {
+        console.log("title 입력 " , this.title)
+        this.emptyTitle = true
+        return
+      }
 
       this.isButtonClicked = true
       // 미디어 수정 혹은 등록

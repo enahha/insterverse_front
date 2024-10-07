@@ -23,7 +23,7 @@
             <div class="row list-item">
               <q-item-label class="" style="max-height: 20px; ">{{ item.name }}</q-item-label>
               <q-item-label class="" style="max-height: 20px; ">{{ $t('over_display_maximum') }} : {{ item.display_maximum }}</q-item-label>
-              <q-item-label class="" style="max-height: 50px;">{{ item.description }}</q-item-label>
+              <q-item-label class="" style="max-height: 50px;">{{ truncateText(item.description, 250) }}</q-item-label>
               
               <q-item-label style="width: 85%; display: flex; justify-content: center; align-items: last baseline;">
                 <q-btn
@@ -89,6 +89,16 @@
       },
       close() {
         this.ExhibitionTypeModal = false
+      },
+      truncateText(text, maxLength) {
+        if (!text) {
+          return ''
+        }
+
+        if (text.length <= maxLength) {
+          return text
+        }
+        return text.substring(0, maxLength) + '...'
       },
       // refresher (done) {
       //   // done - Function to call when you made all necessary updates.

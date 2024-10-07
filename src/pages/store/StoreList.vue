@@ -10,64 +10,84 @@
       <q-btn fab icon="keyboard_arrow_up" color="secondary" />
     </q-page-scroller>
 
-    <!-- 나의 작품 판매 리스트 -->
-    <div class="store-list">
-      <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
+    <!-- <q-tabs
+      v-model="tab"
+      no-caps
+      align="justify"
+      inline-label
+    >
+      <q-tab name="i">{{ $t('project_exhibition_type') }}</q-tab>
+    </q-tabs> -->
 
-        <div v-for="item in galleryList" :key="item.seq">
-          <q-item >
-            <q-item-section avatar @click="goPayment(item)">
-              <q-avatar square class="media-container">
-                <img v-if="item.url" :src="item.url"  class="media-content">
-                <img v-else src="images/exhibition_poster_basic2.png">
-              </q-avatar>
-            </q-item-section>
+    <q-tab-panels v-model="tab">
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <!-- 전시관 패널 -->
+      <!-- ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->
+      <q-tab-panel name="h" style="word-break: break-word; padding: 0 0;">
+        <!-- 나의 작품 판매 리스트 -->
+        <div class="store-list">
+          <q-infinite-scroll @load="loadMore" :offset="0" ref="infiniteScroll">
 
-            <q-item-section>
-              <div class="row list-item">
-                <q-item-label class="col-12" style="max-height: 20px; cursor: pointer;" @click="goPayment(item)">{{ item.name }}</q-item-label>
-                <q-item-label class="col-12" style="max-height: 50px;">{{ item.description }}</q-item-label>
-                
-                <q-item-label style="width: 100%; display: flex; justify-content: space-around; align-items: last baseline;">
-                  <!-- <div style="font-size: large; color: black; font-weight: bold;">$ {{ item.price }}</div> -->
-                  <q-btn
-                      :label="$t('project_preview')"
-                      @click="openPreview"
-                      style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 90px; max-height: 30px;"
-                    />
-                  <q-btn
-                      :label="'$ ' + item.price"
-                      @click="goPayment(item)"
-                      style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 90px; max-height: 30px;"
-                    />
-                </q-item-label>
+            <div v-for="item in galleryList" :key="item.seq">
+              <q-item >
+                <q-item-section avatar @click="goPayment(item)">
+                  <q-avatar square class="media-container">
+                    <img v-if="item.url" :src="item.url"  class="media-content">
+                    <img v-else src="images/exhibition_poster_basic2.png">
+                  </q-avatar>
+                </q-item-section>
+
+                <q-item-section>
+                  <div class="row list-item">
+                    <q-item-label class="col-12" style="max-height: 20px; cursor: pointer;" @click="goPayment(item)">{{ item.name }}</q-item-label>
+                    <q-item-label v-if="locale === 'ko-KR'" class="col-12 text-bold">{{truncateText(item.description_ko, 100) }}</q-item-label>
+                    <q-item-label v-else class="col-12 text-bold">{{ truncateText(item.description, 150) }}</q-item-label>
+
+                    <q-item-label style="width: 100%; display: flex; justify-content: space-around; align-items: last baseline;">
+                      <!-- <div style="font-size: large; color: black; font-weight: bold;">$ {{ item.price }}</div> -->
+                      <q-btn
+                          :label="$t('project_preview')"
+                          @click="openPreview"
+                          style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 90px; max-height: 30px;"
+                        />
+                      <q-btn
+                          :label="'$ ' + item.price"
+                          @click="goPayment(item)"
+                          style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 90px; max-height: 30px;"
+                        />
+                    </q-item-label>
+                  </div>
+                </q-item-section>
+              </q-item>
+
+              <!-- 관리자 수정용 -->
+              <!-- <div v-if="isAdmin" class="text-right">
+                <q-btn @click="goSetDescription(item.seq)" size="sm" label="Modify" />
+              </div> -->
+            </div>
+            <template v-slot:loading>
+              <div class="row justify-center q-my-md">
+                <q-spinner-dots color="primary" size="40px" />
               </div>
-            </q-item-section>
-          </q-item>
-
-          <!-- 관리자 수정용 -->
-          <!-- <div v-if="isAdmin" class="text-right">
-            <q-btn @click="goSetDescription(item.seq)" size="sm" label="Modify" />
-          </div> -->
+            </template>
+          </q-infinite-scroll>
         </div>
-        <template v-slot:loading>
-          <div class="row justify-center q-my-md">
-            <q-spinner-dots color="primary" size="40px" />
-          </div>
-        </template>
-      </q-infinite-scroll>
-    </div>
 
 
-    <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-      <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
-    </div>
+        <div v-if="noDataFlag" class="row justify-center q-pt-lg">
+          <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
+        </div>
 
 
 
-    <!-- 하단 공간 확보 -->
-    <div class="row justify-center q-pa-xl">
-    </div>
+        <!-- 하단 공간 확보 -->
+        <div class="row justify-center q-pa-xl">
+        </div>
+
+
+      </q-tab-panel>
+    </q-tab-panels>
+
 
   </q-page>
 
@@ -131,6 +151,7 @@ export default defineComponent({
   },
   data () {
     return {
+      tab: 'h',
       uid: '',
       keyword: '',
       refresherDone: '',
@@ -185,6 +206,16 @@ export default defineComponent({
         .catch((err) => {
           console.log(err)
         })
+    },
+    truncateText(text, maxLength) {
+      if (!text) {
+        return ''
+      }
+
+      if (text.length <= maxLength) {
+        return text
+      }
+      return text.substring(0, maxLength) + '...'
     },
     // 검색
     async search() {

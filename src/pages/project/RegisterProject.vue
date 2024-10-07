@@ -1019,7 +1019,7 @@ export default defineComponent({
 
       methodsExecuted: false,
       isButtonClicked: false,
-      emptyTitle: true,
+      emptyTitle: false,
       keyword: '',
       refresherDone: '',
       pageSize: 50,
@@ -1593,7 +1593,7 @@ export default defineComponent({
       // title이 입력이 안되었으면 저장하지 않는다.
       if  (this.title == null || this.title == '') {
         console.log("title 입력 " , this.title)
-
+        this.emptyTitle = true
         return
       }
 

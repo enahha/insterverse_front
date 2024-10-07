@@ -1216,6 +1216,7 @@ export default defineComponent({
         {params: {uid: this.getUid, projectSeq: this.projectSeq}})
         .then((result) => {
           this.mediaList = result.data
+          console.log(this.mediaList)
         })
         .catch((err) => {
           console.log(err)

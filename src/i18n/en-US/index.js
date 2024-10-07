@@ -94,6 +94,10 @@ export default {
   validation_failed_vote_start_time: 'Please check the field [Start Date].',
   validation_failed_vote_end_time: 'Please check the field [End Date].',
 
+  // my page
+  designate_representative_gallery: 'pick representative',
+  representative_gallery: 'representative',
+
   // contact
   contact_content: 'Inquiries',
   contact_register: 'register',
@@ -139,6 +143,11 @@ export default {
   inquiry_show_all_n: 'My Inquiry',
 
   // main
+  main_banner_info_1: 'Metaverse Exhibition Hall',
+  main_banner_info_2: 'Gallery X',
+  main_banner_info_3: 'Where Online Dreams Come Real',
+
+
   main_create_nft_project: 'Create NFT Project',
   main_create_token_project: 'Create Token Project',
 

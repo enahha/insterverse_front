@@ -35,12 +35,12 @@
                     <q-btn flat round dense icon="more_horiz" color="black" icon-right="true" class="more-menu" @click.stop="openMenu(item.seq)">
 
                     <q-menu :offset="[50, 10]" class="menu" >
-                      <q-btn flat label="대표로 지정"  @click="confirmMainHallModify(item)"/>
+                      <q-btn flat :label="$t('designate_representative_gallery')" @click="confirmMainHallModify(item)"/>
                     </q-menu>
                   </q-btn>
                   </div>
 
-                  <div v-if="item.main_hall == 'Y'" class="main-hall-label">대표 전시관</div>
+                  <div v-if="item.main_hall == 'Y'" class="main-hall-label">{{ $t('representative_gallery') }}</div>
                 </div>
               </q-item-section>
 

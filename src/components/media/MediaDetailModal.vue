@@ -73,6 +73,7 @@
                 <!-- :label="'$' + Number(myMediaVo.price).toLocaleString() + '&nbsp;&nbsp;&nbsp;' + $t('buy')"  -->
                 <!-- :label="$t('buy')"  -->
                 <q-btn 
+                  v-if="myMediaVo.nft_market_url"
                   :label="$t('buy')" 
                   @click="openUrl(myMediaVo.nft_market_url)" 
                   :style="{
@@ -176,6 +177,19 @@ export default {
 
       return result;
     },
+    insertActionLog(actionNo, actionCd, params) {
+      // 액션 로그 등록 처리
+      const param = {
+        uid: this.getUid,
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
+      }
+      this.$axios.post('/api/log/insertKpiLog', param)
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     openUrl(url) {
       // 액션 로그 등록
       this.insertActionLog(this.$ACTION_CLICK, 'opensea', url, null)
@@ -187,7 +201,7 @@ export default {
       // } else {
 
       // 테스트
-      url = 'https://opensea.io/kr/assets/klaytn/0x4e3f3a3dba12cec714cba0508a1bab8ead85af31/37706'
+      // url = 'https://opensea.io/kr/assets/klaytn/0x4e3f3a3dba12cec714cba0508a1bab8ead85af31/37706'
       window.open(url, '_system')
 
       // }

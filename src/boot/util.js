@@ -117,7 +117,7 @@ export default boot(({ app }) => {
     quasar.notify({
       message: `<span style="color: black;">${message}</span>`,
       color: 'white',
-      avatar: 'icons/instarverse_logo.png',
+      avatar: 'logo/galleryx_logo.png',
       position: 'bottom',
       html: true,
       actions: [

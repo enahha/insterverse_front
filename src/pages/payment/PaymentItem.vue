@@ -24,7 +24,7 @@
     
     <div v-if="!payInfo" class="row justify-center q-pb-md">
       <div class="row justify-left q-pb-md item-sec">
-        <span>{{ $t('payment_item') }} : </span>
+        <!-- <span>{{ $t('payment_item') }} : </span> -->
 
         <div class="item-container">
           <q-item >
@@ -43,6 +43,11 @@
             </q-item-section>
           </q-item>
         </div>
+      </div>
+
+      <div class="text-center row list-item" style="width: 500px; height: auto; display: contents;">
+        <div v-if="locale === 'ko-KR'" class="col-12">{{ itemVo.descriptionKo }}</div>
+        <div v-else class="col-12">{{ itemVo.description }}</div>
       </div>
 
       <div style="width: 100%; display: flex; justify-content: flex-end; padding: 100px 10px;">
@@ -154,10 +159,17 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { useI18n } from 'vue-i18n'
 import { required, minLength, maxLength, minValue, maxValue} from 'src/validation.js';
 
 export default defineComponent({
   name: 'Payment',
+  setup () {
+    const { locale } = useI18n({ useScope: 'global' })
+    return {
+      locale,
+    }
+  },
   data () {
     return {
       device: 'P', // 디바이스 - P: 데스크탑, M: 모바일웹, android: 안드로이드 앱, ios: 아이폰 앱
@@ -171,6 +183,7 @@ export default defineComponent({
         priceType: '',
         displayMaximum: '',
         description: '',
+        descriptionKo: '',
         url: '',
         delYn: '',
       },
@@ -295,6 +308,16 @@ export default defineComponent({
           console.log(err)
         })
     },
+    truncateText(text, maxLength) {
+      if (!text) {
+        return ''
+      }
+
+      if (text.length <= maxLength) {
+        return text
+      }
+      return text.substring(0, maxLength) + '...'
+    },
     required(val) {
       const message = this.$t('validation_required')
       return required(val, message);
@@ -322,6 +345,7 @@ export default defineComponent({
             this.itemVo.priceType = result.data.price_type
             this.itemVo.displayMaximum = result.data.display_maximum
             this.itemVo.description = result.data.description
+            this.itemVo.descriptionKo = result.data.description_ko
             this.itemVo.url = result.data.url
             this.itemVo.delYn = result.data.del_yn
           } else {

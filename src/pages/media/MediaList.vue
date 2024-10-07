@@ -29,7 +29,7 @@
       </div>
 
       <q-pull-to-refresh @refresh="refresher">
-        <q-infinite-scroll @load="loadMore" :offset="1000" ref="infiniteScroll" style="background-color: #FEFEFE;">
+        <q-infinite-scroll @load="loadMore" :offset="100" ref="infiniteScroll" style="background-color: #FEFEFE;">
           
           <div class="media-table-wrapper text-center q-pt-lg">
             <div class="table-scroll-wrapper">
@@ -171,7 +171,9 @@ export default defineComponent({
   //     this.nickname = newNickname;
   //   }
   // },
-  mounted: function () {},
+  mounted: function () {
+    this.refresher(null)
+  },
   methods: {
     insertActionLog(actionNo, actionCd, params) {
       // 액션 로그 등록 처리
@@ -190,74 +192,6 @@ export default defineComponent({
       console.log(item)
       this.$refs.refMediaDetailModal.myMediaVo = item
       this.$refs.refMediaDetailModal.show()
-    },
-    goEdit(seq) {
-      // 액션 로그 등록
-      this.insertActionLog('100600200', 'edit artwork', seq)
-
-      this.$router.push({ path: '/media/modifyMedia', query: { seq: seq }})
-    },
-    deleteMyMedia(seq) {
-      // 삭제 확인창 표시
-      this.deleteSeq = seq
-      this.confirmDelete = true
-    },
-    async deleteProcess() {
-      // 액션 로그 등록
-      this.insertActionLog('100600300', 'delete artwork', this.deleteSeq)
-
-      await this.doDeleteMyMedia()
-      await this.doDeleteMedia()
-
-      // 리스트 재조회
-      this.search()
-    },
-    // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
-    async doDeleteMyMedia() {
-      this.$q.loading.show() // 로딩 표시 시작
-      const param = {
-        uid: this.getUid,
-        seq: this.deleteSeq,
-      }
-      this.$axios.post('/api/mymedia/deleteMyMedia', param)
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            this.$noti(this.$q, this.$t('delete_success'))
-          } else {
-            this.$noti(this.$q, this.$t('delete_failed'))
-            this.$noti(this.$q, result.data.resultMsg)
-          }
-        })
-        .catch((err) => {
-          this.$q.loading.hide() // 로딩 표시 종료
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
-    },
-    async doDeleteMedia() {
-      this.$q.loading.show() // 로딩 표시 시작
-      const param = {
-        del_id: this.getUid,
-        my_media_seq: this.deleteSeq,
-      }
-      this.$axios.post('/api/media/deleteMediaByMyMediaSeq', param)
-        .then((result) => {
-          // console.log(JSON.stringify(result.data))
-          this.$q.loading.hide() // 로딩 표시 종료
-          if (result.data && result.data.resultCd === 'SUCCESS') {
-            this.$noti(this.$q, this.$t('delete_success'))
-          } else {
-            this.$noti(this.$q, this.$t('media_delete_failed'))
-            this.$noti(this.$q, result.data.resultMsg)
-          }
-        })
-        .catch((err) => {
-          this.$q.loading.hide() // 로딩 표시 종료
-          console.log(err)
-          this.$noti(this.$q, err)
-        })
     },
     truncateText(text, maxLength) {
       if (!text) {
@@ -419,6 +353,74 @@ export default defineComponent({
           this.$noti(this.$q, err)
         })
 
+    },
+    goEdit(seq) {
+      // 액션 로그 등록
+      this.insertActionLog('100600200', 'edit artwork', seq)
+
+      this.$router.push({ path: '/media/modifyMedia', query: { seq: seq }})
+    },
+    deleteMyMedia(seq) {
+      // 삭제 확인창 표시
+      this.deleteSeq = seq
+      this.confirmDelete = true
+    },
+    async deleteProcess() {
+      // 액션 로그 등록
+      this.insertActionLog('100600300', 'delete artwork', this.deleteSeq)
+
+      await this.doDeleteMyMedia()
+      await this.doDeleteMedia()
+
+      // 리스트 재조회
+      this.search()
+    },
+    // 삭제 확인창에서 삭제 버튼 클릭시 - 삭제 처리
+    async doDeleteMyMedia() {
+      this.$q.loading.show() // 로딩 표시 시작
+      const param = {
+        uid: this.getUid,
+        seq: this.deleteSeq,
+      }
+      this.$axios.post('/api/mymedia/deleteMyMedia', param)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            this.$noti(this.$q, this.$t('delete_success'))
+          } else {
+            this.$noti(this.$q, this.$t('delete_failed'))
+            this.$noti(this.$q, result.data.resultMsg)
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
+    },
+    async doDeleteMedia() {
+      this.$q.loading.show() // 로딩 표시 시작
+      const param = {
+        del_id: this.getUid,
+        my_media_seq: this.deleteSeq,
+      }
+      this.$axios.post('/api/media/deleteMediaByMyMediaSeq', param)
+        .then((result) => {
+          // console.log(JSON.stringify(result.data))
+          this.$q.loading.hide() // 로딩 표시 종료
+          if (result.data && result.data.resultCd === 'SUCCESS') {
+            this.$noti(this.$q, this.$t('delete_success'))
+          } else {
+            this.$noti(this.$q, this.$t('media_delete_failed'))
+            this.$noti(this.$q, result.data.resultMsg)
+          }
+        })
+        .catch((err) => {
+          this.$q.loading.hide() // 로딩 표시 종료
+          console.log(err)
+          this.$noti(this.$q, err)
+        })
     },
     goAdd() {
       // 액션 로그 등록

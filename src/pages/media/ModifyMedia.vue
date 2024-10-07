@@ -54,13 +54,13 @@
                 </div>
               </td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>
                 <div class="">
                   <q-input v-model="mediaUrl" ref="refMediaUrl" @keyup="mediaUrlChanged" :rules="[required, val => minLength(val, 1), val => maxLength(val, 500)]" clearable outlined tabindex="1" />
                 </div>
               </td>
-            </tr>
+            </tr> -->
             <tr>
               <td>
                 <!-- 작품 업로드 -->

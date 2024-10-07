@@ -670,7 +670,7 @@ textarea {
     word-break: break-word;
     .banner-mant {
         position: absolute;
-        top: 12%;
+        top: 50%;
         left: 15%;
         color: white;
         .logo {
@@ -697,6 +697,7 @@ textarea {
     }    
     .benner.carousel {
         height: 600px;
+        background-size: cover; 
         margin: -60px auto;
     }
     .space{
@@ -945,7 +946,7 @@ textarea {
         -ms-flex-align: start;
         align-items: flex-start;
         width: 100%;
-
+        justify-content: center;
         > div {
             width: calc((100% - 90px) / 3);
             // margin: 15px 15px;
@@ -2331,7 +2332,7 @@ background-color: #e7e6de9c;
         //     }
         // }
         .banner-mant {
-            top: 4%;
+            top: 40%;
             left: 10%;
             .logo {
                 width: 23px;
@@ -2393,6 +2394,7 @@ background-color: #e7e6de9c;
             }
         }
         .q-infinite-scroll {
+            justify-content: left;
             > div {
                 width: 50%;
                 margin: 10px 0;
@@ -2865,7 +2867,7 @@ background-color: #e7e6de9c;
     }
     .main-list{
         .banner-mant {
-            top: 5%;
+            top: 48%;
             left: 10%;
             .logo {
                 width: 18px;

@@ -2,6 +2,48 @@
   <!-- <q-page class="justify justify-center" style="background-image: url(images/star1.jpg)"> -->
   <q-page class="justify justify-center main-list">
     <q-carousel
+      v-if="locale === 'ko-KR'"
+      class="benner carousel"
+      v-model="benneSlide"
+      swipeable
+      animated
+      :autoplay="15000"
+      control-color="white"
+      :navigation="!this.smallSize"
+      :arrows="this.smallSize"
+      infinite
+    >
+    
+      <template v-slot:navigation-icon="{ active, onClick }">
+        <q-btn v-if="active" size="lg" flat round dense @click="onClick">
+          <img src="icons/icon_main_1.png" alt="Active Icon" class="navigation-icon" />
+        </q-btn>
+        <q-btn v-else size="sm" flat round dense @click="onClick">
+          <img src="icons/icon_main_2.png" alt="Inactive Icon" class="navigation-icon"/>
+        </q-btn>
+      </template>
+
+      <q-carousel-slide
+        v-for="item in bannerImageKor" 
+        :key="item.seq"
+        :name="(item.seq).toString()"
+        :img-src="item.src"
+        style="background-size: cover;"
+      >
+        <div class="banner-mant" v-if="item.seq != 2">
+          <div>
+            <q-img class="logo" src="logo/galleryx_logo.png" style="cursor: pointer; " />
+            <p class="ment ment-1">{{ $t('main_banner_info_1') }}</p>
+          </div>
+          <p class="ment ment-2">{{ $t('main_banner_info_2') }}</p>
+          <p class="ment ment-3">{{ $t('main_banner_info_3') }}</p>
+        </div>
+      </q-carousel-slide>
+      <!-- <img :src="item.src" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
+    </q-carousel>
+
+    <q-carousel
+      v-else
       class="benner carousel"
       v-model="benneSlide"
       swipeable
@@ -27,18 +69,19 @@
         :key="item.seq"
         :name="(item.seq).toString()"
         :img-src="item.src"
-      />
+        style="background-size: cover;"
+      >
+        <div class="banner-mant" v-if="item.seq != 2">
+          <div>
+            <q-img class="logo" src="logo/galleryx_logo.png" style="cursor: pointer; " />
+            <p class="ment ment-1">{{ $t('main_banner_info_1') }}</p>
+          </div>
+          <p class="ment ment-2">{{ $t('main_banner_info_2') }}</p>
+          <p class="ment ment-3">{{ $t('main_banner_info_3') }}</p>
+        </div>
+      </q-carousel-slide>
       <!-- <img :src="item.src" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
     </q-carousel>
-
-    <div class="banner-mant">
-      <div>
-        <q-img class="logo" src="icons/instarverse_logo.png" style="cursor: pointer; " />
-        <p class="ment ment-1">메타버스 전시관</p>
-      </div>
-      <p class="ment ment-2">Gallery X</p>
-      <p class="ment ment-3">온라인의 꿈이 현실이 되는 곳</p>
-    </div>
 
     <div class="page-1200" style="word-break: keep-all;">
 
@@ -353,6 +396,24 @@ export default defineComponent({
           seq: 1,
           src: 'images/instarverse_banner_3_2.png',
         },
+        {
+          seq: 2,
+          src: 'images/galleryx_banner_event1-2_eng.png',
+        },
+      ],
+      bannerImageKor: [
+        {
+          seq: 0,
+          src: 'images/instarverse_banner_3_1.png',
+        },
+        {
+          seq: 1,
+          src: 'images/instarverse_banner_3_2.png',
+        },
+        {
+          seq: 2,
+          src: 'images/galleryx_banner_event1-2_kor.png',
+        },
       ],
       userAgent: '',
     }
@@ -428,8 +489,6 @@ export default defineComponent({
     if (document.body.offsetWidth < 1024) {
       this.smallSize = true
     }
-
-    // this.selectListMax()
 
     this.selectProjectListAsView()
     this.selectprojectListAsNew()
@@ -654,7 +713,7 @@ export default defineComponent({
   width: 15px;
 }
 .q-carousel__slide {
-  box-shadow: inset 0px -10px 15px -5px rgba(255, 255, 255, 1);
+  /* box-shadow: inset 0px -10px 15px -5px rgba(255, 255, 255, 1); */
 }
 @media (max-width: 1023px) {
   .q-carousel__slide {
