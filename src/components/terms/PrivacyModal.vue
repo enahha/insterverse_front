@@ -298,8 +298,8 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat v-close-popup>{{ $t('decline') }}</q-btn>
-        <q-btn flat v-close-popup @click="accept()">{{ $t('accept') }}</q-btn>
+        <q-btn v-if="requiredCheck" flat v-close-popup>{{ $t('decline') }}</q-btn>
+        <q-btn v-if="requiredCheck" flat v-close-popup @click="accept()">{{ $t('accept') }}</q-btn>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -314,6 +314,7 @@ export default {
   data () {
     return {
       PrivacyModal: false,
+      requiredCheck: true,
     }
   },
   setup () {
@@ -326,6 +327,7 @@ export default {
   methods: {
     async show () {
       this.PrivacyModal = true
+      console.log(this.requiredCheck)
     },
     close () {
       this.PrivacyModal = false

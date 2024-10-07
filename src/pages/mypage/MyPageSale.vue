@@ -82,7 +82,7 @@
           </q-pull-to-refresh>
 
           <div v-if="noDataFlagMyMediaSale" class="row justify-center q-pt-lg">
-            <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
+            <img src="images/galleryx_nodata_txt.png" style="width: 35%; max-width: 250px;" />
           </div>
 
         </div>

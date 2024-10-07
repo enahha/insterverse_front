@@ -31,9 +31,10 @@
                 <q-item-section clickable @click="goDetail(item.seq)">
                 <div class="row">
                     <!-- <q-item-label class="col-12"><div class="end"><q-icon name="delete_forever" size="sm" @click="delete(item.seq)"/></div></q-item-label> -->
+                    <q-item-label class="col-12"><span class=" text-weight-bold">seq : </span>{{ item.seq }}</q-item-label>
                     <q-item-label class="col-12"><span class=" text-weight-bold">title : </span>{{ item.title }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">description : </span>{{ item.description }}</q-item-label>
-                    <q-item-label class="col-12"><span class=" text-weight-bold">summary : </span>{{ item.summary }}</q-item-label>
+                    <q-item-label class="col-12"><span class=" text-weight-bold">subtitle : </span>{{ item.subtitle }}</q-item-label>
+                    <!-- <q-item-label class="col-12"><span class=" text-weight-bold">description : </span>{{ item.description }}</q-item-label> -->
                 </div>
                 </q-item-section>
             </q-item>

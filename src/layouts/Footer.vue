@@ -38,6 +38,8 @@
       </div>
 
     </footer>
+    <TermsModal ref="refTermsModal"/>
+    <PrivacyModal ref="refPrivacyModal"/>
 </template>
 
 <script>
@@ -53,10 +55,12 @@ export default defineComponent({
   methods: {
     // 이용약관 모달 표시
     showTerms() {
+      this.$refs.refTermsModal.requiredCheck = false
       this.$refs.refTermsModal.show()
     },
     // 개인정보처리방침 모달 표시
     showPrivacy() {
+      this.$refs.refPrivacyModal.requiredCheck = false
       this.$refs.refPrivacyModal.show()
     },
     openUrl(url) {

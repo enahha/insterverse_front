@@ -9,7 +9,7 @@
     <div>
       <div class="info-panel-1" style="">
           <table class="information-wrap row">
-            <tr>
+            <!-- <tr>
               <div class="input-group q-pt-lg">
                 <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('user_nickname') }}<span class="text-red"> *</span></span></td>
                 <td class="label-input"><q-input v-model="nickname" ref="nickname" clearable tabindex="1"/></td>
@@ -21,7 +21,7 @@
                     />
                 </td>
               </div>
-            </tr>
+            </tr> -->
             <tr>
               <div class="input-group q-pt-lg">
                 <td class="label"><span class="text-weight-bold text-subtitle1">{{ $t('pwd_upper') }}<span class="text-red"> *</span></span></td>

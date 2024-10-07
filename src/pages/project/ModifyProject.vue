@@ -136,7 +136,7 @@
           <!-- </q-pull-to-refresh> -->
 
           <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-            <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
+            <img src="images/galleryx_nodata_txt.png" style="width: 35%; max-width: 250px;" />
           </div>
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
@@ -169,7 +169,7 @@
             <span class="text-weight-bold text-subtitle1">{{ $t('project_subtitle') }}<span class="text-red"> *</span></span>
           </div>
           <div style="max-width: 600px;">
-            <q-input v-model="subtitle" ref="refSubTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
+            <q-input v-model="subtitle" :readonly="true" ref="refSubTitle" :rules="[required, val => minLength(val, 1), val => maxLength(val, 100)]" clearable outlined tabindex="1" />
           </div>
 
           <div class="q-pt-md">
@@ -560,7 +560,7 @@
             <span class="text-weight-bold text-subtitle1">{{ $t('artist_nickname') }}<span class="text-red"> *</span></span>
           </div>
           <div style="max-width: 600px;">
-            <q-input v-model="nickname"  :readonly="true"  ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
+            <q-input v-model="nickname" :readonly="true" ref="refNickname" :rules="[required, val => minLength(val, 1), val => maxLength(val, 50)]" clearable outlined tabindex="1" />
           </div>
 
           <div class="q-pt-md">
@@ -1478,13 +1478,13 @@ export default defineComponent({
     },
     ///////////////////////////////////////////////////////////////////////////
     validate() {
-      let result = true
-      if (!this.$refs.refTitle.validate()) {
-        result = false
-      }
-      if (!this.$refs.refSubTitle.validate()) {
-        result = false
-      }
+      // let result = true
+      // if (!this.$refs.refTitle.validate()) {
+      //   result = false
+      // }
+      // if (!this.$refs.refSubTitle.validate()) {
+      //   result = false
+      // }
       // if (!this.$refs.refTitle.validate()) {
       //   result = falsetrue
       // }
@@ -1495,9 +1495,9 @@ export default defineComponent({
       // //   this.$noti(this.$q, this.$t('validation_failed_minting_nft_image'))true
       // //   result = falsetrue
       // // }
-      if (!this.$refs.refSymbol.validate()) {
-        result = falsetrue
-      }
+      // if (!this.$refs.refSymbol.validate()) {
+      //   result = falsetrue
+      // }
       // if (!this.$refs.refSubtitle.validate()) {
       //   result = falsetrue
       // }
@@ -1507,7 +1507,7 @@ export default defineComponent({
       // if (!this.$refs.refStartTime.validate()) {
       //   result = falsetrue
       // }
-      return result
+      // return result
     },
     // 등록 처리 시작
     async branchInsertUpdate() {
@@ -1535,7 +1535,7 @@ export default defineComponent({
         uid: this.getUid,
         seq: this.projectSeq,
         nickname: this.nickname,
-        status_cd: this.$PROJECT_STATUS_CD_REGISTERED, // '10' 등록중
+        // status_cd: this.$PROJECT_STATUS_CD_REGISTERED, // '10' 등록중
         // representative_sns_id: this.representativeSns,
         email: this.email,
         instargram: this.instargram,
@@ -1615,7 +1615,7 @@ export default defineComponent({
       const params = {
         uid: this.getUid,
         seq: this.projectSeq,
-        status_cd: this.$PROJECT_STATUS_CD_PAID,      // 정보 등록 완료(결제 완료)
+        status_cd: this.$PROJECT_STATUS_CD_MINT,      // 정보 등록 완료(결제 완료)
       }
       try {
         this.$q.loading.show() // 로딩 표시 시작

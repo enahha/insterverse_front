@@ -10,25 +10,13 @@
         <div class="title-sec"><span>{{ $t('menu_project_list') }}</span></div>
       </div>
     </div>
-      <!-- <div class="row q-pl-md justify-center page-sub-tit">
-        <div class="col-12">
-          {{ $t('menu_project_list_description') }}
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md">
-      </div> -->
 
       <div class="row srch-wrap">
         <q-input v-model="keyword" @keyup="onKeyup" type="search" style="width: 150px;" borderless />
         &nbsp;&nbsp;
-        <!-- <q-btn @click="goRegister" icon="add" size="lg" style="width: 80px;" outline/> -->
         &nbsp;&nbsp;
         <q-btn @click="search" icon="search" size="lg" flat  />
       </div>
-
-      <!-- <q-page-scroller position="top" :scroll-offset="150" :offset="[0, 10]">
-        <q-btn fab icon="keyboard_arrow_up" color="primary" style="z-index: 9;" class="z-top" />
-      </q-page-scroller> -->
 
       <!-- 프로젝트 리스트 -->
       <q-pull-to-refresh @refresh="refresher" class="project-list">
@@ -37,11 +25,6 @@
           <div v-for="item in projectList" :key="item.seq">
             <q-item clickable @click="goDetail(item.seq)">
               <q-item-section style="padding-bottom: 10px;">
-                <!-- <q-avatar>
-                  <img v-if="item.postar_url" :src="item.postar_url">
-                  <q-icon v-else name="rocket_launch" size="md" />
-                </q-avatar> -->
-
                 <!-- 이거 스타일은 app.scss파일이 아닌 해당 파일 아래쪽에 위치해있음. (스타일이 안먹어서,,,) -->
                 <div class="image-container">
                   <img v-if="item.postar_url" :src="item.postar_url">
@@ -53,10 +36,6 @@
                 <div class="row list-item">
                   <q-item-label class="col-12">{{ item.title }}</q-item-label>
                   <q-item-label class="col-12">{{ item.nickname }}</q-item-label>
-                  <!-- <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ item.title_ko }}</q-item-label>
-                  <q-item-label v-else class="col-12">{{ item.title }}</q-item-label>
-                  <q-item-label v-if="locale === 'ko-KR'" class="col-12">{{ truncateText(item.summary_ko,truncateSubtitle) }}</q-item-label>
-                  <q-item-label v-else class="col-12">{{ truncateText(item.summary,truncateSubtitle) }}</q-item-label> -->
                 </div>
               </q-item-section>
             </q-item>
@@ -75,7 +54,7 @@
       </q-pull-to-refresh>
 
       <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-        <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
+        <img src="images/galleryx_nodata_txt.png" style="width: 35%; max-width: 250px;" />
       </div>
 
       <!-- 하단 공간 확보 -->
@@ -83,7 +62,6 @@
       </div>
 
     </q-page>
-    <!-- <TokenDetailModal ref="refTokenDetailModal"/> -->
     <WalletModal ref="refWalletModal" />
   </template>
 

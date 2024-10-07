@@ -5,7 +5,7 @@
       <q-layout view="lHh Lpr lFf" container class="shadow-2 rounded-borders bg-white" style="min-width: 40%;">
         <q-header class="bg-white" elevated>
           <q-toolbar>
-            <q-icon name="notifications_active" color="primary" size="sm" />
+            <!-- <q-icon name="notifications_active" color="primary" size="sm" /> -->
             <q-toolbar-title class="text-body2 text-black">
               <span class="text-weight-bold text-subtitle1">Detail</span>
             </q-toolbar-title>
@@ -26,9 +26,10 @@
                         <q-item-section>
                         <div class="row">
                             <!-- <q-item-label class="col-12"><div class="end"><q-icon name="delete_forever" size="sm" @click="delete(item.seq)"/></div></q-item-label> -->
+                            <q-item-label class="col-12"><span class=" text-weight-bold">seq : </span>{{ projectVo.seq }}</q-item-label>
                             <q-item-label class="col-12"><span class=" text-weight-bold">title : </span>{{ projectVo.title }}</q-item-label>
-                            <q-item-label class="col-12"><span class=" text-weight-bold">summary : </span>{{ projectVo.summary }}</q-item-label>
                             <q-item-label class="col-12"><span class=" text-weight-bold">subtitle : </span>{{ projectVo.subtitle }}</q-item-label>
+                            <q-item-label class="col-12"><span class=" text-weight-bold">collection address : </span>{{ projectVo.contract_address }}</q-item-label>
                             <q-item-label class="col-12"><span class=" text-weight-bold">email : </span>{{ projectVo.email }}</q-item-label>
                         </div>
                         </q-item-section>
@@ -58,11 +59,11 @@
             </q-card-section>
             <q-card-section>
                 <div class="col-12">
-                    <q-input v-model="collectionUrl" hide-bottom-space placeholder="Collection Url" outlined style="height: 56px;" />
+                    <q-input v-model="projectVo.collection_url" hide-bottom-space placeholder="Collection Url" outlined style="height: 56px;" />
                 </div>
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <q-input v-model="mediaUrlPrefix" hide-bottom-space placeholder="Media Url Prefix" outlined style="height: 56px;" />
-                </div>
+                </div> -->
                 <q-btn text-color="black" style="background-color: #fefefe; width: 100%; height: 56px; min-width: 30px;" @click="Modify()">
                     <table border="0" width="100%" align="center">
                     <tr>
@@ -93,7 +94,6 @@
         CollectionRequestInfoModal: false,
         maximized: false,
         seq: 0,
-        collectionUrl: '',
         mediaUrlPrefix: '',
         saleYn: 'Y',
         mediaList: [],
@@ -106,6 +106,8 @@
             banner_url: '',
             postar_url: '',
             description: '',
+            contract_address: '',
+            collection_url: '',
             artist_details: '',
             email: '',
             instargram: '',
@@ -202,8 +204,7 @@
             const params = {
                 // uid: this.getUid,
                 seq: this.projectVo.seq,
-                collection_url: this.collectionUrl,
-                media_url_prefix: this.mediaUrlPrefix,
+                collection_url: this.projectVo.collection_url,
                 status_cd: this.$PROJECT_STATUS_CD_CONFIRMED,      // 컬렉션 등록 완료(50)
             }
             this.$q.loading.show() // 로딩 표시 시작

@@ -1411,12 +1411,50 @@ export default {
   connect_wallet: 'CONNECT WALLET',
   under_construction: 'Under construction',
   coming_soon: 'Coming soon...',
-  main_introduction_overline: 'Introduction',
-  main_introduction_title: 'Klaystar is',
-  main_introduction_content:
-  `Klaystar is a value-sharing system.\r\n
-  Companies, groups, projects, influencer, and individuals.\n
-  Any type of platform shares its value with everyone.`,
+  introduction_title: 'Klaystar is',
+  introduction_overline: 'Introduction',
+  introduction_content_aboutus:
+  `Gallery X is a virtual gallery based on the NFT market, inspired by the combination of Instagram and metaverse exhibition halls.\r
+  This platform was created to help artists overcome the high barriers of the NFT sales market. Artists are provided with new opportunities to promote themselves to a wider audience,\r
+  engage with fans, and economically utilize their work. Through Gallery X, we aim to offer a new possibility for artists to exhibit their work and connect with a global audience.`,
+  introduction_content_ourvalue_1: 
+  'Compared to the rapidly growing NFT market, the entry barriers for traditional artists have been too high. For such artists, we provide an automatic NFT conversion service, allowing anyone to easily convert and sell their work as an NFT simply by uploading it to Gallery X.',
+  introduction_content_ourvalue_2: 
+  'By integrating with Instagram, we offer unique archiving that matches themes and concepts through custom exhibition halls and virtual galleries for previously uploaded works.',
+  introduction_content_ourvalue_3: 
+  'By utilizing AI docents, we provide visitors with more in-depth explanations of the artworks and the associated worldviews.',
+  introduction_content_why_subtitle_1: 'Sell My Work as an NFT',
+  introduction_content_why_1: 
+  `Compared to the rapidly growing NFT market, the entry barriers for traditional artists have been too high\r
+  For such artists, we provide an automatic NFT conversion service, allowing anyone to easily\r
+  convert and sell their work as an NFT simply by uploading it to Gallery X.`,
+  introduction_content_why_subtitle_2: "Creator's Royalty Earnings",
+  introduction_content_why_2: 
+  `In the NFT market, creators receive royalties when their work is resold by the buyer.\r
+  Through Gallery X, artists can easily enjoy the financial benefits that were not available in the offline market.`,
+  introduction_content_why_subtitle_3: 'Instagram Integration',
+  introduction_content_why_3: 
+  `By integrating with Instagram, you can easily exhibit your previously uploaded works in custom exhibition halls \r
+  and virtual galleries with just a click. This allows for the free creation of personal collections,\r
+  providing artists with a unique archiving environment.`,
+  introduction_content_why_subtitle_4: 'Seamless Communication with AI Docents',
+  introduction_content_why_4: 
+  `By utilizing AI docents, in-depth explanations of artworks and their worldviews can be provided to visitors \r
+  without direct involvement from the artist. Experience interactive engagement similar to that of a real gallery \r
+  through docent voice interaction technology.`,
+  introduction_content_why_subtitle_5: 'Auto Tour Function',
+  introduction_content_why_5: 
+  `The auto tour function, which flows like a video, is user-friendly for visitors \r
+  who experience 3D motion sickness and allows them to view the artworks without direct interaction.`,
+  introduction_content_why_subtitle_6: '24/7 Year-Round Portfolio',
+  introduction_content_why_6: 
+  `Through the permanent exhibitions at Gallery X, a unique portfolio space is provided, \r
+  unrestricted by time or location. Unlike traditional portfolios made of paper and documents, \r
+  the link format offers excellent versatility for use in business cards, cards, and social media.`,
+  introduction_content_explore_1: 'This modern concept exhibition hall offers a stable exhibition space with a dark color scheme and unique partition structures.',
+  introduction_content_explore_2: "The central structure guides the visitors' paths, making it an ideal space for storytelling. The checkered floor adds a trendy touch to the overall design.",
+
+
   main_behind_the_scene_overline: 'Behind the scene',
   main_behind_the_scene_title: 'Problems',
   main_behind_the_scene_content:

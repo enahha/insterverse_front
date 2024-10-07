@@ -139,7 +139,7 @@
           </q-infinite-scroll>
 
           <div v-if="noDataFlag" class="row justify-center q-pt-lg">
-            <img src="images/no_data.png" style="width: 35%; max-width: 250px;" />
+            <img src="images/galleryx_nodata_txt.png" style="width: 35%; max-width: 250px;" />
           </div>
 
           <div style="display: flex; justify-content: flex-end; padding-top: 30px;">
@@ -1158,6 +1158,12 @@ export default defineComponent({
           return
         }
       } else {
+        // validation
+        if  (!this.validate()) {
+          this.$noti(this.$q, this.$t('validation_failed'))
+          return
+        }
+
         this.branchInsertUpdate()   // 등록
       }
 
@@ -1401,34 +1407,15 @@ export default defineComponent({
     ///////////////////////////////////////////////////////////////////////////
     validate() {
       let result = true
-      if (!this.$refs.refTitle.validate()) {
-        result = false
+      if  (this.title == null || this.title == '') {
+        return false
       }
-      if (!this.$refs.refSubTitle.validate()) {
-        result = false
+      if  (this.subtitle == null || this.subtitle == '') {
+        return false
       }
-      // if (!this.$refs.refTitle.validate()) {
-      //   result = falsetrue
-      // }
-      // if (!this.$refs.refTitleKo.validate()) {
-      //   result = falsetrue
-      // }
-      // // if (!this.projectImageUrl) {
-      // //   this.$noti(this.$q, this.$t('validation_failed_minting_nft_image'))true
-      // //   result = falsetrue
-      // // }
-      if (!this.$refs.refSymbol.validate()) {
-        result = false
+      if  (this.symbol == null || this.symbol == '') {
+        return false
       }
-      // if (!this.$refs.refSubtitle.validate()) {
-      //   result = falsetrue
-      // }
-      // if (!this.$refs.refExhibitionName.validate()) {
-      //   result = falsetrue
-      // }
-      // if (!this.$refs.refStartTime.validate()) {
-      //   result = falsetrue
-      // }
       return result
     },
     // 등록 처리 시작
@@ -1439,15 +1426,9 @@ export default defineComponent({
         return
       }
 
-      // title이 입력이 안되었으면 저장하지 않는다.
-      if  (this.title == null || this.title == '') {
-        console.log("title 입력 " , this.title)
-        return
-      }
-
-      // // check mainnet
-      // if (this.mainnetObj.value !== 'KLAYTN') {
-      //   this.$noti(this.$q, this.$t('unsupported_mainnet'))
+      // Field validation check (TypeError 뜸.)
+      // if(!this.validate()) {
+      //   this.$noti(this.$q, this.$t('validation_failed'))
       //   return
       // }
 

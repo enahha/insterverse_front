@@ -29,6 +29,7 @@
         :name="(item.seq).toString()"
         :img-src="item.src"
         style="background-size: cover;"
+        @click="handleSlideClick(item.seq)"
       >
         <div class="banner-mant" v-if="item.seq != 2">
           <div>
@@ -39,7 +40,6 @@
           <p class="ment ment-3">{{ $t('main_banner_info_3') }}</p>
         </div>
       </q-carousel-slide>
-      <!-- <img :src="item.src" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
     </q-carousel>
 
     <q-carousel
@@ -70,6 +70,7 @@
         :name="(item.seq).toString()"
         :img-src="item.src"
         style="background-size: cover;"
+        @click="handleSlideClick(item.seq)"
       >
         <div class="banner-mant" v-if="item.seq != 2">
           <div>
@@ -80,21 +81,9 @@
           <p class="ment ment-3">{{ $t('main_banner_info_3') }}</p>
         </div>
       </q-carousel-slide>
-      <!-- <img :src="item.src" style="width: 100%; height: 1000px; display: block; margin: -80px auto; " /> -->
     </q-carousel>
 
     <div class="page-1200" style="word-break: keep-all;">
-
-
-      <!-- <div class="text-center" v-if="locale === 'en-US'">
-        <br />"Every artist was first an amateur."
-        <br />- Ralph Waldo Emerson -
-      </div>
-      <div class="text-center" v-else-if="locale === 'ko-KR'">
-        <br />"모든 위대한 예술가들도 처음에는 아마추어였다."
-        <br />- 랄프 월도 에머슨 -
-      </div> -->
-
       <div class="space">
       </div>
 
@@ -396,9 +385,13 @@ export default defineComponent({
           seq: 1,
           src: 'images/instarverse_banner_3_2.png',
         },
+        // {
+        //   seq: 2,
+        //   src: 'images/galleryx_banner_event1-2_eng.png',
+        // },
         {
           seq: 2,
-          src: 'images/galleryx_banner_event1-2_eng.png',
+          src: 'images/galleryx_banner_event1_eng_btn_text.png',
         },
       ],
       bannerImageKor: [
@@ -410,9 +403,13 @@ export default defineComponent({
           seq: 1,
           src: 'images/instarverse_banner_3_2.png',
         },
+        // {
+        //   seq: 2,
+        //   src: 'images/galleryx_banner_event1-2_kor.png',
+        // },
         {
           seq: 2,
-          src: 'images/galleryx_banner_event1-2_kor.png',
+          src: 'images/galleryx_banner_event1_kor_btn_text.png',
         },
       ],
       userAgent: '',
@@ -544,6 +541,11 @@ export default defineComponent({
         this.smallSize = true
       } else {
         this.smallSize = false
+      }
+    },
+    handleSlideClick(seq) {
+      if (seq === 2) {
+        this.$router.push({ path: '/introduction' })
       }
     },
     insertActionLog(actionNo, actionCd, params) {
