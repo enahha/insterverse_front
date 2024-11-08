@@ -40,8 +40,8 @@
                 <q-item-section>
                   <div class="row list-item">
                     <q-item-label class="col-12" style="max-height: 20px; cursor: pointer;" @click="goPayment(item)">{{ item.name }}</q-item-label>
-                    <q-item-label v-if="locale === 'ko-KR'" class="col-12 text-bold">{{truncateText(item.description_ko, 100) }}</q-item-label>
-                    <q-item-label v-else class="col-12 text-bold">{{ truncateText(item.description, 150) }}</q-item-label>
+                    <q-item-label v-if="locale === 'ko-KR'" class="col-12 text-bold">{{truncateText(item.description_ko, 80) }}</q-item-label>
+                    <q-item-label v-else class="col-12 text-bold">{{ truncateText(item.description, 100) }}</q-item-label>
 
                     <q-item-label style="width: 100%; display: flex; justify-content: space-around; align-items: last baseline;">
                       <!-- <div style="font-size: large; color: black; font-weight: bold;">$ {{ item.price }}</div> -->
@@ -338,7 +338,7 @@ export default defineComponent({
         // 결제정보 설정
         // const goodName = item.name + ' ' + this.$t('contract_verify')
         const goodName = item.name
-        const payCode = this.$ITEM_TYPE_HALL
+        const payCode = this.$PAY_CODE_HALL
 
         this.$store.dispatch('setPaymentGoodsName', goodName)
         this.$store.dispatch('setPaymentPayCode', payCode)
@@ -365,13 +365,13 @@ export default defineComponent({
         // 결제 화면으로 이동
         if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || this.$q.platform.is.mobile) {
           // 액션 로그 등록
-          this.insertActionLog('100900200', 'go payment', item.seq)
+          this.insertActionLog('100900200', 'go item payment', item.seq)
 
           // 디바이스가 모바일인 경우
           this.$router.push('/paymentMobile')
         } else {
           // 액션 로그 등록
-          this.insertActionLog('100900200', 'go payment', item.seq)
+          this.insertActionLog('100900200', 'go item payment', item.seq)
 
           // 디바이스가 데스크탑인 경우
           // this.$router.push('/PaymentItem')

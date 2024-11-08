@@ -1144,10 +1144,16 @@ export default {
   payment_failed: '결제 실패',
 
   // plan
-  plan: 'Plan',
+  plan: 'PLAN',
+  upgrade: 'UPGRADE',
   plan_detail: '최고의 전시장을 위한 최상의 서비스',
   plan_currncy_usd_month: 'USD / 월',
   plan_currncy_usd_year: 'USD / 년',
+  payment_info: '결제 정보 입력',
+  recurring_payment: '결제 예정 금액',
+  recurring_note: 'Please note',
+  recurring_note_detail: 'You can cancel your account at any time at the end of the current month. By submitting this form, you subscribe to the plan of your choice. If you prefer a one-off payment instead of a subscription, please contact us.',
+  next_payment_date: '다음 결제일',
   plan_feature_pre: '',
   plan_feature_post: '개의 작품 저장소',
   plan_feature: '개의 3D전시관',

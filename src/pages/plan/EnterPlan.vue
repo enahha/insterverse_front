@@ -13,7 +13,7 @@
     <div class="text-subtitle1 q-mb-xl">{{ $t('plan_detail') }}</div>
 
     <!-- Pricing Plans Section -->
-    <div class="row pricing-plan justify-center">
+    <div v-if="plan.length > 0" class="row pricing-plan justify-center">
         <!-- FREE Plan -->
         <div class="col-12 col-md-3 plan start-plan">
         <h2>{{ plan[0].name }}</h2>
@@ -38,7 +38,7 @@
                 <p>{{ $t('plan_feature_pre') }} {{ item.storage }} {{ $t('plan_feature_post') }}</p>
                 <p>{{ item.exhibition_count }} {{ $t('plan_feature') }}</p>
             </div>
-            <button class="plan-button">UPGRADE</button>
+            <button @click="goPayment(item)" class="plan-button">UPGRADE</button>
         </div>
 
         <!-- CUSTOM Plan -->
@@ -56,8 +56,6 @@
 </div>
 
 </q-page>
-<MediaDetailModal ref="refMediaDetailModal" />
-<WalletModal ref="refWalletModal" />
 </template>
 
 <script>
@@ -76,9 +74,6 @@ setup () {
     }
 },
 beforeUnmount() {
-    // truncateText중 null일 때 mount오류 발생(?????)하여 추가
-    // 컴포넌트가 언마운트될 때 vnode가 null인지 확인하고, null일 경우 해당 로직을 실행하지 않도록함
-    if (!this.$vnode) return
 },
 data () {
     return {
@@ -154,61 +149,61 @@ methods: {
     
     // 계정 조회
     selectUser() {
-    // 로그인 여부 체크, 로그인 모달 표시
-    if (!this.getUid) {
-        // this.$refs.refWalletModal.show()
-        this.$router.push('/')
-        return
-    }
-
-    const param = {
-        uid: this.getUid,
-    }
-
-    // 계정 조회
-    this.$axios.get('/api/user/selectUser', { params: { ...param }})
-        .then((result) => {
-        // console.log(JSON.stringify(result.data))
-        if (result.data) {
-            console.log(result.data)
-            this.walletAddress = result.data.wallet_address
-            if (!this.walletAddress) {
-            this.walletAddress = this.$store.getters.getWalletAddress
-            }
-            this.walletType = result.data.wallet_type
-            this.bankAccount = result.data.bank_account
-            this.bankType = result.data.bank_type
-            // this.nickname = result.data.nickname
-            this.profile_image = result.data.profile_image
-            // this.reg_name = result.data.reg_name
-            this.name = result.data.name
-            this.mobile_no = result.data.mobile_no
-            this.id_card_image = result.data.id_card_image
-            this.home_address = result.data.home_address
-            this.home_address_image = result.data.home_address_image
-            this.business_registration_no = result.data.business_registration_no
-            this.business_license_image = result.data.business_license_image
-            this.company_address = result.data.company_address
-            this.company_address_image = result.data.company_address_image
-            this.company_tel_no = result.data.company_tel_no
-        } else {
-            this.$noti(this.$q, this.$t('request_data_failed'))
+        // 로그인 여부 체크, 로그인 모달 표시
+        if (!this.getUid) {
+            // this.$refs.refWalletModal.show()
+            this.$router.push('/')
+            return
         }
-        })
-        .catch((err) => {
-        console.log(err)
-        })
+
+        const param = {
+            uid: this.getUid,
+        }
+
+        // 계정 조회
+        this.$axios.get('/api/user/selectUser', { params: { ...param }})
+            .then((result) => {
+            // console.log(JSON.stringify(result.data))
+            if (result.data) {
+                console.log(result.data)
+                this.walletAddress = result.data.wallet_address
+                if (!this.walletAddress) {
+                this.walletAddress = this.$store.getters.getWalletAddress
+                }
+                this.walletType = result.data.wallet_type
+                this.bankAccount = result.data.bank_account
+                this.bankType = result.data.bank_type
+                // this.nickname = result.data.nickname
+                this.profile_image = result.data.profile_image
+                // this.reg_name = result.data.reg_name
+                this.name = result.data.name
+                this.mobile_no = result.data.mobile_no
+                this.id_card_image = result.data.id_card_image
+                this.home_address = result.data.home_address
+                this.home_address_image = result.data.home_address_image
+                this.business_registration_no = result.data.business_registration_no
+                this.business_license_image = result.data.business_license_image
+                this.company_address = result.data.company_address
+                this.company_address_image = result.data.company_address_image
+                this.company_tel_no = result.data.company_tel_no
+            } else {
+                this.$noti(this.$q, this.$t('request_data_failed'))
+            }
+            })
+            .catch((err) => {
+            console.log(err)
+            })
     },
     callbackLogin(userVo) {
-    // console.log('callbackLogin!!!')
-    this.$store.dispatch('setUid', userVo.uid)
-    this.$store.dispatch('setAdcd', userVo.adcd)
-    this.$store.dispatch('setName', userVo.name)
-    this.$store.dispatch('setNickname', userVo.nickname)
-    this.$store.dispatch('setProfileImage', userVo.profile_image)
-    this.$store.dispatch('setWalletType', userVo.wallet_type)
-    this.$store.dispatch('setWalletAddress', userVo.wallet_address)
-    this.$store.dispatch('setMobileNo', userVo.mobile_no)
+        // console.log('callbackLogin!!!')
+        this.$store.dispatch('setUid', userVo.uid)
+        this.$store.dispatch('setAdcd', userVo.adcd)
+        this.$store.dispatch('setName', userVo.name)
+        this.$store.dispatch('setNickname', userVo.nickname)
+        this.$store.dispatch('setProfileImage', userVo.profile_image)
+        this.$store.dispatch('setWalletType', userVo.wallet_type)
+        this.$store.dispatch('setWalletAddress', userVo.wallet_address)
+        this.$store.dispatch('setMobileNo', userVo.mobile_no)
     },
     selectPlanList() {
         const param = {
@@ -230,332 +225,78 @@ methods: {
             console.log(err)
             })
     },
-    ///////////////////////////////////////////////////////////////////////////
-    // validation
-    ///////////////////////////////////////////////////////////////////////////
-    required(val) {
-    const message = this.$t('validation_required')
-    return required(val, message);
-    },
-    requiredNumber(val) {
-    const message = this.$t('validation_required')
-    return required(val, message);
-    },
-    minLength(val, length) {
-    if (!val) {
-        return true
-    }
-    const message = this.$t('validation_min_length') + ': ' + length
-    return minLength(val, message, length);
-    },
-    maxLength(val, length) {
-    if (!val) {
-        return true
-    }
-    const message = this.$t('validation_max_length') + ': ' + length
-    return maxLength(val, message, length);
-    },
-    minValue(val, value) {
-    const message = this.$t('validation_min_value') + ': ' + value
-    return minValue(val, message, value);
-    },
-    maxValue(val, value) {
-    const message = this.$t('validation_max_value') + ': ' + value
-    return maxValue(val, message, value);
-    },
-    ///////////////////////////////////////////////////////////////////////////
-    validate() {
-    let result = true
-    // 지갑주소 유효성 체크
-    // if (!this.checkAddress(this.wallet_address)) {
-    //   this.$noti(this.$q, this.$t('validation_failed_check_wallet_address'))
-    //   result = false
-    // }
-    // if (!this.$refs.pwd.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_pwd'))
-    //   result = false
-    // }
-    // if (!this.$refs.pwdCheck.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_pwd_check'))
-    //   result = false
-    // }
-    // // 비밀번호 일치 확인
-    // if (this.pwd !== this.pwdCheck) {
-    //   this.$noti(this.$q, this.$t('pwd_not_match'))
-    //   result = false
-    // }
-    // if (!this.$refs.nickname.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_nickname'))
-    //   result = false
-    // }
-    // if (!this.$refs.name.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_name'))
-    //   result = false
-    // }
-    // if (!this.$refs.mobile_no.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_mobile_no'))
-    //   result = false
-    // }
-    // if (!this.$refs.home_address.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_home_address'))
-    //   result = false
-    // }
-    // if (!this.$refs.business_registration_no.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_business_registration_no'))
-    //   result = false
-    // }
-    // if (!this.$refs.company_address.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_company_address'))
-    //   result = false
-    // }
-    // if (!this.$refs.company_tel_no.validate()) {
-    //   this.$noti(this.$q, this.$t('validation_failed_company_tel_no'))
-    //   result = false
-    // }
-    return result
-    },
-    modifyUserPre(nickname, pwd, pwdCheck) {
-    // 비밀번호 변경시
-    if(nickname == null) {
-        this.modifyUser(nickname, pwd, pwdCheck)
-        return
-    }
-    // 닉네임 변경시
-    if(pwd == null && pwdCheck == null) {
-        this.modifyUser(nickname, pwd, pwdCheck)
-        return
-    }
-    },
-    // 회원정보 수정 처리 시작
-    async modifyUser(nickname, pwd, pwdCheck) {
-    // Field validation check
-    // if(!this.validate()) {
-    //   // this.$noti(this.$q, this.$t('validation_failed'))
-    //   return
-    // }
-
-    // nickname 중복 체크
-    const resultNickname = await this.checkNicknameDuplicate(nickname)
-    if (resultNickname === false) {
-        return
-    }
-
-    if(!this.checkField(pwd, pwdCheck)) {
-        // this.$noti(this.$q, this.$t('validation_failed'))
-        return
-    }
-
-    // 로그인 여부 체크, 로그인 모달 표시
-    if (!this.getUid) {
-        this.$refs.refWalletModal.show()
-        return
-    }
-
-    // 회원정보 수정
-    this.doModifyUser(nickname, pwd)
-    },
-    // 회원정보 수정
-    async doModifyUser(nickname, pwd) {
-    // 1. 회원정보 수정 처리 - token, token_description, token_contract_verify
-    let encPwd = ''
-    if (pwd) {
-        encPwd = sha512(pwd)
-    } else {
-        encPwd = null
-    }
-    const params = {
+    insertActionLog(actionNo, actionCd, params) {
+      // 액션 로그 등록 처리
+      const param = {
         uid: this.getUid,
-        pwd: encPwd,
-        nickname: nickname,
-    }
-
-    this.$q.loading.show() // 로딩 표시 시작
-
-    this.$axios.post('/api/user/updateUser', params)
-        .then((result) => {
-        // console.log(JSON.stringify(result.data))
-        this.$q.loading.hide() // 로딩 표시 종료
-        if (result.data && result.data.resultCd === 'SUCCESS') {
-            // console.log(result.data)
-            this.$noti(this.$q, this.$t('modify_user_success'))
-            this.clearField()
-        } else {
-            this.$noti(this.$q, this.$t('modify_user_failed'))
-        }
-        })
+        action_no: actionNo,
+        action_cd: actionCd,
+        params: params,
+      }
+      this.$axios.post('/api/log/insertKpiLog', param)
         .catch((err) => {
-        this.$q.loading.hide() // 로딩 표시 종료
-        console.log(err)
-        this.$noti(this.$q, err)
+          console.log(err)
         })
     },
-    checkField(pwd, pwdCheck) {
-    // ID 항목 체크
-    // if (!this.checkInput(this.userVo.uid, 'ID')) {
-    //   return false
-    // }
-    // if (!this.checkInputLength(this.userVo.uid, this.$t('ID'), 50, 'long')) {
-    //   return false
-    // }
-
-    // ID 이메일 형식 체크
-    // if (!this.checkEmail(this.userVo.uid)) {
-    //   this.$noti(this.$q, this.$t('id_must_be_email'))
-    //   return false
-    // }
-    // // 비밀번호 항목 체크
-    // if (!this.checkInput(this.userVo.pwd, this.$t('pwd_upper'))) {
-    //   return false
-    // }
-    // // 비밀번호 확인 항목 체크
-    // if (!this.checkInput(this.pwdCheck, this.$t('pwd_check_upper'))) {
-    //   return false
-    // }
-
-    // 비밀번호 변경이 아닐 시
-    if(!pwd) {
-        return true
-    }
-
-    // 비밀번호 항목 자릿수 체크
-    if (!this.checkInputLength(pwd, this.$t('pwd_upper'), 6, 'short')) {
-        return false
-    }
-    // 비밀번호 확인 항목 자릿수 체크
-    if (!this.checkInputLength(pwdCheck, this.$t('pwd_check_upper'), 6, 'short')) {
-        return false
-    }
-    // 비밀번호 일치 확인
-    if (pwd !== pwdCheck) {
-        this.$noti(this.$q, this.$t('pwd_not_match'))
-        return false
-    }
-    return true
-    },
-    checkInputLength(field, fieldName, length, compareCd) {
-    if (!field) {
-        this.$noti(this.$q, fieldName + this.$t('is_required'))
-        return false
-    } else {
-        if (compareCd === 'short') {
-        if (field.length < length) {
-            this.$noti(this.$q, fieldName + this.$t('must_be_longer_than') + ' ' + length)
-            return false
-        }
-        } else if (compareCd === 'long') {
-        if (field.length > length) {
-            this.$noti(this.$q, fieldName + this.$t('must_be_shorter_than') + ' ' + length)
-            return false
-        }
-        } else if (compareCd === 'equal') {
-        if (field.length !== length) {
-            this.$noti(this.$q, fieldName + this.$t('must_be_equal') + ' ' + length)
-            return false
-        }
-        }
-        return true
-    }
-    },
-    // nickname 중복 체크
-    async checkNicknameDuplicate(nickname) {
-    const vo = {
-        nickname: nickname
-    }
-    const result = await this.$axios.post('/api/login/checkNicknameDuplicate', vo)
-    if (result.data && result.data.resultCd === 'SUCCESS') {
-        return true
-    } else if (result.data.resultCd === 'FAIL') {
-        this.$noti(this.$q, this.$t('nickname_already_in_use'))
-        return false
-    } else {
-        this.$noti(this.$q, result.data.status + ' : ' +result.data.resultMsg)
-        return false
-    }
-    },
-    ModifyUserAccount() {
-    const params = {
+    goPayment(item) {
+      // 1. 해당 건이 결제 완료인지 확인
+      const params = {
         uid: this.getUid,
-        wallet_address: this.walletAddress,
-        wallet_type: this.walletType ? this.walletType.value : '',
-        bank_type: this.bankType ? this.bankType.value : '',
-        bank_account: this.bankAccount
-    }
+        seq: this.seq,
+      }
+      // const result = await this.$axios.post('/api/tokenburn/checkTokenBurnStatusCdPaid', params)
+      // if (result && result.data && result.data.resultCd === 'SUCCESS') { // 결제 완료인 경우
+      //   this.$router.push({ path: '/token/burn', query: { key: this.seq }}) // 실행 화면으로 이동
+      // } else { // 결제 전인 경우, 결제 화면으로 이동
+        // 결제정보 설정
+        // const goodName = item.name + ' ' + this.$t('contract_verify')
+        const goodName = item.name
+        const payCode = this.$PAY_CODE_PLAN
 
-    this.$q.loading.show() // 로딩 표시 시작
+        this.$store.dispatch('setPaymentGoodsName', goodName)
+        this.$store.dispatch('setPaymentPayCode', payCode)
 
-    this.$axios.post('/api/user/updateUserAccount', params)
-        .then((result) => {
-        this.$q.loading.hide() // 로딩 표시 종료
+        // 상점 파라미터(customData) 설정
+        // [0]: payCode | [1]: paySuccessUrl | [2]: payFailUrl | [3]: key
+        const paySuccessUrl = '/store'
+        // let payFailUrl = '/payment/item?s=' + item.seq // 디바이스가 데스크탑인 경우
+        let payFailUrl = '/plan' // 디바이스가 데스크탑인 경우
+        if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || this.$q.platform.is.mobile) {
+          payFailUrl = '/paymentMobile' // 디바이스가 모바일인 경우
+        }
+        const key = item.seq // insert로 받아온 seq를 설정 ※ item의 seq는 토큰 seq이고, this.seq는 token_burn 또는 token_mint 테이블에 insert 된 seq 임.
+        const customData = payCode + '|' + paySuccessUrl + '|' + payFailUrl + '|' + key   // db에 들어가는 데이터같음
+        this.$store.dispatch('setPaymentCustomData', customData) // 상점 파라미터(customData) 설정
 
-        if (result.data && result.data.resultCd === 'SUCCESS') {
-            // console.log(result.data)
-            this.$noti(this.$q, this.$t('modify_user_success'))
-            this.selectUser()
+        // 결제 정보 설정
+        this.$cookie.set('GOOD_NAME', goodName)
+        this.$cookie.set('PAY_CODE', payCode)
+        this.$cookie.set('CUSTOM_DATA', customData)
+        localStorage.setItem('GOOD_NAME', goodName)
+        localStorage.setItem('PAY_CODE', payCode)
+        localStorage.setItem('CUSTOM_DATA', customData)
+
+        // 결제 화면으로 이동
+        if (this.$q.platform.is.cordova || this.$q.platform.is.name === 'webkit' || this.$q.platform.is.mobile) {
+          // 액션 로그 등록
+          this.insertActionLog('100120300', 'go plan payment', item.seq)
+
+          // 디바이스가 모바일인 경우
+          this.$router.push('/paymentMobile/plan')
         } else {
-            this.$noti(this.$q, this.$t('modify_user_failed'))
-        }
-        })
-        .catch((err) => {
-        this.$q.loading.hide() // 로딩 표시 종료
-        console.log(err)
-        this.$noti(this.$q, err)
-        })
-    },
-    // 파일 업로드 필터
-    filterFiles (files) {
-    const MAX_FILE_SIZE = 10 * 1024 * 1024
-    // this.$store.state.UPLOAD_FILE_SIZE_LIMIT * 1024 * 1024 // = 4M
-    // returns an Array containing allowed files
-    return files.filter((file) => {
-        if (file.size > MAX_FILE_SIZE) {
-        this.$noti(this.$q, this.$t('file_size_exceeded'))
+          // 액션 로그 등록
+          this.insertActionLog('100120300', 'go plan payment', item.seq)
 
+          // 디바이스가 데스크탑인 경우
+          // this.$router.push('/PaymentItem')
+
+          // 결제 준비 화면으로
+           this.$router.push({ path: '/payment/plan', query: { s: item.seq }})
+
+          // this.$router.push('/payment')
         }
-        return file.size <= MAX_FILE_SIZE
-    })
-    },
-    // 이미지 업로드가 완료되면 호출되는 메소드
-    fileUploaded_profile_image (file, xhr) {
-    this.profile_image = file.xhr.responseText
-    },
-    fileUploaded_id_card_image (file, xhr) {
-    this.id_card_image = file.xhr.responseText
-    },
-    fileUploaded_home_address_image (file, xhr) {
-    this.home_address_image = file.xhr.responseText
-    },
-    fileUploaded_business_license_image (file, xhr) {
-    this.business_license_image = file.xhr.responseText
-    },
-    fileUploaded_company_address_image (file, xhr) {
-    this.company_address_image = file.xhr.responseText
-    },
-    // 지갑주소 유효성 검증
-    /**
-     * Checks if the given string is an address
-     *
-     * @method isAddress
-     * @param {String} address the given HEX address
-     * @return {Boolean}
-     */
-    checkAddress(address) {
-    if (address.length === 42) {
-        return true
-    } else {
-        return false
-    }
-    // // check if it has the basic requirements of an address
-    // if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-    //   return false
-    //     // If it's ALL lowercase or ALL upppercase
-    // }
-    // if (/^(0x|0X)?[0-9a-f]{40}$/.test(address) || /^(0x|0X)?[0-9A-F]{40}$/.test(address)) {
-    //   // return true
-    //   // Otherwise check each case
-    //   return this.checkAddressChecksum(address)
-    // } else {
-    //   return false
-    // }
+      // }
+
     },
     clearField() {
     this.nickname= ''

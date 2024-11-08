@@ -138,16 +138,21 @@ textarea {
     }
 }
 .footer {
-    background: url('/images/background_bottom3.png');
+    // background: url('/images/background_bottom3.png');
+    background-color: #efefef;
     background-size: cover;
     width: 100%;
-    height: 484px;
+    height: 300px;
     // margin-top: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
     > .footer-info {
         position: absolute;
         padding-top: 0px;
         // bottom: -5%;
-        width: 100%;
+        width: 50%;
     }
 }
 .q-drawer--left {
@@ -1017,6 +1022,152 @@ textarea {
         }
     }
 }
+// plan
+.plan-payment-page {
+    width: 100%;
+    height: auto; // 높이를 auto로 설정해 컨텐츠에 맞게 조정
+  
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      align-items: center;
+      height: 100%;
+  
+      .payment-method-section {
+        flex: 1;
+        max-width: 70%;
+        justify-content: center;
+  
+        .section-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          width: 100%;
+          margin-bottom: 20px;
+        }
+  
+        .info {
+          width: 70%;
+          margin: 50px;
+        }
+      }
+  
+      .payment-details-sidebar {
+        flex: 1;
+        max-width: 350px;
+        background-color: #efefef;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        height: 100%;
+  
+        .sidebar-title {
+          font-size: 1.3rem;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+  
+        .payment-details {
+          .recurring-payment {
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+            margin-bottom: 5px;
+          }
+  
+          .amount {
+            font-size: 2rem;
+            color: #0070ba;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+          }
+  
+          .billing-cycle {
+            font-size: 0.8rem;
+            color: #0070ba;
+            text-align: center;
+            margin-bottom: 20px;
+          }
+  
+          .note {
+            font-size: 0.8rem;
+            color: #555;
+            margin-bottom: 20px;
+          }
+  
+          .support {
+            text-align: center;
+  
+            .support-title {
+              font-size: 0.9rem;
+              font-weight: bold;
+              margin-bottom: 5px;
+            }
+  
+            .contact-link {
+              font-size: 0.8rem;
+              color: #0070ba;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+  
+    // 반응형 스타일
+    @media (max-width: 1024px) {
+      .content {
+        flex-direction: column;
+        align-items: center;
+  
+        .payment-method-section {
+          max-width: 100%;
+          width: 100%;
+          margin-bottom: 20px;
+  
+          .info {
+            width: 90%;
+          }
+        }
+  
+        .payment-details-sidebar {
+          max-width: 100%;
+          width: 90%;
+          margin: 20px;
+          padding-bottom: 40px;
+        }
+      }
+    }
+  
+    @media (max-width: 768px) {
+      .content {
+        .payment-method-section .section-title {
+          font-size: 1.2rem;
+        }
+  
+        .payment-details-sidebar .sidebar-title {
+          font-size: 1.1rem;
+        }
+      }
+    }
+  
+    @media (max-width: 480px) {
+      .content {
+        .payment-method-section .section-title,
+        .payment-details-sidebar .sidebar-title {
+          font-size: 1rem; 
+        }
+  
+        .amount {
+          font-size: 1.5rem;
+        }
+      }
+    }
+}
+  
 //스토어 리스트
 .store-list {
     word-break: break-word;
@@ -2303,6 +2454,12 @@ background-color: #e7e6de9c;
             }
         }
     }
+    .footer {
+        > .footer-info {
+            width: 80%;
+        }
+    }
+    
     .q-toolbar {
         &.page-default {
             padding: 0 10px !important;

@@ -1144,10 +1144,16 @@ export default {
   payment_failed: 'Payment failed',
 
   // plan
-  plan: 'Plan',
+  plan: 'PLAN',
+  upgrade: 'UPGRADE',
   plan_detail: 'Best service for the best experience',
   plan_currncy_usd_month: 'USD / MONTH',
   plan_currncy_usd_year: 'USD / YEAR',
+  payment_info: 'Fill in Your Payment Info',
+  recurring_payment: 'your recurring payment',
+  recurring_note: 'Please note',
+  recurring_note_detail: 'You can cancel your account at any time at the end of the current month. By submitting this form, you subscribe to the plan of your choice. If you prefer a one-off payment instead of a subscription, please contact us.',
+  next_payment_date: 'Next payment date',
   plan_feature_pre: 'Storage for',
   plan_feature_post: 'works of art',
   plan_feature: 'public 3D Exhibitions',

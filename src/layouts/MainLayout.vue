@@ -294,7 +294,6 @@
 
       <q-scroll-area dark :vertical-thumb-style="{width: '10px'}" :style="`width: 100%; height: ${ scrollAreaHeight }px;`" style="z-index: 9998;">
 
-
         <q-list class="">
           <!--
           <q-item-label

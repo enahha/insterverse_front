@@ -28,7 +28,7 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/payment/Payment.vue') },
       { path: 'item', component: () => import('pages/payment/PaymentItem.vue') },
-      { path: 'paymentItemCallback', component: () => import('pages/payment/PaymentItemCallback.vue') },
+      { path: 'plan', component: () => import('src/pages/payment/PaymentBilling.vue') },
       { path: 'paymentCallback', component: () => import('pages/payment/PaymentCallback.vue') },
     ]
   },
@@ -37,6 +37,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/payment/PaymentMobile.vue') },
+      { path: 'item', component: () => import('pages/payment/PaymentItemMobile.vue') },
+      { path: 'plan', component: () => import('pages/payment/PaymentBillingMobile.vue') },
       { path: 'paymentCallback', component: () => import('pages/payment/PaymentCallback.vue') },
     ]
   },

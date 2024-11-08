@@ -2,126 +2,95 @@
   <q-page class="q-pa-md page-1200 payment-item-warp">
     <div class="row title">
       <div class="col-12 doc-heading">
-        <div class="title-sec"><span>{{ $t('store') }}</span></div>
+        <div class="title-sec"><span>{{ $t('upgrade') }} {{ $t('plan') }}</span></div>
       </div>
     </div>
 
     <div class="row subtitle">
-        <div class="subtitle-sec"><span>{{ $t('payment_confirm') }}</span></div>
+      <div class="subtitle-sec"><span>{{ $t('payment_confirm') }}</span></div>
     </div>
 
-    
     <!-- 하단 공간 확보 -->
-    <div class="row justify-center q-pa-xl">
-    </div>
+    <div class="row justify-center q-pa-xl"></div>
 
-    <!-- <div class="timeline">
-      <div class="node"></div>
-      <div class="node active"></div>
-      <div class="node"></div>
-    </div> -->
-    
-    
-    <div v-if="!payInfo" class="row justify-center q-pb-md">
-      <div class="row justify-left q-pb-md item-sec">
-        <!-- <span>{{ $t('payment_item') }} : </span> -->
-
-        <div class="item-container">
-          <q-item >
-            <q-item-section avatar>
-              <q-avatar square class="media-container">
-                <img v-if="itemVo.url" :src="itemVo.url"  class="media-content">
-                <img v-else src="images/exhibition_poster_basic2.png">
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <div class="row list-item">
-                <q-item-label class="col-12">{{ itemVo.itemName }}</q-item-label>
-                <q-item-label class="col-12">{{ itemVo.price }} $</q-item-label>
+    <div class="row">
+      <div class="plan-payment-page">
+        <!-- Main Content -->
+        <div class="content">
+          <!-- Payment Method Section -->
+          <div class="payment-method-section row">
+            <div class="info">
+              <h2 class="section-title">{{ $t('payment_info') }}</h2>
+              <div class="row justify-center">
+                <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">{{ $t('buyer_name') }}</span>
+                </div>
               </div>
-            </q-item-section>
-          </q-item>
+              <div class="row justify-center q-pb-md">
+                <div class="col-12">
+                  <q-input v-model="paymentVo.buyername" ref="refBuyerName" :rules="[required, val => minLength(val, 2), val => maxLength(val, 30)]" clearable outlined tabindex="1" />
+                </div>
+              </div>
+              <div class="row justify-center">
+                <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">{{ $t('buyer_tel') }}</span>
+                  <span class="text-grey">&nbsp;&nbsp;e.g. 01012345678</span>
+                </div>
+              </div>
+              <div class="row justify-center q-pb-md">
+                <div class="col-12">
+                  <q-input v-model="paymentVo.buyertel" ref="refBuyerTel" type="number" :rules="[required, val => minLength(val, 9), val => maxLength(val, 15)]" clearable outlined tabindex="1" />
+                </div>
+              </div>
+              <div class="row justify-center">
+                <div class="col-12">
+                  <span class="text-weight-bold text-subtitle1">{{ $t('buyer_email') }}</span>
+                </div>
+              </div>
+              <div class="row justify-center q-pb-md">
+                <div class="col-12">
+                  <q-input v-model="paymentVo.buyeremail" ref="refBuyerEmail" standout readonly />
+                </div>
+              </div>
+              <div class="row justify-center q-pb-md">
+                <div class="col-12">&nbsp;</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Details Sidebar -->
+          <div class="payment-details-sidebar">
+            <h2 class="sidebar-title">YOUR CHOICE:</h2>
+            <div class="payment-details">
+              <p class="recurring-payment">{{ $t('recurring_payment') }}:</p>
+              <p class="amount">{{ planVo.price }} USD</p>
+              <p class="billing-cycle">{{ $t('plan_currncy_usd_month') }}</p>
+              <p class="note text-center">
+                {{ $t('next_payment_date') }}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {{ nextPaymentDay }}
+              </p>
+              <p class="note">
+                <strong>{{ $t('recurring_note') }}:</strong> {{ $t('recurring_note_detail') }}
+              </p>
+              <div class="support">
+                <p class="support-title">DIRECT SUPPORT</p>
+                <a href="/#/contact" class="contact-link">FAQs use the contact form</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="text-center row list-item" style="width: 500px; height: auto; display: contents;">
-        <div v-if="locale === 'ko-KR'" class="col-12">{{ itemVo.descriptionKo }}</div>
-        <div v-else class="col-12">{{ itemVo.description }}</div>
-      </div>
-
-      <div style="width: 100%; display: flex; justify-content: flex-end; padding: 100px 10px;">
-        <!-- <q-btn
-            :label="$t('go_back')"
-            @click="goBack"
-            style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 150px; max-height: 30px;"
-          /> -->
-        <q-btn
-            :label="$t('next')"
-            @click="goPageNext"
-            style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 100px; max-height: 30px;"
-          />
-      </div>
-      
     </div>
 
-    <div v-if="payInfo">
-      <div class="row justify-center">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1">{{ $t('buyer_name') }}</span>
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md">
-        <div class="col-12">
-          <q-input v-model="paymentVo.buyername" ref="refBuyerName" :rules="[required, val => minLength(val, 2), val => maxLength(val, 30)]" clearable outlined tabindex="1" />
-        </div>
-      </div>
-      <div class="row justify-center">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1">{{ $t('buyer_tel') }}</span>
-          <span class="text-grey">&nbsp;&nbsp;e.g. 01012345678</span>
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md">
-        <div class="col-12">
-          <q-input v-model="paymentVo.buyertel" ref="refBuyerTel" type="number" :rules="[required, val => minLength(val, 9), val => maxLength(val, 15)]" clearable outlined tabindex="1" />
-        </div>
-      </div>
-      <div class="row justify-center">
-        <div class="col-12">
-          <span class="text-weight-bold text-subtitle1">{{ $t('buyer_email') }}</span>
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md">
-        <div class="col-12">
-          <q-input v-model="paymentVo.buyeremail" ref="refBuyerEmail" standout readonly />
-        </div>
-      </div>
-      <div class="row justify-center q-pb-md">
-        <div class="col-12">
-          &nbsp;
-        </div>
-      </div>
-      <div style="width: 100%; display: flex; justify-content: flex-end; padding: 100px 50px;">
-        <!-- <q-btn
-            :label="$t('go_back')"
-            @click="goPageBack"
-            style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 150px; max-height: 30px;"
-          /> -->
-        <q-btn
-            :label="$t('next')"
-            @click="doPayment"
-            style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 100px; max-height: 30px;"
-          />
-      </div>
-
-      <!-- 하단 공간 확보 -->
-      <div class="row justify-center q-pa-xl">
-      </div>
+    <div style="width: 100%; display: flex; justify-content: space-between; padding: 100px 50px;">
+      <q-btn :label="$t('go_back')" @click="goBack" style="background-color: none; color: black; border: 1px solid #6c6c6c; width: 150px; max-height: 30px;" />
+      <q-btn :label="$t('upgrade')" @click="doPayment" style="background-color: none; color: black; font-weight: bold; border: 1px solid #6c6c6c; width: 150px; max-height: 30px; margin: 0 20px;" />
     </div>
 
     <!-- PC용 결제폼 -->
     <form id="SendPayForm_id">
+      <!-- Hidden Inputs for Payment -->
       <input type="hidden" name="version" v-model="paymentVo.version">
       <input type="hidden" name="mid" v-model="paymentVo.mid">
       <input type="hidden" name="goodname" v-model="paymentVo.goodname">
@@ -132,31 +101,31 @@
       <input type="hidden" name="buyertel" v-model="paymentVo.buyertel">
       <input type="hidden" name="buyeremail" v-model="paymentVo.buyeremail">
       <input type="hidden" name="timestamp" v-model="paymentVo.timestamp">
+      <input type="hidden" name="use_chkfake" v-model="paymentVo.useChkfake">
       <input type="hidden" name="signature" v-model="paymentVo.signature">
       <input type="hidden" name="verification" v-model="paymentVo.verification">
       <input type="hidden" name="returnUrl" v-model="paymentVo.returnUrl">
       <input type="hidden" name="mKey" v-model="paymentVo.mKey">
-      <input type="hidden" name="gopaymethod" v-model="paymentVo.gopaymethod" >
-      <input type="hidden" name="offerPeriod" value="" >
-      <input type="hidden" name="acceptmethod" value="below1000" >
-      <input type="hidden" name="languageView" value="" >
-      <input type="hidden" name="charset" value="" >
-      <input type="hidden" name="payViewType" value="" >
-      <input type="hidden" name="closeUrl" v-model="paymentVo.closeUrl" >
-      <input type="hidden" name="popupUrl" value="" >
-      <input type="hidden" name="quotabase" v-model="paymentVo.cardQuotaBase" >
-      <input type="hidden" name="ini_onlycardcode" value="" >
-      <input type="hidden" name="ini_cardcode" value="" >
-      <input type="hidden" name="ansim_quota" value="" >
-      <input type="hidden" name="vbankRegNo" value="" >
-      <input type="hidden" name="merchantData" v-model="customData"><!-- 상점 자유 데이터 -->
+      <input type="hidden" name="gopaymethod" v-model="paymentVo.gopaymethod">
+      <input type="hidden" name="offerPeriod" v-model="paymentVo.offerPeriod">
+      <input type="hidden" name="acceptmethod" v-model="paymentVo.acceptmethod">
+      <input type="hidden" name="languageView" value="">
+      <input type="hidden" name="charset" value="">
+      <input type="hidden" name="payViewType" value="">
+      <input type="hidden" name="closeUrl" v-model="paymentVo.closeUrl">
+      <input type="hidden" name="popupUrl" value="">
+      <input type="hidden" name="quotabase" v-model="paymentVo.cardQuotaBase">
+      <input type="hidden" name="ini_onlycardcode" value="">
+      <input type="hidden" name="ini_cardcode" value="">
+      <input type="hidden" name="ansim_quota" value="">
+      <input type="hidden" name="vbankRegNo" value="">
+      <input type="hidden" name="merchantData" v-model="customData">
       <input type="hidden" name="logo_url" value="">
-      <input type="hidden" name="logo_2nd" value="https://galleryx.io/logo/pay_logo_64x13.png"><!-- 서브로고 삽입 [size: 64*13] -->
+      <input type="hidden" name="logo_2nd" value="https://galleryx.io/logo/pay_logo_64x13.png">
     </form>
-
   </q-page>
-  <!-- <LoginModal ref="refLoginModal" @callback-login="callbackLogin" /> -->
 </template>
+
 
 <script>
 import { defineComponent } from 'vue';
@@ -175,39 +144,42 @@ export default defineComponent({
     return {
       device: 'P', // 디바이스 - P: 데스크탑, M: 모바일웹, android: 안드로이드 앱, ios: 아이폰 앱
       customData: '', // 가맹점 파라미터 - 되돌아오기에 사용할 파라미터 (2000byte)
-      payInfo: false,
-      itemVo: {
+      nextPaymentDay: '',
+      planVo: {
         seq: '',
-        itemName: '',     // name 속성이 TypeScript나 JavaScript 환경에서 더 이상 권장되지 않아 itemName우로 변경
+        name: '',     // name 속성이 TypeScript나 JavaScript 환경에서 더 이상 권장되지 않아 itemName우로 변경
         type: '',
         price: '',
-        priceType: '',
-        displayMaximum: '',
-        description: '',
-        descriptionKo: '',
-        url: '',
-        delYn: '',
+        storage: '',
+        exhibitionCount: '',
+        period: '',
+        detailStorage: '',
+        detailExhibitionCount: '',
+        imageUrl: '',
+        discountRate: '',
       },
       paymentVo: {
         seq: '',
         payCode: '', // 결제 코드
         goodname: '',
-        buyername: '',
-        buyertel: '',
+        buyername: '정은아',
+        buyertel: '01049130545',
         buyeremail: '',
         price: '',
         mid: '',
-        gopaymethod: 'Card', // PC: Card, Mobile: CARD
+        gopaymethod: '', // PC: Card, Mobile: CARD
         mKey: '',
         signature: '',
         verification: '',
         oid: '',
         timestamp: '',
+        useChkfake: 'Y',
         version: '',
-        acceptmethod: '',
+        offerPeriod: 'M2',
+        acceptmethod: 'HPP(1):below1000:va_receipt:centerCd(Y):BILLAUTH(Card)',
         returnUrl: '',
         closeUrl: '',
-        cardQuotaBase: '2:3:4:5:6:11:12', // 할부개월수 노출옵션 [할부개월:할부개월]
+        cardQuotaBase: '', // 할부개월수 노출옵션 [할부개월:할부개월]
         currency: '',   // 달러결제 - USD (USD는 카드만 결제가능)
         mobileNextUrl: '',
         mobileReturnUrl: '',
@@ -284,11 +256,11 @@ export default defineComponent({
       }
     }
 
-    this.itemVo.seq = this.$route.query.s
+    this.planVo.seq = this.$route.query.s
     this.paymentVo.seq = this.$route.query.s
 
     // 아이템 정보 조회
-    this.selectItem()
+    this.selectPlan()
 
     // 결제에 필요한 정보를 API 서버에 요청
     this.setPayBaseInfo()
@@ -331,24 +303,32 @@ export default defineComponent({
       const message = this.$t('validation_max_length') + ': ' + length
       return maxLength(val, message, length);
     },
-    selectItem() {
+    selectPlan() {
       const param = {
         uid: this.getUid,
-        seq: this.itemVo.seq,
+        seq: this.planVo.seq,
       }
 
-      this.$axios.get('/api/item/selectItem', { params: { ...param }})
+      this.$axios.get('/api/plan/selectPlan', { params: { ...param }})
         .then((result) => {
           if (result.data) {
-            this.itemVo.itemName = result.data.name
-            this.itemVo.type = result.data.type
-            this.itemVo.price = result.data.price
-            this.itemVo.priceType = result.data.price_type
-            this.itemVo.displayMaximum = result.data.display_maximum
-            this.itemVo.description = result.data.description
-            this.itemVo.descriptionKo = result.data.description_ko
-            this.itemVo.url = result.data.url
-            this.itemVo.delYn = result.data.del_yn
+            console.log("selectPlan", result.data)
+            this.planVo.name = result.data.name
+            this.planVo.type = result.data.type
+            this.planVo.price = result.data.price
+            this.planVo.storage = result.data.storage
+            this.planVo.exhibitionCount = result.data.exhibition_count
+            this.planVo.order_no = result.data.order_no
+            this.planVo.period = result.data.period
+            this.planVo.detailStorage = result.data.detail_storage
+            this.planVo.detailExhibitionCount = result.data.detail_exhibition_count
+            this.planVo.imageUrl = result.data.image_url
+            this.planVo.discountRate = result.data.discount_rate
+
+            // 다음 결제일 계산
+            const today = new Date()
+            today.setMonth(today.getMonth() + 1)
+            this.nextPaymentDay = today.toLocaleDateString()
           } else {
             this.$noti(this.$q, this.$t('request_data_failed'))
           }
@@ -363,7 +343,7 @@ export default defineComponent({
       const param = {
         ...this.paymentVo
       }
-      const result = await this.$axios.post('/api/payment/selectPayBaseInfo', param)
+      const result = await this.$axios.post('/api/payment/selectPayBaseInfoBill', param)
       // const result = await this.$axios.get('/api/payment/selectPayBaseInfo', {params: {uid: this.getUid}})
       // console.log(result.data)
       if (result.data && result.data.resultCd === 'SUCCESS') {
@@ -376,16 +356,26 @@ export default defineComponent({
         this.paymentVo.verification = result.data.verification
         this.paymentVo.version = result.data.version
         this.paymentVo.currency = result.data.currency
-        this.paymentVo.acceptmethod = result.data.acceptmethod
+        // this.paymentVo.acceptmethod = result.data.acceptmethod
         this.paymentVo.returnUrl = result.data.returnUrl
         this.paymentVo.closeUrl = result.data.closeUrl
+
+        console.table(result.data)
       } else {
         this.$noti(this.$q, this.$t('request_data_failed'))
       }
     },
     doPayment() {
+      const form = document.getElementById('SendPayForm_id');
+
+      // FormData 객체 생성하여 form 데이터 수집
+      const formData = new FormData(form);
+
+      // FormData 객체를 콘솔에 출력
+      console.table(Array.from(formData.entries()));
+
       // 액션 로그 등록
-      this.insertActionLog('100900201', 'buy', this.itemVo.seq)
+      this.insertActionLog('100120301', 'buy', this.paymentVo.seq)
 
       // Field validation check
       if(!this.validate()) {
@@ -397,8 +387,8 @@ export default defineComponent({
       this.insertPayLog()
 
       // 결제 완료 후 아이템 등록을 위해  설정
-      this.$cookie.set('ITEM_SEQ', this.paymentVo.item_seq)
-      localStorage.setItem('ITEM_SEQ', this.paymentVo.item_seq)
+      this.$cookie.set('ITEM_SEQ', this.paymentVo.seq)
+      localStorage.setItem('ITEM_SEQ', this.paymentVo.seq)
 
       // 결제 정보 설정
       this.$cookie.set('BUYER_NAME', this.paymentVo.buyername)
@@ -479,14 +469,6 @@ export default defineComponent({
         result = false
       }
       return result
-    },
-    goPageNext() {
-      console.log('결제전 보낼 정보')
-      console.table(this.paymentVo)
-      this.payInfo = true
-    },
-    goPageBack() {
-      this.payInfo = false
     },
     goBack() {
       this.$router.go(-1)
