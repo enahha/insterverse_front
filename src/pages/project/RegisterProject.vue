@@ -874,6 +874,9 @@
       <q-card-section class="row items-center" style="min-width: 200px; display: flex; justify-content: center;">
         <span class="q-ml-sm" style="font-size: 12px;">{{ $t('over_display_maximum') }} : {{ itemVo.display_maximum }}</span>
       </q-card-section>
+      <q-card-section class="row items-center" style="min-width: 200px; display: flex; justify-content: center;">
+        <span class="q-ml-sm" style="font-size: 12px;">{{ $t('selected_artwork') }} : {{ selected?.length || 0 }}</span>
+      </q-card-section>
       <q-separator />
       <q-card-actions align="around">
         <q-btn flat style="width: 45%;" :label="$t('confirm')" color="black" v-close-popup />

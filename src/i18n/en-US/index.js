@@ -1269,6 +1269,7 @@ export default {
   project_catalog: 'Catalog',
 
   over_display_maximum: 'Artwork limit',
+  selected_artwork: 'Selected artworks count',
   over_display_maximum_warn: 'Exceeded the number of works on display',
 
   select_exhibition_hall: 'Please select the exhibition hall.',

@@ -1272,6 +1272,7 @@ export default {
   project_catalog: '카탈로그',
 
   over_display_maximum: '전시 가능 작품 수',
+  selected_artwork: '선택된 작품 수',
   over_display_maximum_warn: '전시 가능 작품 수를 초과했습니다',
 
   select_exhibition_hall: '전시관을 선택해주세요.',

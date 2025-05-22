@@ -1535,7 +1535,7 @@ export default defineComponent({
         uid: this.getUid,
         seq: this.projectSeq,
         nickname: this.nickname,
-        // status_cd: this.$PROJECT_STATUS_CD_REGISTERED, // '10' 등록중
+        status_cd: this.$PROJECT_STATUS_CD_REGISTERED, // '10' 등록중
         // representative_sns_id: this.representativeSns,
         email: this.email,
         instargram: this.instargram,

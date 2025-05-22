@@ -239,6 +239,72 @@
                 this.$noti(this.$q, err)
                 })
         },
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        // 이 코드는 예시 코드임. 나중에 맞춰서 넣기
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        async listNFT() {
+            const chain = 'klaytn';
+            const protocol = 'seaport';
+            const assetContractAddress = '0xYourKlaytnContractAddress';
+            const tokenId = '123';
+            const startAmount = '0.1'; // 판매 가격 (KLAY)
+            const expirationTime = Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60); // 7일 후 만료
+
+            // 판매 파라미터 구성
+            const parameters = {
+                offerer: this.walletAddress,
+                offer: [
+                {
+                    itemType: 2, // ERC721 (2), ERC1155 (3)
+                    token: assetContractAddress,
+                    identifier: tokenId,
+                    startAmount: '1'
+                }
+                ],
+                consideration: [
+                {
+                    itemType: 0, // KLAY (0)
+                    token: '0x0000000000000000000000000000000000000000',
+                    startAmount: ethers.utils.parseUnits(startAmount, 'ether').toString(),
+                    recipient: this.walletAddress
+                }
+                ],
+                startTime: Math.floor(Date.now() / 1000),
+                endTime: expirationTime,
+                orderType: 0,
+                zone: '0x0000000000000000000000000000000000000000',
+                zoneHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                salt: ethers.utils.hexlify(ethers.utils.randomBytes(32)),
+                conduitKey: '0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000', // OpenSea의 Conduit Key 사용
+                totalOriginalConsiderationItems: 1
+            };
+
+            try {
+                // 서명 생성
+                const signature = await this.signer.signMessage(JSON.stringify(parameters));
+
+                const response = await axios.post(
+                `https://api.opensea.io/api/v2/orders/${chain}/${protocol}/listings`,
+                {
+                    parameters,
+                    signature
+                },
+                {
+                    headers: {
+                    'X-API-KEY': this.apiKey,
+                    'Content-Type': 'application/json'
+                    }
+                }
+                );
+
+                console.log('Listing Success:', response.data);
+                alert('NFT가 성공적으로 리스팅되었습니다.');
+            } catch (error) {
+                console.error('Listing Failed:', error.response ? error.response.data : error.message);
+                alert('NFT 리스팅에 실패했습니다.');
+            }
+        },
+        ////////////////////////////////////////////////////////////////////////////////////////////////
         clearField() {
             // 필드 초기화
             this.collectionUrl = ''

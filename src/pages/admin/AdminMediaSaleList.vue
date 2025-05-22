@@ -158,7 +158,7 @@
         </q-tab-panel>
       </q-tab-panels>
     <!-- <div v-if="noDataFlagDoneList" class="row justify-center">
-      <img src="images/sorry-no-data.png" style="width: 50%; max-width: 400px;" />
+      <img src="images/galleryx_nodata_txt.png" style="width: 50%; max-width: 400px;" />
     </div> -->
 
     <!-- 하단 공간 확보 -->
